@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-// updateDoc, deleteDoc, doc എന്നിവ ഇവിടെ പുതുതായി ചേർത്തു
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -27,7 +26,7 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// Splash Screen
+// Splash Screen നിയന്ത്രണം
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const splash = document.getElementById('splash');
@@ -38,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
-// അഡ്മിൻ പാനലിൽ ഫീൽഡുകൾ കാണിക്കാൻ
+// അഡ്മിൻ പാനലിൽ ഫീൽഡുകൾ മാറ്റാൻ
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
     const container = document.getElementById('dynamic-inputs');
@@ -49,6 +48,7 @@ window.renderAdminFields = () => {
     }
 };
 
+// സ്ക്രീനുകൾ ഒളിപ്പിക്കാൻ
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
@@ -74,7 +74,7 @@ window.handleSaveData = async () => {
     try {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
-        renderAdminFields(); // ഫീൽഡുകൾ ക്ലിയർ ചെയ്യാൻ
+        renderAdminFields(); 
     } catch (e) { alert("Error saving data!"); }
 };
 
@@ -84,7 +84,7 @@ window.deleteEntry = async (catId, docId) => {
         try {
             await deleteDoc(doc(db, catId, docId));
             alert("നീക്കം ചെയ്തു!");
-            showHome(); // റീഫ്രഷ് ചെയ്യാൻ
+            showHome(); 
         } catch (e) { alert("Error deleting!"); }
     }
 };
@@ -108,41 +108,57 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     } catch (e) { alert("Error updating!"); }
 };
 
+// കാറ്റഗറി ലിസ്റ്റ് കാണിക്കാൻ (പ്രൊഫഷണൽ ലുക്ക്)
 window.openCategory = async (catId, catName) => {
     hideAll();
     const listScreen = document.getElementById('list-screen');
     listScreen.classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
     const container = document.getElementById('list-container');
-    container.innerHTML = "ശേഖരിക്കുന്നു...";
+    container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
 
     try {
         const querySnapshot = await getDocs(collection(db, catId));
         container.innerHTML = "";
-        if (querySnapshot.empty) container.innerHTML = "വിവരങ്ങളില്ല";
+        
+        if (querySnapshot.empty) {
+            container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            return;
+        }
+
         querySnapshot.forEach(docSnap => {
             const d = docSnap.data();
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
             
+            // അധിക വിവരങ്ങൾ ഓട്ടോമാറ്റിക്കായി കാണിക്കുന്നു
+            let extraInfo = "";
+            for (let key in d) {
+                if (key !== 'name' && key !== 'phone' && key !== 'place') {
+                    const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+                    extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
+                }
+            }
+
             let adminSection = '';
             if(currentUser) {
                 adminSection = `
-                    <div style="margin-top:10px;">
-                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="background:#ffc107; border:none; padding:5px 10px; border-radius:5px;">Edit</button>
-                        <button onclick="deleteEntry('${catId}', '${id}')" style="background:#ff4444; color:white; border:none; padding:5px 10px; border-radius:5px;">Delete</button>
+                    <div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>`;
             }
 
             container.innerHTML += `
-                <div class="person-card" style="flex-direction:column; align-items:flex-start;">
-                    <div style="display:flex; width:100%; justify-content:space-between; align-items:center;">
-                        <div class="person-info">
-                            <strong>${d.name}</strong><br><small>${d.place}</small>
-                        </div>
-                        <div class="action-buttons">
-                            <a href="tel:${d.phone}" class="call-btn">📞</a>
-                        </div>
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong>${d.name}</strong>
+                        <small style="display:block; margin-bottom:2px;">📍 ${d.place}</small>
+                        <small style="display:block; margin-bottom:5px;">📞 ${d.phone}</small>
+                        ${extraInfo}
+                    </div>
+                    <div class="action-buttons">
+                        <a href="tel:${d.phone}" class="call-btn">📞</a>
                     </div>
                     ${adminSection}
                 </div>`;
@@ -150,7 +166,26 @@ window.openCategory = async (catId, catName) => {
     } catch (e) { container.innerHTML = "Error!"; }
 };
 
-// ബാക്കി ഫംഗ്ഷനുകൾ (Menu, Login, Logout)
+// തിരച്ചിൽ (Search) ഫംഗ്ഷൻ
+window.filterResults = () => {
+    const input = document.getElementById('search-input');
+    const filter = input.value.toLowerCase();
+    const container = document.getElementById('list-container');
+    const cards = container.getElementsByClassName('person-card');
+
+    for (let i = 0; i < cards.length; i++) {
+        const info = cards[i].getElementsByClassName('person-info')[0];
+        const text = info.textContent || info.innerText;
+        
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            cards[i].style.display = ""; 
+        } else {
+            cards[i].style.display = "none"; 
+        }
+    }
+};
+
+// നാവിഗേഷൻ ഫംഗ്ഷനുകൾ
 window.toggleMenu = () => {
     document.getElementById('sidebar').classList.toggle('active');
     const overlay = document.getElementById('overlay');
@@ -171,7 +206,7 @@ window.showAdminLogin = () => {
     hideAll(); 
     if (currentUser) {
         document.getElementById('admin-panel').classList.remove('hidden');
-        renderAdminFields(); // അഡ്മിൻ പേജ് തുറക്കുമ്പോൾ ഇൻപുട്ടുകൾ വരാൻ
+        renderAdminFields(); 
     }
     else document.getElementById('admin-login-screen').classList.remove('hidden');
     toggleMenu(); 
