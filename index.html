@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>വിഭവ ഡയറക്ടറി</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -18,10 +18,14 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     
     <div class="sidebar" id="sidebar">
+        <div class="sidebar-top-img">
+            <img src="https://img.freepik.com/free-vector/watercolor-nature-landscape-background_52683-116315.jpg" alt="Nature">
+        </div>
         <div class="sidebar-header">മെനു</div>
         <a href="#" onclick="showHome()">🏠 ഹോം</a>
+        <a href="#" onclick="showAboutApp()">ℹ️ ആപ്പ് വിവരം</a>
+        <a href="#" onclick="showLeaders()">👥 Leader's</a>
         <a href="#" onclick="showAdminLogin()">🔑 അഡ്മിൻ ലോഗിൻ</a>
-        <a href="#" onclick="alert('Version 1.0')">ℹ️ എബൗട്ട്</a>
     </div>
 
     <header>
@@ -46,9 +50,9 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
                     <p>ജോലിക്കാർ</p>
                 </div>
-                <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
+                <div class="card" onclick="openCategory('catering', 'പണ്ടാриകൾ')">
                     <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
-                    <p>പണ്ടാരികൾ</p>
+                    <p>പണ്ടാриകൾ</p>
                 </div>
             </div>
         </div>
@@ -56,8 +60,8 @@
         <div id="admin-login-screen" class="hidden">
             <div class="form-box">
                 <h4>അഡ്മിൻ ലോഗിൻ</h4>
-                <input type="text" id="admin-email" placeholder="നമ്പർ മാത്രം നൽകുക (786313)">
-                <input type="password" id="admin-password" placeholder="Password">
+                <input type="text" id="admin-email" placeholder="അഡ്മിൻ ID"> 
+                <input type="password" id="admin-password" placeholder="പാസ്‌വേഡ്">
                 <button class="btn-main" onclick="handleLogin()">Login</button>
                 <button class="btn-text" onclick="showHome()">Cancel</button>
             </div>
@@ -65,6 +69,7 @@
 
         <div id="admin-panel" class="hidden">
             <div class="form-box">
+                <p style="text-align:right; font-size:0.8rem; color:var(--primary); font-weight:bold;" id="user-display-id"></p>
                 <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
                 <select id="new-cat">
                     <option value="auto">ഓട്ടോ & ടാക്സി</option>
@@ -75,9 +80,8 @@
                 <input type="text" id="new-name" placeholder="പേര്">
                 <input type="text" id="new-place" placeholder="സ്ഥലം">
                 <input type="tel" id="new-phone" placeholder="ഫോൺ നമ്പർ">
-                
-                <input type="text" id="new-type" placeholder="ഇനം (ഉദാ: വലിയ ഓട്ടോ, പലചരക്ക്)">
-                <textarea id="new-details" placeholder="മറ്റ് പ്രധാന വിവരങ്ങൾ (ഉദാ: സമയം, വാഹന നമ്പർ)" rows="3"></textarea>
+                <input type="text" id="new-type" placeholder="ഇനം (ഉദാ: ചെറിയ ഓട്ടോ)">
+                <textarea id="new-details" placeholder="മറ്റ് വിവരങ്ങൾ" rows="3"></textarea>
                 
                 <button class="btn-main" onclick="handleSaveData()">Save Data</button>
                 <button class="btn-text" onclick="handleLogout()">Logout</button>
@@ -89,9 +93,72 @@
                 <button onclick="showHome()" class="back-btn">← Back</button>
                 <h4 id="current-cat-title"></h4>
             </div>
+            <input type="text" id="search-input" placeholder="തിരയുക (പേര് അല്ലെങ്കിൽ സ്ഥലം)..." onkeyup="filterResults()">
             <div id="list-container"></div>
         </div>
 
+        <div id="about-app-screen" class="hidden content-screen">
+            <div class="info-card">
+                <button onclick="showHome()" class="back-btn">← Back</button>
+                <h3 style="text-align: center; color: var(--primary);">ആപ്പ് വിവരം</h3>
+                <p style="font-weight: bold; text-align: center; font-size: 0.9rem;">
+                    07/11/2024 ന് സമാപിച്ച ചിറമംഗലം സൗത്ത് യൂണിറ്റ് ഗ്രാമ സമ്മേളന ഉപഹാരമായ വിഭവ ഡയറക്ടറി
+                </p>
+                <div class="names-list">
+                    <p><b>അണിയറയിൽ പ്രവർത്തിച്ചത്:</b></p>
+                    <ol>
+                        <li>സയ്യിദ് സ്വാലിഹ് ജിഫ്രി ഫാളിളി</li>
+                        <li>സയ്യിദ് മുഹ്സിൻ ജിഫ്രി ഫാളിളി (എസ്. വൈ. എസ് - പരപ്പനങ്ങാടി സോൺ പ്രസിഡണ്ട്)</li>
+                        <li>സയ്യിദ് ശഫീഖ് ജിഫ്രി സഅദി (നെടുവ സർക്കിൾ പ്രസിഡണ്ട്)</li>
+                        <li>റാഫി സഖാഫി സി (നെടുവ സർക്കിൾ ജന:സെക്രട്ടറി)</li>
+                        <li>സയ്യിദ് സൗദ് ബാഫഖി</li>
+                        <li>അബ്ദുസ്സലാം T (കേരളമുസ്‌ലിം ജമാഅത്ത്)</li>
+                        <li>സാദിഖ് അലി സഖാഫി സി.</li>
+                        <li>മുജീബ് റഹ്മാൻ PP</li>
+                        <li>ഫാറൂഖ് സഖാഫി മലയിൽ</li>
+                        <li>സ്വലാഹുദ്ദീൻ T</li>
+                    </ol>
+                    <p style="text-align: center; font-style: italic; margin-top: 15px;">Application Creator: Sadikali Saquafi C</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="leaders-screen" class="hidden content-screen">
+            <div class="info-card">
+                <button onclick="showHome()" class="back-btn">← Back</button>
+                <h3 style="text-align: center; color: var(--primary);">Leader's</h3>
+                <p style="text-align: center; font-weight: bold;">എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ് 2023-24 കമ്മിറ്റി അംഗങ്ങൾ</p>
+                
+                <ul style="list-style: none; padding: 0;">
+                    <li><b>പ്രസിഡന്റ്:</b> സയ്യിദ് സ്വാലിഹ് ഫാളിളി ജിഫ്രി</li>
+                    <li><b>ജന: സെക്രട്ടറി:</b> സാദിഖ് അലി സഖാഫി സി</li>
+                    <li><b>വൈ. പ്രസിഡന്റ്:</b> സയ്യിദ് സൗദ് ബാഫഖി അഹ്സനി</li>
+                    <li><b>ജോ. സെക്രട്ടറി:</b> ഫാറൂഖ് സഖാഫി മലയിൽ</li>
+                    <li><b>ജോ. സെക്രട്ടറി:</b> മുജീബ് റഹ്മാൻ PP</li>
+                    <li><b>അംഗങ്ങൾ:</b> മുബാറക് T, സാബിർ, മുഹ്സിൻ</li>
+                </ul>
+                <hr>
+                <p style="text-align: center; font-weight: bold; color: var(--primary);">ഉത്തരവാദിത്തം മനുഷ്യപ്പറ്റിന്റെ രാഷ്ട്രീയം</p>
+                <p style="text-align: center; font-size: 0.8rem;">എസ്.വൈ.എസ്-പ്ലാറ്റിനം ഇയർ (70-ാം വാർഷിക) സമ്മേളനം: 2024 ഡിസംബർ 27, 28, 29 തൃശൂർ</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="edit-modal" class="modal hidden">
+        <div class="form-box">
+            <h4>വിവരങ്ങൾ മാറ്റുക</h4>
+            <input type="text" id="edit-name" placeholder="പേര്">
+            <input type="text" id="edit-place" placeholder="സ്ഥലം">
+            <input type="tel" id="edit-phone" placeholder="ഫോൺ നമ്പർ">
+            <input type="text" id="edit-type" placeholder="ഇനം">
+            <textarea id="edit-details" placeholder="മറ്റ് വിവരങ്ങൾ" rows="3"></textarea>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-main" id="update-save-btn">Save</button>
+                <button class="btn-text" onclick="closeEditModal()" style="background:#ff4444; color:white; border-radius:10px;">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="script.js"></script>
