@@ -1,5 +1,16 @@
-:root { --primary: #006400; --bg: #f0f2f5; --white: #ffffff; }
-body { font-family: 'Manjari', sans-serif; margin: 0; background: var(--bg); }
+:root { 
+    --primary: #006400; 
+    --bg: #f4f7f6; 
+    --white: #ffffff; 
+    --text: #333;
+}
+
+body { 
+    font-family: 'Manjari', sans-serif; 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--text);
+}
 
 /* Splash Screen */
 #splash {
@@ -7,28 +18,74 @@ body { font-family: 'Manjari', sans-serif; margin: 0; background: var(--bg); }
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     color: white; z-index: 2000; transition: 0.8s;
 }
-.loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; background: white; margin-top: 10px; }
+.loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--white); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin-top: 15px; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Sidebar */
+/* Sidebar & Header */
+header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.menu-icon { font-size: 24px; cursor: pointer; }
+
 .sidebar { position: fixed; left: -260px; width: 250px; height: 100%; background: white; z-index: 1001; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
 .sidebar.active { left: 0; }
 .sidebar-header { background: var(--primary); color: white; padding: 20px; font-weight: bold; }
 .sidebar a { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
 
-header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
-.menu-icon { font-size: 24px; cursor: pointer; }
-
+/* Main Container & Cards */
 .container { padding: 15px; max-width: 500px; margin: auto; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-.card img { width: 50px; height: 50px; margin-bottom: 10px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+.card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
+.card:active { transform: scale(0.95); }
+.card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
+/* Forms */
 .hidden { display: none; }
-.form-box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-.btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; }
+.form-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Manjari', sans-serif; font-size: 14px; }
+.btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; }
 
-.person-card { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
-.call-btn { background: var(--primary); color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; }
+/* Professional Person Card List */
+.person-card {
+    background: white;
+    padding: 16px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-left: 6px solid var(--primary);
+    height: auto;
+}
+
+.person-info { flex: 1; padding-right: 10px; }
+.person-info strong { font-size: 1.1rem; color: #1a1a1a; display: block; margin-bottom: 4px; }
+.person-info small { color: #555; display: block; margin-bottom: 2px; }
+
+.category-tag {
+    background: #e8f5e9;
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.action-buttons { display: flex; align-items: center; }
+.call-btn { 
+    background: var(--primary); 
+    color: white !important; 
+    text-decoration: none; 
+    width: 42px; height: 42px; 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,100,0,0.2);
+}
+
+.delete-btn { background: none; border: none; color: #ff4444; font-size: 1.2rem; cursor: pointer; margin-left: 12px; }
+
+.list-header { display: flex; align-items: center; margin-bottom: 15px; }
+.back-btn { background: #eee; border: none; padding: 5px 12px; border-radius: 5px; margin-right: 10px; cursor: pointer; }
