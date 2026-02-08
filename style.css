@@ -1,8 +1,10 @@
+/* 1. Global Variables & Base Styles */
 :root { 
     --primary: #006400; 
     --bg: #f4f7f6; 
     --white: #ffffff; 
     --text: #333;
+    --danger: #ff4444;
 }
 
 body { 
@@ -10,14 +12,24 @@ body {
     margin: 0; 
     background: var(--bg); 
     color: var(--text);
+    overflow-x: hidden;
 }
 
-/* Splash Screen */
+/* 2. Splash Screen */
 #splash {
-    position: fixed; width: 100%; height: 100vh; background: var(--primary);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: white; z-index: 2000; transition: 0.8s;
+    position: fixed; 
+    width: 100%; 
+    height: 100vh; 
+    background: var(--primary);
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    color: white; 
+    z-index: 3000; /* Header-നേക്കാൾ മുകളിൽ വരാൻ */
+    transition: opacity 0.8s ease;
 }
+
 .loader { 
     border: 4px solid #f3f3f3; 
     border-top: 4px solid var(--white); 
@@ -29,7 +41,9 @@ body {
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* Sidebar & Header */
+.hidden { display: none !important; }
+
+/* 3. Header & Sidebar */
 header { 
     background: var(--primary); 
     color: white; 
@@ -42,6 +56,7 @@ header {
     z-index: 100; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
+
 .menu-icon { font-size: 24px; cursor: pointer; }
 
 .sidebar { 
@@ -54,15 +69,16 @@ header {
     transition: 0.3s; 
     box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
 }
+
 .sidebar.active { left: 0; }
 
-/* സൈഡ് ബാറിലെ ചിത്രം ക്രമീകരിക്കാൻ */
 .sidebar-top-img {
     width: 100%;
     height: 180px; 
     overflow: hidden;
     background-color: #f0f0f0;
 }
+
 .sidebar-top-img img {
     width: 100%;
     height: 100%;
@@ -72,9 +88,19 @@ header {
 
 .sidebar-header { background: var(--primary); color: white; padding: 20px; font-weight: bold; }
 .sidebar a { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
-.overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
 
-/* Search Box */
+.overlay { 
+    position: fixed; 
+    display: none; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.5); 
+    z-index: 1000; 
+}
+
+/* 4. Search & Container */
+.container { padding: 15px; max-width: 500px; margin: auto; }
+
 #search-input {
     width: 100%;
     padding: 12px 15px;
@@ -86,15 +112,17 @@ header {
     outline: none;
     transition: 0.3s;
     background: white;
+    box-sizing: border-box;
 }
+
 #search-input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 8px rgba(0, 100, 0, 0.1);
 }
 
-/* Container & Grid */
-.container { padding: 15px; max-width: 500px; margin: auto; }
+/* 5. Grid Cards */
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+
 .card { 
     background: white; 
     padding: 20px; 
@@ -103,13 +131,15 @@ header {
     box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
     transition: 0.3s; 
     border: 1px solid #eee; 
+    cursor: pointer;
 }
+
 .card:active { transform: scale(0.95); }
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
-/* Forms & Modals */
-.hidden { display: none; }
+/* 6. Forms & Buttons */
 .form-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+
 input, select, textarea { 
     width: 100%; 
     padding: 12px; 
@@ -120,6 +150,7 @@ input, select, textarea {
     font-family: 'Manjari', sans-serif; 
     font-size: 14px; 
 }
+
 .btn-main { 
     background: var(--primary); 
     color: white; 
@@ -131,9 +162,10 @@ input, select, textarea {
     cursor: pointer; 
     margin-top: 10px; 
 }
+
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; }
 
-/* Person Card List */
+/* 7. Person Card & List Layout */
 .person-card {
     background: white;
     padding: 16px;
@@ -145,7 +177,7 @@ input, select, textarea {
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     border-left: 6px solid var(--primary);
 }
-.person-info { flex: 1; padding-right: 10px; }
+
 .person-info strong { 
     font-size: 1.25rem; 
     color: #000; 
@@ -153,8 +185,6 @@ input, select, textarea {
     margin-bottom: 6px;
     font-weight: 800; 
 }
-.person-info b { font-weight: 700; color: #1a1a1a; display: inline-block; }
-.person-info small { color: #222; display: block; margin-bottom: 4px; line-height: 1.4; }
 
 .category-tag {
     background: #e8f5e9;
@@ -167,8 +197,6 @@ input, select, textarea {
     margin-bottom: 8px;
 }
 
-/* Buttons */
-.action-buttons { display: flex; align-items: center; gap: 12px; }
 .call-btn { 
     background: var(--primary); 
     color: white !important; 
@@ -183,12 +211,12 @@ input, select, textarea {
     font-size: 1.2rem;
 }
 
+/* 8. Admin Controls */
 .admin-controls { display: flex; flex-direction: column; gap: 12px; margin-left: 10px; }
-.edit-btn, .delete-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; transition: 0.2s; }
-.delete-btn { color: #ff4444; }
-.edit-btn:hover, .delete-btn:hover { transform: scale(1.2); }
+.edit-btn, .delete-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; }
+.delete-btn { color: var(--danger); }
 
-/* Navigation */
+/* 9. Navigation & Modals */
 .list-header { display: flex; align-items: center; margin-bottom: 10px; }
 .back-btn { 
     background: #e0e0e0; 
@@ -201,15 +229,13 @@ input, select, textarea {
     font-family: 'Manjari', sans-serif;
 }
 
-/* Modal Style */
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.7);
     display: flex; align-items: center; justify-content: center; z-index: 2000;
 }
-.modal .form-box { width: 90%; max-width: 400px; animation: slideUp 0.3s ease-out; }
 
-/* Info Card & Content Lists */
+/* 10. Info Card (About/Content Page) */
 .info-card {
     background: white;
     padding: 20px;
@@ -218,11 +244,7 @@ input, select, textarea {
     line-height: 1.8;
 }
 
-.info-card ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-}
+.info-card ul { list-style: none; padding: 0; margin-top: 15px; }
 
 .info-card ul li {
     background: #f9f9f9;
@@ -233,13 +255,9 @@ input, select, textarea {
     font-size: 0.95rem;
 }
 
-.info-card ul li b {
-    color: var(--primary);
-    display: inline-block;
-    margin-right: 5px;
-}
-
 /* Animations */
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .content-screen { animation: fadeIn 0.5s ease-in; }
+.modal .form-box { animation: slideUp 0.3s ease-out; }
