@@ -18,14 +18,25 @@ const auth = getAuth(app);
 let currentUser = null;
 let allCategoryData = []; 
 
-// Splash Screen
-setTimeout(() => {
-    const splash = document.getElementById('splash');
-    if(splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => splash.style.display = 'none', 800);
-    }
-}, 2000);
+// സ്പ്ലാഷ് സ്ക്രീൻ മാറ്റാൻ
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash');
+        if(splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.classList.add('hidden'), 800);
+        }
+    }, 2500);
+});
+
+// സ്ക്രീനുകൾ മാറ്റാനുള്ള ഫംഗ്ഷൻ
+function hideAll() {
+    const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
+    screens.forEach(s => {
+        const el = document.getElementById(s);
+        if(el) el.classList.add('hidden');
+    });
+}
 
 window.toggleMenu = () => {
     document.getElementById('sidebar').classList.toggle('active');
@@ -33,184 +44,106 @@ window.toggleMenu = () => {
     overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
 };
 
-// ഹോം സ്ക്രീൻ കാണിക്കാൻ
 window.showHome = () => {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
 
-// ഉള്ളടക്കം സ്ക്രീൻ കാണിക്കാൻ
 window.showContentPage = () => {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     document.getElementById('content-info-screen').classList.remove('hidden');
-    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+    window.toggleMenu();
 };
 
 window.showAdminLogin = () => {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     if (currentUser) {
         document.getElementById('admin-panel').classList.remove('hidden');
     } else {
         document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+    window.toggleMenu();
 };
 
 window.showAboutApp = () => {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     document.getElementById('about-app-screen').classList.remove('hidden');
-    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+    window.toggleMenu();
 };
 
 window.showLeaders = () => {
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     document.getElementById('leaders-screen').classList.remove('hidden');
-    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+    window.toggleMenu();
 };
 
-// ലോഗിൻ ഫംഗ്ഷൻ
+// ലോഗിൻ
 window.handleLogin = async () => {
-    const inputNumber = document.getElementById('admin-email').value.trim(); 
-    const fullEmail = inputNumber + "@sys.com"; 
+    const id = document.getElementById('admin-email').value.trim();
     const pass = document.getElementById('admin-password').value;
-
-    if(!inputNumber || !pass) {
-        alert("അഡ്മിൻ ID-യും പാസ്‌വേഡും നൽകുക");
-        return;
-    }
     try {
-        await signInWithEmailAndPassword(auth, fullEmail, pass);
-        alert("ലോഗിൻ വിജയിച്ചു");
-        showHome();
-    } catch (e) { alert("ലോഗിൻ പരാജയപ്പെട്ടു"); }
+        await signInWithEmailAndPassword(auth, id + "@sys.com", pass);
+        alert("വിജയിച്ചു!");
+        window.showHome();
+    } catch (e) { alert("തെറ്റായ വിവരം!"); }
 };
 
 window.handleLogout = () => { signOut(auth); location.reload(); };
 
 onAuthStateChanged(auth, (user) => { 
     currentUser = user; 
-    const userDisplay = document.getElementById('user-display-id');
-    if (user && userDisplay) {
-        const adminId = user.email.split('@')[0];
-        userDisplay.innerText = "Admin ID: " + adminId;
-    }
+    if(user) document.getElementById('user-display-id').innerText = "Admin: " + user.email.split('@')[0];
 });
 
-// സെർച്ച് ഫംഗ്ഷൻ
-window.filterResults = () => {
-    const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    const container = document.getElementById('list-container');
-    const filtered = allCategoryData.filter(item => 
-        item.data.name.toLowerCase().includes(searchTerm) || 
-        item.data.place.toLowerCase().includes(searchTerm)
-    );
-    renderList(filtered, container, currentCatID);
-};
-
-// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാൻ
+// കാറ്റഗറി ലിസ്റ്റ് ലോഡിംഗ്
 let currentCatID = "";
 window.openCategory = async (catId, catName) => {
     currentCatID = catId;
-    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
-    
     const container = document.getElementById('list-container');
-    container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>";
+    container.innerHTML = "ശേഖരിക്കുന്നു...";
 
     try {
-        const q = query(collection(db, catId));
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(collection(db, catId));
         allCategoryData = [];
-        querySnapshot.forEach(docSnap => {
-            allCategoryData.push({ id: docSnap.id, data: docSnap.data() });
-        });
+        querySnapshot.forEach(docSnap => allCategoryData.push({ id: docSnap.id, data: docSnap.data() }));
         renderList(allCategoryData, container, catId);
-    } catch (e) { container.innerHTML = "<p>Error: " + e.message + "</p>"; }
+    } catch (e) { container.innerHTML = "Error!"; }
 };
 
-// ലിസ്റ്റ് റെൻഡർ ചെയ്യാൻ
 function renderList(items, container, catId) {
-    container.innerHTML = "";
-    if (items.length === 0) {
-        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
-        return;
-    }
+    container.innerHTML = items.length === 0 ? "വിവരങ്ങളില്ല" : "";
     items.forEach(item => {
-        const data = item.data;
-        const id = item.id;
-        const type = data.type ? `<span class="category-tag">${data.type}</span>` : "";
-        const safeData = JSON.stringify(data).replace(/'/g, "\\'");
-
+        const d = item.data;
         container.innerHTML += `
             <div class="person-card">
                 <div class="person-info">
-                    ${type}<br>
-                    <strong style="font-size:1.25rem; font-weight:800;">${data.name}</strong>
-                    <small style="font-size:1rem; display:block; margin-top:4px;"><b>📍 ${data.place}</b></small>
-                    ${data.details ? `<small style="font-size:0.95rem; display:block; margin-top:4px;"><b>ℹ️ ${data.details}</b></small>` : ''}
+                    <strong>${d.name}</strong><br><small>${d.place}</small>
                 </div>
                 <div class="action-buttons">
-                    <a href="tel:${data.phone}" class="call-btn">📞</a>
-                    ${currentUser ? `
-                        <div class="admin-controls">
-                            <button onclick='openEdit("${catId}", "${id}", ${safeData})' class="edit-btn">✏️</button>
-                            <button onclick="deleteItem('${catId}', '${id}')" class="delete-btn">🗑️</button>
-                        </div>
-                    ` : ''}
+                    <a href="tel:${d.phone}" class="call-btn">📞</a>
+                    ${currentUser ? `<button onclick="deleteItem('${catId}', '${item.id}')">🗑️</button>` : ''}
                 </div>
             </div>`;
     });
 }
 
-// എഡിറ്റ് ഫംഗ്ഷനുകൾ
-window.openEdit = (catId, docId, currentData) => {
-    document.getElementById('edit-modal').classList.remove('hidden');
-    document.getElementById('edit-name').value = currentData.name || "";
-    document.getElementById('edit-place').value = currentData.place || "";
-    document.getElementById('edit-phone').value = currentData.phone || "";
-    document.getElementById('edit-type').value = currentData.type || "";
-    document.getElementById('edit-details').value = currentData.details || "";
-
-    document.getElementById('update-save-btn').onclick = async () => {
-        const updatedData = {
-            name: document.getElementById('edit-name').value,
-            place: document.getElementById('edit-place').value,
-            phone: document.getElementById('edit-phone').value,
-            type: document.getElementById('edit-type').value,
-            details: document.getElementById('edit-details').value
-        };
-        const docRef = doc(db, catId, docId);
-        await updateDoc(docRef, updatedData);
-        alert("പുതുക്കി!");
-        location.reload();
-    };
-};
-
 window.closeEditModal = () => document.getElementById('edit-modal').classList.add('hidden');
 
-window.deleteItem = async (catId, docId) => {
-    if (confirm("ഡിലീറ്റ് ചെയ്യട്ടെ?")) {
-        await deleteDoc(doc(db, catId, docId));
-        location.reload(); 
-    }
-};
-
 window.handleSaveData = async () => {
-    if(!currentUser) return;
     const cat = document.getElementById('new-cat').value;
     const data = {
         name: document.getElementById('new-name').value,
         place: document.getElementById('new-place').value,
         phone: document.getElementById('new-phone').value,
-        type: document.getElementById('new-type').value || "",
-        details: document.getElementById('new-details').value || ""
+        type: document.getElementById('new-type').value,
+        details: document.getElementById('new-details').value
     };
-    if(data.name && data.phone) {
-        await addDoc(collection(db, cat), data);
-        alert("സേവ് ചെയ്തു!");
-        showHome();
-    }
+    await addDoc(collection(db, cat), data);
+    alert("സേവ് ചെയ്തു!");
+    window.showHome();
 };
