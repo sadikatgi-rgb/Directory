@@ -16,6 +16,8 @@ body, html {
     height: 100%;
     width: 100%;
     overflow: hidden; /* ബോഡി സ്ക്രോൾ തടയുന്നു */
+    -webkit-text-size-adjust: 100%; /* അക്ഷരങ്ങൾ തനിയെ ചെറുതാകാതിരിക്കാൻ */
+    touch-action: manipulation; /* അനാവശ്യ സൂമിംഗ് ഒഴിവാക്കാൻ */
 }
 
 /* 2. Splash Screen */
@@ -46,12 +48,13 @@ header {
 /* 4. Main Container */
 .container { 
     padding: 15px;
-    padding-bottom: 150px !important; /* സ്ക്രോൾ പ്രശ്നം ഒഴിവാക്കാൻ കൂടുതൽ സ്ഥലം */
+    padding-bottom: 150px !important; 
     max-width: 500px;
     margin: 0 auto; 
     height: calc(100vh - 60px); 
     overflow-y: auto !important; 
     overflow-x: hidden;
+    width: 100%; 
     -webkit-overflow-scrolling: touch; 
     box-sizing: border-box;
 }
@@ -82,15 +85,11 @@ header {
     margin: 10px 0 20px 0;
     border: 2px solid var(--primary);
     border-radius: 15px;
-    font-size: 16px;
+    font-size: 16px !important; /* സൂം ഒഴിവാക്കാൻ 16px നിർബന്ധമാണ് */
     box-sizing: border-box;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     font-family: 'Manjari';
-}
-#search-input:focus {
-    outline: none;
-    box-shadow: 0 4px 12px rgba(0, 100, 0, 0.2);
 }
 
 /* 8. Professional List Card Design */
@@ -101,7 +100,7 @@ header {
     margin-bottom: 15px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     border-left: 6px solid var(--primary);
     position: relative;
@@ -110,24 +109,23 @@ header {
 .person-card:active { transform: scale(0.98); }
 
 .person-info strong {
-    font-size: 20px;
+    font-size: 22px; /* പേര് വലുതാക്കി */
     color: var(--primary);
     display: block;
     margin-bottom: 4px;
 }
 .person-info small {
-    font-size: 15px;
-    color: #666;
+    font-size: 16px; /* വിവരങ്ങൾ കൂടുതൽ വ്യക്തമാക്കി */
+    color: #444; 
     display: block;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 /* Call Button */
 .action-buttons {
     position: absolute;
     right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 40px; /* പേരിന് നേരെ വരാൻ */
 }
 .call-btn {
     background: linear-gradient(135deg, var(--primary), #008000);
@@ -140,13 +138,14 @@ header {
     justify-content: center;
     box-shadow: 0 4px 10px rgba(0, 100, 0, 0.3);
     font-size: 22px;
+    text-decoration: none;
 }
 
 /* 9. Admin Controls */
 .admin-btns {
     display: flex;
     gap: 10px;
-    margin-top: 5px;
+    margin-top: 10px;
     border-top: 1px solid #eee;
     padding-top: 12px;
 }
@@ -165,29 +164,17 @@ header {
 
 /* 10. Forms & Others */
 .form-box { background: white; padding: 25px; border-radius: 20px; }
-input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Manjari'; }
+input, select, textarea { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    font-family: 'Manjari';
+    font-size: 16px !important; /* ഇൻപുട്ടുകളിൽ സൂം ഒഴിവാക്കാൻ */
+}
 .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
 .info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
 .back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
-/* അക്ഷരങ്ങൾ പഴയ വലുപ്പത്തിൽ നിലനിർത്താൻ */
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
-/* ഇൻപുട്ട് ബോക്സിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ സൂം ആകുന്നത് ഒഴിവാക്കാൻ */
-/* ഫോണ്ട് സൈസ് 16px എങ്കിലും ഉണ്ടെങ്കിൽ ബ്രൗസർ ഓട്ടോമാറ്റിക് സൂം ചെയ്യില്ല */
-input, select, textarea {
-    font-size: 16px !important;
-}
-
-/* അനാവശ്യ സൂമിംഗ് ഒഴിവാക്കാൻ ബോഡിയിൽ നൽകുക */
-body {
-    touch-action: manipulation;
-}
-
-/* സ്ക്രോൾ ചെയ്യുമ്പോൾ വശങ്ങളിലേക്ക് നീങ്ങാതിരിക്കാൻ */
-.container {
-    overflow-x: hidden;
-    width: 100vw;
-}
