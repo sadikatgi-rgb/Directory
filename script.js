@@ -28,15 +28,22 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
+// എല്ലാ സ്ക്രീനുകളും ഒളിപ്പിക്കാനും സ്ക്രോൾ ടോപ്പിലേക്ക് മാറ്റാനുമുള്ള ഫംഗ്‌ഷൻ
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
+    
     screens.forEach(s => {
         const el = document.getElementById(s);
         if(el) el.classList.add('hidden');
     });
-    // സ്ക്രോൾ തുടക്കത്തിലേക്ക് മാറ്റുന്നു
-    document.getElementById('main-container').scrollTop = 0;
+    
+    // പേജ് മാറുമ്പോൾ സ്ക്രോൾ ഏറ്റവും മുകളിലേക്ക് പോകാൻ ഇത് സഹായിക്കും
+    const container = document.getElementById('main-container') || document.querySelector('.container');
+    if(container) {
+        container.scrollTop = 0;
+    }
 }
+
 
 window.toggleMenu = () => {
     document.getElementById('sidebar').classList.toggle('active');
