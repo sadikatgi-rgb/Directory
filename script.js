@@ -38,7 +38,7 @@ function hideAll() {
     });
     
     // പേജ് മാറുമ്പോൾ സ്ക്രോൾ ഏറ്റവും മുകളിലേക്ക് പോകാൻ ഇത് സഹായിക്കും
-    const container = document.getElementById('main-container') || document.querySelector('.container');
+    const container = document.getElementById('main-container');
     if(container) {
         container.scrollTop = 0;
     }
