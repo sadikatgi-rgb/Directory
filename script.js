@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, getDocs, query, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 1. ഫയർബേസ് കോൺഫിഗ്
 const firebaseConfig = {
     apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
     authDomain: "directory-f4474.firebaseapp.com",
@@ -17,8 +16,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = null;
+let allCategoryData = []; // സെർച്ചിനായി ഡാറ്റ സൂക്ഷിക്കാൻ
 
-// Splash Screen Removal
+// Splash Screen
 setTimeout(() => {
     const splash = document.getElementById('splash');
     if(splash) {
@@ -27,14 +27,12 @@ setTimeout(() => {
     }
 }, 2000);
 
-// Menu Toggle
 window.toggleMenu = () => {
     document.getElementById('sidebar').classList.toggle('active');
     const overlay = document.getElementById('overlay');
     overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
 };
 
-// Navigation
 window.showHome = () => {
     document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
     document.getElementById('home-screen').classList.remove('hidden');
@@ -52,166 +50,159 @@ window.showAdminLogin = () => {
     window.toggleMenu();
 };
 
-// Auth Functions
+window.showAboutApp = () => {
+    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    document.getElementById('about-app-screen').classList.remove('hidden');
+    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+};
+
+window.showLeaders = () => {
+    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    document.getElementById('leaders-screen').classList.remove('hidden');
+    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
+};
+
+// ലോഗിൻ ഫംഗ്ഷൻ
 window.handleLogin = async () => {
     const inputNumber = document.getElementById('admin-email').value.trim(); 
     const fullEmail = inputNumber + "@sys.com"; 
     const pass = document.getElementById('admin-password').value;
 
     if(!inputNumber || !pass) {
-        alert("യൂസർനൈം പാസ്‌വേഡും നൽകുക");
+        alert("അഡ്മിൻ ID-യും പാസ്‌വേഡും നൽകുക");
         return;
     }
-
     try {
         await signInWithEmailAndPassword(auth, fullEmail, pass);
         alert("ലോഗിൻ വിജയിച്ചു");
         showHome();
-    } catch (e) { 
-        alert("ലോഗിൻ പരാജയപ്പെട്ടു: " + e.message); 
-    }
+    } catch (e) { alert("ലോഗിൻ പരാജയപ്പെട്ടു"); }
 };
 
-window.handleLogout = () => {
-    signOut(auth);
-    location.reload();
-};
+window.handleLogout = () => { signOut(auth); location.reload(); };
 
 onAuthStateChanged(auth, (user) => { 
     currentUser = user; 
+    const userDisplay = document.getElementById('user-display-id');
+    if (user && userDisplay) {
+        const adminId = user.email.split('@')[0];
+        userDisplay.innerText = "Admin ID: " + adminId;
+    }
 });
 
-// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാനുള്ള ഫംഗ്ഷൻ (Professional Look & Bold Text)
+// സെർച്ച് ഫംഗ്ഷൻ
+window.filterResults = () => {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    const container = document.getElementById('list-container');
+    const filtered = allCategoryData.filter(item => 
+        item.data.name.toLowerCase().includes(searchTerm) || 
+        item.data.place.toLowerCase().includes(searchTerm)
+    );
+    renderList(filtered, container, currentCatID);
+};
+
+// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാൻ
+let currentCatID = "";
 window.openCategory = async (catId, catName) => {
+    currentCatID = catId;
     document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
     
     const container = document.getElementById('list-container');
-    container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>";
+    container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>";
 
     try {
         const q = query(collection(db, catId));
         const querySnapshot = await getDocs(q);
-        container.innerHTML = "";
-        
-        if (querySnapshot.empty) {
-            container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
-            return;
-        }
-
-        querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            const id = docSnap.id;
-            
-            // "undefined" ഒഴിവാക്കാനുള്ള സുരക്ഷാ പരിശോധന
-            const name = data.name || "പേര് ലഭ്യമല്ല";
-            const place = data.place || "സ്ഥലം രേഖപ്പെടുത്തിയിട്ടില്ല";
-            const type = data.type ? `<span class="category-tag" style="background: #e8f5e9; color: #006400; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 6px;">${data.type}</span>` : "";
-
-            // ഡാറ്റ ക്ലീൻ ചെയ്ത് എഡിറ്റിംഗിനായി പാസ്സ് ചെയ്യാൻ
-            const safeData = JSON.stringify(data).replace(/'/g, "\\'");
-
-            container.innerHTML += `
-                <div class="person-card" style="background:white; padding:16px; border-radius:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 6px solid #006400;">
-                    <div class="person-info">
-                        ${type}<br>
-                        <strong style="font-size:1.2rem; color:#1a1a1a; font-weight:800;">${name}</strong>
-                        <small style="color:#1a1a1a; font-size:1rem; display:block; margin-top:4px;"><b>📍 ${place}</b></small>
-                        ${data.details ? `<small style="color:#444; font-size:0.95rem; display:block; margin-top:4px;"><b>ℹ️ ${data.details}</b></small>` : ''}
-                    </div>
-                    <div class="action-buttons" style="display:flex; align-items:center; gap:12px;">
-                        <a href="tel:${data.phone}" class="call-btn" style="background:#006400; color:white !important; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">📞</a>
-                        ${currentUser ? `
-                            <div style="display:flex; flex-direction:column; gap:10px;">
-                                <button onclick='openEdit("${catId}", "${id}", ${safeData})' style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✏️</button>
-                                <button onclick="deleteItem('${catId}', '${id}')" style="background:none; border:none; color:#ff4444; font-size:1.2rem; cursor:pointer;">🗑️</button>
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
+        allCategoryData = [];
+        querySnapshot.forEach(docSnap => {
+            allCategoryData.push({ id: docSnap.id, data: docSnap.data() });
         });
-    } catch (e) {
-        container.innerHTML = "<p style='color:red; text-align:center;'>ലോഡ് ചെയ്യുന്നതിൽ പിശക്: " + e.message + "</p>";
-    }
+        renderList(allCategoryData, container, catId);
+    } catch (e) { container.innerHTML = "<p>Error: " + e.message + "</p>"; }
 };
 
-// എഡിറ്റ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ (Prompt വഴി)
-window.openEdit = (catId, docId, currentData) => {
-    const newName = prompt("പേര് മാറ്റുക:", currentData.name);
-    const newPlace = prompt("സ്ഥലം മാറ്റുക:", currentData.place);
-    const newPhone = prompt("ഫോൺ നമ്പർ മാറ്റുക:", currentData.phone);
-    const newType = prompt("ഇനം മാറ്റുക:", currentData.type || "");
-    const newDetails = prompt("വിവരങ്ങൾ മാറ്റുക:", currentData.details || "");
-
-    if (newName && newPhone) {
-        handleUpdateData(catId, docId, {
-            name: newName,
-            place: newPlace,
-            phone: newPhone,
-            type: newType,
-            details: newDetails
-        });
-    }
-};
-
-// ഫയർബേസിൽ ഡാറ്റ അപ്ഡേറ്റ് ചെയ്യാൻ
-window.handleUpdateData = async (catId, docId, updatedData) => {
-    try {
-        const docRef = doc(db, catId, docId);
-        await updateDoc(docRef, updatedData);
-        alert("വിവരങ്ങൾ വിജയകരമായി പുതുക്കി!");
-        location.reload();
-    } catch (e) {
-        alert("തിരുത്തുന്നതിൽ പിശക് സംഭവിച്ചു: " + e.message);
-    }
-};
-
-// ഡിലീറ്റ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
-window.deleteItem = async (catId, docId) => {
-    if (confirm("ഈ വിവരം ഡിലീറ്റ് ചെയ്യട്ടെ?")) {
-        try {
-            await deleteDoc(doc(db, catId, docId));
-            alert("വിവരം വിജയകരമായി നീക്കം ചെയ്തു");
-            location.reload(); 
-        } catch (e) {
-            alert("Error: " + e.message);
-        }
-    }
-};
-
-// ഡാറ്റ സേവ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
-window.handleSaveData = async () => {
-    if(!currentUser) {
-        alert("ലോഗിൻ ചെയ്തവർക്ക് മാത്രമേ ഡാറ്റ ചേർക്കാൻ കഴിയൂ");
+// ലിസ്റ്റ് റെൻഡർ ചെയ്യാൻ (Search-നും കൂടി ഉപയോഗിക്കാം)
+function renderList(items, container, catId) {
+    container.innerHTML = "";
+    if (items.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
         return;
     }
+    items.forEach(item => {
+        const data = item.data;
+        const id = item.id;
+        const type = data.type ? `<span class="category-tag">${data.type}</span>` : "";
+        const safeData = JSON.stringify(data).replace(/'/g, "\\'");
 
+        container.innerHTML += `
+            <div class="person-card">
+                <div class="person-info">
+                    ${type}<br>
+                    <strong style="font-size:1.25rem; font-weight:800;">${data.name}</strong>
+                    <small style="font-size:1rem; display:block; margin-top:4px;"><b>📍 ${data.place}</b></small>
+                    ${data.details ? `<small style="font-size:0.95rem; display:block; margin-top:4px;"><b>ℹ️ ${data.details}</b></small>` : ''}
+                </div>
+                <div class="action-buttons">
+                    <a href="tel:${data.phone}" class="call-btn">📞</a>
+                    ${currentUser ? `
+                        <div class="admin-controls">
+                            <button onclick='openEdit("${catId}", "${id}", ${safeData})' class="edit-btn">✏️</button>
+                            <button onclick="deleteItem('${catId}', '${id}')" class="delete-btn">🗑️</button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>`;
+    });
+}
+
+// എഡിറ്റ് ഫംഗ്ഷനുകൾ
+window.openEdit = (catId, docId, currentData) => {
+    document.getElementById('edit-modal').classList.remove('hidden');
+    document.getElementById('edit-name').value = currentData.name || "";
+    document.getElementById('edit-place').value = currentData.place || "";
+    document.getElementById('edit-phone').value = currentData.phone || "";
+    document.getElementById('edit-type').value = currentData.type || "";
+    document.getElementById('edit-details').value = currentData.details || "";
+
+    document.getElementById('update-save-btn').onclick = async () => {
+        const updatedData = {
+            name: document.getElementById('edit-name').value,
+            place: document.getElementById('edit-place').value,
+            phone: document.getElementById('edit-phone').value,
+            type: document.getElementById('edit-type').value,
+            details: document.getElementById('edit-details').value
+        };
+        const docRef = doc(db, catId, docId);
+        await updateDoc(docRef, updatedData);
+        alert("പുതുക്കി!");
+        location.reload();
+    };
+};
+
+window.closeEditModal = () => document.getElementById('edit-modal').classList.add('hidden');
+
+window.deleteItem = async (catId, docId) => {
+    if (confirm("ഡിലീറ്റ് ചെയ്യട്ടെ?")) {
+        await deleteDoc(doc(db, catId, docId));
+        location.reload(); 
+    }
+};
+
+window.handleSaveData = async () => {
+    if(!currentUser) return;
     const cat = document.getElementById('new-cat').value;
     const data = {
         name: document.getElementById('new-name').value,
         place: document.getElementById('new-place').value,
         phone: document.getElementById('new-phone').value,
-        type: document.getElementById('new-type') ? document.getElementById('new-type').value : "",
-        details: document.getElementById('new-details') ? document.getElementById('new-details').value : ""
+        type: document.getElementById('new-type').value || "",
+        details: document.getElementById('new-details').value || ""
     };
-
-    if(!data.name || !data.phone) {
-        alert("പേരും ഫോൺ നമ്പറും നിർബന്ധമാണ്");
-        return;
-    }
-
-    try {
+    if(data.name && data.phone) {
         await addDoc(collection(db, cat), data);
-        alert("വിവരങ്ങൾ വിജയകരമായി ചേർത്തു!");
-        
-        document.getElementById('new-name').value = "";
-        document.getElementById('new-place').value = "";
-        document.getElementById('new-phone').value = "";
-        if(document.getElementById('new-type')) document.getElementById('new-type').value = "";
-        if(document.getElementById('new-details')) document.getElementById('new-details').value = "";
-        
+        alert("സേവ് ചെയ്തു!");
         showHome();
-    } catch (e) { alert("Error: " + e.message); }
+    }
 };
