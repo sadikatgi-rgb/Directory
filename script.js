@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // 1. ഫയർബേസ് കോൺഫിഗ്
@@ -81,7 +81,7 @@ onAuthStateChanged(auth, (user) => {
     currentUser = user; 
 });
 
-// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാനുള്ള ഫംഗ്ഷൻ (Professional Look & Fix Undefined)
+// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാനുള്ള ഫംഗ്ഷൻ (Professional Look & Bold Text)
 window.openCategory = async (catId, catName) => {
     document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
     document.getElementById('list-screen').classList.remove('hidden');
@@ -109,18 +109,24 @@ window.openCategory = async (catId, catName) => {
             const place = data.place || "സ്ഥലം രേഖപ്പെടുത്തിയിട്ടില്ല";
             const type = data.type ? `<span class="category-tag" style="background: #e8f5e9; color: #006400; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 6px;">${data.type}</span>` : "";
 
+            // ഡാറ്റ ക്ലീൻ ചെയ്ത് എഡിറ്റിംഗിനായി പാസ്സ് ചെയ്യാൻ
+            const safeData = JSON.stringify(data).replace(/'/g, "\\'");
+
             container.innerHTML += `
                 <div class="person-card" style="background:white; padding:16px; border-radius:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 6px solid #006400;">
                     <div class="person-info">
                         ${type}<br>
-                        <strong style="font-size:1.1rem; color:#1a1a1a;">${name}</strong><br>
-                        <small style="color:#555;">📍 ${place}</small>
-                        ${data.details ? `<br><small style="color:#777; font-style:italic;">ℹ️ ${data.details}</small>` : ''}
+                        <strong style="font-size:1.2rem; color:#1a1a1a; font-weight:800;">${name}</strong>
+                        <small style="color:#1a1a1a; font-size:1rem; display:block; margin-top:4px;"><b>📍 ${place}</b></small>
+                        ${data.details ? `<small style="color:#444; font-size:0.95rem; display:block; margin-top:4px;"><b>ℹ️ ${data.details}</b></small>` : ''}
                     </div>
-                    <div class="action-buttons" style="display:flex; align-items:center;">
+                    <div class="action-buttons" style="display:flex; align-items:center; gap:12px;">
                         <a href="tel:${data.phone}" class="call-btn" style="background:#006400; color:white !important; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">📞</a>
                         ${currentUser ? `
-                            <button onclick="deleteItem('${catId}', '${id}')" class="delete-btn" style="margin-left:15px; background:none; border:none; color:#ff4444; font-size:1.2rem; cursor:pointer;">🗑️</button>
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <button onclick='openEdit("${catId}", "${id}", ${safeData})' style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✏️</button>
+                                <button onclick="deleteItem('${catId}', '${id}')" style="background:none; border:none; color:#ff4444; font-size:1.2rem; cursor:pointer;">🗑️</button>
+                            </div>
                         ` : ''}
                     </div>
                 </div>
@@ -128,6 +134,37 @@ window.openCategory = async (catId, catName) => {
         });
     } catch (e) {
         container.innerHTML = "<p style='color:red; text-align:center;'>ലോഡ് ചെയ്യുന്നതിൽ പിശക്: " + e.message + "</p>";
+    }
+};
+
+// എഡിറ്റ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ (Prompt വഴി)
+window.openEdit = (catId, docId, currentData) => {
+    const newName = prompt("പേര് മാറ്റുക:", currentData.name);
+    const newPlace = prompt("സ്ഥലം മാറ്റുക:", currentData.place);
+    const newPhone = prompt("ഫോൺ നമ്പർ മാറ്റുക:", currentData.phone);
+    const newType = prompt("ഇനം മാറ്റുക:", currentData.type || "");
+    const newDetails = prompt("വിവരങ്ങൾ മാറ്റുക:", currentData.details || "");
+
+    if (newName && newPhone) {
+        handleUpdateData(catId, docId, {
+            name: newName,
+            place: newPlace,
+            phone: newPhone,
+            type: newType,
+            details: newDetails
+        });
+    }
+};
+
+// ഫയർബേസിൽ ഡാറ്റ അപ്ഡേറ്റ് ചെയ്യാൻ
+window.handleUpdateData = async (catId, docId, updatedData) => {
+    try {
+        const docRef = doc(db, catId, docId);
+        await updateDoc(docRef, updatedData);
+        alert("വിവരങ്ങൾ വിജയകരമായി പുതുക്കി!");
+        location.reload();
+    } catch (e) {
+        alert("തിരുത്തുന്നതിൽ പിശക് സംഭവിച്ചു: " + e.message);
     }
 };
 
@@ -144,7 +181,7 @@ window.deleteItem = async (catId, docId) => {
     }
 };
 
-// ഡാറ്റ സേവ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ (പുതിയ ഫീൽഡുകൾ ഉൾപ്പെടുത്തിയത്)
+// ഡാറ്റ സേവ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
 window.handleSaveData = async () => {
     if(!currentUser) {
         alert("ലോഗിൻ ചെയ്തവർക്ക് മാത്രമേ ഡാറ്റ ചേർക്കാൻ കഴിയൂ");
@@ -169,7 +206,6 @@ window.handleSaveData = async () => {
         await addDoc(collection(db, cat), data);
         alert("വിവരങ്ങൾ വിജയകരമായി ചേർത്തു!");
         
-        // ബോക്സുകൾ ക്ലിയർ ചെയ്യാൻ
         document.getElementById('new-name').value = "";
         document.getElementById('new-place').value = "";
         document.getElementById('new-phone').value = "";
