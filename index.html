@@ -178,9 +178,11 @@
     <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
     <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
 </select>
-                <input type="text" id="new-name" placeholder="പേര്">
-                <input type="text" id="new-place" placeholder="സ്ഥലം">
-                <input type="tel" id="new-phone" placeholder="ഫോൺ നമ്പർ">
+                <select id="new-cat" onchange="updateAdminFields()">
+    </select>
+<div id="admin-inputs">
+    </div>
+
                 <button class="btn-main" onclick="handleSaveData()">Save Data</button>
                 <button class="btn-text" onclick="handleLogout()">Logout</button>
             </div>
