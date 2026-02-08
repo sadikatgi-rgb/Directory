@@ -178,3 +178,39 @@ input, select, textarea {
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
 .info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
 .back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
+/* 8. Professional List Card Design - അക്ഷരങ്ങൾ കൂടുതൽ വലുതാക്കാൻ */
+.person-info strong {
+    font-size: 24px !important; /* പേര് നല്ല വലിപ്പത്തിൽ കാണാൻ */
+    color: var(--primary);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 800; /* കൂടുതൽ തെളിമയ്ക്ക് */
+}
+
+.person-info small {
+    font-size: 18px !important; /* സ്ഥലവും ഫോൺ നമ്പറും വലിപ്പം കൂട്ടി */
+    color: #333; /* അക്ഷരങ്ങൾക്ക് കൂടുതൽ കട്ടി നൽകാൻ ഡാർക്ക് നിറം */
+    display: block;
+    line-height: 1.6;
+    margin-top: 2px;
+}
+
+/* കാർഡിനുള്ളിലെ ഗ്യാപ്പ് അല്പം കൂടി വർദ്ധിപ്പിക്കാൻ */
+.person-card {
+    padding: 20px !important;
+    gap: 15px !important;
+}
+
+/* തിരയുക (Search) എന്ന അക്ഷരവും വലുതാക്കാം */
+#search-input {
+    font-size: 18px !important;
+    padding: 15px 20px !important;
+}
+
+/* ബട്ടണുകളിലെ അക്ഷരങ്ങൾ */
+.admin-btns button {
+    font-size: 16px !important;
+    padding: 12px !important;
+}
+
+
