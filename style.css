@@ -31,6 +31,24 @@ header { background: var(--primary); color: white; padding: 15px; display: flex;
 .sidebar a { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
 
+/* Search Box Style */
+#search-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: 'Manjari', sans-serif;
+    outline: none;
+    transition: 0.3s;
+    background: white;
+}
+#search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 8px rgba(0, 100, 0, 0.1);
+}
+
 /* Main Container & Cards */
 .container { padding: 15px; max-width: 500px; margin: auto; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
@@ -38,7 +56,7 @@ header { background: var(--primary); color: white; padding: 15px; display: flex;
 .card:active { transform: scale(0.95); }
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
-/* Forms */
+/* Forms & Modals */
 .hidden { display: none; }
 .form-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Manjari', sans-serif; font-size: 14px; }
@@ -60,28 +78,15 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
 }
 
 .person-info { flex: 1; padding-right: 10px; }
-
-/* പേരും മറ്റ് വിവരങ്ങളും കൂടുതൽ കട്ടിയുള്ളതാക്കാൻ */
 .person-info strong { 
     font-size: 1.25rem; 
     color: #000; 
     display: block; 
     margin-bottom: 6px;
-    font-weight: 800; /* Extra Bold */
+    font-weight: 800; 
 }
-
-.person-info b {
-    font-weight: 700;
-    color: #1a1a1a;
-    display: inline-block;
-}
-
-.person-info small { 
-    color: #222; 
-    display: block; 
-    margin-bottom: 4px;
-    line-height: 1.4;
-}
+.person-info b { font-weight: 700; color: #1a1a1a; display: inline-block; }
+.person-info small { color: #222; display: block; margin-bottom: 4px; line-height: 1.4; }
 
 .category-tag {
     background: #e8f5e9;
@@ -94,4 +99,50 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
     margin-bottom: 8px;
 }
 
-/*
+/* ആക്ഷൻ ബട്ടണുകൾ */
+.action-buttons { display: flex; align-items: center; gap: 12px; }
+.call-btn { 
+    background: var(--primary); 
+    color: white !important; 
+    text-decoration: none; 
+    width: 46px; height: 46px; 
+    border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,100,0,0.25);
+    font-size: 1.2rem;
+}
+
+.admin-controls { display: flex; flex-direction: column; gap: 12px; margin-left: 10px; }
+.edit-btn, .delete-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; transition: 0.2s; }
+.delete-btn { color: #ff4444; }
+.edit-btn:hover, .delete-btn:hover { transform: scale(1.2); }
+
+/* Headers & Screens */
+.list-header { display: flex; align-items: center; margin-bottom: 10px; }
+.back-btn { 
+    background: #e0e0e0; border: none; 
+    padding: 8px 15px; border-radius: 8px; 
+    margin-right: 12px; cursor: pointer;
+    font-weight: bold; font-family: 'Manjari', sans-serif;
+}
+
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex; align-items: center; justify-content: center; z-index: 2000;
+}
+.modal .form-box { width: 90%; max-width: 400px; animation: slideUp 0.3s ease-out; }
+
+.info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+
+/* Animations */
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.content-screen { animation: fadeIn 0.5s ease-in; }
+
