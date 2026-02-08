@@ -16,6 +16,7 @@
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">മെനു</div>
         <a href="#" onclick="showHome()">🏠 ഹോം</a>
@@ -30,22 +31,23 @@
     </header>
 
     <div class="container">
+        
         <div id="home-screen">
             <div class="grid">
                 <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto">
                     <p>ഓട്ടോ & ടാക്സി</p>
                 </div>
                 <div class="card" onclick="openCategory('shops', 'കടകൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops">
                     <p>കടകൾ</p>
                 </div>
                 <div class="card" onclick="openCategory('workers', 'ജോലിക്കാർ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
                     <p>ജോലിക്കാർ</p>
                 </div>
                 <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
                     <p>പണ്ടാരികൾ</p>
                 </div>
             </div>
@@ -54,7 +56,7 @@
         <div id="admin-login-screen" class="hidden">
             <div class="form-box">
                 <h4>അഡ്മിൻ ലോഗിൻ</h4>
-                <input type="email" id="admin-email" placeholder="Email">
+                <input type="text" id="admin-email" placeholder="നമ്പർ മാത്രം നൽകുക (786313)">
                 <input type="password" id="admin-password" placeholder="Password">
                 <button class="btn-main" onclick="handleLogin()">Login</button>
                 <button class="btn-text" onclick="showHome()">Cancel</button>
@@ -68,10 +70,15 @@
                     <option value="auto">ഓട്ടോ & ടാക്സി</option>
                     <option value="shops">കടകൾ</option>
                     <option value="workers">ജോലിക്കാർ</option>
+                    <option value="catering">പണ്ടാരികൾ</option>
                 </select>
                 <input type="text" id="new-name" placeholder="പേര്">
                 <input type="text" id="new-place" placeholder="സ്ഥലം">
                 <input type="tel" id="new-phone" placeholder="ഫോൺ നമ്പർ">
+                
+                <input type="text" id="new-type" placeholder="ഇനം (ഉദാ: വലിയ ഓട്ടോ, പലചരക്ക്)">
+                <textarea id="new-details" placeholder="മറ്റ് പ്രധാന വിവരങ്ങൾ (ഉദാ: സമയം, വാഹന നമ്പർ)" rows="3"></textarea>
+                
                 <button class="btn-main" onclick="handleSaveData()">Save Data</button>
                 <button class="btn-text" onclick="handleLogout()">Logout</button>
             </div>
@@ -79,11 +86,12 @@
 
         <div id="list-screen" class="hidden">
             <div class="list-header">
-                <button onclick="showHome()">← Back</button>
+                <button onclick="showHome()" class="back-btn">← Back</button>
                 <h4 id="current-cat-title"></h4>
             </div>
             <div id="list-container"></div>
         </div>
+
     </div>
 
     <script type="module" src="script.js"></script>
