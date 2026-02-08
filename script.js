@@ -10,6 +10,13 @@ const firebaseConfig = {
     messagingSenderId: "681119733857",
     appId: "1:681119733857:web:e77d5ab9571a35aff1f220"
 };
+// ഓരോ വിഭാഗത്തിനും ആവശ്യമായ ഫീൽഡുകൾ ഇവിടെ നൽകാം
+const categoryConfig = {
+    'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'no': 'വാഹന നമ്പർ' },
+    'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
+    'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
+    'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' } // മറ്റുള്ളവയ്ക്ക്
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -27,6 +34,17 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }, 2500);
 });
+window.renderAdminFields = () => {
+    const cat = document.getElementById('new-cat').value;
+    const container = document.getElementById('dynamic-inputs');
+    const fields = categoryConfig[cat] || categoryConfig['default'];
+    
+    container.innerHTML = ""; // പഴയവ ക്ലിയർ ചെയ്യുന്നു
+    
+    for (let key in fields) {
+        container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
+    }
+};
 
 // എല്ലാ സ്ക്രീനുകളും ഒളിപ്പിക്കാനും സ്ക്രോൾ ടോപ്പിലേക്ക് മാറ്റാനുമുള്ള ഫംഗ്‌ഷൻ
 function hideAll() {
@@ -43,6 +61,24 @@ function hideAll() {
         container.scrollTop = 0;
     }
 }
+
+window.editEntry = async (catId, docId, currentData) => {
+    const fields = categoryConfig[catId] || categoryConfig['default'];
+    let newData = {};
+    
+    for (let key in fields) {
+        // പഴയ വിവരം കാണിച്ചുകൊണ്ട് പുതിയത് ചോദിക്കുന്നു
+        const val = prompt(`${fields[key]} തിരുത്തുക:`, currentData[key] || "");
+        if (val === null) return; // Cancel ചെയ്താൽ നിർത്തും
+        newData[key] = val;
+    }
+
+    try {
+        await updateDoc(doc(db, catId, docId), newData);
+        alert("വിവരങ്ങൾ പുതുക്കി!");
+        openCategory(catId, document.getElementById('current-cat-title').innerText);
+    } catch (e) { alert("Error updating!"); }
+};
 
 
 window.toggleMenu = () => {
