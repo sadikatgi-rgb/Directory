@@ -170,16 +170,24 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
 .info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
 .back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
-/* ടച്ച് ചെയ്യുമ്പോൾ സൂം ആകുന്നത് തടയാൻ */
-touch-action: pan-x pan-y;
-
-/* ഇൻപുട്ട് ബോക്സിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ സൂം ആകുന്നത് ഒഴിവാക്കാൻ */
-input, select, textarea {
-    font-size: 16px !important; /* 16px-ൽ താഴെയാണെങ്കിൽ ഐഫോണിലും മറ്റും ഓട്ടോ സൂം വരും */
+/* അക്ഷരങ്ങൾ പഴയ വലുപ്പത്തിൽ നിലനിർത്താൻ */
+html {
+    -webkit-text-size-adjust: 100%;
 }
 
-/* ഡബിൾ ടാപ്പ് സൂം ഒഴിവാക്കാൻ */
-* {
+/* ഇൻപുട്ട് ബോക്സിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ സൂം ആകുന്നത് ഒഴിവാക്കാൻ */
+/* ഫോണ്ട് സൈസ് 16px എങ്കിലും ഉണ്ടെങ്കിൽ ബ്രൗസർ ഓട്ടോമാറ്റിക് സൂം ചെയ്യില്ല */
+input, select, textarea {
+    font-size: 16px !important;
+}
+
+/* അനാവശ്യ സൂമിംഗ് ഒഴിവാക്കാൻ ബോഡിയിൽ നൽകുക */
+body {
     touch-action: manipulation;
 }
 
+/* സ്ക്രോൾ ചെയ്യുമ്പോൾ വശങ്ങളിലേക്ക് നീങ്ങാതിരിക്കാൻ */
+.container {
+    overflow-x: hidden;
+    width: 100vw;
+}
