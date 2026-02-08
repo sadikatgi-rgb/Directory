@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>വിഭവ ഡയറക്ടറി</title>
+    <title>വിഭവ ഡಯറക്ടറി</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
@@ -58,27 +58,19 @@
             </div>
         </div>
 
-        <div id="content-info-screen" class="hidden content-screen">
+        <div id="content-info-screen" class="hidden">
             <div class="info-card">
                 <button onclick="showHome()" class="back-btn">← Back</button>
                 <h3 style="text-align: center; color: var(--primary);">ഉള്ളടക്കം</h3>
-                
                 <div style="font-size: 0.9rem; line-height: 1.6;">
-                    <p>എസ്.വൈ.എസ് 70-ാം വാർഷിക (പ്ലാറ്റിനം ഇയർ) അനുബന്ധിച്ച് യൂണിറ്റുകളിൽ നടത്തപ്പെടുന്ന <b>"ഗ്രാമ സമ്മേളനം"</b> പരിപാടിയോടനുബന്ധിച്ച് തയ്യാറാക്കിയ വിഭവ ഡയറക്ടറിയാണിത്.</p>
-                    
-                    <ul class="content-list">
-                        <li><b>1. ഓട്ടോ:</b> നാട്ടിലെ എല്ലാവിധ ഓട്ടോറിക്ഷകളും അവയുടെ ഇനവും ഡ്രൈവർമാരുടെ നമ്പറും.</li>
-                        <li><b>2. കടകൾ:</b> പലചരക്ക്, ഹോട്ടൽ, ടെക്സ്റ്റൈൽസ് തുടങ്ങിയ എല്ലാ കടകളും.</li>
-                        <li><b>3. ടാക്സി & ട്രാവൽ:</b> കാർ, ട്രക്കർ, ജീപ്പ്, ബസ് തുടങ്ങിയ വാഹനങ്ങളുടെ വിവരങ്ങൾ.</li>
-                        <li><b>4. പണ്ടാരി:</b> കല്യാണം, മറ്റ് പരിപാടികൾ എന്നിവയ്ക്ക് ഭക്ഷണം ഉണ്ടാക്കുന്നവരുടെ വിവരങ്ങൾ.</li>
-                        <li><b>5. വിവിധ ജോലിക്കാർ:</b> പ്ലംബർ, ഇലക്ട്രീഷ്യൻ, തേങ്ങ കയറ്റം, പെയിന്റിംഗ് തുടങ്ങിയവർ.</li>
-                        <li><b>6. സ്ഥാപനങ്ങൾ & ഓഫീസ്:</b> മദ്രസ, പള്ളി, സ്കൂൾ, ഹോസ്പിറ്റൽ തുടങ്ങിയവ.</li>
-                        <li><b>7. ജനപ്രതിനിധികൾ:</b> വാർഡ് മെമ്പർമാർ, MLA, MP തുടങ്ങിയവരുടെ നമ്പറുകൾ.</li>
-                        <li><b>8. ഉസ്താദ് & പ്രൊഫഷണൽസ്:</b> സയ്യിദുമാർ, ഉസ്താദുമാർ, ഡോക്ടർമാർ, വക്കീൽ തുടങ്ങിയവർ.</li>
-                        <li><b>9. സഹായ കേന്ദ്രങ്ങൾ:</b> അക്ഷയ സെന്ററുകൾ, പാമ്പ് പിടുത്തം തുടങ്ങി മറ്റ് സേവനങ്ങൾ.</li>
+                    <p>എസ്.വൈ.എസ് ഗ്രാമ സമ്മേളനത്തോടനുബന്ധിച്ച് തയ്യാറാക്കിയ വിഭവ ഡയറക്ടറി.</p>
+                    <ul class="info-card-list">
+                        <li><b>1. ഓട്ടോ:</b> ഡ്രൈവർമാരുടെ വിവരങ്ങൾ.</li>
+                        <li><b>2. കടകൾ:</b> എല്ലാവിധ സ്ഥാപനങ്ങളും.</li>
+                        <li><b>3. ടാക്സി:</b> ട്രാവൽസ് വിവരങ്ങൾ.</li>
+                        <li><b>4. പണ്ടാരി:</b> ഭക്ഷണ വിദഗ്ധർ.</li>
+                        <li><b>5. ജോലിക്കാർ:</b> തൊഴിലാളികൾ.</li>
                     </ul>
-                    <hr>
-                    <p style="text-align: center; font-weight: bold; margin-top: 15px;">കേരള മുസ്ലിം ജമാഅത്ത്, എസ്.വൈ.എസ്, എസ്.എസ്.എഫ് ചിറമംഗലം സൗത്ത് യൂണിറ്റ്</p>
                 </div>
             </div>
         </div>
@@ -95,7 +87,7 @@
 
         <div id="admin-panel" class="hidden">
             <div class="form-box">
-                <p style="text-align:right; font-size:0.8rem; color:var(--primary); font-weight:bold;" id="user-display-id"></p>
+                <p id="user-display-id" style="text-align:right; font-weight:bold;"></p>
                 <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
                 <select id="new-cat">
                     <option value="auto">ഓട്ടോ & ടാക്സി</option>
@@ -108,7 +100,6 @@
                 <input type="tel" id="new-phone" placeholder="ഫോൺ നമ്പർ">
                 <input type="text" id="new-type" placeholder="ഇനം">
                 <textarea id="new-details" placeholder="മറ്റ് വിവരങ്ങൾ" rows="3"></textarea>
-                
                 <button class="btn-main" onclick="handleSaveData()">Save Data</button>
                 <button class="btn-text" onclick="handleLogout()">Logout</button>
             </div>
@@ -123,40 +114,23 @@
             <div id="list-container"></div>
         </div>
 
-        <div id="about-app-screen" class="hidden content-screen">
+        <div id="about-app-screen" class="hidden">
             <div class="info-card">
                 <button onclick="showHome()" class="back-btn">← Back</button>
-                <h3 style="text-align: center; color: var(--primary);">ആപ്പ് വിവരം</h3>
-                <p style="font-weight: bold; text-align: center;">07/11/2024 - വിഭവ ഡയറക്ടറി</p>
-                <div class="names-list">
-                    <p><b>അണിയറയിൽ പ്രവർത്തിച്ചത്:</b></p>
-                    <ol>
-                        <li>സയ്യിദ് സ്വാലിഹ് ജിഫ്രി ഫാളിളി</li>
-                        <li>സയ്യിദ് മുഹ്സിൻ ജിഫ്രി ഫാളിളി</li>
-                        <li>സയ്യിദ് ശഫീഖ് ജിഫ്രി സഅദി</li>
-                        <li>റാഫി സഖാഫി സി</li>
-                        <li>സയ്യിദ് സൗദ് ബാഫഖി</li>
-                        <li>അബ്ദുസ്സലാം T</li>
-                        <li>സാദിഖ് അലി സഖാഫി സി.</li>
-                        <li>മുജീബ് റഹ്മാൻ PP</li>
-                        <li>ഫാറൂഖ് സഖാഫി മലയിൽ</li>
-                        <li>സ്വലാഹുദ്ദീൻ T</li>
-                    </ol>
-                </div>
+                <h3>ആപ്പ് വിവരം</h3>
+                <p>07/11/2024 - വിഭവ ഡയറക്ടറി</p>
+                <ol>
+                    <li>സയ്യിദ് സ്വാലിഹ് ജിഫ്രി ഫാളിളി</li>
+                    <li>സാദിഖ് അലി സഖാഫി സി.</li>
+                </ol>
             </div>
         </div>
 
-        <div id="leaders-screen" class="hidden content-screen">
+        <div id="leaders-screen" class="hidden">
             <div class="info-card">
                 <button onclick="showHome()" class="back-btn">← Back</button>
-                <h3 style="text-align: center; color: var(--primary);">Leader's</h3>
-                <p style="text-align: center; font-weight: bold;">എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ്</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li><b>പ്രസിഡന്റ്:</b> സയ്യിദ് സ്വാലിഹ് ഫാളിളി ജിഫ്രി</li>
-                    <li><b>ജന: സെക്രട്ടറി:</b> സാദിഖ് അലി സഖാഫി സി</li>
-                    <li><b>വൈ. പ്രസിഡന്റ്:</b> സയ്യിദ് സൗദ് ബാഫഖി അഹ്സനി</li>
-                    <li><b>അംഗങ്ങൾ:</b> മുബാറക് T, സാബിർ, മുഹ്സിൻ</li>
-                </ul>
+                <h3>Leader's</h3>
+                <p>ചിറമംഗലം സൗത്ത് യൂണിറ്റ് കമ്മിറ്റി അംഗങ്ങൾ</p>
             </div>
         </div>
 
@@ -165,14 +139,14 @@
     <div id="edit-modal" class="modal hidden">
         <div class="form-box">
             <h4>വിവരങ്ങൾ മാറ്റുക</h4>
-            <input type="text" id="edit-name" placeholder="പേര്">
-            <input type="text" id="edit-place" placeholder="സ്ഥലം">
-            <input type="tel" id="edit-phone" placeholder="ഫോൺ നമ്പർ">
-            <input type="text" id="edit-type" placeholder="ഇനം">
-            <textarea id="edit-details" placeholder="മറ്റ് വിവരങ്ങൾ" rows="3"></textarea>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <input type="text" id="edit-name">
+            <input type="text" id="edit-place">
+            <input type="tel" id="edit-phone">
+            <input type="text" id="edit-type">
+            <textarea id="edit-details" rows="3"></textarea>
+            <div style="display: flex; gap: 10px;">
                 <button class="btn-main" id="update-save-btn">Save</button>
-                <button class="btn-text" onclick="closeEditModal()" style="background:#ff4444; color:white; border-radius:10px;">Cancel</button>
+                <button class="btn-text" onclick="closeEditModal()" style="background:#ff4444; color:white;">Cancel</button>
             </div>
         </div>
     </div>
