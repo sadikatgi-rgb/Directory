@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // 1. ഫയർബേസ് കോൺഫിഗ്
@@ -52,10 +52,10 @@ window.showAdminLogin = () => {
     window.toggleMenu();
 };
 
-// Auth Functions (നമ്പർ മാത്രം നൽകിയാൽ മതിയാകുന്ന രീതിയിൽ മാറ്റിയത്)
+// Auth Functions
 window.handleLogin = async () => {
     const inputNumber = document.getElementById('admin-email').value.trim(); 
-    const fullEmail = inputNumber + "@sys.com"; // കോഡ് തന്നെ @sys.com ചേർക്കുന്നു
+    const fullEmail = inputNumber + "@sys.com"; 
     const pass = document.getElementById('admin-password').value;
 
     if(!inputNumber || !pass) {
@@ -79,17 +79,16 @@ window.handleLogout = () => {
 
 onAuthStateChanged(auth, (user) => { 
     currentUser = user; 
-    // ലോഗിൻ ചെയ്തിട്ടുണ്ടെങ്കിൽ അഡ്മിൻ ബട്ടൺ ഹൈലൈറ്റ് ചെയ്യാം
 });
 
-// Data Functions
+// ഡാറ്റ ലിസ്റ്റ് കാണിക്കാനുള്ള ഫംഗ്ഷൻ (Professional Look & Fix Undefined)
 window.openCategory = async (catId, catName) => {
     document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
     
     const container = document.getElementById('list-container');
-    container.innerHTML = "<p style='text-align:center'>ശേഖരിക്കുന്നു...</p>";
+    container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ശേഖരിക്കുന്നു...</p>";
 
     try {
         const q = query(collection(db, catId));
@@ -97,26 +96,55 @@ window.openCategory = async (catId, catName) => {
         container.innerHTML = "";
         
         if (querySnapshot.empty) {
-            container.innerHTML = "<p style='text-align:center'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            return;
         }
 
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
+        querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const id = docSnap.id;
+            
+            // "undefined" ഒഴിവാക്കാനുള്ള സുരക്ഷാ പരിശോധന
+            const name = data.name || "പേര് ലഭ്യമല്ല";
+            const place = data.place || "സ്ഥലം രേഖപ്പെടുത്തിയിട്ടില്ല";
+            const type = data.type ? `<span class="category-tag" style="background: #e8f5e9; color: #006400; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 6px;">${data.type}</span>` : "";
+
             container.innerHTML += `
-                <div class="person-card">
-                    <div>
-                        <strong>${data.name}</strong><br>
-                        <small>${data.place || ''}</small>
+                <div class="person-card" style="background:white; padding:16px; border-radius:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 6px solid #006400;">
+                    <div class="person-info">
+                        ${type}<br>
+                        <strong style="font-size:1.1rem; color:#1a1a1a;">${name}</strong><br>
+                        <small style="color:#555;">📍 ${place}</small>
+                        ${data.details ? `<br><small style="color:#777; font-style:italic;">ℹ️ ${data.details}</small>` : ''}
                     </div>
-                    <a href="tel:${data.phone}" class="call-btn">📞 വിളിക്കുക</a>
+                    <div class="action-buttons" style="display:flex; align-items:center;">
+                        <a href="tel:${data.phone}" class="call-btn" style="background:#006400; color:white !important; width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none;">📞</a>
+                        ${currentUser ? `
+                            <button onclick="deleteItem('${catId}', '${id}')" class="delete-btn" style="margin-left:15px; background:none; border:none; color:#ff4444; font-size:1.2rem; cursor:pointer;">🗑️</button>
+                        ` : ''}
+                    </div>
                 </div>
             `;
         });
     } catch (e) {
-        container.innerHTML = "<p style='color:red'>ഡാറ്റ ലോഡ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു.</p>";
+        container.innerHTML = "<p style='color:red; text-align:center;'>ലോഡ് ചെയ്യുന്നതിൽ പിശക്: " + e.message + "</p>";
     }
 };
 
+// ഡിലീറ്റ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+window.deleteItem = async (catId, docId) => {
+    if (confirm("ഈ വിവരം ഡിലീറ്റ് ചെയ്യട്ടെ?")) {
+        try {
+            await deleteDoc(doc(db, catId, docId));
+            alert("വിവരം വിജയകരമായി നീക്കം ചെയ്തു");
+            location.reload(); 
+        } catch (e) {
+            alert("Error: " + e.message);
+        }
+    }
+};
+
+// ഡാറ്റ സേവ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ (പുതിയ ഫീൽഡുകൾ ഉൾപ്പെടുത്തിയത്)
 window.handleSaveData = async () => {
     if(!currentUser) {
         alert("ലോഗിൻ ചെയ്തവർക്ക് മാത്രമേ ഡാറ്റ ചേർക്കാൻ കഴിയൂ");
@@ -127,7 +155,9 @@ window.handleSaveData = async () => {
     const data = {
         name: document.getElementById('new-name').value,
         place: document.getElementById('new-place').value,
-        phone: document.getElementById('new-phone').value
+        phone: document.getElementById('new-phone').value,
+        type: document.getElementById('new-type') ? document.getElementById('new-type').value : "",
+        details: document.getElementById('new-details') ? document.getElementById('new-details').value : ""
     };
 
     if(!data.name || !data.phone) {
@@ -138,10 +168,14 @@ window.handleSaveData = async () => {
     try {
         await addDoc(collection(db, cat), data);
         alert("വിവരങ്ങൾ വിജയകരമായി ചേർത്തു!");
-        // ഫോം ക്ലിയർ ചെയ്യാൻ
+        
+        // ബോക്സുകൾ ക്ലിയർ ചെയ്യാൻ
         document.getElementById('new-name').value = "";
         document.getElementById('new-place').value = "";
         document.getElementById('new-phone').value = "";
+        if(document.getElementById('new-type')) document.getElementById('new-type').value = "";
+        if(document.getElementById('new-details')) document.getElementById('new-details').value = "";
+        
         showHome();
     } catch (e) { alert("Error: " + e.message); }
 };
