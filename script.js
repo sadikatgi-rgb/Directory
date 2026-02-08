@@ -16,7 +16,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 let currentUser = null;
-let allCategoryData = []; // സെർച്ചിനായി ഡാറ്റ സൂക്ഷിക്കാൻ
+let allCategoryData = []; 
 
 // Splash Screen
 setTimeout(() => {
@@ -33,11 +33,19 @@ window.toggleMenu = () => {
     overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
 };
 
+// ഹോം സ്ക്രീൻ കാണിക്കാൻ
 window.showHome = () => {
     document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
+};
+
+// ഉള്ളടക്കം സ്ക്രീൻ കാണിക്കാൻ
+window.showContentPage = () => {
+    document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+    document.getElementById('content-info-screen').classList.remove('hidden');
+    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
 };
 
 window.showAdminLogin = () => {
@@ -47,7 +55,7 @@ window.showAdminLogin = () => {
     } else {
         document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    window.toggleMenu();
+    if(document.getElementById('sidebar').classList.contains('active')) window.toggleMenu();
 };
 
 window.showAboutApp = () => {
@@ -123,7 +131,7 @@ window.openCategory = async (catId, catName) => {
     } catch (e) { container.innerHTML = "<p>Error: " + e.message + "</p>"; }
 };
 
-// ലിസ്റ്റ് റെൻഡർ ചെയ്യാൻ (Search-നും കൂടി ഉപയോഗിക്കാം)
+// ലിസ്റ്റ് റെൻഡർ ചെയ്യാൻ
 function renderList(items, container, catId) {
     container.innerHTML = "";
     if (items.length === 0) {
