@@ -59,7 +59,7 @@ window.handleLogin = async () => {
     const pass = document.getElementById('admin-password').value;
 
     if(!inputNumber || !pass) {
-        alert("നമ്പറും പാസ്‌വേഡും നൽകുക");
+        alert("യൂസർനൈം പാസ്‌വേഡും നൽകുക");
         return;
     }
 
