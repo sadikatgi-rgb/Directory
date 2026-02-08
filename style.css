@@ -18,20 +18,63 @@ body {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     color: white; z-index: 2000; transition: 0.8s;
 }
-.loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--white); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin-top: 15px; }
+.loader { 
+    border: 4px solid #f3f3f3; 
+    border-top: 4px solid var(--white); 
+    border-radius: 50%; 
+    width: 30px; 
+    height: 30px; 
+    animation: spin 1s linear infinite; 
+    margin-top: 15px; 
+}
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 /* Sidebar & Header */
-header { background: var(--primary); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+header { 
+    background: var(--primary); 
+    color: white; 
+    padding: 15px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
 .menu-icon { font-size: 24px; cursor: pointer; }
 
-.sidebar { position: fixed; left: -260px; width: 250px; height: 100%; background: white; z-index: 1001; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+.sidebar { 
+    position: fixed; 
+    left: -260px; 
+    width: 250px; 
+    height: 100%; 
+    background: white; 
+    z-index: 1001; 
+    transition: 0.3s; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
+}
 .sidebar.active { left: 0; }
+
+/* സൈഡ് ബാറിലെ ചിത്രം ക്രമീകരിക്കാൻ */
+.sidebar-top-img {
+    width: 100%;
+    height: 180px; 
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+.sidebar-top-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
 .sidebar-header { background: var(--primary); color: white; padding: 20px; font-weight: bold; }
 .sidebar a { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
 
-/* Search Box Style */
+/* Search Box */
 #search-input {
     width: 100%;
     padding: 12px 15px;
@@ -49,21 +92,48 @@ header { background: var(--primary); color: white; padding: 15px; display: flex;
     box-shadow: 0 0 8px rgba(0, 100, 0, 0.1);
 }
 
-/* Main Container & Cards */
+/* Container & Grid */
 .container { padding: 15px; max-width: 500px; margin: auto; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-.card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
+.card { 
+    background: white; 
+    padding: 20px; 
+    border-radius: 20px; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    transition: 0.3s; 
+    border: 1px solid #eee; 
+}
 .card:active { transform: scale(0.95); }
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
 /* Forms & Modals */
 .hidden { display: none; }
 .form-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: 'Manjari', sans-serif; font-size: 14px; }
-.btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+input, select, textarea { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    font-family: 'Manjari', sans-serif; 
+    font-size: 14px; 
+}
+.btn-main { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    width: 100%; 
+    padding: 14px; 
+    border-radius: 10px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    margin-top: 10px; 
+}
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; }
 
-/* Professional Person Card List */
+/* Person Card List */
 .person-card {
     background: white;
     padding: 16px;
@@ -74,9 +144,7 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
     align-items: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     border-left: 6px solid var(--primary);
-    height: auto;
 }
-
 .person-info { flex: 1; padding-right: 10px; }
 .person-info strong { 
     font-size: 1.25rem; 
@@ -99,15 +167,18 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
     margin-bottom: 8px;
 }
 
-/* ആക്ഷൻ ബട്ടണുകൾ */
+/* Buttons */
 .action-buttons { display: flex; align-items: center; gap: 12px; }
 .call-btn { 
     background: var(--primary); 
     color: white !important; 
     text-decoration: none; 
-    width: 46px; height: 46px; 
+    width: 46px; 
+    height: 46px; 
     border-radius: 50%; 
-    display: flex; align-items: center; justify-content: center;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
     box-shadow: 0 4px 10px rgba(0,100,0,0.25);
     font-size: 1.2rem;
 }
@@ -117,15 +188,20 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
 .delete-btn { color: #ff4444; }
 .edit-btn:hover, .delete-btn:hover { transform: scale(1.2); }
 
-/* Headers & Screens */
+/* Navigation */
 .list-header { display: flex; align-items: center; margin-bottom: 10px; }
 .back-btn { 
-    background: #e0e0e0; border: none; 
-    padding: 8px 15px; border-radius: 8px; 
-    margin-right: 12px; cursor: pointer;
-    font-weight: bold; font-family: 'Manjari', sans-serif;
+    background: #e0e0e0; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 8px; 
+    margin-right: 12px; 
+    cursor: pointer;
+    font-weight: bold; 
+    font-family: 'Manjari', sans-serif;
 }
 
+/* Modal Style */
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.7);
@@ -133,6 +209,7 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
 }
 .modal .form-box { width: 90%; max-width: 400px; animation: slideUp 0.3s ease-out; }
 
+/* Info Card & Content Lists */
 .info-card {
     background: white;
     padding: 20px;
@@ -141,8 +218,28 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
     line-height: 1.8;
 }
 
+.info-card ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.info-card ul li {
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+    font-size: 0.95rem;
+}
+
+.info-card ul li b {
+    color: var(--primary);
+    display: inline-block;
+    margin-right: 5px;
+}
+
 /* Animations */
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .content-screen { animation: fadeIn 0.5s ease-in; }
-
