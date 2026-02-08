@@ -64,3 +64,28 @@ header { background: var(--primary); color: white; padding: 15px; display: flex;
 .form-box { background: white; padding: 25px; border-radius: 20px; }
 input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
 .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; }
+.container { 
+    padding: 15px; 
+    max-width: 500px; 
+    margin: auto; 
+    /* താഴെ പറയുന്ന വരികൾ സ്ക്രോളിംഗ് ശരിയാക്കും */
+    height: calc(100vh - 70px); /* ഹെഡർ കഴിഞ്ഞ് ബാക്കി ഭാഗം മുഴുവൻ എടുക്കും */
+    overflow-y: auto;           /* ഉള്ളടക്കം അധികമായാൽ സ്ക്രോൾ വരും */
+    -webkit-overflow-scrolling: touch; /* മൊബൈലിൽ സ്മൂത്ത് സ്ക്രോളിംഗിന് */
+}
+body { 
+    font-family: 'Manjari', sans-serif; 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--text);
+    overflow: hidden; /* ബോഡി സ്ക്രോൾ തടയുന്നു */
+}
+.info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    line-height: 1.8;
+    margin-bottom: 30px; /* അവസാന ഭാഗം കൃത്യമായി കാണാൻ 30px ഗ്യാപ്പ് */
+}
+
