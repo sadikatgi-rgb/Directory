@@ -60,32 +60,38 @@ input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px
 }
 
 .person-info { flex: 1; padding-right: 10px; }
-.person-info strong { font-size: 1.1rem; color: #1a1a1a; display: block; margin-bottom: 4px; }
-.person-info small { color: #555; display: block; margin-bottom: 2px; }
+
+/* പേരും മറ്റ് വിവരങ്ങളും കൂടുതൽ കട്ടിയുള്ളതാക്കാൻ */
+.person-info strong { 
+    font-size: 1.25rem; 
+    color: #000; 
+    display: block; 
+    margin-bottom: 6px;
+    font-weight: 800; /* Extra Bold */
+}
+
+.person-info b {
+    font-weight: 700;
+    color: #1a1a1a;
+    display: inline-block;
+}
+
+.person-info small { 
+    color: #222; 
+    display: block; 
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
 
 .category-tag {
     background: #e8f5e9;
     color: var(--primary);
     padding: 2px 8px;
     border-radius: 5px;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: bold;
     display: inline-block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-.action-buttons { display: flex; align-items: center; }
-.call-btn { 
-    background: var(--primary); 
-    color: white !important; 
-    text-decoration: none; 
-    width: 42px; height: 42px; 
-    border-radius: 50%; 
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 8px rgba(0,100,0,0.2);
-}
-
-.delete-btn { background: none; border: none; color: #ff4444; font-size: 1.2rem; cursor: pointer; margin-left: 12px; }
-
-.list-header { display: flex; align-items: center; margin-bottom: 15px; }
-.back-btn { background: #eee; border: none; padding: 5px 12px; border-radius: 5px; margin-right: 10px; cursor: pointer; }
+/*
