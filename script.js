@@ -4,12 +4,12 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from
 
 // 1. ഫയർബേസ് കോൺഫിഗ് നൽകുക
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
+    authDomain: "directory-f4474.firebaseapp.com",
+    projectId: "directory-f4474",
+    storageBucket: "directory-f4474.firebasestorage.app",
+    messagingSenderId: "681119733857",
+    appId: "1:681119733857:web:e77d5ab9571a35aff1f220"
 };
 
 const app = initializeApp(firebaseConfig);
