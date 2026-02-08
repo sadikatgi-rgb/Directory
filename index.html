@@ -164,29 +164,29 @@
         </div>
 
         <div id="admin-panel" class="hidden">
-            <div class="form-box">
-                <p id="user-display-id" style="text-align:right; font-weight:bold;"></p>
-                <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
-                <select id="new-cat">
-    <option value="auto">ഓട്ടോ & ടാക്സി</option>
-    <option value="shops">കടകൾ</option>
-    <option value="workers">ജോലിക്കാർ</option>
-    <option value="catering">പണ്ടാരികൾ</option>
-    <option value="travels">ടാക്സി & ട്രാവൽ</option>
-    <option value="institutions">സ്ഥാപനങ്ങൾ</option>
-    <option value="leaders_gov">ജനപ്രതിനിധികൾ</option>
-    <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
-    <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
-</select>
-                <select id="new-cat" onchange="updateAdminFields()">
-    </select>
-<div id="admin-inputs">
-    </div>
+    <div class="form-box">
+        <p id="user-display-id" style="text-align:right; font-weight:bold;"></p>
+        <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
+        
+        <select id="new-cat" onchange="renderAdminFields()">
+            <option value="auto">ഓട്ടോ & ടാക്സി</option>
+            <option value="shops">കടകൾ</option>
+            <option value="workers">ജോലിക്കാർ</option>
+            <option value="catering">പണ്ടാരികൾ</option>
+            <option value="travels">ടാക്സി & ട്രാവൽ</option>
+            <option value="institutions">സ്ഥാപനങ്ങൾ</option>
+            <option value="leaders_gov">ജനപ്രതിനിധികൾ</option>
+            <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
+            <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
+        </select>
 
-                <button class="btn-main" onclick="handleSaveData()">Save Data</button>
-                <button class="btn-text" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
+        <div id="dynamic-inputs" style="margin-top: 10px;"></div>
+
+        <button class="btn-main" onclick="handleSaveData()">Save Data</button>
+        <button class="btn-text" onclick="handleLogout()">Logout</button>
+    </div>
+</div>
+
 
         <div id="list-screen" class="hidden">
             <div class="list-header">
