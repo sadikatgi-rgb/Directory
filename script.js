@@ -141,14 +141,14 @@ window.openCategory = async (catId, catName) => {
                     </div>`;
             }
             // openCategory ഫംഗ്ഷനുള്ളിൽ ലിസ്റ്റ് നിർമ്മിക്കുന്നതിന് തൊട്ടുമുമ്പ് ഇത് ചേർക്കുക
-let iconClass = "fas fa-info-circle"; // ഡിഫോൾട്ട് ഐക്കൺ
-if (catId === 'auto') iconClass = "fas fa-taxi";
-else if (catId === 'shops') iconClass = "fas fa-store";
-else if (catId === 'workers') iconClass = "fas fa-tools";
-else if (catId === 'catering') iconClass = "fas fa-utensils";
-            
+            let iconClass = "fas fa-info-circle"; // ഡിഫോൾട്ട് ഐക്കൺ
+            if (catId === 'auto') iconClass = "fas fa-taxi";
+            else if (catId === 'shops') iconClass = "fas fa-store";
+            else if (catId === 'workers') iconClass = "fas fa-tools";
+            else if (catId === 'catering') iconClass = "fas fa-utensils";
+
             // script.js-ൽ openCategory ഫംഗ്ഷനുള്ളിലെ ലിസ്റ്റ് നിർമ്മിക്കുന്ന ഭാഗം
-container.innerHTML += `
+            container.innerHTML += `
     <div class="person-card">
         <div class="person-info">
             <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
