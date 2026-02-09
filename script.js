@@ -122,7 +122,7 @@ window.openCategory = async (catId, catName) => {
             // മറ്റ് വിവരങ്ങൾ വേർതിരിച്ചെടുക്കുന്നു
             let extraInfo = "";
             for (let key in d) {
-                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'no') {
+                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'ty') { 
                     const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                     extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                 }
