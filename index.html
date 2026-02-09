@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ml">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
 
@@ -17,11 +19,11 @@
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar-top-img">
+    <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block;">
+</div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-top-img">
-            <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block;">
-        </div>
+
         <div class="sidebar-header">MENU</div>
         <a href="#" onclick="showHome()">🏠 ഹോം</a>
         <a href="#" onclick="showContentPage()">📖 ഉള്ളടക്കം</a>
@@ -29,7 +31,6 @@
         <a href="#" onclick="showLeaders()">👥 Leaders</a>
         <a href="#" onclick="showAdminLogin()">🔑 അഡ്മിൻ ലോഗിൻ</a>
     </div>
-
     <header>
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <h3>വിഭവ ഡയറക്ടറി</h3>
@@ -39,45 +40,53 @@
     <div class="container" id="main-container">
         
         <div id="home-screen">
-            <div class="grid">
-                <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto">
-                    <p>ഓട്ടോ & ടാക്സി</p>
-                </div>
-                <div class="card" onclick="openCategory('shops', 'കടകൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops">
-                    <p>കടകൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('workers', 'ജോലിക്കാർ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
-                    <p>ജോലിക്കാർ</p>
-                </div>
-                <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
-                    <p>പണ്ടാരികൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('travels', 'ടാക്സി & ട്രാവൽ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2611/2611090.png" alt="Travels">
-                    <p>ടാക്സി & ട്രാവൽ</p>
-                </div>
-                <div class="card" onclick="openCategory('institutions', 'സ്ഥാപനങ്ങൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2912/2912781.png" alt="Institutions">
-                    <p>സ്ഥാപനങ്ങൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('leaders_gov', 'ജനപ്രതിനിധികൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3050/3050017.png" alt="Leaders">
-                    <p>ജനപ്രതിനിധികൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('professionals', 'ഉസ്താദ് & പ്രൊഫഷണൽസ്')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2302/2302834.png" alt="Professionals">
-                    <p>ഉസ്താദ് & പ്രൊഫഷണൽസ്</p>
-                </div>
-                <div class="card" onclick="openCategory('help_centers', 'സഹായ കേന്ദ്രങ്ങൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Help">
-                    <p>സഹായ കേന്ദ്രങ്ങൾ</p>
-                </div>
-            </div>
+    <div class="grid">
+        <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto">
+            <p>ഓട്ടോ & ടാക്സി</p>
         </div>
+
+        <div class="card" onclick="openCategory('shops', 'കടകൾ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops">
+            <p>കടകൾ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('workers', 'ജോലിക്കാർ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
+            <p>ജോലിക്കാർ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
+            <p>പണ്ടാരികൾ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('travels', 'ടാക്സി & ട്രാവൽ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2611/2611090.png" alt="Travels">
+            <p>ടാക്സി & ട്രാവൽ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('institutions', 'സ്ഥാപനങ്ങൾ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2912/2912781.png" alt="Institutions">
+            <p>സ്ഥാപനങ്ങൾ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('leaders_gov', 'ജനപ്രതിനിധികൾ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3050/3050017.png" alt="Leaders">
+            <p>ജനപ്രതിനിധികൾ</p>
+        </div>
+
+        <div class="card" onclick="openCategory('professionals', 'ഉസ്താദ് & പ്രൊഫഷണൽസ്')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2302/2302834.png" alt="Professionals">
+            <p>ഉസ്താദ് & പ്രൊഫഷണൽസ്</p>
+        </div>
+
+        <div class="card" onclick="openCategory('help_centers', 'സഹായ കേന്ദ്രങ്ങൾ')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Help">
+            <p>സഹായ കേന്ദ്രങ്ങൾ</p>
+        </div>
+    </div>
+  </div>
 
         <div id="content-info-screen" class="hidden content-screen">
             <div class="info-card">
@@ -139,7 +148,8 @@
                         <li><b>ജോ. സെക്രട്ടറി:</b> ഫാറൂഖ് സഖാഫി മലയിൽ</li>
                         <li><b>ജോ. സെക്രട്ടറി:</b> മുജീബ് റഹ്മാൻ PP</li>
                         <li><b>സെക്രട്ടറി:</b> മുബാറക് T</li>
-                        <li><b>സെക്രട്ടറി:</b> മുഹ്സിൻ</li>
+                        <li><b>സെക്രട്ടറി:</b>മുഹ്സിൻ</li>
+     
                     </ul>
                 </div>
             </div>
@@ -156,25 +166,29 @@
         </div>
 
         <div id="admin-panel" class="hidden">
-            <div class="form-box">
-                <p id="user-display-id" style="text-align:right; font-weight:bold;"></p>
-                <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
-                <select id="new-cat" onchange="renderAdminFields()">
-                    <option value="auto">ഓട്ടോ & ടാക്സി</option>
-                    <option value="shops">കടകൾ</option>
-                    <option value="workers">ജോലിക്കാർ</option>
-                    <option value="catering">പണ്ടാരികൾ</option>
-                    <option value="travels">ടാക്സി & ട്രാവൽ</option>
-                    <option value="institutions">സ്ഥാപനങ്ങൾ</option>
-                    <option value="leaders_gov">ജനപ്രതിനിധികൾ</option>
-                    <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
-                    <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
-                </select>
-                <div id="dynamic-inputs" style="margin-top: 10px;"></div>
-                <button class="btn-main" onclick="handleSaveData()">Save Data</button>
-                <button class="btn-text" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
+    <div class="form-box">
+        <p id="user-display-id" style="text-align:right; font-weight:bold;"></p>
+        <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
+        
+        <select id="new-cat" onchange="renderAdminFields()">
+            <option value="auto">ഓട്ടോ & ടാക്സി</option>
+            <option value="shops">കടകൾ</option>
+            <option value="workers">ജോലിക്കാർ</option>
+            <option value="catering">പണ്ടാരികൾ</option>
+            <option value="travels">ടാക്സി & ട്രാവൽ</option>
+            <option value="institutions">സ്ഥാപനങ്ങൾ</option>
+            <option value="leaders_gov">ജനപ്രതിനിധികൾ</option>
+            <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
+            <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
+        </select>
+
+        <div id="dynamic-inputs" style="margin-top: 10px;"></div>
+
+        <button class="btn-main" onclick="handleSaveData()">Save Data</button>
+        <button class="btn-text" onclick="handleLogout()">Logout</button>
+    </div>
+</div>
+
 
         <div id="list-screen" class="hidden">
             <div class="list-header">
@@ -188,4 +202,5 @@
 
     <script type="module" src="script.js"></script>
 </body>
-</html>
+    </html>
+    
