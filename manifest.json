@@ -7,7 +7,7 @@
   "theme_color": "#006400",
   "icons": [
     {
-      "src": "login.png",
+      "src": "sad.png",
       "sizes": "192x192",
       "type": "image/png"
     },
