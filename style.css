@@ -5,6 +5,9 @@
     --text: #333;
     --danger: #ff4444;
 }
+* {
+    box-sizing: border-box; /* ഇത് പാഡിംഗ് കാരണം വിഡ്ത്ത് കൂടുന്നത് തടയും */
+}
 
 /* 1. Base Styles */
 body, html { 
@@ -47,17 +50,24 @@ header {
 
 /* 4. Main Container */
 .container { 
-    padding: 15px;
-    padding-bottom: 150px !important; 
-    max-width: 500px;
+    /* വശങ്ങളിൽ 15px പാഡിംഗും താഴെ പഴയത് പോലെ 150px ഗ്യാപ്പും നൽകി */
+    padding: 10px 15px 150px 15px !important; 
+    
+    /* വീതി സ്ക്രീനിന് ഉള്ളിൽ നിൽക്കാൻ */
+    width: 100%;
+    max-width: 500px; /* പഴയ വലിപ്പം നിലനിർത്തി */
     margin: 0 auto; 
+    
+    /* സ്ക്രോളിംഗ് സെറ്റിംഗ്സ് പഴയത് പോലെ തന്നെ */
     height: calc(100vh - 60px); 
     overflow-y: auto !important; 
     overflow-x: hidden;
-    width: 100%; 
     -webkit-overflow-scrolling: touch; 
+    
+    /* സൈഡ് മുറിഞ്ഞു പോകാതിരിക്കാൻ ഇത് നിർബന്ധമാണ് */
     box-sizing: border-box;
 }
+
 
 /* 5. Sidebar & Overlay */
 .sidebar { position: fixed; left: -260px; width: 250px; height: 100%; background: white; z-index: 1001; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
@@ -71,11 +81,40 @@ header {
 /* 6. Grid System (Home Cards) */
 .grid { 
     display: grid; 
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr; /* രണ്ട് കോളങ്ങൾ */
     gap: 15px; 
     width: 100%;
+    padding: 5px; /* വശങ്ങളിൽ അല്പം ഗ്യാപ്പ് നൽകാൻ */
+    box-sizing: border-box;
 }
-.card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; cursor: pointer; }
+
+.card { 
+    background: white; 
+    padding: 20px 10px; /* മുകളിലും താഴെയും 20px, വശങ്ങളിൽ 10px */
+    border-radius: 20px; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    border: 1px solid #eee; 
+    cursor: pointer;
+    
+    /* വശങ്ങളിൽ മുറിഞ്ഞുപോകാതിരിക്കാൻ താഴെ പറയുന്നവ ചേർത്തു */
+    width: 100%; 
+    box-sizing: border-box; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card p {
+    font-weight: 800 !important; 
+    font-size: 16px !important;  /* അക്ഷരങ്ങൾ ബോക്സിന് പുറത്തേക്ക് പോകാതിരിക്കാൻ 16px ആണ് നല്ലത് */
+    color: #004d00;            
+    margin-top: 10px;
+    letter-spacing: 0.5px;      
+    word-wrap: break-word;       /* നീളമുള്ള വാക്കുകൾ ബോക്സിനുള്ളിൽ ഒതുക്കാൻ */
+}
+
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
 /* 7. Search Bar */
