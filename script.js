@@ -140,17 +140,28 @@ window.openCategory = async (catId, catName) => {
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px;">Delete</button>
                     </div>`;
             }
-
+            // openCategory ഫംഗ്ഷനുള്ളിൽ ലിസ്റ്റ് നിർമ്മിക്കുന്നതിന് തൊട്ടുമുമ്പ് ഇത് ചേർക്കുക
+let iconClass = "fas fa-info-circle"; // ഡിഫോൾട്ട് ഐക്കൺ
+if (catId === 'auto') iconClass = "fas fa-taxi";
+else if (catId === 'shops') iconClass = "fas fa-store";
+else if (catId === 'workers') iconClass = "fas fa-tools";
+else if (catId === 'catering') iconClass = "fas fa-utensils";
+            
             // script.js-ൽ openCategory ഫംഗ്ഷനുള്ളിലെ ലിസ്റ്റ് നിർമ്മിക്കുന്ന ഭാഗം
 container.innerHTML += `
     <div class="person-card">
         <div class="person-info">
             <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
             <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
-            <small><i class="fas fa-taxi" style="color: #f1c40f;"></i> ${vehicleDisplay}</small>
-
+            
+            ${catId === 'auto' ? `
+                <small><i class="${iconClass}" style="color: #f1c40f;"></i> ${vehicleDisplay}</small>
+            ` : ""}
+            
             ${extraInfo}
         </div>
+        ...
+    </div>`;
 
         <div class="call-section">
             <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
