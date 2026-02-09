@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -17,16 +17,19 @@ const auth = getAuth(app);
 
 let currentUser = null;
 
+// കാറ്റഗറി കോൺഫിഗറേഷനിൽ അറിയിപ്പുകൾ (announcements) കൂടി ചേർത്തു
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
     'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
     'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
+    'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// 1. Splash Screen Logic
+// 1. Splash Screen & News Ticker Loader
 window.addEventListener('DOMContentLoaded', () => {
+    loadScrollingNews(); // ആപ്പ് തുറക്കുമ്പോൾ അറിയിപ്പ് ലോഡ് ചെയ്യുന്നു
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -35,6 +38,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }, 2500);
 });
+
+// മുകളിൽ വാർത്തകൾ സ്ക്രോൾ ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+async function loadScrollingNews() {
+    try {
+        const q = query(collection(db, 'announcements'), limit(1));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const lastDoc = querySnapshot.docs[0].data();
+            const ticker = document.getElementById('latest-news');
+            if(ticker) ticker.innerText = `${lastDoc.name}: ${lastDoc.description}`;
+        }
+    } catch (e) { console.error("News Load Error:", e); }
+}
 
 // 2. Navigation & UI Helpers
 function hideAll() {
@@ -52,15 +68,21 @@ window.showHome = () => {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
+    loadScrollingNews(); // ഹോമിൽ വരുമ്പോൾ വാർത്ത അപ്ഡേറ്റ് ചെയ്യുന്നു
 };
 
 window.toggleMenu = () => {
-    document.getElementById('sidebar').classList.toggle('active');
-    const overlay = document.getElementById('overlay');
-    overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        document.getElementById('overlay').style.display = 'none';
+    } else {
+        sidebar.classList.add('active');
+        document.getElementById('overlay').style.display = 'block';
+    }
 };
 
-// 3. Category Data Loading
+// 3. Category Data Loading (Modified for Announcements)
 window.openCategory = async (catId, catName) => {
     hideAll();
     const listScreen = document.getElementById('list-screen');
@@ -82,55 +104,53 @@ window.openCategory = async (catId, catName) => {
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
             
-            let extraInfo = "";
-            for (let key in d) {
-                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'ty' && key !== 'no') { 
-                    const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                    extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
-                }
-            }
+            let displayHTML = "";
 
-            let categoryIcon = "fas fa-info-circle";
-            if (catId === 'auto') categoryIcon = "fas fa-taxi";
-            else if (catId === 'shops') categoryIcon = "fas fa-store";
-            else if (catId === 'workers') categoryIcon = "fas fa-tools";
-            else if (catId === 'catering') categoryIcon = "fas fa-utensils";
-
-            let adminButtons = '';
-            if(currentUser) {
-                adminButtons = `
-                    <div class="admin-btns">
+            if (catId === 'announcements') {
+                // അറിയിപ്പുകൾക്കുള്ള പ്രത്യേക നോട്ടീസ് ഡിസൈൻ
+                displayHTML = `
+                <div class="person-card" style="border-left: 5px solid #ffeb33;">
+                    <div class="person-info" style="width: 100%;">
+                        <strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong>
+                        <p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>`;
-            }
+                    </div>` : ""}
+                </div>`;
+            } else {
+                // മറ്റ് വിഭാഗങ്ങൾക്കുള്ള പഴയ ഡിസൈൻ (ഫോൺ നമ്പർ അടക്കം)
+                let extraInfo = "";
+                for (let key in d) {
+                    if (!['name', 'phone', 'place', 'ty', 'no'].includes(key)) { 
+                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+                        extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
+                    }
+                }
 
-            container.innerHTML += `
+                displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
                         <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
                         <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
-                        
-                        ${catId === 'auto' ? `
-                            <small><i class="${categoryIcon}" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>
-                        ` : ""}
-
+                        ${catId === 'auto' ? `<small><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>` : ""}
                         ${extraInfo}
                     </div>
-
                     <div class="call-section">
                         <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
-                        <a href="tel:${d.phone}" class="call-btn-new">
-                            <i class="fas fa-phone-alt"></i>
-                        </a>
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i></a>
                     </div>
-                    
-                    ${adminButtons}
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
                 </div>`;
+            }
+            container.innerHTML += displayHTML;
         });
     } catch (e) { 
         container.innerHTML = "<p style='text-align:center;'>Error loading data!</p>";
-        console.error(e); 
     }
 };
 
@@ -141,7 +161,11 @@ window.renderAdminFields = () => {
     const fields = categoryConfig[cat] || categoryConfig['default'];
     container.innerHTML = ""; 
     for (let key in fields) {
-        container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
+        if(key === 'description') {
+            container.innerHTML += `<textarea id="field-${key}" placeholder="${fields[key]}" style="width:100%; height:80px; margin-bottom:10px; padding:8px; border-radius:5px; border:1px solid #ccc;"></textarea>`;
+        } else {
+            container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
+        }
     }
 };
 
@@ -158,6 +182,7 @@ window.handleSaveData = async () => {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
         renderAdminFields(); 
+        if(cat === 'announcements') loadScrollingNews();
     } catch (e) { alert("Error saving data!"); }
 };
 
@@ -227,4 +252,3 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-
