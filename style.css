@@ -5,8 +5,9 @@
     --text: #333;
     --danger: #ff4444;
 }
+
 * {
-    box-sizing: border-box; /* ഇത് പാഡിംഗ് കാരണം വിഡ്ത്ത് കൂടുന്നത് തടയും */
+    box-sizing: border-box;
 }
 
 /* 1. Base Styles */
@@ -18,9 +19,9 @@ body, html {
     color: var(--text);
     height: 100%;
     width: 100%;
-    overflow: hidden; /* ബോഡി സ്ക്രോൾ തടയുന്നു */
-    -webkit-text-size-adjust: 100%; /* അക്ഷരങ്ങൾ തനിയെ ചെറുതാകാതിരിക്കാൻ */
-    touch-action: manipulation; /* അനാവശ്യ സൂമിംഗ് ഒഴിവാക്കാൻ */
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
 /* 2. Splash Screen */
@@ -50,24 +51,16 @@ header {
 
 /* 4. Main Container */
 .container { 
-    /* വശങ്ങളിൽ 15px പാഡിംഗും താഴെ പഴയത് പോലെ 150px ഗ്യാപ്പും നൽകി */
     padding: 10px 15px 150px 15px !important; 
-    
-    /* വീതി സ്ക്രീനിന് ഉള്ളിൽ നിൽക്കാൻ */
     width: 100%;
-    max-width: 500px; /* പഴയ വലിപ്പം നിലനിർത്തി */
+    max-width: 500px; 
     margin: 0 auto; 
-    
-    /* സ്ക്രോളിംഗ് സെറ്റിംഗ്സ് പഴയത് പോലെ തന്നെ */
     height: calc(100vh - 60px); 
     overflow-y: auto !important; 
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch; 
-    
-    /* സൈഡ് മുറിഞ്ഞു പോകാതിരിക്കാൻ ഇത് നിർബന്ധമാണ് */
     box-sizing: border-box;
 }
-
 
 /* 5. Sidebar & Overlay */
 .sidebar { position: fixed; left: -260px; width: 250px; height: 100%; background: white; z-index: 1001; transition: 0.3s; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
@@ -81,23 +74,21 @@ header {
 /* 6. Grid System (Home Cards) */
 .grid { 
     display: grid; 
-    grid-template-columns: 1fr 1fr; /* രണ്ട് കോളങ്ങൾ */
+    grid-template-columns: 1fr 1fr; 
     gap: 15px; 
     width: 100%;
-    padding: 5px; /* വശങ്ങളിൽ അല്പം ഗ്യാപ്പ് നൽകാൻ */
+    padding: 5px; 
     box-sizing: border-box;
 }
 
 .card { 
     background: white; 
-    padding: 20px 10px; /* മുകളിലും താഴെയും 20px, വശങ്ങളിൽ 10px */
+    padding: 20px 10px; 
     border-radius: 20px; 
     text-align: center; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
     border: 1px solid #eee; 
     cursor: pointer;
-    
-    /* വശങ്ങളിൽ മുറിഞ്ഞുപോകാതിരിക്കാൻ താഴെ പറയുന്നവ ചേർത്തു */
     width: 100%; 
     box-sizing: border-box; 
     display: flex;
@@ -108,38 +99,37 @@ header {
 
 .card p {
     font-weight: 800 !important; 
-    font-size: 16px !important;  /* അക്ഷരങ്ങൾ ബോക്സിന് പുറത്തേക്ക് പോകാതിരിക്കാൻ 16px ആണ് നല്ലത് */
+    font-size: 16px !important;  
     color: #004d00;            
     margin-top: 10px;
     letter-spacing: 0.5px;      
-    word-wrap: break-word;       /* നീളമുള്ള വാക്കുകൾ ബോക്സിനുള്ളിൽ ഒതുക്കാൻ */
+    word-wrap: break-word;       
 }
-
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
 /* 7. Search Bar */
 #search-input {
     width: 100%;
-    padding: 14px 20px;
+    padding: 15px 20px !important;
     margin: 10px 0 20px 0;
     border: 2px solid var(--primary);
     border-radius: 15px;
-    font-size: 16px !important; /* സൂം ഒഴിവാക്കാൻ 16px നിർബന്ധമാണ് */
+    font-size: 18px !important; 
     box-sizing: border-box;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     font-family: 'Manjari';
 }
 
-/* 8. Professional List Card Design */
+/* 8. Professional List Card Design - വലുപ്പവും അക്ഷരങ്ങളും പുതുക്കിയത് */
 .person-card {
     background: #ffffff;
-    padding: 18px;
+    padding: 20px !important;
     border-radius: 18px;
     margin-bottom: 15px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 15px !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     border-left: 6px solid var(--primary);
     position: relative;
@@ -148,54 +138,70 @@ header {
 .person-card:active { transform: scale(0.98); }
 
 .person-info strong {
-    font-size: 22px; /* പേര് വലുതാക്കി */
+    font-size: 24px !important; 
     color: var(--primary);
     display: block;
-    margin-bottom: 4px;
-}
-.person-info small {
-    font-size: 16px; /* വിവരങ്ങൾ കൂടുതൽ വ്യക്തമാക്കി */
-    color: #444; 
-    display: block;
-    line-height: 1.5;
+    margin-bottom: 6px;
+    font-weight: 800; 
 }
 
-/* Call Button */
-.action-buttons {
-    position: absolute;
-    right: 18px;
-    top: 40px; /* പേരിന് നേരെ വരാൻ */
+.person-info small {
+    font-size: 18px !important; 
+    color: #333; 
+    display: block;
+    line-height: 1.6;
+    margin-top: 2px;
 }
-.call-btn {
-    background: linear-gradient(135deg, var(--primary), #008000);
+
+/* --- പുതിയ കോൾ സെക്ഷൻ (താഴെ വരാൻ) --- */
+.call-section {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 5px;
+    padding-top: 12px;
+    border-top: 1px solid #eee; 
+}
+
+.phone-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.call-btn-new {
+    background: linear-gradient(135deg, #006400, #008000);
     color: white !important;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
+    padding: 8px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 100, 0, 0.3);
-    font-size: 22px;
-    text-decoration: none;
+    gap: 8px;
+    box-shadow: 0 4px 8px rgba(0, 100, 0, 0.2);
+}
+
+.call-btn-new:active {
+    transform: scale(0.95);
 }
 
 /* 9. Admin Controls */
 .admin-btns {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     border-top: 1px solid #eee;
     padding-top: 12px;
 }
 .admin-btns button {
     flex: 1;
-    padding: 10px;
+    padding: 12px !important;
     border: none;
     border-radius: 8px;
     font-family: 'Manjari';
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px !important;
     cursor: pointer;
 }
 .edit-btn { background: #fff3cd; color: #856404; }
@@ -211,45 +217,39 @@ input, select, textarea {
     border-radius: 10px; 
     box-sizing: border-box; 
     font-family: 'Manjari';
-    font-size: 16px !important; /* ഇൻപുട്ടുകളിൽ സൂം ഒഴിവാക്കാൻ */
+    font-size: 16px !important; 
 }
 .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 .btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
 .info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
 .back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
-/* 8. Professional List Card Design - അക്ഷരങ്ങൾ കൂടുതൽ വലുതാക്കാൻ */
+
+/* --- നിങ്ങൾ ആവശ്യപ്പെട്ട അഡീഷണൽ സൈസ് അപ്ഡേറ്റുകൾ --- */
+
 .person-info strong {
-    font-size: 24px !important; /* പേര് നല്ല വലിപ്പത്തിൽ കാണാൻ */
-    color: var(--primary);
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 800; /* കൂടുതൽ തെളിമയ്ക്ക് */
+    font-size: 24px !important; 
+    font-weight: 800;
 }
 
 .person-info small {
-    font-size: 18px !important; /* സ്ഥലവും ഫോൺ നമ്പറും വലിപ്പം കൂട്ടി */
-    color: #333; /* അക്ഷരങ്ങൾക്ക് കൂടുതൽ കട്ടി നൽകാൻ ഡാർക്ക് നിറം */
+    font-size: 18px !important; 
+    color: #333; 
     display: block;
     line-height: 1.6;
     margin-top: 2px;
 }
 
-/* കാർഡിനുള്ളിലെ ഗ്യാപ്പ് അല്പം കൂടി വർദ്ധിപ്പിക്കാൻ */
 .person-card {
     padding: 20px !important;
     gap: 15px !important;
 }
 
-/* തിരയുക (Search) എന്ന അക്ഷരവും വലുതാക്കാം */
 #search-input {
     font-size: 18px !important;
     padding: 15px 20px !important;
 }
 
-/* ബട്ടണുകളിലെ അക്ഷരങ്ങൾ */
 .admin-btns button {
     font-size: 16px !important;
     padding: 12px !important;
 }
-
-
