@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </head>
+  <div class="news-ticker" style="background: #ffeb33; color: black; padding: 5px; font-weight: bold;">
+    <marquee id="latest-news">പുതിയ അറിയിപ്പുകൾ ഇവിടെ കാണാം...</marquee>
+</div>
+  
 <body>
 
     <div id="splash">
@@ -85,6 +88,10 @@
             <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Help">
             <p>സഹായ കേന്ദ്രങ്ങൾ</p>
         </div>
+        <div class="card" onclick="openCategory('announcements', 'അറിയിപ്പുകൾ')">
+    <img src="https://cdn-icons-png.flaticon.com/512/1040/1040230.png" alt="Announcements">
+    <p>അറിയിപ്പുകൾ</p>
+</div>
     </div>
   </div>
 
