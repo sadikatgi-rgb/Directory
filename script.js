@@ -60,7 +60,7 @@ window.toggleMenu = () => {
     overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
 };
 
-// 3. Category Data Loading (Fixed Logic)
+// 3. Category Data Loading
 window.openCategory = async (catId, catName) => {
     hideAll();
     const listScreen = document.getElementById('list-screen');
@@ -82,7 +82,6 @@ window.openCategory = async (catId, catName) => {
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
             
-            // മറ്റ് വിവരങ്ങൾ വേർതിരിച്ചെടുക്കുന്നു
             let extraInfo = "";
             for (let key in d) {
                 if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'ty' && key !== 'no') { 
@@ -91,7 +90,6 @@ window.openCategory = async (catId, catName) => {
                 }
             }
 
-            // ഓരോ കാറ്റഗറിക്കും അനുയോജ്യമായ ഐക്കൺ
             let categoryIcon = "fas fa-info-circle";
             if (catId === 'auto') categoryIcon = "fas fa-taxi";
             else if (catId === 'shops') categoryIcon = "fas fa-store";
@@ -107,7 +105,6 @@ window.openCategory = async (catId, catName) => {
                     </div>`;
             }
 
-            // കാർഡ് നിർമ്മാണം
             container.innerHTML += `
                 <div class="person-card">
                     <div class="person-info">
@@ -116,10 +113,6 @@ window.openCategory = async (catId, catName) => {
                         
                         ${catId === 'auto' ? `
                             <small><i class="${categoryIcon}" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>
-                        ` : ""}
-
-                        ${catId === 'shops' ? `
-                            <small><i class="${categoryIcon}" style="color: #f39c12;"></i> ഷോപ്പ് വിഭാഗം</small>
                         ` : ""}
 
                         ${extraInfo}
@@ -234,3 +227,4 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+
