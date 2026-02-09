@@ -17,7 +17,6 @@ const auth = getAuth(app);
 
 let currentUser = null;
 
-// ഓരോ വിഭാഗത്തിനും ആവശ്യമായ ഫീൽഡുകൾ
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'no': 'വാഹന നമ്പർ' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
@@ -26,7 +25,6 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// Splash Screen നിയന്ത്രണം
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const splash = document.getElementById('splash');
@@ -37,7 +35,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
-// അഡ്മിൻ പാനലിൽ ഫീൽഡുകൾ മാറ്റാൻ
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
     const container = document.getElementById('dynamic-inputs');
@@ -48,7 +45,6 @@ window.renderAdminFields = () => {
     }
 };
 
-// സ്ക്രീനുകൾ ഒളിപ്പിക്കാൻ
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
@@ -59,18 +55,15 @@ function hideAll() {
     if(container) container.scrollTop = 0;
 }
 
-// ഡാറ്റ സേവ് ചെയ്യാൻ
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
     let dataToSave = {};
-
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
         dataToSave[key] = val;
     }
-
     try {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
@@ -78,7 +71,6 @@ window.handleSaveData = async () => {
     } catch (e) { alert("Error saving data!"); }
 };
 
-// ഡിലീറ്റ് ചെയ്യാൻ
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
         try {
@@ -89,18 +81,15 @@ window.deleteEntry = async (catId, docId) => {
     }
 };
 
-// എഡിറ്റ് ചെയ്യാൻ
 window.editEntry = async (catId, docId, currentDataStr) => {
     const currentData = JSON.parse(decodeURIComponent(currentDataStr));
     const fields = categoryConfig[catId] || categoryConfig['default'];
     let newData = {};
-    
     for (let key in fields) {
         const val = prompt(`${fields[key]} തിരുത്തുക:`, currentData[key] || "");
         if (val === null) return; 
         newData[key] = val;
     }
-
     try {
         await updateDoc(doc(db, catId, docId), newData);
         alert("വിവരങ്ങൾ പുതുക്കി!");
@@ -108,7 +97,7 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     } catch (e) { alert("Error updating!"); }
 };
 
-// കാറ്റഗറി ലിസ്റ്റ് കാണിക്കാൻ (പ്രൊഫഷണൽ ലുക്ക്)
+// അപ്ഡേറ്റ് ചെയ്ത വിഭാഗം (Professional List View)
 window.openCategory = async (catId, catName) => {
     hideAll();
     const listScreen = document.getElementById('list-screen');
@@ -120,7 +109,6 @@ window.openCategory = async (catId, catName) => {
     try {
         const querySnapshot = await getDocs(collection(db, catId));
         container.innerHTML = "";
-        
         if (querySnapshot.empty) {
             container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
             return;
@@ -131,61 +119,62 @@ window.openCategory = async (catId, catName) => {
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
             
-            // അധിക വിവരങ്ങൾ ഓട്ടോമാറ്റിക്കായി കാണിക്കുന്നു
+            // മറ്റ് വിവരങ്ങൾ വേർതിരിച്ചെടുക്കുന്നു
             let extraInfo = "";
             for (let key in d) {
-                if (key !== 'name' && key !== 'phone' && key !== 'place') {
+                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'no') {
                     const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                     extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                 }
             }
 
-            let adminSection = '';
+            // ഓട്ടോ സെക്ഷൻ ആണെങ്കിൽ വാഹന നമ്പർ പ്രത്യേകം കാണിക്കുന്നു
+            let vehicleNo = d.no ? `വാഹന നമ്പർ: ${d.no}` : "";
+
+            let adminButtons = '';
             if(currentUser) {
-                adminSection = `
-                    <div class="admin-btns">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                adminButtons = `
+                    <div class="admin-btns" style="margin-top:10px; display:flex; gap:10px;">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; padding:5px; background:#ffc107; border:none; border-radius:5px;">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px;">Delete</button>
                     </div>`;
             }
 
+            // നിങ്ങൾ ആവശ്യപ്പെട്ട പുതിയ കാർഡ് ഡിസൈൻ
             container.innerHTML += `
                 <div class="person-card">
                     <div class="person-info">
                         <strong>${d.name}</strong>
-                        <small style="display:block; margin-bottom:2px;">📍 ${d.place}</small>
-                        <small style="display:block; margin-bottom:5px;">📞 ${d.phone}</small>
+                        <small>📍 ${d.place}</small>
+                        <small>${vehicleNo}</small>
                         ${extraInfo}
                     </div>
-                    <div class="action-buttons">
-                        <a href="tel:${d.phone}" class="call-btn">📞</a>
+
+                    <div class="call-section">
+                        <span class="phone-number">${d.phone}</span>
+                        <a href="tel:${d.phone}" class="call-btn-new">
+                            <i class="fas fa-phone-alt"></i> വിളിക്കൂ
+                        </a>
                     </div>
-                    ${adminSection}
+                    
+                    ${adminButtons}
                 </div>`;
         });
-    } catch (e) { container.innerHTML = "Error!"; }
+    } catch (e) { container.innerHTML = "Error!"; console.error(e); }
 };
 
-// തിരച്ചിൽ (Search) ഫംഗ്ഷൻ
 window.filterResults = () => {
     const input = document.getElementById('search-input');
     const filter = input.value.toLowerCase();
     const container = document.getElementById('list-container');
     const cards = container.getElementsByClassName('person-card');
-
     for (let i = 0; i < cards.length; i++) {
         const info = cards[i].getElementsByClassName('person-info')[0];
         const text = info.textContent || info.innerText;
-        
-        if (text.toLowerCase().indexOf(filter) > -1) {
-            cards[i].style.display = ""; 
-        } else {
-            cards[i].style.display = "none"; 
-        }
+        cards[i].style.display = text.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     }
 };
 
-// നാവിഗേഷൻ ഫംഗ്ഷനുകൾ
 window.toggleMenu = () => {
     document.getElementById('sidebar').classList.toggle('active');
     const overlay = document.getElementById('overlay');
