@@ -129,7 +129,8 @@ window.openCategory = async (catId, catName) => {
             }
 
             // ഓട്ടോ സെക്ഷൻ ആണെങ്കിൽ വാഹന നമ്പർ പ്രത്യേകം കാണിക്കുന്നു
-            let vehicleType = d.ty ? `വാഹന ഇനം: ${d.ty}` : "";
+            let vehicleDisplay = d.ty ? `വാഹന ഇനം: ${d.ty}` : "";
+
 
             let adminButtons = '';
             if(currentUser) {
@@ -146,7 +147,8 @@ container.innerHTML += `
         <div class="person-info">
             <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
             <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
-            <small><i class="fas fa-taxi" style="color: #f1c40f;"></i> ${vehicleNo}</small>
+            <small><i class="fas fa-taxi" style="color: #f1c40f;"></i> ${vehicleDisplay}</small>
+
             ${extraInfo}
         </div>
 
