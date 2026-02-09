@@ -122,57 +122,63 @@ window.openCategory = async (catId, catName) => {
             // മറ്റ് വിവരങ്ങൾ വേർതിരിച്ചെടുക്കുന്നു
             let extraInfo = "";
             for (let key in d) {
-                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'ty') { 
+                // പേര്, ഫോൺ, സ്ഥലം, ty എന്നിവ ലിസ്റ്റിൽ താഴെ വരാതിരിക്കാൻ
+                if (key !== 'name' && key !== 'phone' && key !== 'place' && key !== 'ty' && key !== 'no') { 
                     const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                     extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                 }
             }
 
-            // ഓട്ടോ സെക്ഷൻ ആണെങ്കിൽ വാഹന നമ്പർ പ്രത്യേകം കാണിക്കുന്നു
-            let vehicleDisplay = d.ty ? `വാഹന ഇനം: ${d.ty}` : "";
-
+            // ഓരോ കാറ്റഗറിക്കും അനുയോജ്യമായ ഐക്കൺ തീരുമാനിക്കുന്നു
+            let categoryIcon = "fas fa-info-circle";
+            if (catId === 'auto') categoryIcon = "fas fa-taxi";
+            else if (catId === 'shops') categoryIcon = "fas fa-store";
+            else if (catId === 'workers') categoryIcon = "fas fa-tools";
+            else if (catId === 'catering') categoryIcon = "fas fa-utensils";
 
             let adminButtons = '';
             if(currentUser) {
                 adminButtons = `
-                    <div class="admin-btns" style="margin-top:10px; display:flex; gap:10px;">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; padding:5px; background:#ffc107; border:none; border-radius:5px;">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px;">Delete</button>
+                    <div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>`;
             }
-            // openCategory ഫംഗ്ഷനുള്ളിൽ ലിസ്റ്റ് നിർമ്മിക്കുന്നതിന് തൊട്ടുമുമ്പ് ഇത് ചേർക്കുക
-            let iconClass = "fas fa-info-circle"; // ഡിഫോൾട്ട് ഐക്കൺ
-            if (catId === 'auto') iconClass = "fas fa-taxi";
-            else if (catId === 'shops') iconClass = "fas fa-store";
-            else if (catId === 'workers') iconClass = "fas fa-tools";
-            else if (catId === 'catering') iconClass = "fas fa-utensils";
 
-            // script.js-ൽ openCategory ഫംഗ്ഷനുള്ളിലെ ലിസ്റ്റ് നിർമ്മിക്കുന്ന ഭാഗം
+            // കാർഡ് നിർമ്മാണം (ശരിയായ സിന്റാക്സ്)
             container.innerHTML += `
-    <div class="person-card">
-        <div class="person-info">
-            <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
-            <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
-            
-            ${catId === 'auto' ? `
-                <small><i class="${iconClass}" style="color: #f1c40f;"></i> ${vehicleDisplay}</small>
-            ` : ""}
-            
-            ${extraInfo}
-        </div>
-        ...
-    </div>`;
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
+                        <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
+                        
+                        ${catId === 'auto' ? `
+                            <small><i class="${categoryIcon}" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>
+                        ` : ""}
 
-        <div class="call-section">
-            <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
-            <a href="tel:${d.phone}" class="call-btn-new">
-                <i class="fas fa-phone-alt"></i>
-            </a>
-        </div>
-        
-        ${adminButtons}
-    </div>`;
+                        ${catId === 'shops' ? `
+                            <small><i class="${categoryIcon}" style="color: #f39c12;"></i> ഷോപ്പ് വിഭാഗം</small>
+                        ` : ""}
+
+                        ${extraInfo}
+                    </div>
+
+                    <div class="call-section">
+                        <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
+                        <a href="tel:${d.phone}" class="call-btn-new">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                    </div>
+                    
+                    ${adminButtons}
+                </div>`;
         });
+    } catch (e) { 
+        container.innerHTML = "Error!"; 
+        console.error("Error loading category:", e); 
+    }
+};
+
     } catch (e) { container.innerHTML = "Error!"; console.error(e); }
 };
 
