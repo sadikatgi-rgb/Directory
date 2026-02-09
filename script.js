@@ -18,7 +18,7 @@ const auth = getAuth(app);
 let currentUser = null;
 
 const categoryConfig = {
-    'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'no': 'വാഹന നമ്പർ' },
+    'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'no': 'വാഹന ഇനം' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
     'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
     'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
@@ -129,7 +129,7 @@ window.openCategory = async (catId, catName) => {
             }
 
             // ഓട്ടോ സെക്ഷൻ ആണെങ്കിൽ വാഹന നമ്പർ പ്രത്യേകം കാണിക്കുന്നു
-            let vehicleNo = d.no ? `വാഹന നമ്പർ: ${d.no}` : "";
+            let vehicleType = d.ty ? `വാഹന ഇനം: ${d.ty}` : "";
 
             let adminButtons = '';
             if(currentUser) {
@@ -140,25 +140,25 @@ window.openCategory = async (catId, catName) => {
                     </div>`;
             }
 
-            // നിങ്ങൾ ആവശ്യപ്പെട്ട പുതിയ കാർഡ് ഡിസൈൻ
-            container.innerHTML += `
-                <div class="person-card">
-                    <div class="person-info">
-                        <strong>${d.name}</strong>
-                        <small>📍 ${d.place}</small>
-                        <small>${vehicleNo}</small>
-                        ${extraInfo}
-                    </div>
+            // script.js-ൽ openCategory ഫംഗ്ഷനുള്ളിലെ ലിസ്റ്റ് നിർമ്മിക്കുന്ന ഭാഗം
+container.innerHTML += `
+    <div class="person-card">
+        <div class="person-info">
+            <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
+            <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
+            <small><i class="fas fa-taxi" style="color: #f1c40f;"></i> ${vehicleNo}</small>
+            ${extraInfo}
+        </div>
 
-                    <div class="call-section">
-                        <span class="phone-number">${d.phone}</span>
-                        <a href="tel:${d.phone}" class="call-btn-new">
-                            <i class="fas fa-phone-alt"></i> വിളിക്കൂ
-                        </a>
-                    </div>
-                    
-                    ${adminButtons}
-                </div>`;
+        <div class="call-section">
+            <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
+            <a href="tel:${d.phone}" class="call-btn-new">
+                <i class="fas fa-phone-alt"></i>
+            </a>
+        </div>
+        
+        ${adminButtons}
+    </div>`;
         });
     } catch (e) { container.innerHTML = "Error!"; console.error(e); }
 };
