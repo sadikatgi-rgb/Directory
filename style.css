@@ -62,7 +62,7 @@ header {
     box-sizing: border-box;
 }
 
-/* 5. Sidebar & Overlay - ഗ്യാപ്പ് ഒഴിവാക്കി പരിഷ്കരിച്ചത് */
+/* 5. Sidebar & Overlay - വിടവ് പൂർണ്ണമായും ഒഴിവാക്കിയത് */
 .sidebar { 
     position: fixed; 
     left: -260px; 
@@ -81,21 +81,27 @@ header {
     width: 100%; 
     margin: 0;      
     padding: 0;     
-    line-height: 0; 
-    overflow: hidden; 
+    line-height: 0; /* ചിത്രത്തിന് താഴെയുള്ള സ്പേസ് ഒഴിവാക്കാൻ */
+    font-size: 0;
+    height: auto;   /* നിശ്ചിത ഉയരം ഒഴിവാക്കി */
 }
+
 .sidebar-top-img img { 
     display: block; 
     width: 100%; 
     height: auto; 
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .sidebar-header { 
     background-color: var(--primary); 
     color: white; 
     padding: 15px; 
-    margin-top: 0; 
+    margin-top: 0;  /* ചിത്രത്തിന് തൊട്ടുതാഴെ ചേർന്നിരിക്കാൻ */
     font-weight: bold; 
+    border: none;
 }
 
 .sidebar a { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; }
@@ -273,4 +279,3 @@ input, select, textarea {
     margin: 10px 0;
     border-radius: 8px;
 }
-
