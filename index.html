@@ -51,7 +51,6 @@
     </div>
 
     <div class="container" id="main-container">
-        
         <div id="home-screen">
             <div class="grid">
                 <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
@@ -204,6 +203,95 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
+            authDomain: "directory-f4474.firebaseapp.com",
+            projectId: "directory-f4474",
+            storageBucket: "directory-f4474.firebasestorage.app",
+            messagingSenderId: "681119733857",
+            appId: "1:681119733857:web:e77d5ab9571a35aff1f220"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const messaging = getMessaging(app);
+
+        let currentUser = null;
+
+        // ഉപയോക്താക്കളെ നോട്ടിഫിക്കേഷൻ ടോപ്പിക്കിലേക്ക് സബ്സ്ക്രൈബ് ചെയ്യിക്കുന്നു
+        function subscribeToTopic() {
+            getToken(messaging, { vapidKey: 'നിങ്ങളുടെ_VAPID_KEY_ഇവിടെ_നൽകാം_അല്ലെങ്കിൽ_ഒഴിവാക്കാം' })
+            .then((token) => {
+                if (token) {
+                    fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/announcements`, {
+                        method: 'POST',
+                        headers: { 'Authorization': 'key=AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8' }
+                    });
+                }
+            }).catch((err) => console.log('Token Error:', err));
+        }
+        
+        // ആപ്പ് ലോഡ് ചെയ്യുമ്പോൾ സബ്സ്ക്രിപ്ഷൻ നടക്കുന്നു
+        subscribeToTopic();
+
+        const categoryConfig = {
+            'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
+            'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
+            'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
+            'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
+            'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
+            'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
+        };
+
+        window.handleSaveData = async () => {
+            const cat = document.getElementById('new-cat').value;
+            const fields = categoryConfig[cat] || categoryConfig['default'];
+            let dataToSave = {};
+            for (let key in fields) {
+                const val = document.getElementById(`field-${key}`).value;
+                if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
+                dataToSave[key] = val;
+            }
+            try {
+                await addDoc(collection(db, cat), dataToSave);
+                alert("വിജയകരമായി ചേർത്തു!");
+
+                // അറിയിപ്പുകൾ ആണെങ്കിൽ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+                if (cat === 'announcements') {
+                    const SERVER_KEY = "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8";
+                    fetch('https://fcm.googleapis.com/fcm/send', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'key=' + SERVER_KEY,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "to": "/topics/announcements",
+                            "notification": {
+                                "title": dataToSave.name,
+                                "body": dataToSave.description,
+                                "icon": "icon.png",
+                                "click_action": window.location.origin
+                            }
+                        })
+                    });
+                    loadScrollingNews();
+                }
+                renderAdminFields(); 
+            } catch (e) { alert("Error saving data!"); }
+        };
+
+        // ... (ബാക്കി നിങ്ങളുടെ പഴയ JavaScript ഫംഗ്ഷനുകൾ താഴെ തുടർന്ന് ചേർക്കാം)
+        // ശ്രദ്ധിക്കുക: script.js-ലെ ബാക്കി ഫംഗ്ഷനുകൾ ഇവിടെ എഴുതുകയോ 
+        // അല്ലെങ്കിൽ മുകളിലെ handleSaveData മാത്രം മാറ്റി script.js അപ്ഡേറ്റ് ചെയ്യുകയോ ചെയ്യാം.
+    </script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
