@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
@@ -14,10 +15,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const messaging = getMessaging(app);
 
 let currentUser = null;
 
-// കാറ്റഗറി കോൺഫിഗറേഷനിൽ അറിയിപ്പുകൾ (announcements) കൂടി ചേർത്തു
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
@@ -27,9 +28,9 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// 1. Splash Screen & News Ticker Loader
+// 1. Splash Screen & News Loader
 window.addEventListener('DOMContentLoaded', () => {
-    loadScrollingNews(); // ആപ്പ് തുറക്കുമ്പോൾ അറിയിപ്പ് ലോഡ് ചെയ്യുന്നു
+    loadScrollingNews();
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -39,28 +40,26 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
-// മുകളിൽ വാർത്തകൾ സ്ക്രോൾ ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+// പുതിയ അറിയിപ്പുകൾ മുകളിൽ വരാൻ ഓർഡർ അപ്‌ഡേറ്റ് ചെയ്തു
 async function loadScrollingNews() {
     try {
-        const q = query(collection(db, 'announcements'), limit(1));
+        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
         const querySnapshot = await getDocs(q);
+        const ticker = document.getElementById('latest-news');
         if (!querySnapshot.empty) {
             const lastDoc = querySnapshot.docs[0].data();
-            const ticker = document.getElementById('latest-news');
             if(ticker) ticker.innerText = `${lastDoc.name}: ${lastDoc.description}`;
         }
     } catch (e) { console.error("News Load Error:", e); }
 }
 
-// 2. Navigation & UI Helpers
+// 2. UI Helpers
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
         const el = document.getElementById(s);
         if(el) el.classList.add('hidden');
     });
-    const container = document.getElementById('main-container');
-    if(container) container.scrollTop = 0;
 }
 
 window.showHome = () => {
@@ -68,32 +67,41 @@ window.showHome = () => {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
-    loadScrollingNews(); // ഹോമിൽ വരുമ്പോൾ വാർത്ത അപ്ഡേറ്റ് ചെയ്യുന്നു
+    loadScrollingNews();
 };
 
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
     if(sidebar.classList.contains('active')) {
         sidebar.classList.remove('active');
-        document.getElementById('overlay').style.display = 'none';
+        overlay.style.display = 'none';
     } else {
         sidebar.classList.add('active');
-        document.getElementById('overlay').style.display = 'block';
+        overlay.style.display = 'block';
     }
 };
 
-// 3. Category Data Loading (Modified for Announcements)
+// 3. Category Data Loading (പുതിയത് മുകളിൽ വരാൻ timestamp ഓർഡർ ചേർത്തു)
 window.openCategory = async (catId, catName) => {
     hideAll();
-    const listScreen = document.getElementById('list-screen');
-    listScreen.classList.remove('hidden');
+    document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
 
     try {
-        const querySnapshot = await getDocs(collection(db, catId));
+        let q;
+        // അറിയിപ്പുകൾ ആണെങ്കിൽ സമയം നോക്കി ക്രമീകരിക്കും
+        if(catId === 'announcements') {
+            q = query(collection(db, catId), orderBy('timestamp', 'desc'));
+        } else {
+            q = query(collection(db, catId));
+        }
+
+        const querySnapshot = await getDocs(q);
         container.innerHTML = "";
+        
         if (querySnapshot.empty) {
             container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
             return;
@@ -121,7 +129,7 @@ window.openCategory = async (catId, catName) => {
             } else {
                 let extraInfo = "";
                 for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no'].includes(key)) { 
+                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp'].includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                     }
@@ -148,7 +156,7 @@ window.openCategory = async (catId, catName) => {
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
-        container.innerHTML = "<p style='text-align:center;'>Error loading data!</p>";
+        container.innerHTML = "<p style='text-align:center;'>ഇൻഡക്സ് സെറ്റ് ചെയ്യേണ്ടതുണ്ട്. കൺസോൾ നോക്കുക.</p>";
     }
 };
 
@@ -167,40 +175,33 @@ window.renderAdminFields = () => {
     }
 };
 
-// നോട്ടിഫിക്കേഷൻ അയക്കാനുള്ള ഫംഗ്ഷൻ (പുതിയത്)
 async function sendFCMNotification(title, message) {
     const serverKey = "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8"; 
-    const fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-    
-    const notificationPayload = {
-        "to": "/topics/announcements",
-        "notification": {
-            "title": title,
-            "body": message,
-            "icon": "icon.png",
-            "click_action": window.location.origin,
-            "sound": "default"
-        }
-    };
-
     try {
-        await fetch(fcmUrl, {
+        await fetch('https://fcm.googleapis.com/fcm/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'key=' + serverKey
             },
-            body: JSON.stringify(notificationPayload)
+            body: JSON.stringify({
+                "to": "/topics/announcements",
+                "notification": {
+                    "title": title,
+                    "body": message,
+                    "icon": "sad.png",
+                    "click_action": window.location.origin
+                }
+            })
         });
-    } catch (error) {
-        console.error("Notification Error:", error);
-    }
+    } catch (error) { console.error("Notification Error:", error); }
 }
 
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
-    let dataToSave = {};
+    let dataToSave = { timestamp: serverTimestamp() }; // സമയം ചേർക്കുന്നു
+    
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
@@ -210,12 +211,10 @@ window.handleSaveData = async () => {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
 
-        // അറിയിപ്പുകൾ ആണെങ്കിൽ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
         if (cat === 'announcements') {
             sendFCMNotification(dataToSave.name, dataToSave.description);
             loadScrollingNews();
         }
-
         renderAdminFields(); 
     } catch (e) { alert("Error saving data!"); }
 };
@@ -233,7 +232,7 @@ window.deleteEntry = async (catId, docId) => {
 window.editEntry = async (catId, docId, currentDataStr) => {
     const currentData = JSON.parse(decodeURIComponent(currentDataStr));
     const fields = categoryConfig[catId] || categoryConfig['default'];
-    let newData = {};
+    let newData = { timestamp: serverTimestamp() }; 
     for (let key in fields) {
         const val = prompt(`${fields[key]} തിരുത്തുക:`, currentData[key] || "");
         if (val === null) return; 
@@ -248,14 +247,11 @@ window.editEntry = async (catId, docId, currentDataStr) => {
 
 // 5. Search & Auth
 window.filterResults = () => {
-    const input = document.getElementById('search-input');
-    const filter = input.value.toLowerCase();
-    const container = document.getElementById('list-container');
-    const cards = container.getElementsByClassName('person-card');
+    const filter = document.getElementById('search-input').value.toLowerCase();
+    const cards = document.getElementsByClassName('person-card');
     for (let i = 0; i < cards.length; i++) {
-        const info = cards[i].getElementsByClassName('person-info')[0];
-        const text = info.textContent || info.innerText;
-        cards[i].style.display = text.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+        const text = cards[i].innerText.toLowerCase();
+        cards[i].style.display = text.includes(filter) ? "" : "none";
     }
 };
 
@@ -266,7 +262,9 @@ window.showAdminLogin = () => {
         renderAdminFields(); 
     }
     else document.getElementById('admin-login-screen').classList.remove('hidden');
-    toggleMenu(); 
+    // സ്ലൈഡ് ബാർ തനിയെ ക്ലോസ് ആക്കാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
 };
 
 window.handleLogin = async () => {
@@ -282,8 +280,7 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
-// Sidebar Page Links
+// Sidebar Links
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-
