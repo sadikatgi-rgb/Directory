@@ -239,7 +239,10 @@
         // 2. അറിയിപ്പുകൾ സബ്സ്ക്രൈബ് ചെയ്യുക
         async function subscribeToTopic() {
             try {
-                const token = await getToken(messaging, { vapidKey: 'നിങ്ങളുടെ_പുതിയ_VAPID_KEY_ഇവിടെ_നൽകുക' });
+                // ഇവിടെ നിങ്ങളുടെ VAPID KEY അപ്ഡേറ്റ് ചെയ്തു
+                const token = await getToken(messaging, { 
+                    vapidKey: 'BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls' 
+                });
                 if (token) {
                     fetch(`https://iid.googleapis.com/iid/v1/${token}/rel/topics/announcements`, {
                         method: 'POST',
