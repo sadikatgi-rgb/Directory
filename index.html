@@ -37,6 +37,7 @@
         <a href="#" onclick="showContentPage()">📖 ഉള്ളടക്കം</a>
         <a href="#" onclick="showAboutApp()">ℹ️ ആപ്പ് വിവരം</a>
         <a href="#" onclick="showLeaders()">👥 Leaders</a>
+        <a href="#" onclick="openCategory('admins', 'അഡ്മിൻസ്')">📞 അഡ്മിൻസ്</a>
         <a href="#" onclick="showAdminLogin()">🔑 അഡ്മിൻ ലോഗിൻ</a>
     </div>
 
@@ -186,6 +187,7 @@
                     <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
                     <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
                     <option value="announcements">അറിയിപ്പുകൾ</option>
+                    <option value="admins">അഡ്മിൻസ് (Contacts)</option>
                 </select>
                 <div id="dynamic-inputs" style="margin-top: 10px;"></div>
                 <button class="btn-main" onclick="handleSaveData()">Save Data</button>
@@ -223,7 +225,6 @@
         const auth = getAuth(app);
         const messaging = getMessaging(app);
 
-        // 1. മുകളിൽ ലേറ്റസ്റ്റ് അറിയിപ്പ് വരാനുള്ള ഫംഗ്ഷൻ (OrderBy Timestamp)
         window.loadScrollingNews = async () => {
             try {
                 const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
@@ -236,10 +237,8 @@
             } catch (e) { console.error("News Load Error:", e); }
         };
 
-        // 2. അറിയിപ്പുകൾ സബ്സ്ക്രൈബ് ചെയ്യുക
         async function subscribeToTopic() {
             try {
-                // ഇവിടെ നിങ്ങളുടെ VAPID KEY അപ്ഡേറ്റ് ചെയ്തു
                 const token = await getToken(messaging, { 
                     vapidKey: 'BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls' 
                 });
@@ -259,15 +258,15 @@
             'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
             'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
             'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
+            'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, // പുതിയ വിഭാഗം
             'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
             'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
         };
 
-        // 3. ഡാറ്റ സേവ് ചെയ്യുമ്പോൾ Timestamp കൂടി ചേർക്കുന്നു
         window.handleSaveData = async () => {
             const cat = document.getElementById('new-cat').value;
             const fields = categoryConfig[cat] || categoryConfig['default'];
-            let dataToSave = { timestamp: serverTimestamp() }; // സമയം ചേർക്കുന്നു
+            let dataToSave = { timestamp: serverTimestamp() }; 
             
             for (let key in fields) {
                 const val = document.getElementById(`field-${key}`).value;
@@ -280,7 +279,6 @@
                 alert("വിജയകരമായി ചേർത്തു!");
 
                 if (cat === 'announcements') {
-                    // നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
                     fetch('https://fcm.googleapis.com/fcm/send', {
                         method: 'POST',
                         headers: {
