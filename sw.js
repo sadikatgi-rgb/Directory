@@ -19,7 +19,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: 'sad.png', // പാത്ത് ശരിയാണെന്ന് ഉറപ്പാക്കുക
+    icon: 'log.png', // പാത്ത് ശരിയാണെന്ന് ഉറപ്പാക്കുക
     data: { url: self.location.origin } // നോട്ടിഫിക്കേഷനിൽ ക്ലിക്ക് ചെയ്താൽ ആപ്പ് തുറക്കാൻ
   };
 
