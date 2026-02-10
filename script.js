@@ -92,11 +92,10 @@ window.openCategory = async (catId, catName) => {
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
 
-    // --- സെർച്ച് ബാർ നിയന്ത്രിക്കാൻ (New Update) ---
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
         searchInput.style.display = (catId === 'admins') ? 'none' : 'block';
-        searchInput.value = ""; // സെർച്ച് ക്ലിയർ ചെയ്യാൻ
+        searchInput.value = ""; 
     }
 
     try {
@@ -109,9 +108,20 @@ window.openCategory = async (catId, catName) => {
 
         const querySnapshot = await getDocs(q);
         container.innerHTML = "";
+
+        // --- അഡ്മിൻ പേജിൽ മാത്രം ബ്ലിങ്കിംഗ് ടെക്സ്റ്റ് ചേർക്കുന്നു ---
+        if (catId === 'admins') {
+            container.innerHTML += `
+            <div class="blink-text" style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; border: 1px solid #ffeeba; text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 15px; animation: blinker 1.5s linear infinite;">
+                " പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "
+            </div>
+            <style>
+                @keyframes blinker { 50% { opacity: 0.3; } }
+            </style>`;
+        }
         
         if (querySnapshot.empty) {
-            container.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            container.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
             return;
         }
 
@@ -135,14 +145,15 @@ window.openCategory = async (catId, catName) => {
                     </div>` : ""}
                 </div>`;
             } else if (catId === 'admins') {
+                // --- അഡ്മിൻസ് സെക്ഷൻ ഡിസൈൻ മാറ്റം (കട്ടി കുറച്ച പേരും കോൾ ബട്ടണും) ---
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
-                        <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                        <strong style="font-weight: 500; font-size: 17px; color: #006400;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small style="display:block; margin-top:5px; font-weight: bold;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
                     </div>
                     <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new" style="background:#006400;"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                        <a href="tel:${d.phone}" class="call-btn-new" style="background:#006400; color:white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 14px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
                     </div>
                     ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
@@ -179,7 +190,7 @@ window.openCategory = async (catId, catName) => {
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
-        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു. ഇൻഡക്സ് ആവശ്യമായിരിക്കാം.</p>";
+        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
     }
     
     const sidebar = document.getElementById('sidebar');
@@ -252,7 +263,6 @@ window.deleteEntry = async (catId, docId) => {
         try {
             await deleteDoc(doc(db, catId, docId));
             alert("നീക്കം ചെയ്തു!");
-            // ഹോമിലേക്ക് പോകാതെ ആ ലിസ്റ്റ് തന്നെ റിഫ്രഷ് ചെയ്യാൻ
             const title = document.getElementById('current-cat-title').innerText;
             openCategory(catId, title); 
         } catch (e) { alert("Error deleting!"); }
