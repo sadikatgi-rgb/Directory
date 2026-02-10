@@ -8,16 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#006400">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#006400">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log("Service Worker Registered"));
-  }
-</script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(() => console.log("Service Worker Registered"));
+      }
+    </script>
 </head>
 <body>
     <div id="splash">
@@ -99,7 +99,7 @@
 
         <div id="content-info-screen" class="hidden content-screen">
             <div class="info-card">
-                <button onclick="showHome()" class="back-btn">← Back</button>
+                <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
                 <h3 style="text-align: center; color: var(--primary);">ഉള്ളടക്കം</h3>
                 <div class="scroll-content">
                     <p>എസ്.വൈ.എസ് 70-ാം വാർഷികം അനുബന്ധിച്ച് യൂണിറ്റുകളിൽ നടത്തപ്പെടുന്ന <b>"ഗ്രാമ സമ്മേളനം"</b> പരിപാടിയോടനുബന്ധിച്ച് തയ്യാറാക്കിയ വിഭവ ഡയറക്ടറിയാണിത്.</p>
@@ -121,7 +121,7 @@
 
         <div id="about-app-screen" class="hidden content-screen">
             <div class="info-card">
-                <button onclick="showHome()" class="back-btn">← Back</button>
+                <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
                 <h3 style="text-align: center; color: var(--primary);">ആപ്പ് വിവരം</h3>
                 <div class="scroll-content">
                     <p style="font-weight: bold; text-align: center;">07/11/2024 ന് സമാപിച്ച ഗ്രാമ സമ്മേളന ഉപഹാരമായ വിഭവ ഡയറക്ടറി</p>
@@ -145,7 +145,7 @@
 
         <div id="leaders-screen" class="hidden content-screen">
             <div class="info-card">
-                <button onclick="showHome()" class="back-btn">← Back</button>
+                <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
                 <h3 style="text-align: center; color: var(--primary);">Leaders</h3>
                 <div class="scroll-content">
                     <p style="text-align: center; font-weight: bold;">എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ് 2023-24 കമ്മിറ്റി</p>
@@ -196,19 +196,24 @@
         </div>
 
         <div id="list-screen" class="hidden">
-            <div class="list-header">
-                <button onclick="showHome()" class="back-btn">← Back</button>
-                <h4 id="current-cat-title"></h4>
+            <header>
+                <div class="menu-icon" onclick="showHome()"><i class="fas fa-arrow-left"></i></div>
+                <div id="current-cat-title" style="font-weight: bold;"></div>
+                <div style="width:24px"></div>
+            </header>
+            
+            <div class="container" style="padding-top: 10px;">
+                <input type="text" id="search-input" placeholder="തിരയുക..." onkeyup="filterResults()">
+                <div id="list-container">
+                    </div>
             </div>
-            <input type="text" id="search-input" placeholder="തിരയുക..." onkeyup="filterResults()">
-            <div id="list-container"></div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
         const firebaseConfig = {
@@ -258,7 +263,7 @@
             'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
             'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
             'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
-            'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, // പുതിയ വിഭാഗം
+            'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' },
             'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
             'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
         };
@@ -279,22 +284,6 @@
                 alert("വിജയകരമായി ചേർത്തു!");
 
                 if (cat === 'announcements') {
-                    fetch('https://fcm.googleapis.com/fcm/send', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'key=AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            "to": "/topics/announcements",
-                            "notification": {
-                                "title": "പുതിയ അറിയിപ്പ്: " + dataToSave.name,
-                                "body": dataToSave.description,
-                                "icon": "log.png",
-                                "click_action": window.location.origin
-                            }
-                        })
-                    });
                     loadScrollingNews();
                 }
                 if (typeof renderAdminFields === 'function') renderAdminFields(); 
