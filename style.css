@@ -62,7 +62,7 @@ header {
     box-sizing: border-box;
 }
 
-/* 5. Sidebar & Overlay - വിടവ് പൂർണ്ണമായും ഒഴിവാക്കിയത് */
+/* 5. Sidebar & Overlay */
 .sidebar { 
     position: fixed; 
     left: -260px; 
@@ -81,9 +81,9 @@ header {
     width: 100%; 
     margin: 0;      
     padding: 0;     
-    line-height: 0; /* ചിത്രത്തിന് താഴെയുള്ള സ്പേസ് ഒഴിവാക്കാൻ */
+    line-height: 0; 
     font-size: 0;
-    height: auto;   /* നിശ്ചിത ഉയരം ഒഴിവാക്കി */
+    height: auto;   
 }
 
 .sidebar-top-img img { 
@@ -99,7 +99,7 @@ header {
     background-color: var(--primary); 
     color: white; 
     padding: 15px; 
-    margin-top: 0;  /* ചിത്രത്തിന് തൊട്ടുതാഴെ ചേർന്നിരിക്കാൻ */
+    margin-top: 0;  
     font-weight: bold; 
     border: none;
 }
@@ -179,6 +179,13 @@ header {
     display: block;
     margin-bottom: 6px;
     font-weight: 800; 
+}
+
+/* --- പുതിയ അപ്ഡേറ്റ്: അഡ്മിൻ പേരിന്റെ കട്ടി കുറയ്ക്കാൻ --- */
+.admin-name-small {
+    font-size: 18px !important; 
+    font-weight: 500 !important;
+    color: #004d00 !important;
 }
 
 .person-info small {
@@ -278,4 +285,22 @@ input, select, textarea {
     border-left: 5px solid #fbc02d;
     margin: 10px 0;
     border-radius: 8px;
+}
+
+/* --- പുതിയ അപ്ഡേറ്റ്: ബ്ലിങ്കിംഗ് സ്റ്റൈൽ --- */
+.blink-text {
+    background: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ffeeba;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.4; }
 }
