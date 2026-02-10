@@ -56,3 +56,17 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(res => res || fetch(e.request))
   );
 });
+// സർവീസ് വർക്കറിലേക്ക് നേരിട്ട് പുഷ് വരുമ്പോൾ അത് കാണിക്കാൻ
+self.addEventListener('push', function(event) {
+  if (event.data) {
+    const payload = event.data.json();
+    const title = payload.notification.title || "പുതിയ അറിയിപ്പ്";
+    const options = {
+      body: payload.notification.body,
+      icon: 'log.png',
+      badge: 'log.png',
+      data: { url: self.location.origin }
+    };
+    event.waitUntil(self.registration.showNotification(title, options));
+  }
+});
