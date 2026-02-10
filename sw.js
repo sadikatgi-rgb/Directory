@@ -13,19 +13,28 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-// ബാക്ക്ഗ്രൗണ്ടിൽ മെസ്സേജ് വരുമ്പോൾ കാണിക്കാൻ
+// ബാക്ക്ഗ്രൗണ്ടിൽ മെസ്സേജ് വരുമ്പോൾ
 messaging.onBackgroundMessage((payload) => {
   console.log('Background Message received: ', payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: './sad.png'
+    icon: 'sad.png', // പാത്ത് ശരിയാണെന്ന് ഉറപ്പാക്കുക
+    data: { url: self.location.origin } // നോട്ടിഫിക്കേഷനിൽ ക്ലിക്ക് ചെയ്താൽ ആപ്പ് തുറക്കാൻ
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// പഴയ കാഷിംഗ് കോഡ് താഴെ തുടർന്ന് ചേർക്കാം
+// നോട്ടിഫിക്കേഷനിൽ ക്ലിക്ക് ചെയ്താൽ ആപ്പ് തുറക്കാനുള്ള കോഡ്
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow('/')
+  );
+});
+
+// മാനിഫെസ്റ്റിലും മറ്റും ഉള്ള കാഷിംഗ് കോഡ് താഴെ തുടരാം
 const cacheName = 'viva-directory-v1';
 const assets = [
   './',
@@ -33,21 +42,17 @@ const assets = [
   './style.css',
   './script.js',
   './manifest.json',
-  './sad.png' // ഐക്കൺ കൂടി ആഡ് ചെയ്യുന്നത് നന്നായിരിക്കും
+  './sad.png'
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(cacheName).then(cache => {
-      cache.addAll(assets);
-    })
+    caches.open(cacheName).then(cache => cache.addAll(assets))
   );
 });
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(res => {
-      return res || fetch(e.request);
-    })
+    caches.match(e.request).then(res => res || fetch(e.request))
   );
 });
