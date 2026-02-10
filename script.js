@@ -107,7 +107,6 @@ window.openCategory = async (catId, catName) => {
             let displayHTML = "";
 
             if (catId === 'announcements') {
-                // അറിയിപ്പുകൾക്കുള്ള പ്രത്യേക നോട്ടീസ് ഡിസൈൻ
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #ffeb33;">
                     <div class="person-info" style="width: 100%;">
@@ -120,7 +119,6 @@ window.openCategory = async (catId, catName) => {
                     </div>` : ""}
                 </div>`;
             } else {
-                // മറ്റ് വിഭാഗങ്ങൾക്കുള്ള പഴയ ഡിസൈൻ (ഫോൺ നമ്പർ അടക്കം)
                 let extraInfo = "";
                 for (let key in d) {
                     if (!['name', 'phone', 'place', 'ty', 'no'].includes(key)) { 
@@ -169,6 +167,36 @@ window.renderAdminFields = () => {
     }
 };
 
+// നോട്ടിഫിക്കേഷൻ അയക്കാനുള്ള ഫംഗ്ഷൻ (പുതിയത്)
+async function sendFCMNotification(title, message) {
+    const serverKey = "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8"; 
+    const fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+    
+    const notificationPayload = {
+        "to": "/topics/announcements",
+        "notification": {
+            "title": title,
+            "body": message,
+            "icon": "icon.png",
+            "click_action": window.location.origin,
+            "sound": "default"
+        }
+    };
+
+    try {
+        await fetch(fcmUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'key=' + serverKey
+            },
+            body: JSON.stringify(notificationPayload)
+        });
+    } catch (error) {
+        console.error("Notification Error:", error);
+    }
+}
+
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
@@ -181,8 +209,14 @@ window.handleSaveData = async () => {
     try {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
+
+        // അറിയിപ്പുകൾ ആണെങ്കിൽ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+        if (cat === 'announcements') {
+            sendFCMNotification(dataToSave.name, dataToSave.description);
+            loadScrollingNews();
+        }
+
         renderAdminFields(); 
-        if(cat === 'announcements') loadScrollingNews();
     } catch (e) { alert("Error saving data!"); }
 };
 
@@ -252,3 +286,4 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+
