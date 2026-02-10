@@ -109,15 +109,12 @@ window.openCategory = async (catId, catName) => {
         const querySnapshot = await getDocs(q);
         container.innerHTML = "";
 
-        // --- അഡ്മിൻ പേജിൽ മാത്രം ബ്ലിങ്കിംഗ് ടെക്സ്റ്റ് ചേർക്കുന്നു ---
+        // --- അഡ്മിൻ പേജിലെ സാവധാനത്തിലുള്ള ബ്ലിങ്കിംഗ് അറിയിപ്പ് ---
         if (catId === 'admins') {
             container.innerHTML += `
-            <div class="blink-text" style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; border: 1px solid #ffeeba; text-align: center; font-size: 13px; font-weight: bold; margin-bottom: 15px; animation: blinker 1.5s linear infinite;">
+            <div class="blink-text">
                 " പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "
-            </div>
-            <style>
-                @keyframes blinker { 50% { opacity: 0.3; } }
-            </style>`;
+            </div>`;
         }
         
         if (querySnapshot.empty) {
@@ -145,15 +142,17 @@ window.openCategory = async (catId, catName) => {
                     </div>` : ""}
                 </div>`;
             } else if (catId === 'admins') {
-                // --- അഡ്മിൻസ് സെക്ഷൻ ഡിസൈൻ മാറ്റം (കട്ടി കുറച്ച പേരും കോൾ ബട്ടണും) ---
+                // --- അഡ്മിൻസ് സെക്ഷൻ ഡിസൈൻ മാറ്റം (ചെറിയ കട്ടിയുള്ള പേരും കൃത്യമായ കോൾ ബട്ടണും) ---
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
-                        <strong style="font-weight: 500; font-size: 17px; color: #006400;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px; font-weight: bold;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                        <strong class="admin-name-small"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small style="display:block; margin-top:5px; font-weight: bold; font-size: 15px !important;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
                     </div>
                     <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new" style="background:#006400; color:white; padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 14px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                        <a href="tel:${d.phone}" class="call-btn-new">
+                           <i class="fas fa-phone-alt"></i> കോൾ
+                        </a>
                     </div>
                     ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
@@ -179,7 +178,7 @@ window.openCategory = async (catId, catName) => {
                     </div>
                     <div class="call-section">
                         <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i></a>
+                        <a href="tel:${d.phone}" class="call-btn-new-circle"><i class="fas fa-phone-alt"></i></a>
                     </div>
                     ${currentUser ? `<div class="admin-btns">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
@@ -326,3 +325,4 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+
