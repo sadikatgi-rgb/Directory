@@ -24,6 +24,7 @@ const categoryConfig = {
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
     'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
     'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
+    'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, // പുതിയ വിഭാഗം
     'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
@@ -40,7 +41,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
-// പുതിയ അറിയിപ്പുകൾ മുകളിൽ വരാൻ ഓർഡർ അപ്‌ഡേറ്റ് ചെയ്തു
 async function loadScrollingNews() {
     try {
         const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
@@ -65,8 +65,10 @@ function hideAll() {
 window.showHome = () => {
     hideAll();
     document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').style.display = 'none';
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar) sidebar.classList.remove('active');
+    const overlay = document.getElementById('overlay');
+    if(overlay) overlay.style.display = 'none';
     loadScrollingNews();
 };
 
@@ -82,7 +84,7 @@ window.toggleMenu = () => {
     }
 };
 
-// 3. Category Data Loading (പുതിയത് മുകളിൽ വരാൻ timestamp ഓർഡർ ചേർത്തു)
+// 3. Category Data Loading
 window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
@@ -92,8 +94,7 @@ window.openCategory = async (catId, catName) => {
 
     try {
         let q;
-        // അറിയിപ്പുകൾ ആണെങ്കിൽ സമയം നോക്കി ക്രമീകരിക്കും
-        if(catId === 'announcements') {
+        if(catId === 'announcements' || catId === 'admins') {
             q = query(collection(db, catId), orderBy('timestamp', 'desc'));
         } else {
             q = query(collection(db, catId));
@@ -120,6 +121,21 @@ window.openCategory = async (catId, catName) => {
                     <div class="person-info" style="width: 100%;">
                         <strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong>
                         <p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
+            } else if (catId === 'admins') {
+                displayHTML = `
+                <div class="person-card" style="border-left: 5px solid #006400;">
+                    <div class="person-info">
+                        <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
                     </div>
                     ${currentUser ? `<div class="admin-btns">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
@@ -156,8 +172,13 @@ window.openCategory = async (catId, catName) => {
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
-        container.innerHTML = "<p style='text-align:center;'>ഇൻഡക്സ് സെറ്റ് ചെയ്യേണ്ടതുണ്ട്. കൺസോൾ നോക്കുക.</p>";
+        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
     }
+    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar) sidebar.classList.remove('active');
+    const overlay = document.getElementById('overlay');
+    if(overlay) overlay.style.display = 'none';
 };
 
 // 4. Admin Panel Logic
@@ -189,7 +210,7 @@ async function sendFCMNotification(title, message) {
                 "notification": {
                     "title": title,
                     "body": message,
-                    "icon": "sad.png",
+                    "icon": "log.png", // ലോഗോ പുതുക്കി
                     "click_action": window.location.origin
                 }
             })
@@ -200,7 +221,7 @@ async function sendFCMNotification(title, message) {
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
-    let dataToSave = { timestamp: serverTimestamp() }; // സമയം ചേർക്കുന്നു
+    let dataToSave = { timestamp: serverTimestamp() }; 
     
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
@@ -262,9 +283,11 @@ window.showAdminLogin = () => {
         renderAdminFields(); 
     }
     else document.getElementById('admin-login-screen').classList.remove('hidden');
-    // സ്ലൈഡ് ബാർ തനിയെ ക്ലോസ് ആക്കാൻ
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').style.display = 'none';
+    
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar) sidebar.classList.remove('active');
+    const overlay = document.getElementById('overlay');
+    if(overlay) overlay.style.display = 'none';
 };
 
 window.handleLogin = async () => {
@@ -280,7 +303,6 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
-// Sidebar Links
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
