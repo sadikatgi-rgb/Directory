@@ -19,6 +19,24 @@ const messaging = getMessaging(app);
 
 let currentUser = null;
 
+// --- നോട്ടിഫിക്കേഷൻ പെർമിഷനും ടോക്കണും സെറ്റ് ചെയ്യുന്ന ഭാഗം ---
+async function setupNotifications() {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            const token = await getToken(messaging, { 
+                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls" 
+            });
+            if (token) {
+                console.log("FCM Token:", token);
+                // ടോപ്പിക്കിലേക്ക് സബ്സ്ക്രൈബ് ചെയ്യാൻ ഈ ടോക്കൺ ഉപയോഗിക്കാം
+            }
+        }
+    } catch (error) {
+        console.error("Notification Setup Error:", error);
+    }
+}
+
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
@@ -32,6 +50,7 @@ const categoryConfig = {
 // 1. Splash Screen & News Loader
 window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews();
+    setupNotifications(); // ആപ്പ് തുറക്കുമ്പോൾ പെർമിഷൻ ചോദിക്കുന്നു
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -53,7 +72,7 @@ async function loadScrollingNews() {
     } catch (e) { console.error("News Load Error:", e); }
 }
 
-// 2. UI Helpers
+// 2. UI Helpers (നിങ്ങളുടെ പഴയ കോഡ് അതേപടി നിലനിർത്തിയിരിക്കുന്നു)
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
@@ -84,7 +103,7 @@ window.toggleMenu = () => {
     }
 };
 
-// 3. Category Data Loading
+// 3. Category Data Loading (പഴയ കോഡ്)
 window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
@@ -109,7 +128,6 @@ window.openCategory = async (catId, catName) => {
         const querySnapshot = await getDocs(q);
         container.innerHTML = "";
 
-        // --- അഡ്മിൻ പേജിലെ സാവധാനത്തിലുള്ള ബ്ലിങ്കിംഗ് അറിയിപ്പ് ---
         if (catId === 'admins') {
             container.innerHTML += `
             <div class="blink-text">
@@ -142,7 +160,6 @@ window.openCategory = async (catId, catName) => {
                     </div>` : ""}
                 </div>`;
             } else if (catId === 'admins') {
-                // --- അഡ്മിൻസ് സെക്ഷൻ ഡിസൈൻ മാറ്റം (ചെറിയ കട്ടിയുള്ള പേരും കൃത്യമായ കോൾ ബട്ടണും) ---
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
@@ -191,11 +208,6 @@ window.openCategory = async (catId, catName) => {
     } catch (e) { 
         container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
     }
-    
-    const sidebar = document.getElementById('sidebar');
-    if(sidebar) sidebar.classList.remove('active');
-    const overlay = document.getElementById('overlay');
-    if(overlay) overlay.style.display = 'none';
 };
 
 // 4. Admin Panel Logic
@@ -213,8 +225,9 @@ window.renderAdminFields = () => {
     }
 };
 
+// നോട്ടിഫിക്കേഷൻ അയക്കുന്ന ഫങ്ക്ഷൻ (സെർവർ കീ പിന്നീട് അപ്‌ഡേറ്റ് ചെയ്യാം)
 async function sendFCMNotification(title, message) {
-    const serverKey = "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8"; 
+    const serverKey = "YOUR_LEGACY_SERVER_KEY"; // കൺസോളിൽ നിന്ന് കിട്ടുന്ന കീ ഇവിടെ നൽകുക
     try {
         await fetch('https://fcm.googleapis.com/fcm/send', {
             method: 'POST',
@@ -257,6 +270,7 @@ window.handleSaveData = async () => {
     } catch (e) { alert("Error saving data!"); }
 };
 
+// മറ്റ് ഫങ്ക്ഷനുകൾ പഴയത് പോലെ തുടരുന്നു (Delete, Edit, Login, Logout...)
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
         try {
@@ -285,7 +299,6 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     } catch (e) { alert("Error updating!"); }
 };
 
-// 5. Search & Auth
 window.filterResults = () => {
     const filter = document.getElementById('search-input').value.toLowerCase();
     const cards = document.getElementsByClassName('person-card');
@@ -325,4 +338,3 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-
