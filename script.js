@@ -24,7 +24,7 @@ const categoryConfig = {
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
     'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
     'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
-    'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, // പുതിയ വിഭാഗം
+    'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, 
     'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
@@ -92,6 +92,13 @@ window.openCategory = async (catId, catName) => {
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
 
+    // --- സെർച്ച് ബാർ നിയന്ത്രിക്കാൻ (New Update) ---
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.style.display = (catId === 'admins') ? 'none' : 'block';
+        searchInput.value = ""; // സെർച്ച് ക്ലിയർ ചെയ്യാൻ
+    }
+
     try {
         let q;
         if(catId === 'announcements' || catId === 'admins') {
@@ -132,12 +139,12 @@ window.openCategory = async (catId, catName) => {
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
                         <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                        <small style="display:block; margin-top:5px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
                     </div>
                     <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                        <a href="tel:${d.phone}" class="call-btn-new" style="background:#006400;"><i class="fas fa-phone-alt"></i> കോൾ</a>
                     </div>
-                    ${currentUser ? `<div class="admin-btns">
+                    ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
@@ -172,9 +179,9 @@ window.openCategory = async (catId, catName) => {
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
-        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
+        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു. ഇൻഡക്സ് ആവശ്യമായിരിക്കാം.</p>";
     }
-    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -210,7 +217,7 @@ async function sendFCMNotification(title, message) {
                 "notification": {
                     "title": title,
                     "body": message,
-                    "icon": "log.png", // ലോഗോ പുതുക്കി
+                    "icon": "log.png", 
                     "click_action": window.location.origin
                 }
             })
@@ -245,7 +252,9 @@ window.deleteEntry = async (catId, docId) => {
         try {
             await deleteDoc(doc(db, catId, docId));
             alert("നീക്കം ചെയ്തു!");
-            showHome(); 
+            // ഹോമിലേക്ക് പോകാതെ ആ ലിസ്റ്റ് തന്നെ റിഫ്രഷ് ചെയ്യാൻ
+            const title = document.getElementById('current-cat-title').innerText;
+            openCategory(catId, title); 
         } catch (e) { alert("Error deleting!"); }
     }
 };
@@ -262,7 +271,8 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     try {
         await updateDoc(doc(db, catId, docId), newData);
         alert("വിവരങ്ങൾ പുതുക്കി!");
-        showHome();
+        const title = document.getElementById('current-cat-title').innerText;
+        openCategory(catId, title);
     } catch (e) { alert("Error updating!"); }
 };
 
