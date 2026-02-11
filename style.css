@@ -6,25 +6,19 @@
     --danger: #ff4444;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-/* 1. Base Styles */
 body, html { 
     font-family: 'Manjari', sans-serif; 
-    margin: 0; 
-    padding: 0;
-    background: var(--bg); 
-    color: var(--text);
-    height: 100%;
-    width: 100%;
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    height: 100%; width: 100%;
     overflow: hidden;
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
 }
 
-/* 2. Splash Screen */
+/* Splash Screen */
 #splash {
     position: fixed; width: 100%; height: 100vh; background: var(--primary);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -34,372 +28,53 @@ body, html {
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .hidden { display: none !important; }
 
-/* 3. Header */
+/* Header */
 header { 
-    background: var(--primary); 
-    color: white; 
-    padding: 0 15px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    height: 60px;
-    box-sizing: border-box;
-    position: relative; 
-    z-index: 100; 
+    background: var(--primary); color: white; padding: 0 15px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    height: 60px; z-index: 100; position: relative;
 }
-.menu-icon { font-size: 24px; cursor: pointer; }
 
-/* 4. Main Container */
-.container { 
-    padding: 10px 15px 150px 15px !important; 
-    width: 100%;
-    max-width: 500px; 
-    margin: 0 auto; 
-    height: calc(100vh - 60px); 
-    overflow-y: auto !important; 
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch; 
-    box-sizing: border-box;
-}
-/* 5. Sidebar & Overlay */
+/* Sidebar - മെനുവിലെ അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി നൽകി */
 .sidebar { 
-    position: fixed; 
-    left: -260px; 
-    width: 250px; 
-    height: 100%; 
-    background: white; 
-    z-index: 1001; 
-    transition: 0.3s; 
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
-    display: flex;
-    flex-direction: column;
+    position: fixed; left: -260px; width: 250px; height: 100%; 
+    background: white; z-index: 1001; transition: 0.3s; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1); display: flex; flex-direction: column;
 }
 .sidebar.active { left: 0; }
+.sidebar-header { background: var(--primary); color: white; padding: 15px; font-weight: 900; }
 
-.sidebar-top-img { 
-    width: 100%; 
-    margin: 0;      
-    padding: 0;     
-    line-height: 0; 
-    font-size: 0;
-    height: auto;   
-}
-
-.sidebar-top-img img { 
-    display: block; 
-    width: 100%; 
-    height: auto; 
-    margin: 0;
-    padding: 0;
-    border: none;
-}
-
-.sidebar-header { 
-    background-color: var(--primary); 
-    color: white; 
-    padding: 15px; 
-    margin-top: 0;  
-    font-weight: bold; 
-    border: none;
-}
-
-/* ഇവിടെയാണ് മാറ്റം വരുത്തിയിരിക്കുന്നത് */
 .sidebar a { 
-    display: block; 
-    padding: 15px; 
-    color: #000;           /* നിറം കറുപ്പാക്കി */
-    text-decoration: none; 
-    border-bottom: 1px solid #eee; 
-    font-weight: 700;      /* ഫോണ്ട് കട്ടി കൂട്ടാൻ (Bold) */
-    font-size: 17px;       /* വലിപ്പം അല്പം കൂട്ടി */
+    display: block; padding: 15px; color: #000 !important; 
+    text-decoration: none; border-bottom: 1px solid #eee; 
+    font-weight: 950 !important; font-size: 18px !important; 
 }
+
+/* Info Card - വീതി കൂട്ടി ക്രമീകരിച്ചത് */
+.info-card { 
+    background: white; padding: 15px !important; border-radius: 15px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 10px auto !important;
+    width: 96% !important; max-width: 500px; height: 85vh;
+    display: flex; flex-direction: column; box-sizing: border-box;
+}
+
+.scroll-content { overflow-y: auto; flex-grow: 1; padding: 0 5px; }
+
+/* കാർഡിലെ ഉള്ളടക്കങ്ങൾ */
+.info-card h3 { text-align: center; color: var(--primary); font-weight: 950 !important; font-size: 26px !important; margin-bottom: 15px; }
+.scroll-content p { font-weight: 950 !important; font-size: 20px !important; color: #000 !important; line-height: 1.5; text-align: center; margin-bottom: 20px; }
+.scroll-content ul, .scroll-content ol { font-weight: 950 !important; color: #000 !important; padding: 0; margin: 0; list-style: none; font-size: 17.5px; }
+.scroll-content li { margin-bottom: 15px; display: flex; line-height: 1.4; }
+.scroll-content li b { color: #d32f2f; min-width: 30px; font-weight: 950 !important; }
+
+/* Grid Home Cards */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 5px; }
+.card { background: white; padding: 20px 10px; border-radius: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #eee; }
+.card p { font-weight: 950 !important; font-size: 16px !important; color: #004d00; margin-top: 10px; }
+.card img { width: 45px; height: 45px; }
 
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; top: 0; left: 0; }
+.back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; font-weight: 900; margin-bottom: 10px; cursor: pointer; }
 
-
-/* 6. Grid System (Home Cards) */
-.grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 15px; 
-    width: 100%;
-    padding: 5px; 
-    box-sizing: border-box;
-}
-
-.card { 
-    background: white; 
-    padding: 20px 10px; 
-    border-radius: 20px; 
-    text-align: center; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-    border: 1px solid #eee; 
-    cursor: pointer;
-    width: 100%; 
-    box-sizing: border-box; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.card p {
-    font-weight: 800 !important; 
-    font-size: 16px !important;  
-    color: #004d00;            
-    margin-top: 10px;
-    letter-spacing: 0.5px;      
-    word-wrap: break-word;       
-}
-.card img { width: 45px; height: 45px; margin-bottom: 10px; }
-
-/* 7. Search Bar */
-#search-input {
-    width: 100%;
-    padding: 15px 20px !important;
-    margin: 10px 0 20px 0;
-    border: 2px solid var(--primary);
-    border-radius: 15px;
-    font-size: 18px !important; 
-    box-sizing: border-box;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    font-family: 'Manjari';
-}
-
-/* 8. Professional List Card Design */
-.person-card {
-    background: #ffffff;
-    padding: 20px !important;
-    border-radius: 18px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border-left: 6px solid var(--primary);
-    position: relative;
-    transition: transform 0.2s ease;
-}
-.person-card:active { transform: scale(0.98); }
-
-.person-info strong {
-    font-size: 18px !important; 
-    color: var(--primary);
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 900; 
-}
-
-/* പുതിയ അപ്ഡേറ്റ്: അഡ്മിൻ പേരിന്റെ വലിപ്പം കുറച്ച് കട്ടി കൂട്ടാൻ */
-.admin-name-small {
-    font-size: 16px !important; 
-    font-weight: 800 !important; 
-    color: #004d00 !important;
-    line-height: 1.4;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.person-info small {
-    font-size: 18px !important; 
-    color: #333; 
-    display: block;
-    line-height: 1.6;
-    margin-top: 2px;
-}
-
-/* കോൾ സെക്ഷൻ അപ്ഡേറ്റ് */
-.call-section {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-top: 5px;
-    padding-top: 12px;
-    border-top: 1px solid #eee; 
-}
-
-.phone-number {
-    font-size: 19px;
-    font-weight: bold;
-    color: #2c3e50;
-    display: flex;
-    align-items: center;
-}
-
-.phone-number i {
-    margin-right: 8px;
-    width: 20px;
-    text-align: center;
-}
-
-/* കോൾ ബട്ടൺ ഡിസൈൻ ശരിയാക്കിയത് */
-.call-btn-new {
-    background: var(--primary) !important;
-    color: white !important;
-    padding: 8px 18px !important;
-    border-radius: 25px !important;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px !important;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    transition: 0.3s;
-    min-width: 90px;
-}
-
-.call-btn-new:active {
-    transform: scale(0.95);
-}
-
-/* 9. Admin Controls */
-.admin-btns {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-    border-top: 1px solid #eee;
-    padding-top: 12px;
-}
-.admin-btns button {
-    flex: 1;
-    padding: 12px !important;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Manjari';
-    font-weight: bold;
-    font-size: 16px !important;
-    cursor: pointer;
-}
-.edit-btn { background: #fff3cd; color: #856404; }
-.delete-btn { background: #f8d7da; color: #721c24; }
-
-/* 10. Forms & Others */
-.form-box { background: white; padding: 25px; border-radius: 20px; }
-input, select, textarea { 
-    width: 100%; 
-    padding: 12px; 
-    margin: 8px 0; 
-    border: 1px solid #ddd; 
-    border-radius: 10px; 
-    box-sizing: border-box; 
-    font-family: 'Manjari';
-    font-size: 16px !important; 
-}
-.btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-.btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
-.info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
-.back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
-
-/* അറിയിപ്പുകൾക്ക് വേണ്ടിയുള്ള പ്രത്യേക ബോക്സ് */
-.announcement-box {
-    background: #fff9c4;
-    padding: 15px;
-    border-left: 5px solid #fbc02d;
-    margin: 10px 0;
-    border-radius: 8px;
-}
-/* ഉള്ളടക്കം പേജിനുള്ള പ്രത്യേക സ്റ്റൈലുകൾ */
-#content-info-screen {
-    padding: 20px;
-    line-height: 1.8;
-    color: #000; /* കൂടുതൽ കടും കറുപ്പ് */
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-#content-info-screen h2 {
-    color: #006400; 
-    font-weight: 900;
-    text-align: center;
-    border-bottom: 2px solid #006400;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-#content-info-screen p {
-    font-weight: 700; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
-    font-size: 17px;
-    margin-bottom: 15px;
-}
-
-#content-info-screen li {
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding: 10px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* ലിസ്റ്റിലെ നമ്പറുകൾക്ക് ചുവപ്പ് നിറം നൽകാൻ */
-#content-info-screen li b {
-    color: #d32f2f;
-    font-size: 19px;
-    margin-right: 5px;
-}
-
-/* പുതിയ അപ്ഡേറ്റ്: സാവധാനത്തിലുള്ള ബ്ലിങ്കിംഗ് സ്റ്റൈൽ */
-.blink-text {
-    background: #080000;
-    color: #fcfafa;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ffeeba;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    animation: slowBlink 3s ease-in-out infinite; /* സാവധാനത്തിലുള്ള ആനിമേഷൻ */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-@keyframes slowBlink {
-    0% { opacity: 1; }
-    50% { opacity: 0.2; }
-    100% { opacity: 1; }
-}
-.admin-header-text { 
-    font-weight: 900 !important; 
-    font-size: 20px !important; 
-}
-/* --- പുതിയ മാറ്റങ്ങൾ (വാട്ട്സാപ്പ് & അഡ്മിൻ പേര്) --- */
-
-.whatsapp-btn-new {
-    background-color: #25D366 !important;
-    color: white !important;
-    padding: 8px 18px !important;
-    border-radius: 25px !important;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px !important;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    transition: 0.3s;
-    min-width: 95px;
-}
-
-.person-info strong.admin-name-small {
-    font-size: 17px !important; 
-    font-weight: 900 !important; 
-    color: var(--primary) !important;
-    margin-bottom: 4px;
-}
-
-#current-cat-title {
-    font-weight: 900 !important;
-    font-size: 20px !important;
-}
-
-.call-section {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 10px;
-}
+/* അറിയിപ്പുകൾ */
+.news-ticker { background: #ffeb33; color: black; padding: 8px; font-weight: 950 !important; border-bottom: 1px solid #ddd; }
