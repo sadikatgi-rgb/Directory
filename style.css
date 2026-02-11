@@ -366,3 +366,40 @@ input, select, textarea {
     font-weight: 900 !important; 
     font-size: 20px !important; 
 }
+/* --- പുതിയ മാറ്റങ്ങൾ (വാട്ട്സാപ്പ് & അഡ്മിൻ പേര്) --- */
+
+.whatsapp-btn-new {
+    background-color: #25D366 !important;
+    color: white !important;
+    padding: 8px 18px !important;
+    border-radius: 25px !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px !important;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: 0.3s;
+    min-width: 95px;
+}
+
+.person-info strong.admin-name-small {
+    font-size: 17px !important; 
+    font-weight: 900 !important; 
+    color: var(--primary) !important;
+    margin-bottom: 4px;
+}
+
+#current-cat-title {
+    font-weight: 900 !important;
+    font-size: 20px !important;
+}
+
+.call-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
