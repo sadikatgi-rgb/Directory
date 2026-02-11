@@ -19,17 +19,30 @@ const messaging = getMessaging(app);
 
 let currentUser = null;
 
-// --- നോട്ടിഫിക്കേഷൻ പെർമിഷനും ടോക്കണും സെറ്റ് ചെയ്യുന്ന ഭാഗം ---
+// --- നോട്ടിഫിക്കേഷൻ പെർമിഷനും ടോക്കണും Firestore-ൽ സേവ് ചെയ്യുന്ന ഭാഗം ---
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
+            // നിങ്ങൾ ജനറേറ്റ് ചെയ്ത ശരിയായ VAPID Key താഴെ നൽകിയിട്ടുണ്ട്
             const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls" 
+                vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
             });
+
             if (token) {
-                console.log("FCM Token:", token);
+                console.log("FCM Token ലഭിച്ചു:", token);
+                
+                // ടോക്കൺ ഫയർബേസ് ഡാറ്റാബേസിലേക്ക് (Firestore) സേവ് ചെയ്യുന്നു
+                // ഇത് ചെയ്യുന്നതോടെ ഇൻസ്റ്റാൾ ചെയ്ത ഫോണുകൾ നിങ്ങൾക്ക് ഡാറ്റാബേസിൽ കാണാം
+                await addDoc(collection(db, "fcm_tokens"), {
+                    token: token,
+                    timestamp: serverTimestamp(),
+                    deviceInfo: navigator.userAgent
+                });
+                console.log("ടോക്കൺ ഡാറ്റാബേസിൽ വിജയകരമായി സേവ് ചെയ്തു!");
             }
+        } else {
+            console.log("നോട്ടിഫിക്കേഷൻ അനുമതി നിഷേധിച്ചു.");
         }
     } catch (error) {
         console.error("Notification Setup Error:", error);
@@ -48,7 +61,7 @@ const categoryConfig = {
 
 window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews();
-    setupNotifications(); 
+    setupNotifications(); // ആപ്പ് ലോഡ് ചെയ്യുമ്പോൾ നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് പ്രവർത്തിക്കും
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -223,26 +236,10 @@ window.renderAdminFields = () => {
     }
 };
 
+// നോട്ടിഫിക്കേഷൻ അയക്കാനുള്ള ഫങ്ക്ഷൻ (ഇത് സെക്യൂരിറ്റി കാരണങ്ങളാൽ Cloud Functions വഴി ചെയ്യുന്നതാണ് ഉചിതം)
 async function sendFCMNotification(title, message) {
-    const serverKey = "YOUR_LEGACY_SERVER_KEY"; 
-    try {
-        await fetch('https://fcm.googleapis.com/fcm/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'key=' + serverKey
-            },
-            body: JSON.stringify({
-                "to": "/topics/announcements",
-                "notification": {
-                    "title": title,
-                    "body": message,
-                    "icon": "log.png", 
-                    "click_action": window.location.origin
-                }
-            })
-        });
-    } catch (error) { console.error("Notification Error:", error); }
+    console.log("പുതിയ അറിയിപ്പ് നൽകുന്നു:", title);
+    // ഇവിടെ Cloud Functions സെറ്റ് ചെയ്തിട്ടുണ്ടെങ്കിൽ അത് വഴി മെസ്സേജ് അയക്കാം
 }
 
 window.handleSaveData = async () => {
