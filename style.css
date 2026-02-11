@@ -304,13 +304,13 @@ input, select, textarea {
 
 /* പുതിയ അപ്ഡേറ്റ്: സാവധാനത്തിലുള്ള ബ്ലിങ്കിംഗ് സ്റ്റൈൽ */
 .blink-text {
-    background: #fff3cd;
-    color: #856404;
+    background: #080000;
+    color: #fcfafa;
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #ffeeba;
     text-align: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 15px;
     animation: slowBlink 3s ease-in-out infinite; /* സാവധാനത്തിലുള്ള ആനിമേഷൻ */
