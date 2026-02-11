@@ -116,29 +116,35 @@
         <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
         <h3 style="text-align: center; color: var(--primary); font-weight: 950 !important; font-size: 26px !important; margin-bottom: 20px;">ഉള്ളടക്കം</h3>
         
-        <div class="scroll-content">
-            <p style="font-weight: 950 !important; font-size: 22px !important; color: #000 !important; line-height: 1.6; text-align: center; margin-bottom: 25px; padding: 0 5px; width: 100%;">
+        <div id="content-info-screen" class="hidden content-screen">
+    <div class="info-card" style="width: 98% !important; max-width: 800px; margin: 5px auto; padding: 10px 5px !important; box-sizing: border-box;">
+        <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
+        <h3 style="text-align: center; color: var(--primary); font-weight: 950 !important; font-size: 26px !important; margin-bottom: 15px;">ഉള്ളടക്കം</h3>
+        
+        <div class="scroll-content" style="padding: 0 5px !important; overflow-x: hidden;">
+            <p style="font-weight: 950 !important; font-size: 21px !important; color: #000 !important; line-height: 1.4; text-align: center; margin-bottom: 20px; width: 100%; box-sizing: border-box;">
                 എസ്.വൈ.എസ് 70-ാം വാർഷികം അനുബന്ധിച്ച് യൂണിറ്റുകളിൽ നടത്തപ്പെടുന്ന <span style="color: #d32f2f;">"ഗ്രാമ സമ്മേളനം"</span> പരിപാടിയോടനുബന്ധിച്ച് തയ്യാറാക്കിയ വിഭവ ഡയറക്ടറിയാണിത്.
             </p>
 
-            <ul style="font-weight: 800; color: #333; padding-left: 10px; list-style-position: inside;">
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">1. ഓട്ടോ:</b> നാട്ടിലെ എല്ലാവിധ ഓട്ടോറിക്ഷകളും.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">2. കടകൾ:</b> പലചരക്ക്, ഹോട്ടൽ, ടെക്സ്റ്റൈൽസ് തുടങ്ങിയവ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">3. ടാക്സി & ട്രാവൽ:</b> കാർ, ട്രക്കർ, ജീപ്പ്, ബസ് തുടങ്ങിയവ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">4. പണ്ടാരി:</b> ഭക്ഷണമുണ്ടാക്കുന്നവരുടെ വിവരങ്ങൾ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">5. വിവിധ ജോലിക്കാർ:</b> പ്ലംബർ, ഇലക്ട്രീഷ്യൻ തുടങ്ങിയവർ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">6. സ്ഥാപനങ്ങൾ:</b> മദ്രസ, പള്ളി, സ്കൂൾ, ഹോസ്പിറ്റൽ തുടങ്ങിയവ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">7. ജനപ്രതിനിധികൾ:</b> വാർഡ് മെമ്പർമാർ, MLA, MP തുടങ്ങിയവർ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">8. ഉസ്താദ് & പ്രൊഫഷണൽസ്:</b> ഡോക്ടർമാർ, വക്കീൽ തുടങ്ങിയവർ.</li>
-                <li style="margin-bottom: 15px;"><b style="color: #d32f2f;">9. സഹായ കേന്ദ്രങ്ങൾ:</b> അക്ഷയ സെന്ററുകൾ, പാമ്പ് പിടുത്തം തുടങ്ങിയവ.</li>
+            <ul style="font-weight: 800; color: #333; padding: 0 5px 0 15px !important; margin: 0; list-style-position: outside;">
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">1. ഓട്ടോ:</b> നാട്ടിലെ എല്ലാവിധ ഓട്ടോറിക്ഷകളും.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">2. കടകൾ:</b> പലചരക്ക്, ഹോട്ടൽ, ടെക്സ്റ്റൈൽസ് തുടങ്ങിയവ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">3. ടാക്സി & ട്രാവൽ:</b> കാർ, ട്രക്കർ, ജീപ്പ്, ബസ് തുടങ്ങിയവ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">4. പണ്ടാരി:</b> ഭക്ഷണമുണ്ടാക്കുന്നവരുടെ വിവരങ്ങൾ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">5. വിവിധ ജോലിക്കാർ:</b> പ്ലംബർ, ഇലക്ട്രീഷ്യൻ തുടങ്ങിയവർ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">6. സ്ഥാപനങ്ങൾ:</b> മദ്രസ, പള്ളി, സ്കൂൾ, ഹോസ്പിറ്റൽ തുടങ്ങിയവ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">7. ജനപ്രതിനിധികൾ:</b> വാർഡ് മെമ്പർമാർ, MLA, MP തുടങ്ങിയവർ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">8. ഉസ്താദ് & പ്രൊഫഷണൽസ്:</b> ഡോക്ടർമാർ, വക്കീൽ തുടങ്ങിയവർ.</li>
+                <li style="margin-bottom: 15px; font-size: 18px; line-height: 1.5;"><b style="color: #d32f2f;">9. സഹായ കേന്ദ്രങ്ങൾ:</b> അക്ഷയ സെന്ററുകൾ, പാമ്പ് പിടുത്തം തുടങ്ങിയവ.</li>
             </ul>
             
-            <p style="text-align: center; font-weight: 950 !important; margin-top: 25px; color: #000; font-size: 18px; line-height: 1.5;">
-                കേരള മുസ്ലിം ജമാഅത്ത്, എസ്.വൈ.എസ് , SSF - ചിറമംഗലം സൗത്ത് യൂണിറ്റ്
+            <p style="text-align: center; font-weight: 950 !important; margin-top: 20px; color: #000; font-size: 18px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px;">
+                കേരള മുസ്ലിം ജമാഅത്ത്, എസ്.വൈ.എസ് , SSF <br> ചിറമംഗലം സൗത്ത് യൂണിറ്റ്
             </p>
         </div>
     </div>
 </div>
+
         <div id="about-app-screen" class="hidden content-screen">
             <div class="info-card">
                 <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
