@@ -7,12 +7,10 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#006400">
 </head>
 <body>
     <div id="splash">
-        <h1>വിഭവ ഡയറക്ടറി</h1>
+        <h1 style="font-weight: 950;">വിഭവ ഡയറക്ടറി</h1>
         <p>ചിറമംഗലം സൗത്ത് യൂണിറ്റ്</p>
         <div class="loader"></div>
     </div>
@@ -20,9 +18,7 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-top-img">
-            <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block;">
-        </div>
+        <div class="sidebar-top-img"><img src="top.jpg" alt="Top Image" style="width: 100%; display: block;"></div>
         <div class="sidebar-header">MENU</div>
         <a href="#" onclick="showHome()">🏠 ഹോം</a>
         <a href="#" onclick="showContentPage()">📖 ഉള്ളടക്കം</a>
@@ -38,55 +34,27 @@
         <div style="width:24px"></div>
     </header>
 
-    <div class="news-ticker">
+    <div class="news-ticker" style="background: #ffeb33; color: black; padding: 5px; font-weight: 950;">
         <marquee id="latest-news">പുതിയ അറിയിപ്പുകൾ ഇവിടെ കാണാം...</marquee>
     </div>
 
-    <div class="container" id="main-container" style="padding: 10px 15px 100px 15px !important; height: calc(100vh - 100px); overflow-y: auto;">
+    <div class="container" id="main-container" style="height: calc(100vh - 100px); overflow-y: auto;">
         
         <div id="home-screen">
             <div class="grid">
                 <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto">
-                    <p>ഓട്ടോ & ടാക്സി</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto"><p>ഓട്ടോ & ടാക്സി</p>
                 </div>
                 <div class="card" onclick="openCategory('shops', 'കടകൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops">
-                    <p>കടകൾ</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops"><p>കടകൾ</p>
                 </div>
                 <div class="card" onclick="openCategory('workers', 'ജോലിക്കാർ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
-                    <p>ജോലിക്കാർ</p>
+                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers"><p>ജോലിക്കാർ</p>
                 </div>
-                <div class="card" onclick="openCategory('catering', 'പണ്ടാриകൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
-                    <p>പണ്ടാരികൾ</p>
+                <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering"><p>പണ്ടാരികൾ</p>
                 </div>
-                <div class="card" onclick="openCategory('travels', 'ടാക്സി & ട്രാവൽ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2611/2611090.png" alt="Travels">
-                    <p>ടാക്സി & ട്രാവൽ</p>
                 </div>
-                <div class="card" onclick="openCategory('institutions', 'സ്ഥാപനങ്ങൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2912/2912781.png" alt="Institutions">
-                    <p>സ്ഥാപനങ്ങൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('leaders_gov', 'ജനപ്രതിനിധികൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3050/3050017.png" alt="Leaders">
-                    <p>ജനപ്രതിനിധികൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('professionals', 'ഉസ്താദ് & പ്രൊഫഷണൽസ്')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2302/2302834.png" alt="Professionals">
-                    <p>ഉസ്താദ് & പ്രൊഫഷണൽസ്</p>
-                </div>
-                <div class="card" onclick="openCategory('help_centers', 'സഹായ കേന്ദ്രങ്ങൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Help">
-                    <p>സഹായ കേന്ദ്രങ്ങൾ</p>
-                </div>
-                <div class="card" onclick="openCategory('announcements', 'അറിയിപ്പുകൾ')">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1040/1040230.png" alt="Announcements">
-                    <p>അറിയിപ്പുകൾ</p>
-                </div>
-            </div>
         </div>
 
         <div id="content-info-screen" class="hidden content-screen">
@@ -106,7 +74,6 @@
                         <li><b>8.</b> <span><b>ഉസ്താദ് & പ്രൊഫഷണൽസ്:</b> ഡോക്ടർമാർ, വക്കീൽ തുടങ്ങിയവർ.</span></li>
                         <li><b>9.</b> <span><b>സഹായ കേന്ദ്രങ്ങൾ:</b> അക്ഷയ സെന്ററുകൾ, പാമ്പ് പിടുത്തം തുടങ്ങിയവ.</span></li>
                     </ul>
-                    <p style="font-size: 16px !important; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">കേരള മുസ്ലിം ജമാഅത്ത്, എസ്.വൈ.എസ്, SSF <br> ചിറമംഗലം സൗത്ത് യൂണിറ്റ്</p>
                 </div>
             </div>
         </div>
@@ -116,9 +83,9 @@
                 <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
                 <h3>ആപ്പ് വിവരം</h3>
                 <div class="scroll-content">
-                    <p style="font-size: 22px; line-height: 1.6;">07/11/2024 ന് സമാപിച്ച ഗ്രാമ സമ്മേളന ഉപഹാരമായ "വിഭവ ഡയറക്ടറി"</p>
-                    <p style="font-size: 19px;">അണിയറയിൽ പ്രവർത്തിച്ചത്:</p>
-                    <ol>
+                    <p class="bold-text-950" style="font-size: 22px;">07/11/2024 ന് സമാപിച്ച ഗ്രാമ സമ്മേളന ഉപഹാരമായ "വിഭവ ഡയറക്ടറി"</p>
+                    <p class="bold-text-950">അണിയറയിൽ പ്രവർത്തിച്ചത്:</p>
+                    <ol class="bold-text-950">
                         <li><b>1.</b> സയ്യിദ് സ്വാലിഹ് ജിഫ്രി ഫാളിലി</li>
                         <li><b>2.</b> സയ്യിദ് മുഹ്സിൻ ജിഫ്രി ഫാളിലി</li>
                         <li><b>3.</b> സയ്യിദ് ശഫീഖ് ജിഫ്രി സഅദി</li>
@@ -130,10 +97,10 @@
                         <li><b>9.</b> ഫാറൂഖ് സഖാഫി മലയിൽ</li>
                         <li><b>10.</b> സ്വലാഹുദ്ദീൻ T</li>
                     </ol>
-                    <div style="text-align: center; margin-top: 25px; background: #fff9c4; padding: 20px; border-radius: 15px; border: 2px solid #fbc02d;">
-                        <p>" ഉത്തരവാദിത്തം മനുഷ്യപ്പറ്റിന്റെ രാഷ്ട്രീയം "</p>
-                        <p style="color: #d32f2f;">എസ്.വൈ.എസ് "പ്ലാറ്റിനം ഇയർ" (70-ാം വാർഷികം)</p>
-                        <p>2024 ഡിസംബർ 27, 28, 29 "തൃശ്ശൂർ"</p>
+                    <div class="blink-text">" ഉത്തരവാദിത്തം മനുഷ്യപ്പറ്റിന്റെ രാഷ്ട്രീയം "</div>
+                    <div style="text-align: center; background: #fff9c4; padding: 20px; border-radius: 15px; border: 2px solid #fbc02d;">
+                        <p class="bold-text-950" style="color: #d32f2f;">എസ്.വൈ.എസ് "പ്ലാറ്റിനം ഇയർ" (70-ാം വാർഷിക സമ്മേളനം)</p>
+                        <p class="bold-text-950">2024 ഡിസംബർ 27, 28, 29 "തൃശ്ശൂർ"</p>
                     </div>
                 </div> 
             </div> 
@@ -142,10 +109,10 @@
         <div id="leaders-screen" class="hidden content-screen">
             <div class="info-card">
                 <button onclick="showHome()" class="back-btn"><i class="fas fa-arrow-left"></i> Back</button>
-                <h3>Leaders</h3>
+                <h3 style="font-weight: 950 !important;">Leaders</h3>
                 <div class="scroll-content">
-                    <p style="font-size: 18px;">എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ് 2023-24 കമ്മിറ്റി</p>
-                    <ul>
+                    <p style="font-weight: 900; font-size: 18px;">എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ് കമ്മിറ്റി</p>
+                    <ul class="bold-text-950">
                         <li><b>പ്രസിഡന്റ്:</b> സയ്യിദ് സ്വാലിഹ് ഫാളിലി ജിഫ്രി</li>
                         <li><b>ജന: സെക്രട്ടറി:</b> സ്വാദിഖ് അലി സഖാഫി സി</li>
                         <li><b>വൈ. പ്രസിഡന്റ്:</b> സയ്യിദ് സഈദ് ബാഫഖി അഹ്സനി</li>
@@ -159,20 +126,10 @@
             </div>
         </div>
 
-        <div id="admin-login-screen" class="hidden">
-            <div class="form-box">
-                <h4>അഡ്മിൻ ലോഗിൻ</h4>
-                <input type="text" id="admin-email" placeholder="അഡ്മിൻ ID"> 
-                <input type="password" id="admin-password" placeholder="പാസ്‌വേഡ്">
-                <button class="btn-main" onclick="handleLogin()">Login</button>
-                <button class="btn-text" onclick="showHome()">Cancel</button>
-            </div>
-        </div>
-
         <div id="list-screen" class="hidden">
             <header>
                 <div class="menu-icon" onclick="showHome()"><i class="fas fa-arrow-left"></i></div>
-                <div id="current-cat-title" style="font-weight: 950 !important;"></div>
+                <div id="current-cat-title" style="font-weight: 950;"></div>
                 <div style="width:24px"></div>
             </header>
             <div style="padding: 10px;">
@@ -180,7 +137,6 @@
                 <div id="list-container"></div>
             </div>
         </div>
-
     </div>
 
     <script type="module" src="script.js"></script>
