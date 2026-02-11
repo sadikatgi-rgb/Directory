@@ -139,17 +139,32 @@
                         <li>സ്വലാഹുദ്ദീൻ T</li>
                     </ol>
                         <style>
-                .scroll-content ol li {
-                    font-weight: 900 !important; /* മാക്സിമം കട്ടി */
-                    color: #000;
-                    margin-bottom: 10px;
-                    font-size: 16px;
-                }
-                /* മുകളിലെ വിവരണത്തിന് കട്ടി നൽകാൻ */
-                .scroll-content p {
-                    font-weight: 900 !important;
-                }
-            </style>
+    /* ലിസ്റ്റിലെ പേരുകൾക്ക് കട്ടി നൽകാൻ (1-10 പേരുകൾ) */
+    .scroll-content ol li {
+        font-weight: 900 !important;
+        color: #000;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    /* നിങ്ങൾ വട്ടമിട്ട് കാണിച്ച മുകൾ ഭാഗത്തിന് മാത്രം കൂടുതൽ കട്ടി നൽകാൻ */
+    .scroll-content .top-highlight {
+        font-weight: 950 !important; /* മാക്സിമം കട്ടി */
+        font-size: 20px !important;
+        color: #000 !important;
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* ഹെഡിംഗിന് (ആപ്പ് വിവരം) പ്രത്യേക സ്റ്റൈൽ */
+    .scroll-content h3 {
+        font-weight: 950 !important;
+        color: var(--primary);
+        text-align: center;
+        font-size: 22px !important;
+    }
+</style>
 
             </ol> <div style="text-align: center; line-height: 1.8; margin-top: 30px; margin-bottom: 25px; background-color: #fff9c4; padding: 20px; border-radius: 15px; border: 2px solid #fbc02d; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                 
