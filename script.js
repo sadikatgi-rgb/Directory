@@ -29,7 +29,6 @@ async function setupNotifications() {
             });
             if (token) {
                 console.log("FCM Token:", token);
-                // ടോപ്പിക്കിലേക്ക് സബ്സ്ക്രൈബ് ചെയ്യാൻ ഈ ടോക്കൺ ഉപയോഗിക്കാം
             }
         }
     } catch (error) {
@@ -47,10 +46,9 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// 1. Splash Screen & News Loader
 window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews();
-    setupNotifications(); // ആപ്പ് തുറക്കുമ്പോൾ പെർമിഷൻ ചോദിക്കുന്നു
+    setupNotifications(); 
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -72,7 +70,6 @@ async function loadScrollingNews() {
     } catch (e) { console.error("News Load Error:", e); }
 }
 
-// 2. UI Helpers (നിങ്ങളുടെ പഴയ കോഡ് അതേപടി നിലനിർത്തിയിരിക്കുന്നു)
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
@@ -103,7 +100,6 @@ window.toggleMenu = () => {
     }
 };
 
-// 3. Category Data Loading (പഴയ കോഡ്)
 window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
@@ -163,12 +159,15 @@ window.openCategory = async (catId, catName) => {
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
-                        <strong class="admin-name-small"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px; font-weight: bold; font-size: 15px !important;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                        <strong style="font-size: 18px !important; font-weight: 800;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
                     </div>
-                    <div class="call-section">
+                    <div class="call-section" style="display: flex; gap: 8px;">
                         <a href="tel:${d.phone}" class="call-btn-new">
                            <i class="fas fa-phone-alt"></i> കോൾ
+                        </a>
+                        <a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;">
+                           <i class="fab fa-whatsapp"></i> Chat
                         </a>
                     </div>
                     ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
@@ -210,7 +209,6 @@ window.openCategory = async (catId, catName) => {
     }
 };
 
-// 4. Admin Panel Logic
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
     const container = document.getElementById('dynamic-inputs');
@@ -225,9 +223,8 @@ window.renderAdminFields = () => {
     }
 };
 
-// നോട്ടിഫിക്കേഷൻ അയക്കുന്ന ഫങ്ക്ഷൻ (സെർവർ കീ പിന്നീട് അപ്‌ഡേറ്റ് ചെയ്യാം)
 async function sendFCMNotification(title, message) {
-    const serverKey = "YOUR_LEGACY_SERVER_KEY"; // കൺസോളിൽ നിന്ന് കിട്ടുന്ന കീ ഇവിടെ നൽകുക
+    const serverKey = "YOUR_LEGACY_SERVER_KEY"; 
     try {
         await fetch('https://fcm.googleapis.com/fcm/send', {
             method: 'POST',
@@ -270,7 +267,6 @@ window.handleSaveData = async () => {
     } catch (e) { alert("Error saving data!"); }
 };
 
-// മറ്റ് ഫങ്ക്ഷനുകൾ പഴയത് പോലെ തുടരുന്നു (Delete, Edit, Login, Logout...)
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
         try {
