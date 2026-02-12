@@ -235,25 +235,26 @@ header {
 
 /* കോൾ ബട്ടൺ ഡിസൈൻ ശരിയാക്കിയത് */
 .call-btn-new {
-    background: var(--primary) !important;
+    background-color: #006400 !important; /* ഒന്നാമത്തെ ചിത്രത്തിലെ കടും പച്ച നിറം */
     color: white !important;
-    padding: 8px 18px !important;
-    border-radius: 25px !important;
+    padding: 10px 22px !important; /* ബട്ടണിന് നല്ല വീതി നൽകാൻ */
+    border-radius: 50px !important; /* വശങ്ങൾ പൂർണ്ണമായും ഉരുണ്ടതാക്കാൻ */
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    font-size: 14px !important;
+    gap: 10px;
+    font-size: 16px !important; /* എഴുത്തിന് വലിപ്പം നൽകാൻ */
     font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transition: 0.3s;
-    min-width: 90px;
+    min-width: 110px; /* ബട്ടണിന്റെ കുറഞ്ഞ വലിപ്പം */
 }
 
 .call-btn-new:active {
-    transform: scale(0.95);
+    transform: scale(0.95); /* ക്ലിക്ക് ചെയ്യുമ്പോൾ ചെറുതായി താഴുന്ന ഫീൽ നൽകാൻ */
 }
+
 
 /* 9. Admin Controls */
 .admin-btns {
