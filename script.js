@@ -25,32 +25,32 @@ async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
+            console.log("പെർമിഷൻ ലഭിച്ചു. ടോക്കൺ എടുക്കാൻ ശ്രമിക്കുന്നു...");
+            
+            // ടോക്കൺ എടുക്കാൻ ശ്രമിക്കുമ്പോൾ ഉണ്ടാകുന്ന എറർ അറിയാൻ ഇത് സഹായിക്കും
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
+            }).catch((err) => {
+                alert("Token Error: " + err.message); // എന്താണ് തടസ്സമെന്ന് ഈ അലർട്ട് പറയും
+                console.error("Token Fetch Error:", err);
             });
 
             if (token) {
-                // ടോക്കൺ ലഭിക്കുന്നുണ്ടോ എന്ന് ഫോണിൽ അറിയാൻ ഈ അലർട്ട് സഹായിക്കും
                 alert("FCM Token ലഭിച്ചു!"); 
-                console.log("FCM Token ലഭിച്ചു:", token);
-                
-                // ടോക്കൺ Firestore-ലേക്ക് സേവ് ചെയ്യുന്നു
                 await addDoc(collection(db, "fcm_tokens"), {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
                 });
-                console.log("ടോക്കൺ ഡാറ്റാബേസിൽ വിജയകരമായി സേവ് ചെയ്തു!");
-            } else {
-                alert("ടോക്കൺ ലഭിച്ചില്ല! പെർമിഷൻ ചെക്ക് ചെയ്യുക.");
             }
         } else {
-            console.log("നോട്ടിഫിക്കേഷൻ അനുമതി നിഷേധിച്ചു.");
+            alert("നോട്ടിഫിക്കേഷൻ പെർമിഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്.");
         }
     } catch (error) {
-        console.error("Notification Setup Error:", error);
+        alert("Notification Setup Error: " + error.message);
     }
 }
+
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
