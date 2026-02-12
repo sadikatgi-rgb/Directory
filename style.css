@@ -404,3 +404,13 @@ input, select, textarea {
     align-items: center;
     gap: 10px;
     }
+.bold-text-950 {
+    font-weight: 950 !important;
+    color: #000 !important;
+}
+.scroll-content ol li {
+    font-weight: 950 !important;
+    color: #000;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
