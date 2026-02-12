@@ -331,3 +331,6 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+// നോട്ടിഫിക്കേഷൻ ഫങ്ക്ഷൻ പ്രവർത്തിപ്പിക്കാൻ ഈ വരി ചേർക്കുക
+setupNotifications();
+
