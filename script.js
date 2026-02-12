@@ -334,7 +334,7 @@ window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen'
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // കൃത്യമായ ഫയൽ പേര് ഇവിടെ നൽകുന്നു
-        navigator.serviceWorker.register('./firebase-messaging-sw.js')
+        navigator.serviceWorker.register('./firebase-messaging-sw.js?v=1')
             .then(reg => console.log('Service Worker registered', reg))
             .catch(err => console.log('Service Worker registration failed', err));
     });
