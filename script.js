@@ -25,9 +25,24 @@ async function setupNotifications() {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
             // നിങ്ങൾ ജനറേറ്റ് ചെയ്ത ശരിയായ VAPID Key താഴെ നൽകിയിട്ടുണ്ട്
-            const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls"
-    });
+                        const token = await getToken(messaging, { 
+                vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
+            });
+
+            if (token) {
+                // ടോക്കൺ ലഭിക്കുന്നുണ്ടോ എന്ന് ഫോണിൽ അറിയാൻ ഈ അലർട്ട് സഹായിക്കും
+                alert("FCM Token ലഭിച്ചു!"); 
+                console.log("FCM Token ലഭിച്ചു:", token);
+                
+                await addDoc(collection(db, "fcm_tokens"), {
+                    token: token,
+                    timestamp: serverTimestamp(),
+                    deviceInfo: navigator.userAgent
+                });
+                console.log("ടോക്കൺ ഡാറ്റാബേസിൽ സേവ് ചെയ്തു!");
+            } else {
+                alert("ടോക്കൺ ലഭിച്ചില്ല! പെർമിഷൻ ചെക്ക് ചെയ്യുക.");
+            }
 
             if (token) {
                 console.log("FCM Token ലഭിച്ചു:", token);
