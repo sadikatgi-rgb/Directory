@@ -26,8 +26,8 @@ async function setupNotifications() {
         if (permission === 'granted') {
             // നിങ്ങൾ ജനറേറ്റ് ചെയ്ത ശരിയായ VAPID Key താഴെ നൽകിയിട്ടുണ്ട്
             const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
-            });
+                vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls"
+    });
 
             if (token) {
                 console.log("FCM Token ലഭിച്ചു:", token);
