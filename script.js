@@ -333,7 +333,8 @@ window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen'
 // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        // കൃത്യമായ ഫയൽ പേര് ഇവിടെ നൽകുന്നു
+        navigator.serviceWorker.register('./firebase-messaging-sw.js')
             .then(reg => console.log('Service Worker registered', reg))
             .catch(err => console.log('Service Worker registration failed', err));
     });
