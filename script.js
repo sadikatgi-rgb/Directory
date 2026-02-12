@@ -219,12 +219,11 @@ window.openCategory = async (catId, catName) => {
                         <p style="margin: 5px 0; color: #d9534f;"><i class="fas fa-map-marker-alt"></i> ${d.place}</p>
                         ${catId === 'auto' ? `<small style="display:block; margin: 5px 0; color: #f1c40f;"><i class="fas fa-taxi"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>` : ""}
                         ${extraInfo}
+                 <div class="action-buttons" style="display: flex; justify-content: flex-start; margin-top: 10px;">
+                        <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 8px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; width: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                           <i class="fas fa-phone-alt"></i> കോൾ
+                        </a>
                     </div>
-                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 10px; justify-content: center;">
-                      <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 8px 30px; border-radius: 25px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; width: fit-content; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                       <i class="fas fa-phone-alt"></i> കോൾ
-                      </a>
-                   </div> 
                     ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
