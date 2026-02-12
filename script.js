@@ -24,8 +24,7 @@ async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            // നിങ്ങൾ ജനറേറ്റ് ചെയ്ത ശരിയായ VAPID Key താഴെ നൽകിയിട്ടുണ്ട്
-                        const token = await getToken(messaging, { 
+            const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
             });
 
@@ -34,27 +33,15 @@ async function setupNotifications() {
                 alert("FCM Token ലഭിച്ചു!"); 
                 console.log("FCM Token ലഭിച്ചു:", token);
                 
-                await addDoc(collection(db, "fcm_tokens"), {
-                    token: token,
-                    timestamp: serverTimestamp(),
-                    deviceInfo: navigator.userAgent
-                });
-                console.log("ടോക്കൺ ഡാറ്റാബേസിൽ സേവ് ചെയ്തു!");
-            } else {
-                alert("ടോക്കൺ ലഭിച്ചില്ല! പെർമിഷൻ ചെക്ക് ചെയ്യുക.");
-            }
-
-            if (token) {
-                console.log("FCM Token ലഭിച്ചു:", token);
-                
-                // ടോക്കൺ ഫയർബേസ് ഡാറ്റാബേസിലേക്ക് (Firestore) സേവ് ചെയ്യുന്നു
-                // ഇത് ചെയ്യുന്നതോടെ ഇൻസ്റ്റാൾ ചെയ്ത ഫോണുകൾ നിങ്ങൾക്ക് ഡാറ്റാബേസിൽ കാണാം
+                // ടോക്കൺ Firestore-ലേക്ക് സേവ് ചെയ്യുന്നു
                 await addDoc(collection(db, "fcm_tokens"), {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
                 });
                 console.log("ടോക്കൺ ഡാറ്റാബേസിൽ വിജയകരമായി സേവ് ചെയ്തു!");
+            } else {
+                alert("ടോക്കൺ ലഭിച്ചില്ല! പെർമിഷൻ ചെക്ക് ചെയ്യുക.");
             }
         } else {
             console.log("നോട്ടിഫിക്കേഷൻ അനുമതി നിഷേധിച്ചു.");
@@ -63,6 +50,7 @@ async function setupNotifications() {
         console.error("Notification Setup Error:", error);
     }
 }
+
 
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
