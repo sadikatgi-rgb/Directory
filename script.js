@@ -333,10 +333,18 @@ window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen'
 // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // കൃത്യമായ ഫയൽ പേര് ഇവിടെ നൽകുന്നു
-        navigator.serviceWorker.register('./firebase-messaging-sw.js?v=1')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.log('Service Worker registration failed', err));
+        // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // കൃത്യമായ ഫയൽ പേര് സ്മോൾ ലെറ്ററിൽ തന്നെ നൽകണം
+        navigator.serviceWorker.register('./firebase-messaging-sw.js')
+            .then(reg => {
+                console.log('Service Worker registered', reg);
+            })
+            .catch(err => {
+                console.log('Service Worker registration failed', err);
+            });
     });
 }
+
 
