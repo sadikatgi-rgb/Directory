@@ -3,6 +3,7 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, q
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
+// --- Firebase Configuration ---
 const firebaseConfig = {
     apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
     authDomain: "directory-f4474.firebaseapp.com",
@@ -51,7 +52,7 @@ async function setupNotifications() {
     }
 }
 
-
+// --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
     'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
@@ -62,9 +63,10 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
+// --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews();
-    setupNotifications(); // ആപ്പ് ലോഡ് ചെയ്യുമ്പോൾ നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് പ്രവർത്തിക്കും
+    setupNotifications(); 
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -74,6 +76,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 });
 
+// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 async function loadScrollingNews() {
     try {
         const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
@@ -239,12 +242,6 @@ window.renderAdminFields = () => {
     }
 };
 
-// നോട്ടിഫിക്കേഷൻ അയക്കാനുള്ള ഫങ്ക്ഷൻ (ഇത് സെക്യൂരിറ്റി കാരണങ്ങളാൽ Cloud Functions വഴി ചെയ്യുന്നതാണ് ഉചിതം)
-async function sendFCMNotification(title, message) {
-    console.log("പുതിയ അറിയിപ്പ് നൽകുന്നു:", title);
-    // ഇവിടെ Cloud Functions സെറ്റ് ചെയ്തിട്ടുണ്ടെങ്കിൽ അത് വഴി മെസ്സേജ് അയക്കാം
-}
-
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
@@ -260,7 +257,6 @@ window.handleSaveData = async () => {
         alert("വിജയകരമായി ചേർത്തു!");
 
         if (cat === 'announcements') {
-            sendFCMNotification(dataToSave.name, dataToSave.description);
             loadScrollingNews();
         }
         renderAdminFields(); 
@@ -334,6 +330,3 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-// നോട്ടിഫിക്കേഷൻ ഫങ്ക്ഷൻ പ്രവർത്തിപ്പിക്കാൻ ഈ വരി ചേർക്കുക
-setupNotifications();
-
