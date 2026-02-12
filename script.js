@@ -26,7 +26,7 @@ async function setupNotifications() {
         if (permission === 'granted') {
             // നിങ്ങൾ ജനറേറ്റ് ചെയ്ത ശരിയായ VAPID Key താഴെ നൽകിയിട്ടുണ്ട്
             const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls" 
+                vapidKey: "BCp8wEaJUWtoonoLetXsGnRxmjd8RRE3_hTOB9poI_oTUCmhnsjofYA8YBRXE_G0jG-oxNoCetPvL9ittyALAls" 
             });
 
             if (token) {
