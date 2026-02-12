@@ -212,16 +212,24 @@ window.openCategory = async (catId, catName) => {
                     }
                 }
 
-            displayHTML = `
-                <div class="person-card" style="display: flex; flex-direction: column; padding: 15px; border-radius: 15px; background: white; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <div class="person-info">
-                        <strong style="font-size: 18px; color: #006400;"><i class="fas fa-user-circle"></i> ${d.name}</strong>
-                        <p style="margin: 5px 0; color: #d9534f;"><i class="fas fa-map-marker-alt"></i> ${d.place}</p>
-                        ${catId === 'auto' ? `<small style="display:block; margin: 5px 0; color: #f1c40f;"><i class="fas fa-taxi"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>` : ""}
-                        ${extraInfo}
-                </div>            
-                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 10px;">
-                        <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; width: fit-content;">
+                            displayHTML = `
+                <div class="person-card" style="display: flex; flex-direction: column; padding: 18px; border-radius: 15px; background: white; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-left: 5px solid #006400;">
+                    <div class="person-info" style="line-height: 1.6;">
+                        <strong style="font-size: 20px; color: #006400; font-weight: 800; display: block; margin-bottom: 5px;">
+                            <i class="fas fa-user-circle"></i> ${d.name}
+                        </strong>
+                        
+                        <p style="margin: 5px 0; color: #333; font-size: 16px; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
+                        </p>
+
+                        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #444; font-size: 15px; font-weight: 600;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
+                        
+                        <div style="font-size: 15px; font-weight: 500; color: #555;">${extraInfo}</div>
+                    </div>
+
+                    <div class="action-buttons" style="display: flex; justify-content: flex-start; margin-top: 15px;">
+                        <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 10px 28px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 16px; display: inline-flex; align-items: center; gap: 10px; width: auto; box-shadow: 0 3px 6px rgba(0,0,0,0.2);">
                            <i class="fas fa-phone-alt"></i> കോൾ
                         </a>
                     </div>
