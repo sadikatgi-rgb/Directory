@@ -38,21 +38,29 @@ async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
+            // ടോക്കൺ എടുക്കാൻ ശ്രമിക്കുമ്പോൾ ഒരു അലർട്ട് നൽകുന്നു
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
             });
 
             if (token) {
+                // സ്ക്രീനിൽ ഇത് കണ്ടാൽ ഉറപ്പിക്കാം ടോക്കൺ കിട്ടിയെന്ന്
                 alert("FCM Token ലഭിച്ചു!"); 
+                
                 await addDoc(collection(db, "fcm_tokens"), {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
                 });
+            } else {
+                alert("ടോക്കൺ ലഭിച്ചില്ല, VAPID Key പരിശോധിക്കുക.");
             }
+        } else {
+            alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
         }
     } catch (error) {
-        console.error("Notification Error:", error);
+        // എറർ ഉണ്ടെങ്കിൽ അത് സ്ക്രീനിൽ അലർട്ട് ആയി കാണിക്കും
+        alert("Notification Setup Error: " + error.message);
     }
 }
 
