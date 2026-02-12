@@ -3,7 +3,6 @@ import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, q
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
-// --- Firebase Configuration ---
 const firebaseConfig = {
     apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
     authDomain: "directory-f4474.firebaseapp.com",
@@ -20,38 +19,42 @@ const messaging = getMessaging(app);
 
 let currentUser = null;
 
-// --- നോട്ടിഫിക്കേഷൻ പെർമിഷനും ടോക്കണും Firestore-ൽ സേവ് ചെയ്യുന്ന ഭാഗം ---
+// --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
+window.addEventListener('DOMContentLoaded', () => {
+    // ഫ്ലാഷ് സ്ക്രീൻ മാറാനുള്ള കോഡ്
+    setTimeout(() => {
+        const splash = document.getElementById('splash');
+        if(splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.classList.add('hidden'), 800);
+        }
+    }, 2000);
+
+    loadScrollingNews();
+    setupNotifications(); 
+});
+
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            console.log("പെർമിഷൻ ലഭിച്ചു. ടോക്കൺ എടുക്കാൻ ശ്രമിക്കുന്നു...");
-            
-            // ടോക്കൺ എടുക്കാൻ ശ്രമിക്കുമ്പോൾ ഉണ്ടാകുന്ന എറർ അറിയാൻ ഇത് സഹായിക്കും
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWtOOnoLetXsGnRxmjd8RRE3_hTOB9pOI_OTUCmhnsjOfYA8YBRXE_G0jG-oxNOCetPvL9ittyALAls" 
-            }).catch((err) => {
-                alert("Token Error: " + err.message); // എന്താണ് തടസ്സമെന്ന് ഈ അലർട്ട് പറയും
-                console.error("Token Fetch Error:", err);
             });
 
             if (token) {
-                alert("FCM Token ലഭിച്ചു!"); 
+                console.log("FCM Token ലഭിച്ചു");
                 await addDoc(collection(db, "fcm_tokens"), {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
                 });
             }
-        } else {
-            alert("നോട്ടിഫിക്കേഷൻ പെർമിഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്.");
         }
     } catch (error) {
-        alert("Notification Setup Error: " + error.message);
+        console.error("Notification Error:", error);
     }
 }
-
-
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
@@ -333,7 +336,7 @@ window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen'
        // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // './' ഒഴിവാക്കി ഫയൽ പേര് മാത്രം നൽകി നോക്കുക
+        // കൃത്യമായ ഫയൽ പേര് സ്മോൾ ലെറ്ററിൽ നൽകുന്നു
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => {
                 console.log('Service Worker registered', reg);
@@ -343,4 +346,3 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
- 
