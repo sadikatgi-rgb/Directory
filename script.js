@@ -21,7 +21,7 @@ let currentUser = null;
 
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('DOMContentLoaded', () => {
-    // ഫ്ലാഷ് സ്ക്രീൻ മാറാനുള്ള കോഡ്
+    // ഫ്ലാഷ് സ്ക്രീൻ മാറ്റുന്നു
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -43,7 +43,7 @@ async function setupNotifications() {
             });
 
             if (token) {
-                console.log("FCM Token ലഭിച്ചു");
+                alert("FCM Token ലഭിച്ചു!"); 
                 await addDoc(collection(db, "fcm_tokens"), {
                     token: token,
                     timestamp: serverTimestamp(),
@@ -55,6 +55,7 @@ async function setupNotifications() {
         console.error("Notification Error:", error);
     }
 }
+
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
