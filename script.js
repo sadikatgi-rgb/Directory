@@ -210,35 +210,34 @@ window.openCategory = async (catId, catName) => {
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                     }
-                }
+                }    
+displayHTML = `
+  <div class="person-card">
+    <div class="person-info">
+        <strong class="bold-text-950" style="font-size: 20px; color: #006400;">
+            <i class="fas fa-user-circle"></i> ${d.name}
+        </strong>
+        
+        <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
+            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
+        </p>
 
-                            displayHTML = `
-                <div class="person-card" style="display: flex; flex-direction: column; padding: 18px; border-radius: 15px; background: white; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-left: 5px solid #006400;">
-                    <div class="person-info" style="line-height: 1.6;">
-                        <strong style="font-size: 20px; color: #006400; font-weight: 800; display: block; margin-bottom: 5px;">
-                            <i class="fas fa-user-circle"></i> ${d.name}
-                        </strong>
-                        
-                        <p style="margin: 5px 0; color: #333; font-size: 16px; font-weight: 600;">
-                            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
-                        </p>
+        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
+        
+        <div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div>
+    </div>
 
-                        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #444; font-size: 15px; font-weight: 600;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
-                        
-                        <div style="font-size: 15px; font-weight: 500; color: #555;">${extraInfo}</div>
-                    </div>
-
-                    <div class="action-buttons" style="display: flex; justify-content: flex-start; margin-top: 15px;">
-                        <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 10px 28px; border-radius: 25px; text-decoration: none; font-weight: 800; font-size: 16px; display: inline-flex; align-items: center; gap: 10px; width: auto; box-shadow: 0 3px 6px rgba(0,0,0,0.2);">
-                           <i class="fas fa-phone-alt"></i> കോൾ
-                        </a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:15px; border-top:1px solid #eee; padding-top:10px; display: flex; gap: 10px;">
-                        <button class="edit-btn" style="flex: 1;" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" style="flex: 1;" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
-            }
+    <div class="call-section">
+        <a href="tel:${d.phone}" class="call-btn-new">
+           <i class="fas fa-phone-alt"></i> കോൾ
+        </a>
+    </div>
+    ${currentUser ? `<div class="admin-btns">
+        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+    </div>` : ""}
+</div>`
+       }
 
             container.innerHTML += displayHTML;
         });
