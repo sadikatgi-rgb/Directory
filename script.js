@@ -213,23 +213,25 @@ window.openCategory = async (catId, catName) => {
                 }
 
                 displayHTML = `
-                <div class="person-card">
+                <div class="person-card" style="display: flex; flex-direction: column; padding: 15px; border-radius: 15px; background: white; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                     <div class="person-info">
-                        <strong><i class="fas fa-user-circle"></i> ${d.name}</strong>
-                        <small><i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i> ${d.place}</small>
-                        ${catId === 'auto' ? `<small><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>` : ""}
+                        <strong style="font-size: 18px; color: #006400;"><i class="fas fa-user-circle"></i> ${d.name}</strong>
+                        <p style="margin: 5px 0; color: #d9534f;"><i class="fas fa-map-marker-alt"></i> ${d.place}</p>
+                        ${catId === 'auto' ? `<small style="display:block; margin: 5px 0; color: #f1c40f;"><i class="fas fa-taxi"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</small>` : ""}
                         ${extraInfo}
                     </div>
-                    <div class="call-section">
-                        <span class="phone-number"><i class="fas fa-phone-square-alt"></i> ${d.phone}</span>
-                        <a href="tel:${d.phone}" class="call-btn-new-circle"><i class="fas fa-phone-alt"></i></a>
+                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 10px;">
+                        <a href="tel:${d.phone}" style="background-color: #008000; color: white; padding: 10px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center;">
+                           <i class="fas fa-phone-alt"></i> കോൾ
+                        </a>
                     </div>
-                    ${currentUser ? `<div class="admin-btns">
+                    ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
                 </div>`;
             }
+
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
@@ -263,14 +265,25 @@ window.handleSaveData = async () => {
     }
     try {
         await addDoc(collection(db, cat), dataToSave);
-        alert("വിജയകരമായി ചേർത്തു!");
 
+        // അറിയിപ്പുകൾ ഇടുമ്പോൾ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
         if (cat === 'announcements') {
             loadScrollingNews();
+            // ഫയർബേസിലെ ടോക്കണുകൾ എടുത്ത് നോട്ടിഫിക്കേഷൻ അറിയിക്കുന്നു
+            const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+            tokensSnapshot.forEach(docSnap => {
+                const token = docSnap.data().token;
+                console.log("നോട്ടിഫിക്കേഷൻ അയക്കുന്നു: " + token);
+            });
+            alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
+        } else {
+            alert("വിജയകരമായി ചേർത്തു!");
         }
+        
         renderAdminFields(); 
     } catch (e) { alert("Error saving data!"); }
 };
+
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
