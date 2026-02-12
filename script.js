@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, setDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
@@ -44,14 +44,13 @@ async function setupNotifications() {
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
                 serviceWorkerRegistration: registration // ഇത് പ്രധാനമാണ്
             });
-
             if (token) {
                 //alert("FCM Token ലഭിച്ചു!"); 
-                await addDoc(collection(db, "fcm_tokens"), {
-                    token: token,
-                    timestamp: serverTimestamp(),
-                    deviceInfo: navigator.userAgent
-                });
+                 await setDoc(tokenRef, {
+        token: token,
+        timestamp: serverTimestamp(),
+        deviceInfo: navigator.userAgent
+    }, { merge: true }); 
             }
         } else {
             alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
