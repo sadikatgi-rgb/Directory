@@ -353,18 +353,20 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-       // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
+
+// സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // കൃത്യമായ ഫയൽ പേര് സ്മോൾ ലെറ്ററിൽ നൽകുന്നു
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => {
                 console.log('Service Worker registered', reg);
-            });
-    }).catch(err => {
+            })
+            .catch(err => {
                 console.log('Service Worker registration failed', err);
+            });
     });
 }
+
 async function sendPushNotification(title, body) {
     try {
         // ഡാറ്റാബേസിലുള്ള എല്ലാ ഫോൺ ടോക്കണുകളും എടുക്കുന്നു
