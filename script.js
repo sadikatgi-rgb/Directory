@@ -1,5 +1,5 @@
-Import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, setDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, setDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
@@ -21,7 +21,6 @@ let currentUser = null;
 
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('DOMContentLoaded', () => {
-    // ഫ്ലാഷ് സ്ക്രീൻ മാറ്റുന്നു
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -33,34 +32,63 @@ window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews();
     setupNotifications(); 
 });
+
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            // സർവീസ് വർക്കർ റെഡിയാകുന്നതുവരെ കാത്തിരിക്കുന്നു
             const registration = await navigator.serviceWorker.ready;
-            
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
-                serviceWorkerRegistration: registration // ഇത് പ്രധാനമാണ്
+                serviceWorkerRegistration: registration 
             });
-                        if (token) {
-                // ഈ വരിയാണ് നിങ്ങൾ വിട്ടുപോയത്:
+            if (token) {
+                // ടോക്കൺ ഐഡി ആയി സേവ് ചെയ്യുന്ന വരി
                 const tokenRef = doc(db, "fcm_tokens", token); 
-                
-                // ഇത് ടോക്കൺ ഐഡി ആയി സേവ് ചെയ്യാൻ സഹായിക്കും
                 await setDoc(tokenRef, {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
                 }, { merge: true });
             }
-
         } else {
             alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
         }
     } catch (error) {
-        alert("Notification Setup Error: " + error.message);
+        console.log("Notification Setup Error: " + error.message);
+    }
+}
+
+// സർവറിലേക്ക് നോട്ടിഫിക്കേഷൻ അയക്കുന്ന ഫംഗ്ഷൻ (ഇതായിരുന്നു 412 വരിയിൽ ഉണ്ടായിരുന്നത്)
+async function sendPushNotification(title, body) {
+    try {
+        const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+        const tokens = [];
+        tokensSnapshot.forEach(docSnap => {
+            if(docSnap.data().token) tokens.push(docSnap.data().token);
+        });
+
+        if (tokens.length === 0) return;
+
+        await fetch('https://fcm.googleapis.com/fcm/send', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'key=AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                registration_ids: tokens,
+                notification: {
+                    title: title,
+                    body: body,
+                    icon: "icon.png",
+                    click_action: "https://sadikatgi-rgb.github.io/Directory/" 
+                }
+            })
+        });
+        console.log("Notification sent successfully");
+    } catch (error) {
+        console.error("Error sending notification:", error);
     }
 }
 
@@ -75,20 +103,6 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
-window.addEventListener('DOMContentLoaded', () => {
-    loadScrollingNews();
-    setupNotifications(); 
-    setTimeout(() => {
-        const splash = document.getElementById('splash');
-        if(splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => splash.classList.add('hidden'), 800);
-        }
-    }, 2500);
-});
-
-// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 async function loadScrollingNews() {
     try {
         const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
@@ -156,10 +170,7 @@ window.openCategory = async (catId, catName) => {
         container.innerHTML = "";
 
         if (catId === 'admins') {
-            container.innerHTML += `
-            <div class="blink-text">
-                " പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "
-            </div>`;
+            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
@@ -171,41 +182,12 @@ window.openCategory = async (catId, catName) => {
             const d = docSnap.data();
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
-            
             let displayHTML = "";
 
             if (catId === 'announcements') {
-                displayHTML = `
-                <div class="person-card" style="border-left: 5px solid #ffeb33;">
-                    <div class="person-info" style="width: 100%;">
-                        <strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong>
-                        <p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
+                displayHTML = `<div class="person-card" style="border-left: 5px solid #ffeb33;"><div class="person-info" style="width: 100%;"><strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong><p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else if (catId === 'admins') {
-                displayHTML = `
-                <div class="person-card" style="border-left: 5px solid #006400;">
-                    <div class="person-info">
-                        <strong style="font-size: 18px !important; font-weight: 800;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
-                    </div>
-                    <div class="call-section" style="display: flex; gap: 8px;">
-                        <a href="tel:${d.phone}" class="call-btn-new">
-                           <i class="fas fa-phone-alt"></i> കോൾ
-                        </a>
-                        <a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;">
-                           <i class="fab fa-whatsapp"></i> Chat
-                        </a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
+                displayHTML = `<div class="person-card" style="border-left: 5px solid #006400;"><div class="person-info"><strong style="font-size: 18px !important; font-weight: 800;"><i class="fas fa-user-shield"></i> ${d.name}</strong><small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small></div><div class="call-section" style="display: flex; gap: 8px;"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a><a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else {
                 let extraInfo = "";
                 for (let key in d) {
@@ -214,39 +196,11 @@ window.openCategory = async (catId, catName) => {
                         extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                     }
                 }    
-displayHTML = `
-  <div class="person-card">
-    <div class="person-info">
-        <strong class="bold-text-950" style="font-size: 20px; color: #006400;">
-            <i class="fas fa-user-circle"></i> ${d.name}
-        </strong>
-        
-        <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
-            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
-        </p>
-
-        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
-        
-        <div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div>
-    </div>
-
-    <div class="call-section">
-        <a href="tel:${d.phone}" class="call-btn-new">
-           <i class="fas fa-phone-alt"></i> കോൾ
-        </a>
-    </div>
-    ${currentUser ? `<div class="admin-btns">
-        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-    </div>` : ""}
-</div>`
-       }
-
+                displayHTML = `<div class="person-card"><div class="person-info"><strong class="bold-text-950" style="font-size: 20px; color: #006400;"><i class="fas fa-user-circle"></i> ${d.name}</strong><p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}<div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+            }
             container.innerHTML += displayHTML;
         });
-    } catch (e) { 
-        container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
-    }
+    } catch (e) { container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>"; }
 };
 
 window.renderAdminFields = () => {
@@ -267,7 +221,6 @@ window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
     let dataToSave = { timestamp: serverTimestamp() }; 
-    
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
@@ -276,26 +229,15 @@ window.handleSaveData = async () => {
     try {
         await addDoc(collection(db, cat), dataToSave);
         if (cat === 'announcements') {
-    await sendPushNotification(dataToSave.name, dataToSave.description);
-}
-        // അറിയിപ്പുകൾ ഇടുമ്പോൾ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
-        if (cat === 'announcements') {
+            await sendPushNotification(dataToSave.name, dataToSave.description);
             loadScrollingNews();
-            // ഫയർബേസിലെ ടോക്കണുകൾ എടുത്ത് നോട്ടിഫിക്കേഷൻ അറിയിക്കുന്നു
-            const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-            tokensSnapshot.forEach(docSnap => {
-                const token = docSnap.data().token;
-                console.log("നോട്ടിഫിക്കേഷൻ അയക്കുന്നു: " + token);
-            });
             alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
         } else {
             alert("വിജയകരമായി ചേർത്തു!");
         }
-        
         renderAdminFields(); 
     } catch (e) { alert("Error saving data!"); }
 };
-
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
@@ -339,9 +281,9 @@ window.showAdminLogin = () => {
     if (currentUser) {
         document.getElementById('admin-panel').classList.remove('hidden');
         renderAdminFields(); 
+    } else {
+        document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    else document.getElementById('admin-login-screen').classList.remove('hidden');
-    
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -361,52 +303,16 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
-window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
-window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
-window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-       // സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
+// സൈഡ് മെനു ഫംഗ്ഷനുകൾ
+window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); }; 
+window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); }; 
+window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); }; 
+
+// സർവീസ് വർക്കർ രജിസ്ട്രേഷൻ (412-ാമത്തെ വരി)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // കൃത്യമായ ഫയൽ പേര് സ്മോൾ ലെറ്ററിൽ നൽകുന്നു
         navigator.serviceWorker.register('firebase-messaging-sw.js')
-            .then(reg => {
-                console.log('Service Worker registered', reg);
-            })
-            async function sendPushNotification(title, body) {
-    try {
-        // ഡാറ്റാബേസിലുള്ള എല്ലാ ഫോൺ ടോക്കണുകളും എടുക്കുന്നു
-        const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-        const tokens = [];
-        tokensSnapshot.forEach(doc => {
-            if(doc.data().token) tokens.push(doc.data().token);
-        });
-
-        if (tokens.length === 0) return;
-
-        // ഗൂഗിൾ സർവറിലേക്ക് നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
-        const response = await fetch('https://fcm.googleapis.com/fcm/send', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'key=AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                registration_ids: tokens,
-                notification: {
-                    title: title,
-                    body: body,
-                    icon: "icon.png", // നിങ്ങളുടെ ആപ്പ് ഐക്കൺ പേര്
-                    click_action: "https://sadikatgi-rgb.github.io/Directory/" 
-                }
-            })
-        });
-        console.log("Notification sent successfully");
-    } catch (error) {
-        console.error("Error sending notification:", error);
-    }
-}
-            .catch(err => {
-                console.log('Service Worker registration failed', err);
-            });
+            .then(reg => { console.log('Service Worker registered', reg); })
+            .catch(err => { console.log('Service Worker registration failed', err); });
     });
 }
