@@ -382,28 +382,34 @@ if ('serviceWorker' in navigator) {
 }
 
 // പഴയതിന് പകരം ഇത് ചേർക്കുക
-async function sendPushNotification(title, body, tokens) { // ഇവിടെ 'tokens' ചേർത്തു
+async function setupNotifications() {
     try {
-        if (!tokens || tokens.length === 0) return;
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            const registration = await navigator.serviceWorker.ready;
+            
+            const token = await getToken(messaging, { 
+                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
+                serviceWorkerRegistration: registration 
+            });
 
-        const response = await fetch('https://fcm.googleapis.com/fcm/send', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'key=നിങ്ങളുടെ_SERVER_KEY', 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                registration_ids: tokens, // ഇവിടെ ടോക്കണുകൾ കൃത്യമായി നൽകുന്നു
-                notification: {
-                    title: title,
-                    body: body,
-                    icon: "icon.png",
-                    click_action: "https://sadikatgi-rgb.github.io/Directory/" 
-                }
-            })
-        });
-        console.log("Notification Sent Status:", response.status);
+            if (token) {
+                // ഡോക്യുമെന്റ് ഐഡി ഉണ്ടാക്കുമ്പോൾ അതിൽ സ്പെഷ്യൽ ക്യാരക്ടർ വരുന്നത് ഒഴിവാക്കാൻ
+                // ടോക്കണിനെ ഒരു സ്ട്രിംഗ് ആയി തന്നെ എടുക്കുന്നു എന്ന് ഉറപ്പാക്കുക.
+                const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
+                const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
+                
+                await setDoc(tokenRef, {
+                    token: token,
+                    timestamp: serverTimestamp(),
+                    deviceInfo: navigator.userAgent,
+                    lastSeen: new Date().toLocaleString() // അവസാനമായി ആപ്പ് തുറന്ന സമയം
+                }, { merge: true });
+
+                console.log("Token saved/updated successfully");
+            }
+        }
     } catch (error) {
-        console.error("Error sending notification:", error);
+        console.error("Notification Setup Error:", error);
     }
 }
