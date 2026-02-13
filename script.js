@@ -361,13 +361,10 @@ if ('serviceWorker' in navigator) {
             .then(reg => {
                 console.log('Service Worker registered', reg);
             });
-            
-}
-            .catch(err => {
+    }).catch(err => {
                 console.log('Service Worker registration failed', err);
-            });
     });
-              }
+}
 async function sendPushNotification(title, body) {
     try {
         // ഡാറ്റാബേസിലുള്ള എല്ലാ ഫോൺ ടോക്കണുകളും എടുക്കുന്നു
