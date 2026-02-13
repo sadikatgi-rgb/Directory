@@ -44,14 +44,18 @@ async function setupNotifications() {
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
                 serviceWorkerRegistration: registration // ഇത് പ്രധാനമാണ്
             });
-            if (token) {
-                //alert("FCM Token ലഭിച്ചു!"); 
-                 await setDoc(tokenRef, {
-        token: token,
-        timestamp: serverTimestamp(),
-        deviceInfo: navigator.userAgent
-    }, { merge: true }); 
+                        if (token) {
+                // ഈ വരിയാണ് നിങ്ങൾ വിട്ടുപോയത്:
+                const tokenRef = doc(db, "fcm_tokens", token); 
+                
+                // ഇത് ടോക്കൺ ഐഡി ആയി സേവ് ചെയ്യാൻ സഹായിക്കും
+                await setDoc(tokenRef, {
+                    token: token,
+                    timestamp: serverTimestamp(),
+                    deviceInfo: navigator.userAgent
+                }, { merge: true });
             }
+
         } else {
             alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
         }
