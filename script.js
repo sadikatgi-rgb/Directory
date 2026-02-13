@@ -19,20 +19,30 @@ const messaging = getMessaging(app);
 
 let currentUser = null;
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
-window.addEventListener('DOMContentLoaded', () => {
-    loadScrollingNews(); // വാർത്തകൾ ലോഡ് ചെയ്യാൻ
-    setupNotifications(); // നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് ചെയ്യാൻ
+window.addEventListener('load', () => {
+    // വാർത്തകളും നോട്ടിഫിക്കേഷനും ലോഡ് ചെയ്യാൻ
+    loadScrollingNews();
+    setupNotifications();
 
+    // സർവീസ് വർക്കർ രജിസ്ട്രേഷൻ
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(reg => console.log('SW Registered'))
+            .catch(err => console.log('SW Failed', err));
+    }
+    
+    // സ്പ്ലാഷ് സ്ക്രീൻ (ലോഡിംഗ് സ്ക്രീൻ) നിർബന്ധമായും മാറ്റാൻ
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
             splash.style.opacity = '0';
             setTimeout(() => {
                 splash.classList.add('hidden');
-            }, 800);
+            }, 500);
         }
-    }, 2500); 
+    }, 3000); // 3 സെക്കൻഡ് കഴിഞ്ഞ് സ്ക്രീൻ മാറും
 });
+
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
