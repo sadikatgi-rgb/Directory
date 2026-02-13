@@ -209,12 +209,11 @@ window.openCategory = async (catId, catName) => {
                     }
                 }    
 displayHTML = `
-  <div class="person-card">
-    <div class="person-info">
-        <strong class="bold-text-950" style="font-size: 20px; color: #006400;">
-            <i class="fas fa-user-circle"></i> ${d.name}
-        </strong>
-        
+<div class="person-card">
+  <div class="person-info">
+    <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;">
+        <i class="fas fa-user-circle"></i> ${d.name}
+    </strong>   
         <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
             <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
         </p>
