@@ -261,28 +261,37 @@ window.handleSaveData = async () => {
         dataToSave[key] = val;
     }
     try {
-        await addDoc(collection(db, cat), dataToSave);
-        if (cat === 'announcements') {
-    await sendPushNotification(dataToSave.name, dataToSave.description);
-}
-        // അറിയിപ്പുകൾ ഇടുമ്പോൾ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
-        if (cat === 'announcements') {
-            loadScrollingNews();
-            // ഫയർബേസിലെ ടോക്കണുകൾ എടുത്ത് നോട്ടിഫിക്കേഷൻ അറിയിക്കുന്നു
-            const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-            tokensSnapshot.forEach(docSnap => {
-                const token = docSnap.data().token;
-                console.log("നോട്ടിഫിക്കേഷൻ അയക്കുന്നു: " + token);
-            });
+    // 1. ഡാറ്റ ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നു
+    await addDoc(collection(db, cat), dataToSave);
+
+    if (cat === 'announcements') {
+        loadScrollingNews();
+        
+        // 2. ഫയർബേസിലെ ടോക്കണുകൾ എടുക്കുന്നു
+        const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+        const tokens = [];
+        
+        tokensSnapshot.forEach(docSnap => {
+            const token = docSnap.data().token;
+            if (token) tokens.push(token); // ടോക്കണുകൾ ഒരു ലിസ്റ്റിലേക്ക് മാറ്റുന്നു
+        });
+
+        if (tokens.length > 0) {
+            // 3. എല്ലാ ടോക്കണുകളിലേക്കും നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+            await sendPushNotification(dataToSave.name, dataToSave.description, tokens);
             alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
         } else {
-            alert("വിജയകരമായി ചേർത്തു!");
+            alert("അറിയിപ്പ് സേവ് ചെയ്തു, പക്ഷെ ടോക്കണുകൾ ഒന്നും ലഭ്യമല്ല.");
         }
-        
-        renderAdminFields(); 
-    } catch (e) { alert("Error saving data!"); }
-};
-
+    } else {
+        alert("വിജയകരമായി ചേർത്തു!");
+    }
+    
+    renderAdminFields();
+} catch (e) {
+    alert("Error saving data!");
+    console.error(e);
+}
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
