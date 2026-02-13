@@ -294,7 +294,7 @@ window.handleSaveData = async () => {
             console.error("Error saving data: ", e);
             alert("Error saving data!");
         }
-
+};
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
         try {
