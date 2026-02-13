@@ -397,3 +397,4 @@ async function sendPushNotification(title, body) {
     } catch (error) {
         console.error("Error sending notification:", error);
                     }
+}
