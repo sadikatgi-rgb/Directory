@@ -37,30 +37,27 @@ async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            // സർവീസ് വർക്കർ റെഡിയാകുന്നതുവരെ കാത്തിരിക്കുന്നു
             const registration = await navigator.serviceWorker.ready;
             
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
-                serviceWorkerRegistration: registration // ഇത് പ്രധാനമാണ്
+                serviceWorkerRegistration: registration 
             });
-                        if (token) {
-                // ഈ വരിയാണ് നിങ്ങൾ വിട്ടുപോയത്:
+
+            if (token) {
+                // ടോക്കൺ ഐഡി തന്നെ ഡോക്യുമെന്റ് ഐഡി ആയി ഉപയോഗിക്കുന്നു
+                // ഇത് കാരണം ഒരേ ടോക്കൺ വീണ്ടും വന്നാൽ പഴയത് മാറി പുതിയത് വരില്ല, പകരം അപ്ഡേറ്റ് ആകുകയേ ഉള്ളൂ
                 const tokenRef = doc(db, "fcm_tokens", token); 
                 
-                // ഇത് ടോക്കൺ ഐഡി ആയി സേവ് ചെയ്യാൻ സഹായിക്കും
                 await setDoc(tokenRef, {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent
-                }, { merge: true });
+                }, { merge: true }); // merge: true നൽകുന്നത് കൊണ്ട് ഡാറ്റ ആവർത്തിക്കില്ല
             }
-
-        } else {
-            alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
         }
     } catch (error) {
-        alert("Notification Setup Error: " + error.message);
+        console.error("Notification Setup Error:", error);
     }
 }
 
