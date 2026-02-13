@@ -18,7 +18,6 @@ const auth = getAuth(app);
 const messaging = getMessaging(app);
 
 let currentUser = null;
-
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('DOMContentLoaded', () => {
     loadScrollingNews(); // വാർത്തകൾ ലോഡ് ചെയ്യാൻ
@@ -28,12 +27,11 @@ window.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('splash');
         if(splash) {
             splash.style.opacity = '0';
-            setTimeout(() => splash.classList.add('hidden'), 800);
+            setTimeout(() => {
+                splash.classList.add('hidden');
+            }, 800);
         }
-    }, 2500); // നിങ്ങൾക്ക് ഇഷ്ടമുള്ള സമയം (2000 അല്ലെങ്കിൽ 2500) നൽകാം
-});
-    loadScrollingNews();
-    setupNotifications(); 
+    }, 2500); 
 });
 async function setupNotifications() {
     try {
