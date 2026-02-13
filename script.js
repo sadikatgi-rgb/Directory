@@ -260,38 +260,40 @@ window.handleSaveData = async () => {
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
         dataToSave[key] = val;
     }
-    try {
-    // 1. ഡാറ്റ ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നു
-    await addDoc(collection(db, cat), dataToSave);
+            try {
+            // 1. ഡാറ്റ ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നു
+            await addDoc(collection(db, cat), dataToSave);
 
-    if (cat === 'announcements') {
-        loadScrollingNews();
-        
-        // 2. ഫയർബേസിലെ ടോക്കണുകൾ എടുക്കുന്നു
-        const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-        const tokens = [];
-        
-        tokensSnapshot.forEach(docSnap => {
-            const token = docSnap.data().token;
-            if (token) tokens.push(token); // ടോക്കണുകൾ ഒരു ലിസ്റ്റിലേക്ക് മാറ്റുന്നു
-        });
+            if (cat === 'announcements') {
+                loadScrollingNews();
+                
+                // 2. ഫയർബേസിലെ ടോക്കണുകൾ ശേഖരിക്കുന്നു
+                const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+                const tokens = [];
+                
+                tokensSnapshot.forEach(docSnap => {
+                    const tokenData = docSnap.data();
+                    if (tokenData && tokenData.token) {
+                        tokens.push(tokenData.token);
+                    }
+                });
 
-        if (tokens.length > 0) {
-            // 3. എല്ലാ ടോക്കണുകളിലേക്കും നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
-            await sendPushNotification(dataToSave.name, dataToSave.description, tokens);
-            alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
-        } else {
-            alert("അറിയിപ്പ് സേവ് ചെയ്തു, പക്ഷെ ടോക്കണുകൾ ഒന്നും ലഭ്യമല്ല.");
+                if (tokens.length > 0) {
+                    // 3. എല്ലാ ടോക്കണുകളിലേക്കും നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+                    await sendPushNotification(dataToSave.name, dataToSave.description, tokens);
+                    alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
+                } else {
+                    alert("അറിയിപ്പ് സേവ് ചെയ്തു, പക്ഷെ ടോക്കണുകൾ ഒന്നും ലഭ്യമല്ല.");
+                }
+            } else {
+                alert("വിജയകരമായി ചേർത്തു!");
+            }
+            
+            renderAdminFields();
+        } catch (e) {
+            console.error("Error saving data: ", e);
+            alert("Error saving data!");
         }
-    } else {
-        alert("വിജയകരമായി ചേർത്തു!");
-    }
-    
-    renderAdminFields();
-} catch (e) {
-    alert("Error saving data!");
-    console.error(e);
-}
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
