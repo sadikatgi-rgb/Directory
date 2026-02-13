@@ -275,7 +275,9 @@ window.handleSaveData = async () => {
     }
     try {
         await addDoc(collection(db, cat), dataToSave);
-
+        if (cat === 'announcements') {
+    await sendPushNotification(dataToSave.name, dataToSave.description);
+}
         // അറിയിപ്പുകൾ ഇടുമ്പോൾ മാത്രം നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
         if (cat === 'announcements') {
             loadScrollingNews();
@@ -370,6 +372,39 @@ if ('serviceWorker' in navigator) {
             .then(reg => {
                 console.log('Service Worker registered', reg);
             })
+            async function sendPushNotification(title, body) {
+    try {
+        // ഡാറ്റാബേസിലുള്ള എല്ലാ ഫോൺ ടോക്കണുകളും എടുക്കുന്നു
+        const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+        const tokens = [];
+        tokensSnapshot.forEach(doc => {
+            if(doc.data().token) tokens.push(doc.data().token);
+        });
+
+        if (tokens.length === 0) return;
+
+        // ഗൂഗിൾ സർവറിലേക്ക് നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+        const response = await fetch('https://fcm.googleapis.com/fcm/send', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'key=AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                registration_ids: tokens,
+                notification: {
+                    title: title,
+                    body: body,
+                    icon: "icon.png", // നിങ്ങളുടെ ആപ്പ് ഐക്കൺ പേര്
+                    click_action: "https://sadikatgi-rgb.github.io/Directory/" 
+                }
+            })
+        });
+        console.log("Notification sent successfully");
+    } catch (error) {
+        console.error("Error sending notification:", error);
+    }
+}
             .catch(err => {
                 console.log('Service Worker registration failed', err);
             });
