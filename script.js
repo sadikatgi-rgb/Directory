@@ -33,6 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setupNotifications(); 
 });
 
+// --- നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് ---
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
@@ -42,8 +43,9 @@ async function setupNotifications() {
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
                 serviceWorkerRegistration: registration 
             });
+
             if (token) {
-                // ടോക്കൺ ഐഡി ആയി സേവ് ചെയ്യുന്ന വരി
+                // ടോക്കൺ ഉണ്ടെങ്കിൽ അത് ഡാറ്റാബേസിലേക്ക് ആഡ് ചെയ്യുന്നു/അപ്‌ഡേറ്റ് ചെയ്യുന്നു
                 const tokenRef = doc(db, "fcm_tokens", token); 
                 await setDoc(tokenRef, {
                     token: token,
@@ -51,15 +53,13 @@ async function setupNotifications() {
                     deviceInfo: navigator.userAgent
                 }, { merge: true });
             }
-        } else {
-            alert("നോട്ടിഫിക്കേഷൻ ബ്ലോക്ക് ചെയ്തിരിക്കുകയാണ്!");
         }
     } catch (error) {
-        console.log("Notification Setup Error: " + error.message);
+        console.error("Notification Setup Error: ", error);
     }
 }
 
-// സർവറിലേക്ക് നോട്ടിഫിക്കേഷൻ അയക്കുന്ന ഫംഗ്ഷൻ (ഇതായിരുന്നു 412 വരിയിൽ ഉണ്ടായിരുന്നത്)
+// --- പുഷ് നോട്ടിഫിക്കേഷൻ അയക്കാൻ ---
 async function sendPushNotification(title, body) {
     try {
         const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
@@ -130,7 +130,6 @@ window.showHome = () => {
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
     if(overlay) overlay.style.display = 'none';
-    loadScrollingNews();
 };
 
 window.toggleMenu = () => {
@@ -152,12 +151,6 @@ window.openCategory = async (catId, catName) => {
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
 
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        searchInput.style.display = (catId === 'admins') ? 'none' : 'block';
-        searchInput.value = ""; 
-    }
-
     try {
         let q;
         if(catId === 'announcements' || catId === 'admins') {
@@ -170,7 +163,7 @@ window.openCategory = async (catId, catName) => {
         container.innerHTML = "";
 
         if (catId === 'admins') {
-            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
+            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
@@ -185,22 +178,13 @@ window.openCategory = async (catId, catName) => {
             let displayHTML = "";
 
             if (catId === 'announcements') {
-                displayHTML = `<div class="person-card" style="border-left: 5px solid #ffeb33;"><div class="person-info" style="width: 100%;"><strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong><p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
-            } else if (catId === 'admins') {
-                displayHTML = `<div class="person-card" style="border-left: 5px solid #006400;"><div class="person-info"><strong style="font-size: 18px !important; font-weight: 800;"><i class="fas fa-user-shield"></i> ${d.name}</strong><small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small></div><div class="call-section" style="display: flex; gap: 8px;"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a><a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+                displayHTML = `<div class="person-card" style="border-left: 5px solid #ffeb33;"><div class="person-info"><strong>${d.name}</strong><p>${d.description}</p></div>${currentUser ? `<button onclick="deleteEntry('${catId}', '${id}')">Delete</button>` : ""}</div>`;
             } else {
-                let extraInfo = "";
-                for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp'].includes(key)) { 
-                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
-                    }
-                }    
-                displayHTML = `<div class="person-card"><div class="person-info"><strong class="bold-text-950" style="font-size: 20px; color: #006400;"><i class="fas fa-user-circle"></i> ${d.name}</strong><p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}<div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+                displayHTML = `<div class="person-card"><div><strong>${d.name}</strong><p>${d.place || ''}</p></div><a href="tel:${d.phone}" class="call-btn-new">കോൾ</a></div>`;
             }
             container.innerHTML += displayHTML;
         });
-    } catch (e) { container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>"; }
+    } catch (e) { container.innerHTML = "<p>Error loading data.</p>"; }
 };
 
 window.renderAdminFields = () => {
@@ -209,11 +193,7 @@ window.renderAdminFields = () => {
     const fields = categoryConfig[cat] || categoryConfig['default'];
     container.innerHTML = ""; 
     for (let key in fields) {
-        if(key === 'description') {
-            container.innerHTML += `<textarea id="field-${key}" placeholder="${fields[key]}" style="width:100%; height:80px; margin-bottom:10px; padding:8px; border-radius:5px; border:1px solid #ccc;"></textarea>`;
-        } else {
-            container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
-        }
+        container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
     }
 };
 
@@ -221,59 +201,22 @@ window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
     let dataToSave = { timestamp: serverTimestamp() }; 
+    
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
         dataToSave[key] = val;
     }
+
     try {
         await addDoc(collection(db, cat), dataToSave);
         if (cat === 'announcements') {
             await sendPushNotification(dataToSave.name, dataToSave.description);
             loadScrollingNews();
-            alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
-        } else {
-            alert("വിജയകരമായി ചേർത്തു!");
         }
+        alert("വിജയകരമായി ചേർത്തു!");
         renderAdminFields(); 
     } catch (e) { alert("Error saving data!"); }
-};
-
-window.deleteEntry = async (catId, docId) => {
-    if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
-        try {
-            await deleteDoc(doc(db, catId, docId));
-            alert("നീക്കം ചെയ്തു!");
-            const title = document.getElementById('current-cat-title').innerText;
-            openCategory(catId, title); 
-        } catch (e) { alert("Error deleting!"); }
-    }
-};
-
-window.editEntry = async (catId, docId, currentDataStr) => {
-    const currentData = JSON.parse(decodeURIComponent(currentDataStr));
-    const fields = categoryConfig[catId] || categoryConfig['default'];
-    let newData = { timestamp: serverTimestamp() }; 
-    for (let key in fields) {
-        const val = prompt(`${fields[key]} തിരുത്തുക:`, currentData[key] || "");
-        if (val === null) return; 
-        newData[key] = val;
-    }
-    try {
-        await updateDoc(doc(db, catId, docId), newData);
-        alert("വിവരങ്ങൾ പുതുക്കി!");
-        const title = document.getElementById('current-cat-title').innerText;
-        openCategory(catId, title);
-    } catch (e) { alert("Error updating!"); }
-};
-
-window.filterResults = () => {
-    const filter = document.getElementById('search-input').value.toLowerCase();
-    const cards = document.getElementsByClassName('person-card');
-    for (let i = 0; i < cards.length; i++) {
-        const text = cards[i].innerText.toLowerCase();
-        cards[i].style.display = text.includes(filter) ? "" : "none";
-    }
 };
 
 window.showAdminLogin = () => { 
@@ -281,13 +224,8 @@ window.showAdminLogin = () => {
     if (currentUser) {
         document.getElementById('admin-panel').classList.remove('hidden');
         renderAdminFields(); 
-    } else {
-        document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    const sidebar = document.getElementById('sidebar');
-    if(sidebar) sidebar.classList.remove('active');
-    const overlay = document.getElementById('overlay');
-    if(overlay) overlay.style.display = 'none';
+    else document.getElementById('admin-login-screen').classList.remove('hidden');
 };
 
 window.handleLogin = async () => {
@@ -303,16 +241,19 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
-// സൈഡ് മെനു ഫംഗ്ഷനുകൾ
-window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); }; 
-window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); }; 
-window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); }; 
+window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
+window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
+window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
 
-// സർവീസ് വർക്കർ രജിസ്ട്രേഷൻ (412-ാമത്തെ വരി)
+// --- സർവീസ് വർക്കർ രജിസ്ട്രേഷൻ ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('firebase-messaging-sw.js')
-            .then(reg => { console.log('Service Worker registered', reg); })
-            .catch(err => { console.log('Service Worker registration failed', err); });
+            .then(reg => {
+                console.log('Service Worker registered', reg);
+            })
+            .catch(err => {
+                console.error('Service Worker registration failed', err);
+            });
     });
 }
