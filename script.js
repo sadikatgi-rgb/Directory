@@ -261,14 +261,14 @@ window.handleSaveData = async () => {
         dataToSave[key] = val;
     }
 
-    try {
-        // 1. ഡാറ്റ ഡാറ്റാബേസിലേക്ക് സേവ് ചെയ്യുന്നു
+        try {
+        // 1. ഡാറ്റ സേവ് ചെയ്യുന്നു
         await addDoc(collection(db, cat), dataToSave);
 
         if (cat === 'announcements') {
             loadScrollingNews();
             
-            // 2. ഫയർബേസിലെ ടോക്കണുകൾ ശേഖരിക്കുന്നു
+            // 2. ടോക്കണുകൾ ശേഖരിക്കുന്നു
             const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
             const tokens = [];
             
@@ -280,11 +280,11 @@ window.handleSaveData = async () => {
             });
 
             if (tokens.length > 0) {
-                // 3. എല്ലാ ടോക്കണുകളിലേക്കും നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
+                // 3. നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
                 await sendPushNotification(dataToSave.name, dataToSave.description, tokens);
                 alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
             } else {
-                alert("അറിയിപ്പ് സേവ് ചെയ്തു, പക്ഷെ ടോക്കണുകൾ ഒന്നും ലഭ്യമല്ല.");
+                alert("അറിയിപ്പ് സേവ് ചെയ്തു!");
             }
         } else {
             alert("വിജയകരമായി ചേർത്തു!");
@@ -295,7 +295,7 @@ window.handleSaveData = async () => {
         console.error("Error saving data: ", e);
         alert("Error saving data!");
     }
-}; // ഫംഗ്ഷൻ ഇവിടെ അവസാനിക്കുന്നു
+}; // handleSaveData ഇവിടെ അവസാനിക്കുന്നു
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
