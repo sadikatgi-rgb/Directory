@@ -21,15 +21,17 @@ let currentUser = null;
 
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('DOMContentLoaded', () => {
-    // ഫ്ലാഷ് സ്ക്രീൻ മാറ്റുന്നു
+    loadScrollingNews(); // വാർത്തകൾ ലോഡ് ചെയ്യാൻ
+    setupNotifications(); // നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് ചെയ്യാൻ
+
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
             splash.style.opacity = '0';
             setTimeout(() => splash.classList.add('hidden'), 800);
         }
-    }, 2000);
-
+    }, 2500); // നിങ്ങൾക്ക് ഇഷ്ടമുള്ള സമയം (2000 അല്ലെങ്കിൽ 2500) നൽകാം
+});
     loadScrollingNews();
     setupNotifications(); 
 });
@@ -74,19 +76,6 @@ const categoryConfig = {
     'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
-
-// --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
-window.addEventListener('DOMContentLoaded', () => {
-    loadScrollingNews();
-    setupNotifications(); 
-    setTimeout(() => {
-        const splash = document.getElementById('splash');
-        if(splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => splash.classList.add('hidden'), 800);
-        }
-    }, 2500);
-});
 
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 async function loadScrollingNews() {
@@ -371,8 +360,15 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => {
                 console.log('Service Worker registered', reg);
-            })
-            async function sendPushNotification(title, body) {
+            });
+            
+}
+            .catch(err => {
+                console.log('Service Worker registration failed', err);
+            });
+    });
+              }
+async function sendPushNotification(title, body) {
     try {
         // ഡാറ്റാബേസിലുള്ള എല്ലാ ഫോൺ ടോക്കണുകളും എടുക്കുന്നു
         const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
@@ -403,10 +399,4 @@ if ('serviceWorker' in navigator) {
         console.log("Notification sent successfully");
     } catch (error) {
         console.error("Error sending notification:", error);
-    }
-}
-            .catch(err => {
-                console.log('Service Worker registration failed', err);
-            });
-    });
-              }
+                    }
