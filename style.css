@@ -110,7 +110,7 @@ header {
     color: #000;           /* നിറം കറുപ്പാക്കി */
     text-decoration: none; 
     border-bottom: 1px solid #eee; 
-    font-weight: 800;      /* ഫോണ്ട് കട്ടി കൂട്ടാൻ (Bold) */
+    font-weight: 700;      /* ഫോണ്ട് കട്ടി കൂട്ടാൻ (Bold) */
     font-size: 18px;       /* വലിപ്പം അല്പം കൂട്ടി */
 }
 
