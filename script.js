@@ -60,10 +60,14 @@ async function loadScrollingNews() {
         const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
         const querySnapshot = await getDocs(q);
         const ticker = document.getElementById('latest-news');
-        if (!querySnapshot.empty) {
+                if (!querySnapshot.empty) {
             const lastDoc = querySnapshot.docs[0].data();
-             if(ticker) {
-                ticker.innerHTML = `<span style="color:#1b5e20;">📢 അറിയിപ്പ്:</span> ${lastDoc.name}`;
+            if(ticker) {
+                // ഹെഡിംഗും വിവരണവും ചേർത്ത് കാണിക്കാൻ
+                ticker.innerHTML = `
+                    <span style="color:#1b5e20;">📢 അറിയിപ്പ്:</span> 
+                    <b>${lastDoc.name}</b> - <small>${lastDoc.description}</small>
+                `;
             }
         } // ഈ ബ്രായ്ക്കറ്റ് വിട്ടുപോയതാണ് പ്രശ്നം
     } catch (e) { console.error("News Load Error:", e); }
