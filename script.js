@@ -137,18 +137,19 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let displayHTML = "";
 
-            if (catId === 'announcements') {
-                displayHTML = `
-                <div class="person-card" style="border-left: 5px solid #ffeb33;">
-                    <div class="person-info" style="width: 100%;">
-                        <strong style="font-size: 18px; color: #006400;"><i class="fas fa-bullhorn"></i> ${d.name}</strong>
-                        <p style="margin-top: 10px; color: #333; line-height: 1.5;">${d.description}</p>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
+                    if (catId === 'announcements') {
+            displayHTML = `
+            <div class="announcement-card">
+                <div class="announcement-title">
+                    <i class="fas fa-bullhorn"></i> ${d.name}
+                </div>
+                <div class="announcement-desc">${d.description}</div>
+                ${currentUser ? `<div class="admin-btns" style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+                    <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                </div>` : ""}
+            </div>`;
+        }
             } else if (catId === 'admins') {
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
