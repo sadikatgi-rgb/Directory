@@ -164,11 +164,10 @@ window.openCategory = async (catId, catName) => {
         </div>
         <div class="call-section" style="display: flex; gap: 8px; margin-top: 10px;">
             <a href="tel:${d.phone}" class="call-btn-new" style="background: #006400; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
-            
-            <a href="whatsapp://send?phone=91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
-               <i class="fab fa-whatsapp"></i> Chat
-            </a>
-        </div>
+            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone.replace(/\s+/g, '')}')" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
+   <i class="fab fa-whatsapp"></i> Chat
+</a>     
+       </div>
         ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
             <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
             <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
@@ -343,3 +342,15 @@ async function setupNotifications() {
         console.error("Notification Setup Error:", error); 
     }
 }
+window.goToWhatsApp = function(phoneNumber) {
+    const cleanNumber = phoneNumber.replace(/\D/g, '');
+    // നേരിട്ട് ആപ്പ് തുറക്കാൻ ശ്രമിക്കുന്നു
+    window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
+
+    // ആപ്പ് തുറന്നില്ലെങ്കിൽ മാത്രം സൈറ്റിലേക്ക് പോകാൻ
+    setTimeout(function() {
+        if (document.hasFocus()) {
+            window.open(`https://wa.me/91${cleanNumber}`, '_blank');
+        }
+    }, 1000);
+};
