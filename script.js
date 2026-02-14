@@ -306,6 +306,7 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
@@ -320,21 +321,20 @@ async function setupNotifications() {
         if (token) {
             const savedToken = localStorage.getItem('fcm_token');
             
-            // ടോക്കൺ മാറിയിട്ടുണ്ടെങ്കിൽ മാത്രം ഡാറ്റാബേസ് അപ്ഡേറ്റ് ചെയ്യുക
             if (savedToken !== token) {
-                // പഴയ ടോക്കൺ ലോക്കൽ സ്റ്റോറേജിൽ ഉണ്ടെങ്കിൽ ഡാറ്റാബേസിൽ നിന്ന് അത് കളയാൻ ശ്രമിക്കാം (ഓപ്ഷണൽ)
-                
-                const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
-                const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
+                // ടോക്കണിന് പകരം ഫോണിനെ തിരിച്ചറിയാൻ ഒരു സ്ഥിരമായ ഐഡി ഉണ്ടാക്കുന്നു
+                const deviceId = btoa(navigator.userAgent).substring(0, 25).replace(/[/+=]/g, '');
+                const tokenRef = doc(db, "fcm_tokens", deviceId); 
                 
                 await setDoc(tokenRef, {
                     token: token,
                     timestamp: serverTimestamp(),
-                    lastSeen: new Date().toLocaleString()
+                    lastSeen: new Date().toLocaleString(),
+                    device: navigator.platform
                 }, { merge: true });
 
                 localStorage.setItem('fcm_token', token);
-                console.log('Token sync complete.');
+                console.log('Token sync complete with Device ID.');
             }
         }
     } catch (error) { 
