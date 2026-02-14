@@ -580,3 +580,31 @@ header h1 {
     color: #333;
 }
 
+/* ടൈറ്റിൽ വലിപ്പം കുറച്ച് കട്ടി കൂട്ടാൻ */
+header h1 {
+    font-weight: 950 !important;
+    font-size: 19px !important;
+    color: #ffffff !important;
+}
+
+/* ഹോം പേജിലെ ഐക്കൺ പേരുകൾ വ്യക്തമാകാൻ */
+.category-item span {
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    color: #000000 !important;
+}
+
+/* സൈഡ് മെനുവിലെ അക്ഷരങ്ങൾ കട്ടികൂട്ടാൻ */
+.sidebar-menu li a {
+    font-weight: 850 !important;
+    font-size: 16px !important;
+    color: #222 !important;
+}
+
+/* അറിയിപ്പ് ബാറിലെ അക്ഷരങ്ങൾ */
+#latest-news {
+    font-weight: 900 !important;
+    font-size: 15px !important;
+    color: #b71c1c !important;
+    text-align: center;
+}
