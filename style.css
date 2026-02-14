@@ -620,7 +620,7 @@ header h1 {
 .news-ticker-scroll {
     display: inline-block;
     white-space: nowrap;
-    animation: marquee-news 15s linear infinite;
+    animation: marquee-news 30s linear infinite;
     padding-left: 100%; /* വലത്തുനിന്ന് തുടങ്ങാൻ */
 }
 
