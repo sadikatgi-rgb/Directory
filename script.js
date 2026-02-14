@@ -36,6 +36,7 @@ window.addEventListener('load', () => {
         const splash = document.getElementById('splash');
         if(splash) {
             splash.style.opacity = '0';
+            splash.style.display = 'none';
             setTimeout(() => {
                 splash.classList.add('hidden');
             }, 500);
@@ -171,7 +172,7 @@ window.openCategory = async (catId, catName) => {
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
-                </div>`;
+                </div>
             } else {
                 let extraInfo = "";
                 for (let key in d) {
