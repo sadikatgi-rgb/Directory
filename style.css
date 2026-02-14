@@ -647,7 +647,7 @@ header h1 {
 .news-ticker-scroll {
     display: inline-block;
     white-space: nowrap;
-    animation: news-marquee 18s linear infinite; /* സ്ക്രോളിംഗ് വേഗത */
+    animation: news-marquee 30s linear infinite; /* സ്ക്രോളിംഗ് വേഗത */
 }
 
 @keyframes news-marquee {
