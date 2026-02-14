@@ -464,3 +464,31 @@ input, select, textarea {
     line-height: 1.6;
     font-weight: 500;
 }
+
+/* മുകളിലെ വാർത്താ ബോക്സ് */
+#news-ticker {
+    background: #ffeb3b; /* തിളക്കമുള്ള മഞ്ഞ */
+    border-bottom: 3px solid #fbc02d;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#latest-news {
+    color: #b71c1c; /* കടും ചുവപ്പ് നിറം - പെട്ടെന്ന് ശ്രദ്ധിക്കാൻ */
+    font-weight: 900;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    animation: news-glow 1.5s infinite alternate; /* തിളങ്ങുന്ന ഇഫക്ട് */
+}
+
+/* അക്ഷരങ്ങൾ മെല്ലെ തിളങ്ങാൻ */
+@keyframes news-glow {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0.8; transform: scale(1.02); }
+}
