@@ -492,3 +492,9 @@ input, select, textarea {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0.8; transform: scale(1.02); }
 }
+#latest-news {
+    white-space: normal; /* വരികൾ ആവശ്യമെങ്കിൽ താഴേക്ക് വരാൻ */
+    line-height: 1.2;
+    padding: 5px 10px;
+    font-size: 16px !important; /* വിവരണം കൂടി ഉള്ളതിനാൽ വലിപ്പം അല്പം കുറയ്ക്കുന്നത് നന്നായിരിക്കും */
+}
