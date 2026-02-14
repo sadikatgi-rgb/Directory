@@ -316,17 +316,32 @@ async function setupNotifications() {
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
                 serviceWorkerRegistration: registration 
             });
+
             if (token) {
-                const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
-                const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
-                await setDoc(tokenRef, {
-                    token: token,
-                    timestamp: serverTimestamp(),
-                    deviceInfo: navigator.userAgent,
-                    lastSeen: new Date().toLocaleString()
-                }, { merge: true });
+                // ലോക്കൽ സ്റ്റോറേജ് ഉപയോഗിച്ച് ഈ ഫോണിൽ ടോക്കൺ ഉണ്ടോ എന്ന് നോക്കുന്നു
+                const savedToken = localStorage.getItem('fcm_token');
+                
+                if (savedToken !== token) {
+                    const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
+                    const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
+                    
+                    await setDoc(tokenRef, {
+                        token: token,
+                        timestamp: serverTimestamp(),
+                        deviceInfo: navigator.userAgent,
+                        lastSeen: new Date().toLocaleString()
+                    }, { merge: true });
+
+                    // സേവ് ചെയ്ത ടോക്കൺ ഫോണിൽ സ്റ്റോർ ചെയ്യുന്നു
+                    localStorage.setItem('fcm_token', token);
+                    console.log('New Token Saved Successfully');
+                } else {
+                    console.log('Token already exists for this device');
+                }
             }
         }
-    } catch (error) { console.error("Notification Setup Error:", error); }
+    } catch (error) { 
+        console.error("Notification Setup Error:", error); 
+    }
 }
 
