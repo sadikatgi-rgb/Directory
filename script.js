@@ -60,17 +60,24 @@ async function loadScrollingNews() {
         const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
         const querySnapshot = await getDocs(q);
         const ticker = document.getElementById('latest-news');
-                if (!querySnapshot.empty) {
+
+        if (!querySnapshot.empty) {
             const lastDoc = querySnapshot.docs[0].data();
             if(ticker) {
-                // ഹെഡിംഗും വിവരണവും ചേർത്ത് കാണിക്കാൻ
+                // ഒരൊറ്റ ലൈനിൽ സ്ക്രോൾ ചെയ്യുന്ന രീതിയിലുള്ള ഉള്ളടക്കം
                 ticker.innerHTML = `
-                    <span style="color:#1b5e20;">📢 അറിയിപ്പ്:</span> 
-                    <b>${lastDoc.name}</b> - <small>${lastDoc.description}</small>
+                    <div class="news-ticker-scroll">
+                        📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${lastDoc.name}</span> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="color: #000; font-weight: 700; font-size: 16px;">${lastDoc.description}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
                 `;
             }
-        } // ഈ ബ്രായ്ക്കറ്റ് വിട്ടുപോയതാണ് പ്രശ്നം
-    } catch (e) { console.error("News Load Error:", e); }
+        }
+    } catch (e) { 
+        console.error("News Load Error:", e); 
+    }
 }
 
 function hideAll() {
