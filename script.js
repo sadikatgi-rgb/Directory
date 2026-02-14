@@ -171,9 +171,9 @@ window.openCategory = async (catId, catName) => {
         </div>
         <div class="call-section" style="display: flex; gap: 8px; margin-top: 10px;">
             <a href="tel:${d.phone}" class="call-btn-new" style="background: #006400; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
-            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone.replace(/\s+/g, '')}')" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
+             <a href="https://api.whatsapp.com/send?phone=91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
    <i class="fab fa-whatsapp"></i> Chat
-</a>     
+</a>
        </div>
         ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
             <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
