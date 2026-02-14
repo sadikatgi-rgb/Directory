@@ -137,7 +137,7 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let displayHTML = "";
 
-                    if (catId === 'announcements') {
+         if (catId === 'announcements') {
             displayHTML = `
             <div class="announcement-card">
                 <div class="announcement-title">
@@ -149,8 +149,7 @@ window.openCategory = async (catId, catName) => {
                     <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                 </div>` : ""}
             </div>`;
-        }
-            } else if (catId === 'admins') {
+        } else if (catId === 'admins') {
                 displayHTML = `
                 <div class="person-card" style="border-left: 5px solid #006400;">
                     <div class="person-info">
