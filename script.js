@@ -62,8 +62,9 @@ async function loadScrollingNews() {
         const ticker = document.getElementById('latest-news');
         if (!querySnapshot.empty) {
             const lastDoc = querySnapshot.docs[0].data();
-            if(ticker) ticker.innerText = `${lastDoc.name}: ${lastDoc.description}`;
-        }
+             if(ticker) {
+                ticker.innerHTML = `<span style="color:#1b5e20;">📢 അറിയിപ്പ്:</span> ${lastDoc.name}`;
+            }
     } catch (e) { console.error("News Load Error:", e); }
 }
 
