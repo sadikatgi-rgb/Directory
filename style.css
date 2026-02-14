@@ -6,19 +6,14 @@
     --danger: #ff4444;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 /* 1. Base Styles */
 body, html { 
     font-family: 'Manjari', sans-serif; 
-    margin: 0; 
-    padding: 0;
-    background: var(--bg); 
-    color: var(--text);
-    height: 100%;
-    width: 100%;
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    height: 100%; width: 100%;
     overflow: hidden;
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
@@ -34,623 +29,127 @@ body, html {
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .hidden { display: none !important; }
 
-/* 3. Header */
+/* 3. Header & Navigation */
 header { 
-    background: var(--primary); 
-    color: white; 
-    padding: 0 15px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    height: 60px;
-    box-sizing: border-box;
-    position: relative; 
-    z-index: 100; 
-    font-weight: 900;
+    background: var(--primary); color: white; padding: 0 15px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    height: 60px; position: relative; z-index: 100; 
+}
+header h1 {
+    font-weight: 950 !important;
+    font-size: 19px !important;
+    margin: 0;
+    letter-spacing: 0.5px;
 }
 .menu-icon { font-size: 24px; cursor: pointer; }
 
 /* 4. Main Container */
 .container { 
     padding: 10px 15px 150px 15px !important; 
-    width: 100%;
-    max-width: 500px; 
-    margin: 0 auto; 
+    width: 100%; max-width: 500px; margin: 0 auto; 
     height: calc(100vh - 60px); 
-    overflow-y: auto !important; 
-    overflow-x: hidden;
+    overflow-y: auto !important; overflow-x: hidden;
     -webkit-overflow-scrolling: touch; 
-    box-sizing: border-box;
 }
+
 /* 5. Sidebar & Overlay */
 .sidebar { 
-    position: fixed; 
-    left: -260px; 
-    width: 250px; 
-    height: 100%; 
-    background: white; 
-    z-index: 1001; 
-    transition: 0.3s; 
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
-    display: flex;
-    flex-direction: column;
+    position: fixed; left: -260px; width: 250px; height: 100%; 
+    background: white; z-index: 1001; transition: 0.3s; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1); display: flex; flex-direction: column;
 }
 .sidebar.active { left: 0; }
-
-.sidebar-top-img { 
-    width: 100%; 
-    margin: 0;      
-    padding: 0;     
-    background-color: var(--primary); /* വെള്ള നിറം വരുന്നത് തടയാൻ */
-    overflow: hidden;
-}
-
-.sidebar-top-img img { 
-    display: block; 
-    width: 100%; 
-    height: auto; 
-    margin: 0;
-    padding: 0;
-    border: none;
-    object-fit: cover; /* ഫോട്ടോ വലിഞ്ഞു പോകാതിരിക്കാൻ */
-}
-
-.sidebar-header { 
-    background-color: var(--primary); 
-    color: white; 
-    padding: 15px; 
-    margin-top: -1px;  /* ഫോട്ടോയ്ക്കും ഹെഡറിനും ഇടയിലെ നേർത്ത വെള്ള വര ഒഴിവാക്കാൻ */
-    font-weight: bold; 
-    border: none;
-    text-align: center;
-}
-
-/* ഇവിടെയാണ് മാറ്റം വരുത്തിയിരിക്കുന്നത് */
+.sidebar-top-img { width: 100%; background-color: var(--primary); overflow: hidden; }
+.sidebar-top-img img { display: block; width: 100%; height: auto; object-fit: cover; }
+.sidebar-header { background-color: var(--primary); color: white; padding: 15px; text-align: center; font-weight: bold; }
 .sidebar a { 
-    display: block; 
-    padding: 15px; 
-    color: #000;           /* നിറം കറുപ്പാക്കി */
-    text-decoration: none; 
-    border-bottom: 1px solid #eee; 
-    font-weight: 800;      /* ഫോണ്ട് കട്ടി കൂട്ടാൻ (Bold) */
-    font-size: 19px;       /* വലിപ്പം അല്പം കൂട്ടി */
+    display: block; padding: 15px; color: #000; text-decoration: none; 
+    border-bottom: 1px solid #eee; font-weight: 850; font-size: 16px; 
 }
-
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; top: 0; left: 0; }
 
-
-/* 6. Grid System (Home Cards) */
-.grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 15px; 
-    width: 100%;
-    padding: 5px; 
-    box-sizing: border-box;
-}
-
+/* 6. Grid & Home Cards */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 5px; }
 .card { 
-    background: white; 
-    padding: 20px 10px; 
-    border-radius: 20px; 
-    text-align: center; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-    border: 1px solid #eee; 
-    cursor: pointer;
-    width: 100%; 
-    box-sizing: border-box; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background: white; padding: 20px 10px; border-radius: 20px; 
+    text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    border: 1px solid #eee; cursor: pointer; display: flex; flex-direction: column; align-items: center;
 }
-
-.card p {
-    font-weight: 800 !important; 
-    font-size: 16px !important;  
-    color: #004d00;            
+.category-item span {
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    color: #000 !important;
     margin-top: 10px;
-    letter-spacing: 0.5px;      
-    word-wrap: break-word;       
 }
 .card img { width: 45px; height: 45px; margin-bottom: 10px; }
 
-/* 7. Search Bar */
-#search-input {
+/* 7. Announcement Bar (Scrolling) */
+#news-ticker {
+    background: #ffeb3b;
+    border-bottom: 3px solid #fbc02d;
+    height: 45px !important;
+    display: flex; align-items: center; overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+#latest-news {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center;
     width: 100%;
-    padding: 15px 20px !important;
-    margin: 10px 0 20px 0;
-    border: 2px solid var(--primary);
-    border-radius: 15px;
-    font-size: 18px !important; 
-    box-sizing: border-box;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    font-family: 'Manjari';
+}
+.news-ticker-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    color: #b71c1c !important;
+    animation: news-marquee 18s linear infinite;
+    padding-left: 100%;
+}
+@keyframes news-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-200%); }
 }
 
 /* 8. Professional List Card Design */
 .person-card {
-    background: #ffffff;
-    padding: 20px !important;
-    border-radius: 18px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border-left: 6px solid var(--primary);
-    position: relative;
-    transition: transform 0.2s ease;
+    background: #ffffff; padding: 20px; border-radius: 18px; margin-bottom: 15px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 6px solid var(--primary);
 }
-.person-card:active { transform: scale(0.98); }
+.person-info strong { font-size: 19px !important; font-weight: 950 !important; color: #004d00; display: block; }
+.person-info small { font-size: 16px; font-weight: bold; color: #333; display: block; margin-top: 4px; }
 
-.person-info strong {
-    font-size: 19px !important; 
-    color: var(--primary);
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 900; 
-}
+/* 9. Buttons (Call & WhatsApp) */
+.call-section { display: flex; justify-content: space-around; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; }
 
-/* പുതിയ അപ്ഡേറ്റ്: അഡ്മിൻ പേരിന്റെ വലിപ്പം കുറച്ച് കട്ടി കൂട്ടാൻ */
-.admin-name-small {
-    font-size: 16px !important; 
-    font-weight: 900 !important; 
-    color: #004d00 !important;
-    line-height: 1.4;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.person-info small {
-    font-size: 18px !important; 
-    color: #333; 
-    display: block;
-    line-height: 1.6;
-    margin-top: 2px;
-}
-
-/* കോൾ സെക്ഷൻ അപ്ഡേറ്റ് */
-.call-section {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-top: 5px;
-    padding-top: 12px;
-    border-top: 1px solid #eee; 
-}
-
-.phone-number {
-    font-size: 19px;
-    font-weight: bold;
-    color: #2c3e50;
-    display: flex;
-    align-items: center;
-}
-
-.phone-number i {
-    margin-right: 8px;
-    width: 20px;
-    text-align: center;
-}
-
-/* കോൾ ബട്ടൺ ഡിസൈൻ ശരിയാക്കിയത് */
 .call-btn-new {
-    background-color: #006400 !important; /* ഒന്നാമത്തെ ചിത്രത്തിലെ കടും പച്ച നിറം */
-    color: white !important;
-    padding: 10px 22px !important; /* ബട്ടണിന് നല്ല വീതി നൽകാൻ */
-    border-radius: 50px !important; /* വശങ്ങൾ പൂർണ്ണമായും ഉരുണ്ടതാക്കാൻ */
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 16px !important; /* എഴുത്തിന് വലിപ്പം നൽകാൻ */
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: 0.3s;
-    min-width: 110px; /* ബട്ടണിന്റെ കുറഞ്ഞ വലിപ്പം */
+    background-color: var(--primary) !important; color: white !important;
+    padding: 10px 22px; border-radius: 50px; text-decoration: none;
+    font-size: 16px; font-weight: bold; display: flex; align-items: center; gap: 8px;
+}
+.whatsapp-btn-new {
+    background-color: #25D366 !important; color: white !important;
+    padding: 10px 22px; border-radius: 50px; text-decoration: none;
+    font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px;
 }
 
-.call-btn-new:active {
-    transform: scale(0.95); /* ക്ലിക്ക് ചെയ്യുമ്പോൾ ചെറുതായി താഴുന്ന ഫീൽ നൽകാൻ */
+/* 10. Forms & Admin Controls */
+#search-input {
+    width: 100%; padding: 15px; margin: 10px 0 20px 0;
+    border: 2px solid var(--primary); border-radius: 15px;
+    font-size: 18px; font-family: 'Manjari';
 }
-
-
-/* 9. Admin Controls */
-.admin-btns {
-    display: flex;
-    gap: 10px;
-    margin-top: 5px;
-    border-top: 1px solid #eee;
-    padding-top: 12px;
-}
-.admin-btns button {
-    flex: 1;
-    padding: 12px !important;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Manjari';
-    font-weight: bold;
-    font-size: 17px !important;
-    cursor: pointer;
-}
+.admin-btns { display: flex; gap: 10px; margin-top: 10px; }
+.admin-btns button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-family: 'Manjari'; }
 .edit-btn { background: #fff3cd; color: #856404; }
 .delete-btn { background: #f8d7da; color: #721c24; }
 
-/* 10. Forms & Others */
-.form-box { background: white; padding: 25px; border-radius: 20px; }
-input, select, textarea { 
-    width: 100%; 
-    padding: 12px; 
-    margin: 8px 0; 
-    border: 1px solid #ddd; 
-    border-radius: 10px; 
-    box-sizing: border-box; 
-    font-family: 'Manjari';
-    font-size: 16px !important; 
-}
-.btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-.btn-text { background: none; border: none; color: #666; width: 100%; padding: 10px; cursor: pointer; font-family: 'Manjari'; }
-.info-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); line-height: 1.8; margin-bottom: 20px; }
-.back-btn { background: #e0e0e0; border: none; padding: 8px 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; font-family: 'Manjari'; }
-
-/* അറിയിപ്പുകൾക്ക് വേണ്ടിയുള്ള പ്രത്യേക ബോക്സ് */
-.announcement-box {
-    background: #fff9c4;
-    padding: 15px;
-    border-left: 5px solid #fbc02d;
-    margin: 10px 0;
-    border-radius: 10px;
-}
-/* ഉള്ളടക്കം പേജിനുള്ള പ്രത്യേക സ്റ്റൈലുകൾ */
-#content-info-screen {
-    padding: 20px;
-    line-height: 1.8;
-    color: #000; /* കൂടുതൽ കടും കറുപ്പ് */
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-#content-info-screen h2 {
-    color: #006400; 
-    font-weight: 900;
-    text-align: center;
-    border-bottom: 2px solid #006400;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-#content-info-screen p {
-    font-weight: 700; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
-    font-size: 17px;
-    margin-bottom: 15px;
-}
-
-#content-info-screen li {
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding: 10px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* ലിസ്റ്റിലെ നമ്പറുകൾക്ക് ചുവപ്പ് നിറം നൽകാൻ */
-#content-info-screen li b {
-    color: #d32f2f;
-    font-size: 19px;
-    margin-right: 5px;
-}
-
-/* പുതിയ അപ്ഡേറ്റ്: സാവധാനത്തിലുള്ള ബ്ലിങ്കിംഗ് സ്റ്റൈൽ */
+/* 11. Blink Effect */
 .blink-text {
-    background: #080000;
-    color: #fcfafa;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ffeeba;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    animation: slowBlink 3s ease-in-out infinite; /* സാവധാനത്തിലുള്ള ആനിമേഷൻ */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background: #000; color: #fff; padding: 12px; border-radius: 10px;
+    text-align: center; font-size: 18px; font-weight: bold;
+    animation: slowBlink 3s ease-in-out infinite;
 }
-
-@keyframes slowBlink {
-    0% { opacity: 1; }
-    50% { opacity: 0.2; }
-    100% { opacity: 1; }
-}
-.admin-header-text { 
-    font-weight: 900 !important; 
-    font-size: 21px !important; 
-}
-/* --- പുതിയ മാറ്റങ്ങൾ (വാട്ട്സാപ്പ് & അഡ്മിൻ പേര്) --- */
-
-.whatsapp-btn-new {
-    background-color: #25D366 !important;
-    color: white !important;
-    padding: 8px 18px !important;
-    border-radius: 25px !important;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px !important;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    transition: 0.3s;
-    min-width: 95px;
-}
-
-.person-info strong.admin-name-small {
-    font-size: 17px !important; 
-    font-weight: 900 !important; 
-    color: var(--primary) !important;
-    margin-bottom: 4px;
-}
-
-#current-cat-title {
-    font-weight: 900 !important;
-    font-size: 20px !important;
-}
-
-.call-section {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 10px;
-    }
-.bold-text-950 {
-    font-weight: 950 !important;
-    color: #000 !important;
-}
-.scroll-content ol li {
-    font-weight: 950 !important;
-    color: #000;
-    margin-bottom: 12px;
-    font-size: 18px;
-}
-#news-ticker {
-    background: linear-gradient(90deg, #ffeb3b, #fff176); /* മഞ്ഞ നിറത്തിലുള്ള ഗ്രേഡിയന്റ് */
-    padding: 12px 0;
-    border-bottom: 3px solid #fbc02d;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    overflow: hidden;
-    position: relative;
-}
-
-#latest-news {
-    font-size: 18px;
-    font-weight: 800;
-    color: #1b5e20; /* കടും പച്ച നിറം */
-    text-align: center;
-    display: block;
-    width: 100%;
-}
-/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള പ്രത്യേക ഡിസൈൻ */
-.announcement-card {
-    background: #ffffff;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 15px;
-    border-left: 8px solid #2e7d32; /* ഇടത് വശത്തെ പച്ച ബോർഡർ */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: transform 0.2s;
-}
-
-.announcement-card:hover {
-    transform: translateY(-3px);
-}
-
-.announcement-title {
-    font-size: 20px;
-    color: #1b5e20;
-    font-weight: 800;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.announcement-desc {
-    font-size: 16px;
-    color: #444;
-    line-height: 1.6;
-    font-weight: 500;
-}
-
-/* മുകളിലെ വാർത്താ ബോക്സ് */
-#news-ticker {
-    background: #ffeb3b; /* തിളക്കമുള്ള മഞ്ഞ */
-    border-bottom: 3px solid #fbc02d;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-#latest-news {
-    color: #b71c1c; /* കടും ചുവപ്പ് നിറം - പെട്ടെന്ന് ശ്രദ്ധിക്കാൻ */
-    font-weight: 900;
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    white-space: nowrap;
-    animation: news-glow 1.5s infinite alternate; /* തിളങ്ങുന്ന ഇഫക്ട് */
-}
-
-/* അക്ഷരങ്ങൾ മെല്ലെ തിളങ്ങാൻ */
-@keyframes news-glow {
-    from { opacity: 1; transform: scale(1); }
-    to { opacity: 0.8; transform: scale(1.02); }
-}
-#latest-news {
-    white-space: normal; /* വരികൾ ആവശ്യമെങ്കിൽ താഴേക്ക് വരാൻ */
-    line-height: 1.2;
-    padding: 5px 10px;
-    font-size: 16px !important; /* വിവരണം കൂടി ഉള്ളതിനാൽ വലിപ്പം അല്പം കുറയ്ക്കുന്നത് നന്നായിരിക്കും */
-}
-header h1 {
-    font-weight: 950 !important; /* ഏറ്റവും കട്ടി കൂടിയ രൂപം */
-    font-size: 22px;
-}
-
-.category-item span {
-    font-weight: 900 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി ലഭിക്കാൻ */
-    font-size: 17px;
-    color: #000; /* കറുപ്പ് നിറം കൂടുതൽ വ്യക്തത നൽകും */
-}
-/* 1. മുകളിലെ ടൈറ്റിൽ കട്ടികൂട്ടാൻ */
-header h1 {
-    font-weight: 950 !important;
-    font-size: 22px;
-}
-
-/* 2. ഹോം സ്ക്രീനിലെ കാറ്റഗറി പേരുകൾ കട്ടികൂട്ടാൻ */
-.category-item span {
-    font-weight: 900 !important;
-    font-size: 17px;
-    color: #000;
-}
-
-/* 3. അറിയിപ്പ് ബാറിലെ അക്ഷരങ്ങൾ നടുവിൽ വരാനും കട്ടികൂട്ടാനും */
-#latest-news {
-    font-weight: 800 !important;
-    font-size: 17px !important;
-    text-align: center;
-    width: 100%;
-    display: block;
-    padding: 10px 0;
-    white-space: normal; /* വരികൾ താഴേക്ക് വരാൻ */
-    line-height: 1.3;
-}
-
-#latest-news b {
-    font-weight: 950;
-    color: #b71c1c; /* ഹെഡിംഗ് ചുവപ്പ് നിറത്തിൽ */
-}
-/* 1. മുകളിലെ മെയിൻ ടൈറ്റിൽ (വിഭവ ഡയറക്ടറി) */
-header h1 {
-    font-weight: 950 !important; /* കട്ടി കൂട്ടി */
-    font-size: 20px !important;  /* വലിപ്പം കുറച്ചു */
-    letter-spacing: 0.5px;
-}
-
-/* 2. ഹോം സ്ക്രീനിലെ കാറ്റഗറി പേരുകൾ (ഓട്ടോ, കടകൾ തുടങ്ങിയവ) */
-.category-item span {
-    font-weight: 900 !important; /* നല്ല കട്ടി */
-    font-size: 15px !important;  /* വലിപ്പം അല്പം കൂടി കുറച്ചു */
-    color: #000;
-    margin-top: 5px;
-}
-
-/* 3. മഞ്ഞ ബാറിലെ അറിയിപ്പ് (Yellow Bar) */
-#latest-news {
-    font-weight: 850 !important;
-    font-size: 15px !important;  /* വായന സുഖകരമാക്കാൻ വലിപ്പം കുറച്ചു */
-    text-align: center;
-    line-height: 1.2;
-    padding: 8px 5px;
-}
-
-#latest-news b {
-    font-weight: 950;
-    color: #b71c1c; /* ഹെഡിംഗ് മാത്രം കടും ചുവപ്പിൽ */
-}
-
-/* 4. ലിസ്റ്റ് സ്ക്രീനിലെ പേരുകൾ (Names in List) */
-.person-info strong {
-    font-weight: 950 !important;
-    font-size: 19px !important;
-    color: #004d00;
-}
-
-/* സൈഡ് ബാർ മെനു ബോൾഡ് ആക്കാൻ */
-.sidebar-menu li a {
-    font-weight: 800 !important;
-    font-size: 16px !important;
-    color: #333;
-}
-
-/* ടൈറ്റിൽ വലിപ്പം കുറച്ച് കട്ടി കൂട്ടാൻ */
-header h1 {
-    font-weight: 950 !important;
-    font-size: 19px !important;
-    color: #ffffff !important;
-}
-
-/* ഹോം പേജിലെ ഐക്കൺ പേരുകൾ വ്യക്തമാകാൻ */
-.category-item span {
-    font-weight: 900 !important;
-    font-size: 18px !important;
-    color: #000000 !important;
-}
-
-/* സൈഡ് മെനുവിലെ അക്ഷരങ്ങൾ കട്ടികൂട്ടാൻ */
-.sidebar-menu li a {
-    font-weight: 850 !important;
-    font-size: 14px !important;
-    color: #222 !important;
-}
-
-/* അറിയിപ്പ് ബാറിലെ അക്ഷരങ്ങൾ */
-#latest-news {
-    font-weight: 900 !important;
-    font-size: 18px !important;
-    color: #b71c1c !important;
-    text-align: center;
-}
-/* അറിയിപ്പ് ബാർ ഒറ്റ ലൈനിൽ നിലനിർത്താൻ */
-#latest-news {
-    white-space: nowrap !important;
-    overflow: hidden;
-    display: block;
-    width: 100%;
-}
-
-/* അക്ഷരങ്ങൾ ഓടി വരാനുള്ള ആനിമേഷൻ */
-.news-ticker-scroll {
-    display: inline-block;
-    white-space: nowrap;
-    animation: marquee-news 15s linear infinite;
-    padding-left: 100%; /* വലത്തുനിന്ന് തുടങ്ങാൻ */
-}
-
-@keyframes marquee-news {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-/* മഞ്ഞ ബാറിന്റെ ഹൈറ്റ് ക്രമീകരിക്കാൻ */
-#news-ticker {
-    height: 40px !important;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-}
-#latest-news {
-    white-space: nowrap !important; /* വരി താഴേക്ക് പോകുന്നത് തടയാൻ */
-    overflow: hidden !important;
-    display: flex !important;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.news-ticker-scroll {
-    display: inline-block;
-    white-space: nowrap;
-    animation: news-marquee 18s linear infinite; /* സ്ക്രോളിംഗ് വേഗത */
-}
-
-@keyframes news-marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
+@keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
