@@ -43,34 +43,6 @@ window.addEventListener('load', () => {
     }, 3000); // 3 സെക്കൻഡ് കഴിഞ്ഞ് സ്ക്രീൻ മാറും
 });
 
-async function setupNotifications() {
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            const registration = await navigator.serviceWorker.ready;
-            
-            const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
-                serviceWorkerRegistration: registration 
-            });
-
-            if (token) {
-                // ടോക്കൺ ഐഡി തന്നെ ഡോക്യുമെന്റ് ഐഡി ആയി ഉപയോഗിക്കുന്നു
-                // ഇത് കാരണം ഒരേ ടോക്കൺ വീണ്ടും വന്നാൽ പഴയത് മാറി പുതിയത് വരില്ല, പകരം അപ്ഡേറ്റ് ആകുകയേ ഉള്ളൂ
-                const tokenRef = doc(db, "fcm_tokens", token); 
-                
-                await setDoc(tokenRef, {
-                    token: token,
-                    timestamp: serverTimestamp(),
-                    deviceInfo: navigator.userAgent
-                }, { merge: true }); // merge: true നൽകുന്നത് കൊണ്ട് ഡാറ്റ ആവർത്തിക്കില്ല
-            }
-        }
-    } catch (error) {
-        console.error("Notification Setup Error:", error);
-    }
-}
-
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
     'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
