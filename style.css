@@ -537,5 +537,40 @@ header h1 {
     font-weight: 950;
     color: #b71c1c; /* ഹെഡിംഗ് ചുവപ്പ് നിറത്തിൽ */
 }
+/* 1. മുകളിലെ മെയിൻ ടൈറ്റിൽ (വിഭവ ഡയറക്ടറി) */
+header h1 {
+    font-weight: 950 !important; /* കട്ടി കൂട്ടി */
+    font-size: 20px !important;  /* വലിപ്പം കുറച്ചു */
+    letter-spacing: 0.5px;
+}
+
+/* 2. ഹോം സ്ക്രീനിലെ കാറ്റഗറി പേരുകൾ (ഓട്ടോ, കടകൾ തുടങ്ങിയവ) */
+.category-item span {
+    font-weight: 900 !important; /* നല്ല കട്ടി */
+    font-size: 15px !important;  /* വലിപ്പം അല്പം കൂടി കുറച്ചു */
+    color: #000;
+    margin-top: 5px;
+}
+
+/* 3. മഞ്ഞ ബാറിലെ അറിയിപ്പ് (Yellow Bar) */
+#latest-news {
+    font-weight: 850 !important;
+    font-size: 15px !important;  /* വായന സുഖകരമാക്കാൻ വലിപ്പം കുറച്ചു */
+    text-align: center;
+    line-height: 1.2;
+    padding: 8px 5px;
+}
+
+#latest-news b {
+    font-weight: 950;
+    color: #b71c1c; /* ഹെഡിംഗ് മാത്രം കടും ചുവപ്പിൽ */
+}
+
+/* 4. ലിസ്റ്റ് സ്ക്രീനിലെ പേരുകൾ (Names in List) */
+.person-info strong {
+    font-weight: 950 !important;
+    font-size: 18px !important;
+    color: #004d00;
+}
 
 
