@@ -615,27 +615,16 @@ header h1 {
     display: block;
     width: 100%;
 }
+/* പഴയ news-ticker-scroll, keyframes എന്നിവ പൂർണ്ണമായും നീക്കം ചെയ്ത് പകരം ഇത് നൽകുക */
 
-/* അക്ഷരങ്ങൾ ഓടി വരാനുള്ള ആനിമേഷൻ */
-.news-ticker-scroll {
-    display: inline-block;
-    white-space: nowrap;
-    animation: marquee-news 30s linear infinite;
-    padding-left: 100%; /* വലത്തുനിന്ന് തുടങ്ങാൻ */
-}
-
-@keyframes marquee-news {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-/* മഞ്ഞ ബാറിന്റെ ഹൈറ്റ് ക്രമീകരിക്കാൻ */
 #news-ticker {
-    height: 45px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
+    height: 45px !important;
     overflow: hidden;
     display: flex;
     align-items: center;
     background: #ffeb3b;
     border-bottom: 2px solid #fbc02d;
+    position: relative;
 }
 
 #latest-news {
@@ -649,16 +638,17 @@ header h1 {
 .news-ticker-scroll {
     display: inline-block;
     white-space: nowrap;
-    /* സമയം 45s ആക്കി - ഇത് നല്ല സാവധാനം പോകാൻ സഹായിക്കും */
-    animation: news-marquee 45s linear infinite; 
+    /* സ്പീഡ് ഇനിയും കുറയ്ക്കാൻ 60s അല്ലെങ്കിൽ 70s നൽകാം */
+    animation: news-marquee 60s linear infinite; 
     font-weight: 950 !important;
     font-size: 17px !important;
     color: #b71c1c !important;
+    padding-left: 10%; /* തുടക്കത്തിലെ താമസം കുറയ്ക്കാൻ */
 }
 
 @keyframes news-marquee {
-    /* വരാനുള്ള താമസം ഒഴിവാക്കാൻ 0% ൽ തുടങ്ങുന്നു */
-    0% { transform: translateX(50%); } 
+    /* വാർത്ത വരാൻ ഒട്ടും താമസിക്കാതിരിക്കാൻ 100% (സ്ക്രീനിന് പുറത്ത്) എന്നതിന് പകരം 80% ൽ തുടങ്ങുന്നു */
+    0% { transform: translateX(80%); } 
     100% { transform: translateX(-100%); }
 }
 
