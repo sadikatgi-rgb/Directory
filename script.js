@@ -1,8 +1,10 @@
+// 1. ഫയർബേസ് ഇംപോർട്ടുകൾ (അക്ഷരത്തെറ്റുകൾ തിരുത്തി)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, setDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
 
+// 2. ഫയർബേസ് കോൺഫിഗറേഷൻ
 const firebaseConfig = {
     apiKey: "AIzaSyAwJCSwpj9EOd40IJrmI7drsURumljWRo8",
     authDomain: "directory-f4474.firebaseapp.com",
@@ -27,7 +29,7 @@ window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => console.log('SW Registered'))
-            .catch(err => console.log('SW Failed', err));
+            .catch(err => console.error('SW Failed', err));
     }
     
     // സ്പ്ലാഷ് സ്ക്രീൻ മാറ്റാൻ
@@ -35,8 +37,8 @@ window.addEventListener('load', () => {
         const splash = document.getElementById('splash');
         if(splash) {
             splash.style.opacity = '0';
-            splash.style.display = 'none';
             setTimeout(() => {
+                splash.style.display = 'none';
                 splash.classList.add('hidden');
             }, 500);
         }
@@ -64,7 +66,6 @@ async function loadScrollingNews() {
         if (!querySnapshot.empty) {
             const lastDoc = querySnapshot.docs[0].data();
             if(ticker) {
-                // ഒരൊറ്റ ലൈനിൽ സ്ക്രോൾ ചെയ്യുന്ന രീതിയിലുള്ള ഉള്ളടക്കം
                 ticker.innerHTML = `
                     <div class="news-ticker-scroll">
                         📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${lastDoc.name}</span> 
@@ -96,7 +97,6 @@ window.showHome = () => {
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
     if(overlay) overlay.style.display = 'none';
-    loadScrollingNews();
 };
 
 window.toggleMenu = () => {
@@ -120,7 +120,7 @@ window.openCategory = async (catId, catName) => {
 
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
-        searchInput.style.display = (catId === 'admins') ? 'none' : 'block';
+        searchInput.style.display = (catId === 'admins' || catId === 'announcements') ? 'none' : 'block';
         searchInput.value = ""; 
     }
 
@@ -150,37 +150,36 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let displayHTML = "";
 
-         if (catId === 'announcements') {
-            displayHTML = `
-            <div class="announcement-card">
-                <div class="announcement-title">
-                    <i class="fas fa-bullhorn"></i> ${d.name}
-                </div>
-                <div class="announcement-desc">${d.description}</div>
-                ${currentUser ? `<div class="admin-btns" style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
-                    <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                    <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                </div>` : ""}
-            </div>`;
-        } else if (catId === 'admins') {
-    displayHTML = `
-    <div class="person-card" style="border-left: 5px solid #006400; padding: 15px; margin-bottom: 10px; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <div class="person-info">
-            <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
-        </div>
-        <div class="call-section" style="display: flex; gap: 8px; margin-top: 10px;">
-            <a href="tel:${d.phone}" class="call-btn-new" style="background: #006400; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
-             <a href="https://api.whatsapp.com/send?phone=91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
-   <i class="fab fa-whatsapp"></i> Chat
-</a>
-       </div>
-        ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
-            <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-            <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-        </div>` : ""}
-    </div>`;
-             
+            if (catId === 'announcements') {
+                displayHTML = `
+                <div class="announcement-card">
+                    <div class="announcement-title">
+                        <i class="fas fa-bullhorn"></i> ${d.name}
+                    </div>
+                    <div class="announcement-desc">${d.description}</div>
+                    ${currentUser ? `<div class="admin-btns" style="margin-top:15px; border-top:1px solid #eee; padding-top:10px;">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
+            } else if (catId === 'admins') {
+                displayHTML = `
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">
+                            <i class="fab fa-whatsapp"></i> Chat
+                        </a>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
             } else {
                 let extraInfo = "";
                 for (let key in d) {
@@ -213,6 +212,7 @@ window.openCategory = async (catId, catName) => {
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
+        console.error("Open Category Error:", e);
         container.innerHTML = "<p style='text-align:center;'>വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</p>";
     }
 };
@@ -292,10 +292,7 @@ window.showAdminLogin = () => {
         renderAdminFields(); 
     }
     else document.getElementById('admin-login-screen').classList.remove('hidden');
-    const sidebar = document.getElementById('sidebar');
-    if(sidebar) sidebar.classList.remove('active');
-    const overlay = document.getElementById('overlay');
-    if(overlay) overlay.style.display = 'none';
+    toggleMenu();
 };
 
 window.handleLogin = async () => {
@@ -315,6 +312,7 @@ window.showContentPage = () => { hideAll(); document.getElementById('content-inf
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
 
+// --- നോട്ടിഫിക്കേഷൻ സെറ്റപ്പ് ---
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
@@ -328,32 +326,27 @@ async function setupNotifications() {
 
         if (token) {
             const savedToken = localStorage.getItem('fcm_token');
-            
             if (savedToken !== token) {
-                // ടോക്കണിന് പകരം ഫോണിനെ തിരിച്ചറിയാൻ ഒരു സ്ഥിരമായ ഐഡി ഉണ്ടാക്കുന്നു
-                const deviceId = btoa(navigator.userAgent).substring(0, 25).replace(/[/+=]/g, '');
+                const deviceId = btoa(navigator.userAgent).substring(0, 20).replace(/[/+=]/g, '');
                 const tokenRef = doc(db, "fcm_tokens", deviceId); 
-                
                 await setDoc(tokenRef, {
                     token: token,
                     timestamp: serverTimestamp(),
-                    lastSeen: new Date().toLocaleString(),
-                    device: navigator.platform
+                    lastSeen: new Date().toLocaleString()
                 }, { merge: true });
-
                 localStorage.setItem('fcm_token', token);
-                console.log('Token sync complete with Device ID.');
             }
         }
     } catch (error) { 
         console.error("Notification Setup Error:", error); 
     }
 }
+
+// --- വാട്‌സാപ്പ് ഫംഗ്‌ഷൻ (മാറ്റം വരുത്തിയത്) ---
 window.goToWhatsApp = function(phoneNumber) {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     // നേരിട്ട് ആപ്പ് തുറക്കാൻ ശ്രമിക്കുന്നു
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
-
     // ആപ്പ് തുറന്നില്ലെങ്കിൽ മാത്രം സൈറ്റിലേക്ക് പോകാൻ
     setTimeout(function() {
         if (document.hasFocus()) {
