@@ -207,7 +207,6 @@ window.openCategory = async (catId, catName) => {
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                     }
-                        }
         displayHTML += `
 <div class="person-card">
   <div class="person-info">
