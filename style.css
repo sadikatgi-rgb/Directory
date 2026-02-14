@@ -636,3 +636,21 @@ header h1 {
     display: flex;
     align-items: center;
 }
+#latest-news {
+    white-space: nowrap !important; /* വരി താഴേക്ക് പോകുന്നത് തടയാൻ */
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.news-ticker-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    animation: news-marquee 18s linear infinite; /* സ്ക്രോളിംഗ് വേഗത */
+}
+
+@keyframes news-marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
