@@ -18,20 +18,19 @@ const auth = getAuth(app);
 const messaging = getMessaging(app);
 
 let currentUser = null;
+
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('load', () => {
-    // വാർത്തകളും നോട്ടിഫിക്കേഷനും ലോഡ് ചെയ്യാൻ
     loadScrollingNews();
     setupNotifications();
 
-    // സർവീസ് വർക്കർ രജിസ്ട്രേഷൻ
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => console.log('SW Registered'))
             .catch(err => console.log('SW Failed', err));
     }
     
-    // സ്പ്ലാഷ് സ്ക്രീൻ (ലോഡിംഗ് സ്ക്രീൻ) നിർബന്ധമായും മാറ്റാൻ
+    // സ്പ്ലാഷ് സ്ക്രീൻ മാറ്റാൻ
     setTimeout(() => {
         const splash = document.getElementById('splash');
         if(splash) {
@@ -41,7 +40,7 @@ window.addEventListener('load', () => {
                 splash.classList.add('hidden');
             }, 500);
         }
-    }, 3000); // 3 സെക്കൻഡ് കഴിഞ്ഞ് സ്ക്രീൻ മാറും
+    }, 3000); 
 });
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
@@ -78,7 +77,8 @@ function hideAll() {
 
 window.showHome = () => {
     hideAll();
-    document.getElementById('home-screen').classList.remove('hidden');
+    const home = document.getElementById('home-screen');
+    if(home) home.classList.remove('hidden');
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -123,10 +123,7 @@ window.openCategory = async (catId, catName) => {
         container.innerHTML = "";
 
         if (catId === 'admins') {
-            container.innerHTML += `
-            <div class="blink-text">
-                " പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "
-            </div>`;
+            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
@@ -138,7 +135,6 @@ window.openCategory = async (catId, catName) => {
             const d = docSnap.data();
             const id = docSnap.id;
             const dataStr = encodeURIComponent(JSON.stringify(d));
-            
             let displayHTML = "";
 
             if (catId === 'announcements') {
@@ -161,9 +157,7 @@ window.openCategory = async (catId, catName) => {
                         <small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
                     </div>
                     <div class="call-section" style="display: flex; gap: 8px;">
-                        <a href="tel:${d.phone}" class="call-btn-new">
-                           <i class="fas fa-phone-alt"></i> കോൾ
-                        </a>
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
                         <a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;">
                            <i class="fab fa-whatsapp"></i> Chat
                         </a>
@@ -172,7 +166,7 @@ window.openCategory = async (catId, catName) => {
                         <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
-                </div>
+                </div>`;
             } else {
                 let extraInfo = "";
                 for (let key in d) {
@@ -180,33 +174,28 @@ window.openCategory = async (catId, catName) => {
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
                     }
-        displayHTML += `
-<div class="person-card">
-  <div class="person-info">
-    <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;">
-        <i class="fas fa-user-circle"></i> ${d.name}
-    </strong>   
-        <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
-            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
-        </p>
-
-        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
-        
-        <div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div>
-    </div>
-
-    <div class="call-section">
-        <a href="tel:${d.phone}" class="call-btn-new">
-           <i class="fas fa-phone-alt"></i> കോൾ
-        </a>
-    </div>
-    ${currentUser ? `<div class="admin-btns">
-        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-    </div>` : ""}
-</div>`
-       }
-
+                }
+                displayHTML = `
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;">
+                            <i class="fas fa-user-circle"></i> ${d.name}
+                        </strong>   
+                        <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
+                            <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
+                        </p>
+                        ${catId === 'auto' ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no || ""}</p>` : ""}
+                        <div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
+            }
             container.innerHTML += displayHTML;
         });
     } catch (e) { 
@@ -232,48 +221,28 @@ window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
     let dataToSave = { timestamp: serverTimestamp() }; 
-    
     for (let key in fields) {
         const val = document.getElementById(`field-${key}`).value;
         if (!val) { alert("എല്ലാ കോളങ്ങളും പൂരിപ്പിക്കുക!"); return; }
         dataToSave[key] = val;
     }
-
-        try {
-        // 1. ഡാറ്റ സേവ് ചെയ്യുന്നു
+    try {
         await addDoc(collection(db, cat), dataToSave);
-
         if (cat === 'announcements') {
             loadScrollingNews();
-            
-            // 2. ടോക്കണുകൾ ശേഖരിക്കുന്നു
             const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
             const tokens = [];
-            
             tokensSnapshot.forEach(docSnap => {
                 const tokenData = docSnap.data();
-                if (tokenData && tokenData.token) {
-                    tokens.push(tokenData.token);
-                }
+                if (tokenData && tokenData.token) tokens.push(tokenData.token);
             });
-
-            if (tokens.length > 0) {
-                // 3. നോട്ടിഫിക്കേഷൻ അയക്കുന്നു
-                await sendPushNotification(dataToSave.name, dataToSave.description, tokens);
-                alert("അറിയിപ്പ് പ്രസിദ്ധീകരിച്ചു, എല്ലാവർക്കും നോട്ടിഫിക്കേഷൻ അയച്ചു!");
-            } else {
-                alert("അറിയിപ്പ് സേവ് ചെയ്തു!");
-            }
+            alert("അറിയിപ്പ് സേവ് ചെയ്തു!");
         } else {
             alert("വിജയകരമായി ചേർത്തു!");
         }
-        
         renderAdminFields();
-    } catch (e) {
-        console.error("Error saving data: ", e);
-        alert("Error saving data!");
-    }
-}; // handleSaveData ഇവിടെ അവസാനിക്കുന്നു
+    } catch (e) { alert("Error saving data!"); }
+};
 
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
@@ -282,10 +251,7 @@ window.deleteEntry = async (catId, docId) => {
             alert("നീക്കം ചെയ്തു!");
             const title = document.getElementById('current-cat-title').innerText;
             openCategory(catId, title); 
-        } catch (e) { 
-            console.error("Error deleting:", e);
-            alert("Error deleting!"); 
-        }
+        } catch (e) { alert("Error deleting!"); }
     }
 };
 
@@ -303,10 +269,7 @@ window.editEntry = async (catId, docId, currentDataStr) => {
         alert("വിവരങ്ങൾ പുതുക്കി!");
         const title = document.getElementById('current-cat-title').innerText;
         openCategory(catId, title);
-    } catch (e) { 
-        console.error("Error updating:", e);
-        alert("Error updating!"); 
-    }
+    } catch (e) { alert("Error updating!"); }
 };
 
 window.filterResults = () => {
@@ -325,7 +288,6 @@ window.showAdminLogin = () => {
         renderAdminFields(); 
     }
     else document.getElementById('admin-login-screen').classList.remove('hidden');
-    
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -349,48 +311,25 @@ window.showContentPage = () => { hideAll(); document.getElementById('content-inf
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
 
-// സർവീസ് വർക്കർ രജിസ്റ്റർ ചെയ്യുന്ന ഭാഗം
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('firebase-messaging-sw.js')
-            .then(reg => {
-                console.log('Service Worker registered', reg);
-            })
-            .catch(err => {
-                console.log('Service Worker registration failed', err);
-            });
-    });
-}
-
-// പഴയതിന് പകരം ഇത് ചേർക്കുക
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
             const registration = await navigator.serviceWorker.ready;
-            
             const token = await getToken(messaging, { 
                 vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
                 serviceWorkerRegistration: registration 
             });
-
             if (token) {
-                // ഡോക്യുമെന്റ് ഐഡി ഉണ്ടാക്കുമ്പോൾ അതിൽ സ്പെഷ്യൽ ക്യാരക്ടർ വരുന്നത് ഒഴിവാക്കാൻ
-                // ടോക്കണിനെ ഒരു സ്ട്രിംഗ് ആയി തന്നെ എടുക്കുന്നു എന്ന് ഉറപ്പാക്കുക.
                 const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
                 const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
-                
                 await setDoc(tokenRef, {
                     token: token,
                     timestamp: serverTimestamp(),
                     deviceInfo: navigator.userAgent,
-                    lastSeen: new Date().toLocaleString() // അവസാനമായി ആപ്പ് തുറന്ന സമയം
+                    lastSeen: new Date().toLocaleString()
                 }, { merge: true });
-
-                console.log("Token saved/updated successfully");
             }
         }
-    } catch (error) {
-        console.error("Notification Setup Error:", error);
-    }
+    } catch (error) { console.error("Notification Setup Error:", error); }
 }
