@@ -156,23 +156,25 @@ window.openCategory = async (catId, catName) => {
                 </div>` : ""}
             </div>`;
         } else if (catId === 'admins') {
-                displayHTML = `
-                <div class="person-card" style="border-left: 5px solid #006400;">
-                    <div class="person-info">
-                        <strong style="font-size: 18px !important; font-weight: 800;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px; font-weight: bold; font-size: 14px;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
-                    </div>
-                    <div class="call-section" style="display: flex; gap: 8px;">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
-                        <a href="https://wa.me/91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" target="_blank" style="background: #25D366; color: white; padding: 8px 12px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;">
-                           <i class="fab fa-whatsapp"></i> Chat
-                        </a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
+    displayHTML = `
+    <div class="person-card" style="border-left: 5px solid #006400; padding: 15px; margin-bottom: 10px; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <div class="person-info">
+            <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+        </div>
+        <div class="call-section" style="display: flex; gap: 8px; margin-top: 10px;">
+            <a href="tel:${d.phone}" class="call-btn-new" style="background: #006400; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone-alt"></i> കോൾ</a>
+            
+            <a href="whatsapp://send?phone=91${d.phone.replace(/\s+/g, '')}" class="whatsapp-btn-new" style="background: #25D366; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 5px;">
+               <i class="fab fa-whatsapp"></i> Chat
+            </a>
+        </div>
+        ${currentUser ? `<div class="admin-btns" style="width:100%; margin-top:10px; border-top:1px solid #eee; padding-top:10px;">
+            <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+            <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+        </div>` : ""}
+    </div>`;
+             
             } else {
                 let extraInfo = "";
                 for (let key in d) {
