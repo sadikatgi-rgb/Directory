@@ -65,6 +65,7 @@ async function loadScrollingNews() {
              if(ticker) {
                 ticker.innerHTML = `<span style="color:#1b5e20;">📢 അറിയിപ്പ്:</span> ${lastDoc.name}`;
             }
+        } // ഈ ബ്രായ്ക്കറ്റ് വിട്ടുപോയതാണ് പ്രശ്നം
     } catch (e) { console.error("News Load Error:", e); }
 }
 
@@ -229,18 +230,8 @@ window.handleSaveData = async () => {
     }
     try {
         await addDoc(collection(db, cat), dataToSave);
-        if (cat === 'announcements') {
-            loadScrollingNews();
-            const tokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-            const tokens = [];
-            tokensSnapshot.forEach(docSnap => {
-                const tokenData = docSnap.data();
-                if (tokenData && tokenData.token) tokens.push(tokenData.token);
-            });
-            alert("അറിയിപ്പ് സേവ് ചെയ്തു!");
-        } else {
-            alert("വിജയകരമായി ചേർത്തു!");
-        }
+        alert("വിജയകരമായി ചേർത്തു!");
+        if (cat === 'announcements') loadScrollingNews();
         renderAdminFields();
     } catch (e) { alert("Error saving data!"); }
 };
@@ -334,3 +325,4 @@ async function setupNotifications() {
         }
     } catch (error) { console.error("Notification Setup Error:", error); }
 }
+
