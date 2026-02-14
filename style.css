@@ -628,30 +628,37 @@ header h1 {
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
-
 /* മഞ്ഞ ബാറിന്റെ ഹൈറ്റ് ക്രമീകരിക്കാൻ */
 #news-ticker {
-    height: 40px !important;
+    height: 45px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     overflow: hidden;
     display: flex;
     align-items: center;
+    background: #ffeb3b;
+    border-bottom: 2px solid #fbc02d;
 }
+
 #latest-news {
-    white-space: nowrap !important; /* വരി താഴേക്ക് പോകുന്നത് തടയാൻ */
+    white-space: nowrap !important;
     overflow: hidden !important;
     display: flex !important;
     align-items: center;
-    padding: 10px 0;
+    width: 100%;
 }
 
 .news-ticker-scroll {
     display: inline-block;
     white-space: nowrap;
-    animation: news-marquee 30s linear infinite; /* സ്ക്രോളിംഗ് വേഗത */
+    /* സമയം 45s ആക്കി - ഇത് നല്ല സാവധാനം പോകാൻ സഹായിക്കും */
+    animation: news-marquee 45s linear infinite; 
+    font-weight: 950 !important;
+    font-size: 17px !important;
+    color: #b71c1c !important;
 }
 
 @keyframes news-marquee {
-    0% { transform: translateX(100%); }
+    /* വരാനുള്ള താമസം ഒഴിവാക്കാൻ 0% ൽ തുടങ്ങുന്നു */
+    0% { transform: translateX(50%); } 
     100% { transform: translateX(-100%); }
 }
 
