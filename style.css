@@ -608,3 +608,31 @@ header h1 {
     color: #b71c1c !important;
     text-align: center;
 }
+/* അറിയിപ്പ് ബാർ ഒറ്റ ലൈനിൽ നിലനിർത്താൻ */
+#latest-news {
+    white-space: nowrap !important;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}
+
+/* അക്ഷരങ്ങൾ ഓടി വരാനുള്ള ആനിമേഷൻ */
+.news-ticker-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee-news 15s linear infinite;
+    padding-left: 100%; /* വലത്തുനിന്ന് തുടങ്ങാൻ */
+}
+
+@keyframes marquee-news {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* മഞ്ഞ ബാറിന്റെ ഹൈറ്റ് ക്രമീകരിക്കാൻ */
+#news-ticker {
+    height: 40px !important;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
