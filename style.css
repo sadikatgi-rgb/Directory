@@ -1,51 +1,62 @@
-/* --- അടിസ്ഥാന സ്റ്റൈലുകൾ --- */
+/* --- 1. അടിസ്ഥാന ക്രമീകരണങ്ങൾ (GLOBAL STYLES) --- */
 :root { 
     --primary: #006400; 
-    --bg: #f8f9fa; 
-    --white: #ffffff; 
-    --yellow: #ffeb3b;
+    --yellow-bg: #ffeb3b; 
+    --light-bg: #f8f9fa;
+    --text-color: #333;
+    --white: #ffffff;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
 body, html { 
     font-family: 'Manjari', sans-serif; 
-    margin: 0; padding: 0;
-    background: var(--bg);
+    background-color: var(--light-bg); 
+    color: var(--text-color);
     height: 100%; width: 100%;
     overflow-x: hidden;
 }
 
-/* --- ഹെഡർ & മെനു (1000322206.jpg) --- */
+/* --- 2. ഹെഡർ ഡിസൈൻ (HEADER & MENU) --- */
 header { 
-    background: var(--primary); color: white; padding: 0 15px; 
-    display: flex; justify-content: space-between; align-items: center; 
-    height: 60px; position: sticky; top: 0; z-index: 1000;
+    background: var(--primary); 
+    color: white; 
+    padding: 10px 15px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    height: 60px; 
+    position: sticky; top: 0; z-index: 1000;
 }
-header h1 { font-weight: 950; font-size: 20px; margin: 0; }
-.menu-icon { font-size: 24px; cursor: pointer; }
+header h1 { font-weight: 950 !important; font-size: 20px !important; margin: 0; }
+.menu-icon { font-size: 26px; cursor: pointer; }
 
-/* --- ബാക്ക് ബട്ടൺ ഡിസൈൻ (1000322273.jpg) --- */
+/* --- 3. ബാക്ക് ബട്ടൺ (BACK BUTTON - Restored) --- */
+/* പേജുകൾക്കുള്ളിലെ ബാക്ക് ബട്ടൺ ചിത്രത്തിൽ കാണുന്നത് പോലെ കൃത്യമാക്കാൻ */
 .back-btn-container {
     padding: 10px 15px;
     background: white;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
 }
 .back-btn {
-    display: inline-flex;
-    align-items: center;
     background: #e0e0e0;
     border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-weight: bold;
+    padding: 6px 15px;
+    border-radius: 6px;
+    font-weight: 900;
     cursor: pointer;
     font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
-.back-btn::before { content: '← '; margin-right: 5px; }
 
-/* --- മഞ്ഞ അറിയിപ്പ് ബാർ (സ്ക്രോളിംഗ് ശരിയാക്കിയത്) --- */
+/* --- 4. മഞ്ഞ അറിയിപ്പ് ബാർ (NEWS TICKER) --- */
+/* അറിയിപ്പുകൾ വശങ്ങളിലേക്ക് സ്ക്രോൾ ചെയ്യാൻ */
 #news-ticker {
-    background: var(--yellow);
+    background: var(--yellow-bg);
     height: 50px;
     display: flex; align-items: center; 
     overflow: hidden;
@@ -56,21 +67,26 @@ header h1 { font-weight: 950; font-size: 20px; margin: 0; }
     white-space: nowrap;
     padding-left: 100%;
     animation: news-marquee 20s linear infinite;
-    font-weight: 900;
-    font-size: 16px;
-    color: #b71c1c;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    color: #b71c1c !important;
 }
 @keyframes news-marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-200%); }
 }
 
-/* --- ഹോം സ്ക്രീൻ ഗ്രിഡ് (1000322243.jpg) --- */
+/* --- 5. ഹോം പേജ് ഗ്രിഡ് (GRID SYSTEM) --- */
+/* ഐക്കണുകൾ വലുതാക്കാനും അലൈൻമെന്റിനും */
+.container { 
+    padding: 15px 15px 100px 15px; 
+    height: calc(100vh - 110px); 
+    overflow-y: auto; 
+}
 .grid { 
     display: grid; 
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: repeat(2, 1fr); 
     gap: 15px; 
-    padding: 15px;
 }
 .card { 
     background: white; padding: 25px 10px; border-radius: 20px; 
@@ -79,47 +95,53 @@ header h1 { font-weight: 950; font-size: 20px; margin: 0; }
     border: 1px solid #eee;
 }
 .card img { width: 60px; height: 60px; margin-bottom: 12px; }
-.card p { font-weight: 950; font-size: 16px; color: #004d00; margin: 0; }
+.card p { font-weight: 950 !important; font-size: 16px !important; color: #004d00; margin: 0; }
 
-/* --- സൈഡ് ബാർ (1000322323.jpg) --- */
+/* --- 6. സൈഡ് മെനു (SIDEBAR) --- */
+/* ചിത്രം മുകളിലും ലിങ്കുകൾ താഴെയും വരാൻ */
 .sidebar { 
-    position: fixed; left: -280px; width: 260px; height: 100%; 
-    background: white; z-index: 2000; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    position: fixed; left: -285px; width: 260px; height: 100%; 
+    background: white; z-index: 2000; transition: 0.3s ease-in-out; 
     box-shadow: 4px 0 15px rgba(0,0,0,0.15);
 }
 .sidebar.active { left: 0; }
-.sidebar-header-img { width: 100%; height: 180px; object-fit: cover; }
+.sidebar-top-img { width: 100%; height: 180px; object-fit: cover; }
+.sidebar-header-img { width: 100%; height: 100%; object-fit: cover; }
 .sidebar a { 
-    display: flex; align-items: center; padding: 15px; 
-    color: #333; text-decoration: none; border-bottom: 1px solid #f0f0f0; 
-    font-weight: 800; font-size: 16px;
+    display: flex; align-items: center; padding: 15px 20px; 
+    color: #333; text-decoration: none; border-bottom: 1px solid #f5f5f5; 
+    font-weight: 850; font-size: 16px;
 }
-.sidebar a i { margin-right: 15px; width: 25px; text-align: center; }
+.sidebar a i { margin-right: 15px; color: var(--primary); width: 20px; text-align: center; }
 
-/* --- അഡ്മിൻ ലിസ്റ്റ് കാർഡുകൾ (1000322178.jpg) --- */
+/* --- 7. അഡ്മിൻ ലിസ്റ്റ് കാർഡുകൾ (ADMIN CARDS) --- */
+/* കോൾ, ചാറ്റ് ബട്ടണുകൾ ശരിയാക്കാൻ */
 .person-card {
-    background: white; padding: 15px; border-radius: 15px; margin: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-left: 6px solid var(--primary);
+    background: white; padding: 18px; border-radius: 18px; margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-left: 6px solid var(--primary);
 }
-.person-info strong { font-size: 19px; font-weight: 950; color: var(--primary); display: block; }
-.call-section { display: flex; gap: 10px; margin-top: 15px; }
+.person-info strong { font-size: 19px !important; font-weight: 950 !important; color: var(--primary); display: block; }
+.call-section { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 12px; }
 .call-btn-new, .whatsapp-btn-new {
-    flex: 1; padding: 12px; border-radius: 30px; text-align: center;
-    color: white; font-weight: 900; text-decoration: none; font-size: 14px;
+    flex: 1; padding: 10px; border-radius: 50px; text-decoration: none;
+    font-size: 14px; font-weight: 900; text-align: center; color: white;
     display: flex; align-items: center; justify-content: center; gap: 5px;
 }
 .call-btn-new { background: var(--primary); }
 .whatsapp-btn-new { background: #25D366; }
 
-/* --- ലോഗിൻ പേജ് (1000322322.jpg) --- */
-#admin-login-screen { padding: 40px 20px; text-align: center; }
-.login-input {
-    width: 100%; max-width: 300px; padding: 12px 20px; margin: 10px 0;
+/* --- 8. ലോഗിൻ ഡിസൈൻ (LOGIN SCREEN) --- */
+/* ഇൻപുട്ട് ഫീൽഡുകൾ റൗണ്ട് ഷേപ്പിൽ വരാൻ */
+.admin-login-screen { padding: 40px 20px; text-align: center; }
+.login-input, input[type="text"], input[type="password"] {
+    width: 100%; max-width: 320px; padding: 14px; margin: 10px 0;
     border: 2px solid #ddd; border-radius: 12px; font-size: 16px; font-weight: 700;
 }
-.login-btn-container { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
-.btn-submit { background: var(--primary); color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 800; }
-.btn-cancel { background: #666; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 800; }
+.login-btns { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+.login-btns button { padding: 10px 25px; border-radius: 8px; font-weight: 900; border: none; color: white; cursor: pointer; }
+.btn-login { background: var(--primary); }
+.btn-cancel { background: #666; }
 
+/* --- 9. മറ്റ് പ്രത്യേക വിവരങ്ങൾ --- */
 .hidden { display: none !important; }
 .overlay { position: fixed; display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; top: 0; left: 0; }
