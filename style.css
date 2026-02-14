@@ -416,3 +416,51 @@ input, select, textarea {
     margin-bottom: 12px;
     font-size: 18px;
 }
+#news-ticker {
+    background: linear-gradient(90deg, #ffeb3b, #fff176); /* മഞ്ഞ നിറത്തിലുള്ള ഗ്രേഡിയന്റ് */
+    padding: 12px 0;
+    border-bottom: 3px solid #fbc02d;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+#latest-news {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1b5e20; /* കടും പച്ച നിറം */
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള പ്രത്യേക ഡിസൈൻ */
+.announcement-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px;
+    border-left: 8px solid #2e7d32; /* ഇടത് വശത്തെ പച്ച ബോർഡർ */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.announcement-card:hover {
+    transform: translateY(-3px);
+}
+
+.announcement-title {
+    font-size: 20px;
+    color: #1b5e20;
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.announcement-desc {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.6;
+    font-weight: 500;
+}
