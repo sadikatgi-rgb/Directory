@@ -306,42 +306,38 @@ onAuthStateChanged(auth, (user) => { currentUser = user; });
 window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
 window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
 window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
-
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-            const registration = await navigator.serviceWorker.ready;
-            const token = await getToken(messaging, { 
-                vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
-                serviceWorkerRegistration: registration 
-            });
+        if (permission !== 'granted') return;
 
-            if (token) {
-                // ലോക്കൽ സ്റ്റോറേജ് ഉപയോഗിച്ച് ഈ ഫോണിൽ ടോക്കൺ ഉണ്ടോ എന്ന് നോക്കുന്നു
-                const savedToken = localStorage.getItem('fcm_token');
+        const registration = await navigator.serviceWorker.ready;
+        const token = await getToken(messaging, { 
+            vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
+            serviceWorkerRegistration: registration 
+        });
+
+        if (token) {
+            const savedToken = localStorage.getItem('fcm_token');
+            
+            // ടോക്കൺ മാറിയിട്ടുണ്ടെങ്കിൽ മാത്രം ഡാറ്റാബേസ് അപ്ഡേറ്റ് ചെയ്യുക
+            if (savedToken !== token) {
+                // പഴയ ടോക്കൺ ലോക്കൽ സ്റ്റോറേജിൽ ഉണ്ടെങ്കിൽ ഡാറ്റാബേസിൽ നിന്ന് അത് കളയാൻ ശ്രമിക്കാം (ഓപ്ഷണൽ)
                 
-                if (savedToken !== token) {
-                    const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
-                    const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
-                    
-                    await setDoc(tokenRef, {
-                        token: token,
-                        timestamp: serverTimestamp(),
-                        deviceInfo: navigator.userAgent,
-                        lastSeen: new Date().toLocaleString()
-                    }, { merge: true });
+                const cleanTokenId = token.replace(/[:\/.]/g, '_'); 
+                const tokenRef = doc(db, "fcm_tokens", cleanTokenId); 
+                
+                await setDoc(tokenRef, {
+                    token: token,
+                    timestamp: serverTimestamp(),
+                    lastSeen: new Date().toLocaleString()
+                }, { merge: true });
 
-                    // സേവ് ചെയ്ത ടോക്കൺ ഫോണിൽ സ്റ്റോർ ചെയ്യുന്നു
-                    localStorage.setItem('fcm_token', token);
-                    console.log('New Token Saved Successfully');
-                } else {
-                    console.log('Token already exists for this device');
-                }
+                localStorage.setItem('fcm_token', token);
+                console.log('Token sync complete.');
             }
         }
     } catch (error) { 
         console.error("Notification Setup Error:", error); 
     }
 }
-
