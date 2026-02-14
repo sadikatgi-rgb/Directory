@@ -639,16 +639,16 @@ header h1 {
     display: inline-block;
     white-space: nowrap;
     /* സ്പീഡ് ഇനിയും കുറയ്ക്കാൻ 60s അല്ലെങ്കിൽ 70s നൽകാം */
-    animation: news-marquee 60s linear infinite; 
+    animation: news-marquee 70s linear infinite; 
     font-weight: 950 !important;
-    font-size: 17px !important;
+    font-size: 18px !important;
     color: #b71c1c !important;
     padding-left: 10%; /* തുടക്കത്തിലെ താമസം കുറയ്ക്കാൻ */
 }
 
 @keyframes news-marquee {
     /* വാർത്ത വരാൻ ഒട്ടും താമസിക്കാതിരിക്കാൻ 100% (സ്ക്രീനിന് പുറത്ത്) എന്നതിന് പകരം 80% ൽ തുടങ്ങുന്നു */
-    0% { transform: translateX(80%); } 
+    0% { transform: translateX(50%); } 
     100% { transform: translateX(-100%); }
 }
 
