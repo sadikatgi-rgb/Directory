@@ -498,3 +498,15 @@ input, select, textarea {
     padding: 5px 10px;
     font-size: 16px !important; /* വിവരണം കൂടി ഉള്ളതിനാൽ വലിപ്പം അല്പം കുറയ്ക്കുന്നത് നന്നായിരിക്കും */
 }
+header h1 {
+    font-weight: 950 !important; /* ഏറ്റവും കട്ടി കൂടിയ രൂപം */
+    font-size: 22px;
+}
+
+.category-item span {
+    font-weight: 900 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി ലഭിക്കാൻ */
+    font-size: 17px;
+    color: #000; /* കറുപ്പ് നിറം കൂടുതൽ വ്യക്തത നൽകും */
+}
+
+
