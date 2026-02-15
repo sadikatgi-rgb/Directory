@@ -31,7 +31,6 @@ window.addEventListener('load', () => {
             .then(reg => console.log('SW Registered'))
             .catch(err => console.error('SW Failed', err));
     }
-    
     // സ്പ്ലാഷ് സ്ക്രീൻ മാറ്റാൻ
     setTimeout(() => {
         const splash = document.getElementById('splash');
@@ -40,28 +39,31 @@ window.addEventListener('load', () => {
             setTimeout(() => {
                 splash.style.display = 'none';
                 splash.classList.add('hidden');
+                
+                // സ്പ്ലാഷ് സ്ക്രീൻ മാറിയാലുടൻ വാർത്തകൾ കാണിക്കാൻ ഇത് ഇവിടെ ചേർക്കുക
+                loadScrollingNews(); 
+                
             }, 500);
         }
     }, 2000); 
-});
+
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
-// 'async' ഒഴിവാക്കി നേരിട്ട് 'function' ഉപയോഗിക്കുന്നത് തന്നെയാണ് ശരി
 function loadScrollingNews() {
     try {
         const tickerContainer = document.getElementById('latest-news');
         if (!tickerContainer) return;
 
-        // ലളിതമായ ക്വറി - Index പ്രശ്നം ഒഴിവാക്കാൻ orderBy തൽക്കാലം നീക്കി
         const newsRef = collection(db, 'announcements');
 
+        // തത്സമയം വാർത്തകൾ അപ്ഡേറ്റ് ചെയ്യാൻ onSnapshot ഉപയോഗിക്കുന്നു
         onSnapshot(newsRef, (querySnapshot) => {
             if (!querySnapshot.empty) {
                 let newsItems = [];
                 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    // പേരും വിവരണവും ഉണ്ടെങ്കിൽ മാത്രം ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു
-                    if (data.name) {
+                    // 'name' ഫീൽഡിൽ ഡാറ്റ ഉണ്ടെങ്കിൽ മാത്രം എടുക്കുന്നു
+                    if (data.name && data.name.trim() !== "") {
                         newsItems.push(`
                             📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
                             &nbsp;&nbsp;
@@ -70,13 +72,13 @@ function loadScrollingNews() {
                     }
                 });
 
-                // പുതിയ വാർത്തകൾ ആദ്യം വരാൻ ലിസ്റ്റ് തിരിക്കുക
+                // പുതിയ വാർത്തകൾ ആദ്യം വരാൻ
                 newsItems.reverse();
 
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
 
-                // വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാൻ ഒരേ വരി രണ്ടുതവണ നൽകുന്നു
+                // വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാൻ വാർത്തകൾ രണ്ടുതവണ നൽകുന്നു
                 tickerContainer.innerHTML = `
                     <div class="news-ticker-scroll" style="display: inline-block; white-space: nowrap;">
                         <span>${fullNewsText}</span>
@@ -92,6 +94,7 @@ function loadScrollingNews() {
         console.error("News Load Error:", e); 
     }
 }
+
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
