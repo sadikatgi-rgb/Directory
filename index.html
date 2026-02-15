@@ -196,27 +196,29 @@
             </div>
         </div>
 
-        <div id="admin-panel" class="hidden">
-            <div class="form-box">
-                <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
-                <select id="new-cat" onchange="renderAdminFields()">
-                    <option value="auto">ഓട്ടോ & ടാക്സി</option>
-                    <option value="shops">കടകൾ</option>
-                    <option value="workers">ജോലിക്കാർ</option>
-                    <option value="catering">പണ്ടാരികൾ</option>
-                    <option value="travels">ടാക്സി & ട്രാവൽ</option>
-                    <option value="institutions">സ്ഥാപനങ്ങൾ</option>
-                    <option value="leaders_gov">ജനപ്രതിനിധികൾ</option>
-                    <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
-                    <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
-                    <option value="announcements">അറിയിപ്പുകൾ</option>
-                    <option value="admins">അഡ്മിൻസ് (Contacts)</option>
-                </select>
-                <div id="dynamic-inputs" style="margin-top: 10px;"></div>
-                <button class="btn-main" onclick="handleSaveData()">Save Data</button>
-                <button class="btn-text" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
+ <div id="admin-panel" class="hidden">
+    <div class="form-box">
+        <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
+        <select id="new-cat" onchange="renderAdminFields()">
+            <option value="auto">ഓട്ടോ & ടാക്സി</option>
+            <option value="shops">കടകൾ</option>
+            <option value="workers">ജോലിക്കാർ</option>
+            <option value="catering">പണ്ടാരികൾ</option>
+            <option value="travels">ടാക്സി & ട്രാവൽ</option>
+            <option value="institutions">സ്ഥാപനങ്ങൾ</option>
+            <option value="representatives">ജനപ്രതിനിധികൾ</option>
+            <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
+            <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
+            <option value="announcements">അറിയിപ്പുകൾ</option>
+            <option value="admins">അഡ്മിൻസ് (Contacts)</option>
+        </select>
+        
+        <div id="dynamic-inputs" style="margin-top: 10px;"></div>
+        
+        <button class="btn-main" onclick="handleSaveData()">Save Data</button>
+        <button class="btn-text" onclick="handleLogout()">Logout</button>
+    </div>
+</div>
 
         <div id="list-screen" class="hidden">
             <header>
