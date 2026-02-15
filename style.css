@@ -648,7 +648,7 @@ header h1 {
 
 @keyframes news-marquee {
     /* വാർത്ത വരാൻ ഒട്ടും താമസിക്കാതിരിക്കാൻ 100% (സ്ക്രീനിന് പുറത്ത്) എന്നതിന് പകരം 80% ൽ തുടങ്ങുന്നു */
-    0% { transform: translateX(50%); } 
+    0% { transform: translateX(95%); } 
     100% { transform: translateX(-100%); }
 }
 
