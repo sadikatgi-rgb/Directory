@@ -47,13 +47,83 @@ window.addEventListener('load', () => {
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
-    'auto': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'ty': 'വാഹന ഇനം' },
-    'shops': { 'name': 'കടയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'item': 'പ്രധാന വിഭവം' },
-    'workers': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'job': 'ജോലി' },
-    'catering': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ', 'specialty': 'പ്രത്യേകത' },
-    'admins': { 'name': 'അഡ്മിൻ പേര്', 'phone': 'ഫോൺ നമ്പർ' }, 
-    'announcements': { 'name': 'വിഷയം (Heading)', 'description': 'വിവരണം (Details)' },
-    'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
+    'auto': { 
+        'name': 'ഡ്രൈവർ പേര്', 
+        'ty': 'വാഹന ഇനം', 
+        'category': 'വാഹന വിഭാഗം', 
+        'place': 'സ്ഥലം', 
+        'phone': 'മൊബൈൽ', 
+        'time': 'സമയം' 
+    },
+    'shops': { 
+        'item': 'ഇനം', 
+        'name': 'കടയുടെ പേര്', 
+        'time': 'സമയം', 
+        'place': 'സ്ഥലം', 
+        'owner': 'ഓണർ പേര്', 
+        'phone': 'മൊബൈൽ', 
+        'off': 'അവധി' 
+    },
+    'workers': { 
+        'category': 'വിഭാഗം', 
+        'name': 'പേര്', 
+        'phone': 'മൊബൈൽ', 
+        'place': 'സ്ഥലം', 
+        'time': 'സമയം', 
+        'off': 'അവധി' 
+    },
+    'catering': { 
+        'name': 'പണ്ടാരിയുടെ പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'ഫോൺ നമ്പർ', 
+        'self': 'സ്വന്തം ഉണ്ടാക്കൽ', 
+        'group': 'മറ്റുള്ളവരുടെ കൂടെ' 
+    },
+    'travels': { 
+        'vname': 'വാഹനത്തിന്റെ പേര്', 
+        'oname': 'ഓണറുടെ പേര്', 
+        'phone': 'മൊബൈൽ', 
+        'place': 'സ്ഥലം', 
+        'vtype': 'വാഹന ഇനം', 
+        'seat': 'സീറ്റ് നില' 
+    },
+    'institutions': { 
+        'name': 'സ്ഥാപനത്തിന്റെ പേര്', 
+        'place': 'സ്ഥലം', 
+        'type': 'ഇനം', 
+        'manager': 'മേധാവി/മാനേജർ', 
+        'phone': 'മൊബൈൽ' 
+    },
+    'professionals': { 
+        'category': 'വിഭാഗം', 
+        'name': 'പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'മൊബൈൽ നമ്പർ', 
+        'home': 'നാട്', 
+        'work': 'ജോലിസ്ഥലം' 
+    },
+    'help_centers': { 
+        'type': 'ഇനം', 
+        'name': 'പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'മൊബൈൽ നമ്പർ', 
+        'time': 'സമയം', 
+        'off': 'അവധി' 
+    },
+    'announcements': { 
+        'name': 'വിഷയം', 
+        'description': 'വിവരണം' 
+    },
+    'admins': { 
+        'name': 'പേര്', 
+        'phone': 'മൊബൈൽ', 
+        'place': 'സ്ഥലം' 
+    },
+    'default': { 
+        'name': 'പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'ഫോൺ' 
+    }
 };
 
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
