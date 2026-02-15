@@ -1,4 +1,4 @@
-// 1. ഫയർബേസ് ഇംപോർട്ടുകൾ (onSnapshot ഉൾപ്പെടുത്തി)
+// 1. ഫയർബേസ് ഇംപോർട്ടുകൾ
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, setDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, limit, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -40,15 +40,15 @@ window.addEventListener('load', () => {
                 splash.style.display = 'none';
                 splash.classList.add('hidden');
                 
-                // സ്ക്രീൻ മാറിയാൽ ഉടൻ വാർത്തകൾ ലോഡ് ചെയ്യാൻ തുടങ്ങും
+                // സ്ക്രീൻ മാറിയാലുടൻ വാർത്തകൾ ലോഡ് ചെയ്യാൻ തുടങ്ങും
                 loadScrollingNews(); 
                 
             }, 500);
         }
     }, 2000); 
-}); // <--- ഇവിടെയാണ് നേരത്തെ ബ്രാക്കറ്റ് വിട്ടുപോയത്
+}); // <--- തിരുത്തിയത്: ഇവിടെ വിട്ടുപോയ ബ്രാക്കറ്റും സെമികോളനും ചേർത്തു
 
-// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ (ഒന്നിലധികം വാർത്തകൾ വിടവില്ലാതെ) ---
+// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 function loadScrollingNews() {
     try {
         const tickerContainer = document.getElementById('latest-news');
@@ -56,7 +56,6 @@ function loadScrollingNews() {
 
         const newsRef = collection(db, 'announcements');
 
-        // തത്സമയം മാറാൻ onSnapshot ഉപയോഗിക്കുന്നു
         onSnapshot(newsRef, (querySnapshot) => {
             if (!querySnapshot.empty) {
                 let newsItems = [];
@@ -72,13 +71,10 @@ function loadScrollingNews() {
                     }
                 });
 
-                // പുതിയ വാർത്തകൾ ആദ്യം വരാൻ
                 newsItems.reverse();
-
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
 
-                // വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാൻ വാർത്തകൾ രണ്ടുതവണ നൽകുന്നു
                 tickerContainer.innerHTML = `
                     <div class="news-ticker-scroll" style="display: inline-block; white-space: nowrap;">
                         <span>${fullNewsText}</span>
@@ -111,39 +107,12 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-function hideAll() {
-    const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
-    screens.forEach(s => {
-        const el = document.getElementById(s);
-        if(el) el.classList.add('hidden');
-    });
-}
-
-window.showHome = () => {
-    hideAll();
-    const home = document.getElementById('home-screen');
-    if(home) home.classList.remove('hidden');
-    const sidebar = document.getElementById('sidebar');
-    if(sidebar) sidebar.classList.remove('active');
-    const overlay = document.getElementById('overlay');
-    if(overlay) overlay.style.display = 'none';
-};
-
-window.toggleMenu = () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    if(sidebar.classList.contains('active')) {
-        sidebar.classList.remove('active');
-        overlay.style.display = 'none';
-    } else {
-        sidebar.classList.add('active');
-        overlay.style.display = 'block';
-    }
-};
+// ... (മറ്റു ഫങ്ക്ഷനുകൾ എല്ലാം ഇവിടെ തുടരുക)
 
 window.openCategory = async (catId, catName) => {
     hideAll();
-    document.getElementById('list-screen').classList.remove('hidden');
+    const listScreen = document.getElementById('list-screen');
+    if (listScreen) listScreen.classList.remove('hidden');
     document.getElementById('current-cat-title').innerText = catName;
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
@@ -192,70 +161,52 @@ window.openCategory = async (catId, catName) => {
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
                 </div>`;
-} else if (catId === 'admins') {
-    displayHTML = `
-    <div class="person-card">
-        <div class="person-info">
-            <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
-            
-            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #666;"><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</small>
-        </div>
-        <div class="call-section">
-            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
-            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">
-                <i class="fab fa-whatsapp"></i> Chat
-            </a>
-        </div>
-        ${currentUser ? `<div class="admin-btns">
-            <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-            <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-        </div>` : ""}
-    </div>`;
-                
-         } else {
-    // ആവർത്തനം ഒഴിവാക്കാൻ സമയം, അവധി എന്നിവ ലൂപ്പിൽ നിന്ന് ഒഴിവാക്കുന്നു
-    let extraInfo = "";
-    for (let key in d) {
-        if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
-            const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-            extraInfo += `<p style="margin: 5px 0; color: #444; font-size: 16px; font-weight: 700;"><b>${label}:</b> ${d[key]}</p>`;
-        }
-    }
+            } else if (catId === 'admins') {
+                displayHTML = `
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+                        <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #666;"><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</small>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
+            } else {
+                let extraInfo = "";
+                for (let key in d) {
+                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
+                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+                        extraInfo += `<p style="margin: 5px 0; color: #444; font-size: 16px; font-weight: 700;"><b>${label}:</b> ${d[key]}</p>`;
+                    }
+                }
 
-    displayHTML = `
-    <div class="person-card">
-        <div class="person-info">
-            <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;">
-                <i class="fas fa-user-circle"></i> ${d.name || "പേര് ലഭ്യമല്ല"}
-            </strong>   
-            
-            ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
-
-            ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
-
-            ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
-
-            ${catId === 'auto' && (d.ty || d.no) ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no}</p>` : ""}
-
-            <div style="margin-top: 5px;">${extraInfo}</div>
-        </div>
-
-        <div class="call-section">
-            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
-        </div>
-
-        ${currentUser ? `
-            <div class="admin-btns">
-                <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-            </div>` : ""
-        }
-    </div>`;
-}
-
-}
-           container.innerHTML += displayHTML;
+                displayHTML = `
+                <div class="person-card">
+                    <div class="person-info">
+                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;"><i class="fas fa-user-circle"></i> ${d.name || "പേര് ലഭ്യമല്ല"}</strong>   
+                        ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
+                        ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
+                        ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
+                        ${catId === 'auto' && (d.ty || d.no) ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no}</p>` : ""}
+                        <div style="margin-top: 5px;">${extraInfo}</div>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns">
+                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                    </div>` : ""}
+                </div>`;
+            }
+            container.innerHTML += displayHTML; // <--- തിരുത്തിയത്: ഇത് ഒരു ബ്രാക്കറ്റിന് പുറത്തേക്ക് മാറ്റി
         });
     } catch (e) { 
         console.error("Open Category Error:", e);
