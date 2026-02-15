@@ -44,40 +44,48 @@ window.addEventListener('load', () => {
         }
     }, 2000); 
 });
-
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
+// 'async' ഒഴിവാക്കി നേരിട്ട് 'function' ഉപയോഗിക്കുന്നത് തന്നെയാണ് ശരി
 function loadScrollingNews() {
     try {
-        // ഏറ്റവും പുതിയ 5 വാർത്തകൾ എടുക്കുന്നു
-        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(5));
-        const ticker = document.getElementById('latest-news');
+        const tickerContainer = document.getElementById('latest-news');
+        if (!tickerContainer) return;
 
-        // onSnapshot ഉപയോഗിക്കുന്നതിനാൽ പുതിയ വാർത്ത വന്നാലുടൻ താനേ അപ്ഡേറ്റ് ആകും
-        onSnapshot(q, (querySnapshot) => {
-            if (!querySnapshot.empty && ticker) {
+        // ലളിതമായ ക്വറി - Index പ്രശ്നം ഒഴിവാക്കാൻ orderBy തൽക്കാലം നീക്കി
+        const newsRef = collection(db, 'announcements');
+
+        onSnapshot(newsRef, (querySnapshot) => {
+            if (!querySnapshot.empty) {
                 let newsItems = [];
                 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    // ഓരോ വാർത്തയും ചിഹ്നത്തോടെ തയ്യാറാക്കുന്നു
-                    newsItems.push(`
-                        📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
-                        &nbsp;&nbsp;
-                        <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
-                    `);
+                    // പേരും വിവരണവും ഉണ്ടെങ്കിൽ മാത്രം ലിസ്റ്റിലേക്ക് ചേർക്കുന്നു
+                    if (data.name) {
+                        newsItems.push(`
+                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
+                            &nbsp;&nbsp;
+                            <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+                        `);
+                    }
                 });
 
-                // വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് ക്രമീകരിക്കുന്നു
-                const fullNewsText = newsItems.join('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+                // പുതിയ വാർത്തകൾ ആദ്യം വരാൻ ലിസ്റ്റ് തിരിക്കുക
+                newsItems.reverse();
 
-                // ഒരേ വാർത്ത തന്നെ രണ്ടുതവണ നൽകുന്നത് വഴി വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാം
-                ticker.innerHTML = `
-                    <div class="news-ticker-scroll">
+                const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                const fullNewsText = newsItems.join(separator);
+
+                // വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാൻ ഒരേ വരി രണ്ടുതവണ നൽകുന്നു
+                tickerContainer.innerHTML = `
+                    <div class="news-ticker-scroll" style="display: inline-block; white-space: nowrap;">
                         <span>${fullNewsText}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ${separator}
                         <span>${fullNewsText}</span>
                     </div>
                 `;
+            } else {
+                tickerContainer.innerHTML = "അറിയിപ്പുകൾ ലഭ്യമല്ല";
             }
         });
     } catch (e) { 
