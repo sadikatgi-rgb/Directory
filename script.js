@@ -288,45 +288,31 @@ window.openCategory = async (catId, catName) => {
     </div>`;
                 
          } else {
-                let extraInfo = "";
-                for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp'].includes(key)) { 
-                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
-                    }
-                }
-                displayHTML = `
+    // ആവർത്തനം ഒഴിവാക്കാൻ extraInfo ലൂപ്പിൽ നിന്ന് സമയം, അവധി എന്നിവ കൂടി ഒഴിവാക്കുക
+    let extraInfo = "";
+    for (let key in d) {
+        if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave'].includes(key)) { 
+            const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+            extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
+        }
+    }
+
+    displayHTML = `
     <div class="person-card">
         <div class="person-info">
             <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;">
                 <i class="fas fa-user-circle"></i> ${d.name || "പേര് ലഭ്യമല്ല"}
             </strong>   
             
-            ${d.place ? `
-                <p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;">
-                    <i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}
-                </p>` : ""
-            }
+            ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
 
-            ${d.time ? `
-                <p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;">
-                    <i class="fas fa-clock"></i> സമയം: ${d.time}
-                </p>` : ""
-            }
+            ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
 
-            ${d.leave ? `
-                <p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;">
-                    <i class="fas fa-calendar-times"></i> അവധി: ${d.leave}
-                </p>` : ""
-            }
+            ${d.leave ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave}</p>` : ""}
 
-            ${catId === 'auto' && (d.ty || d.no) ? `
-                <p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;">
-                    <i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no}
-                </p>` : ""
-            }
+            ${catId === 'auto' && (d.ty || d.no) ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no}</p>` : ""}
 
-            <div style="font-size: 16px; font-weight: 600; color: #444; margin-top:5px;">${extraInfo}</div>
+            <div style="margin-top: 5px;">${extraInfo}</div>
         </div>
 
         <div class="call-section">
@@ -340,8 +326,8 @@ window.openCategory = async (catId, catName) => {
             </div>` : ""
         }
     </div>`;
-            }
-            container.innerHTML += displayHTML;
+}
+           container.innerHTML += displayHTML;
         });
     } catch (e) { 
         console.error("Open Category Error:", e);
@@ -486,3 +472,7 @@ window.goToWhatsApp = function(phoneNumber) {
         }
     }, 1000);
 };
+loadScrollingNews();
+
+
+// loadCategories(); 
