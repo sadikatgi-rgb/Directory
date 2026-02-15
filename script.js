@@ -100,9 +100,9 @@ const categoryConfig = {
     'auto': { 'name': 'ഡ്രൈവർ പേര്', 'ty': 'വാഹന ഇനം', 'category': 'വാഹന വിഭാഗം', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ', 'time': 'സമയം', 'leave': 'അവധി' },
     'shops': { 'item': 'ഇനം', 'name': 'കടയുടെ പേര്', 'time': 'സമയം', 'place': 'സ്ഥലം', 'owner': 'ഓണർ പേര്', 'phone': 'മൊബൈൽ', 'off': 'അവധി' },
     'workers': { 'category': 'വിഭാഗം', 'name': 'പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം', 'time': 'സമയം', 'off': 'അവധി' },
-    'catering': { 'name': 'പണ്ടാരിയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ നമ്പർ', 'self': 'സ്വന്തം ഉണ്ടാക്കൽ', 'group': 'മറ്റുള്ളവരുടെ കൂടെ' },
+    'catering': { 'name': 'പണ്ടാരിയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ നമ്പർ', 'self': 'Self', 'group': ' other' },
     'travels': { 'vname': 'വാഹനത്തിന്റെ പേര്', 'oname': 'ഓണറുടെ പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം', 'vtype': 'വാഹന ഇനം', 'seat': 'സീറ്റ് നില' },
-    'institutions': { 'name': 'സ്ഥാപനത്തിന്റെ പേര്', 'place': 'സ്ഥലം', 'type': 'ഇനം', 'manager': 'മേധാവി/മാനേജർ', 'phone': 'മൊബൈൽ' },
+    'institutions': { 'name': 'സ്ഥാപനത്തിന്റെ പേര്', 'place': 'സ്ഥലം', 'type': 'ഇനം', 'manager': 'മേധാവി', 'phone': 'മൊബൈൽ' },
     'professionals': { 'category': 'വിഭാഗം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'home': 'നാട്', 'work': 'ജോലിസ്ഥലം' },
     'representatives': { 'name': 'പേര്', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ', 'position': 'സ്ഥാനം', 'phone': 'മൊബൈൽ' },
     'help_centers': { 'type': 'ഇനം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'time': 'സമയം', 'off': 'അവധി' },
@@ -214,12 +214,12 @@ window.openCategory = async (catId, catName) => {
     </div>`;
                 
          } else {
-    // ആവർത്തനം ഒഴിവാക്കാൻ extraInfo ലൂപ്പിൽ നിന്ന് സമയം, അവധി എന്നിവ കൂടി ഒഴിവാക്കുക
+    // ആവർത്തനം ഒഴിവാക്കാൻ സമയം, അവധി എന്നിവ ലൂപ്പിൽ നിന്ന് ഒഴിവാക്കുന്നു
     let extraInfo = "";
     for (let key in d) {
-        if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave'].includes(key)) { 
+        if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
             const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-            extraInfo += `<small style="display:block; color:#555;"><b>${label}:</b> ${d[key]}</small>`;
+            extraInfo += `<p style="margin: 5px 0; color: #444; font-size: 16px; font-weight: 700;"><b>${label}:</b> ${d[key]}</p>`;
         }
     }
 
@@ -234,7 +234,7 @@ window.openCategory = async (catId, catName) => {
 
             ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
 
-            ${d.leave ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave}</p>` : ""}
+            ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
 
             ${catId === 'auto' && (d.ty || d.no) ? `<p style="margin: 5px 0; color: #111; font-size: 16px; font-weight: 700;"><i class="fas fa-taxi" style="color: #f1c40f;"></i> വാഹന ഇനം: ${d.ty || d.no}</p>` : ""}
 
@@ -252,6 +252,8 @@ window.openCategory = async (catId, catName) => {
             </div>` : ""
         }
     </div>`;
+}
+
 }
            container.innerHTML += displayHTML;
         });
