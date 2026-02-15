@@ -1,4 +1,4 @@
-:root { 
+:root { '
     --primary: #006400; 
     --bg: #f4f7f6; 
     --white: #ffffff; 
@@ -639,7 +639,7 @@ header h1 {
     display: inline-block;
     white-space: nowrap;
     /* സ്പീഡ് ഇനിയും കുറയ്ക്കാൻ 60s അല്ലെങ്കിൽ 70s നൽകാം */
-    animation: news-marquee 80s linear infinite; 
+    animation: news-marquee 90s linear infinite; 
     font-weight: 950 !important;
     font-size: 18px !important;
     color: #b71c1c !important;
