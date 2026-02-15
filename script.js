@@ -42,27 +42,40 @@ window.addEventListener('load', () => {
                 splash.classList.add('hidden');
             }, 500);
         }
-    }, 3000); 
+    }, 2500); 
 });
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 async function loadScrollingNews() {
     try {
-        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
+        // limit(1) എന്നത് മാറ്റി ഏറ്റവും പുതിയ 5 വാർത്തകൾ വരെ എടുക്കുന്നു
+        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(5));
         const querySnapshot = await getDocs(q);
         const ticker = document.getElementById('latest-news');
 
-        if (!querySnapshot.empty) {
-            const lastDoc = querySnapshot.docs[0].data();
-            if(ticker) {
-                ticker.innerHTML = `
-                    <div class="news-ticker-scroll">
-                        📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${lastDoc.name}</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span style="color: #000; font-weight: 700; font-size: 16px;">${lastDoc.description}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </div>
-                `;
-            }
+        if (!querySnapshot.empty && ticker) {
+            let newsItems = [];
+            
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                // ഓരോ വാർത്തയും അറിയിപ്പ് ചിഹ്നത്തോടെ തയ്യാറാക്കുന്നു
+                newsItems.push(`
+                    📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
+                    &nbsp;&nbsp;
+                    <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+                `);
+            });
+
+            // വാർത്തകൾക്കിടയിൽ വലിയ വിടവ് നൽകി യോജിപ്പിക്കുന്നു
+            const fullNewsText = newsItems.join('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+
+            // വിടവില്ലാതെ ലൂപ്പ് ചെയ്യാൻ ഒരേ വാർത്ത തന്നെ രണ്ടുതവണ നൽകുന്നു
+            ticker.innerHTML = `
+                <div class="news-ticker-scroll">
+                    <span>${fullNewsText}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>${fullNewsText}</span>
+                </div>
+            `;
         }
     } catch (e) { 
         console.error("News Load Error:", e); 
