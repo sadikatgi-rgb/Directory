@@ -46,7 +46,7 @@ window.addEventListener('load', () => {
             }, 500);
         }
     }, 2000); 
-
+});
 // --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
 function loadScrollingNews() {
     try {
