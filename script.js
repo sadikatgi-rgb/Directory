@@ -239,25 +239,28 @@ window.openCategory = async (catId, catName) => {
                         <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
                     </div>` : ""}
                 </div>`;
-            } else if (catId === 'admins') {
-                displayHTML = `
-                <div class="person-card">
-                    <div class="person-info">
-                        <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
-                    </div>
-                    <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">
-                            <i class="fab fa-whatsapp"></i> Chat
-                        </a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns">
-                        <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
-                    </div>` : ""}
-                </div>`;
-            } else {
+} else if (catId === 'admins') {
+    displayHTML = `
+    <div class="person-card">
+        <div class="person-info">
+            <strong style="font-size: 18px !important; font-weight: 900; color: #000;"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #333;"><i class="fas fa-phone-alt"></i> ${d.phone}</small>
+            
+            <small style="display:block; margin-top:5px; font-weight: 800; font-size: 15px; color: #666;"><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</small>
+        </div>
+        <div class="call-section">
+            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone-alt"></i> കോൾ</a>
+            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">
+                <i class="fab fa-whatsapp"></i> Chat
+            </a>
+        </div>
+        ${currentUser ? `<div class="admin-btns">
+            <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+            <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+        </div>` : ""}
+    </div>`;
+                
+         } else {
                 let extraInfo = "";
                 for (let key in d) {
                     if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp'].includes(key)) { 
