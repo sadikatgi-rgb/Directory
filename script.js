@@ -44,6 +44,30 @@ window.addEventListener('load', () => {
         }
     }, 3000); 
 });
+// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
+async function loadScrollingNews() {
+    try {
+        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
+        const querySnapshot = await getDocs(q);
+        const ticker = document.getElementById('latest-news');
+
+        if (!querySnapshot.empty) {
+            const lastDoc = querySnapshot.docs[0].data();
+            if(ticker) {
+                ticker.innerHTML = `
+                    <div class="news-ticker-scroll">
+                        📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${lastDoc.name}</span> 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="color: #000; font-weight: 700; font-size: 16px;">${lastDoc.description}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                `;
+            }
+        }
+    } catch (e) { 
+        console.error("News Load Error:", e); 
+    }
+}
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
@@ -133,30 +157,6 @@ const categoryConfig = {
     }
 };
 
-// --- വാർത്തകൾ ലോഡ് ചെയ്യാൻ ---
-async function loadScrollingNews() {
-    try {
-        const q = query(collection(db, 'announcements'), orderBy('timestamp', 'desc'), limit(1));
-        const querySnapshot = await getDocs(q);
-        const ticker = document.getElementById('latest-news');
-
-        if (!querySnapshot.empty) {
-            const lastDoc = querySnapshot.docs[0].data();
-            if(ticker) {
-                ticker.innerHTML = `
-                    <div class="news-ticker-scroll">
-                        📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${lastDoc.name}</span> 
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span style="color: #000; font-weight: 700; font-size: 16px;">${lastDoc.description}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </div>
-                `;
-            }
-        }
-    } catch (e) { 
-        console.error("News Load Error:", e); 
-    }
-}
 
 function hideAll() {
     const screens = ['home-screen', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
