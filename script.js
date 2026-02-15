@@ -102,6 +102,13 @@ const categoryConfig = {
         'home': 'നാട്', 
         'work': 'ജോലിസ്ഥലം' 
     },
+    'representatives': { 
+        'name': 'പേര്', 
+        'ward': 'വാർഡ്', 
+        'ward_no': 'വാർഡ് നമ്പർ', 
+        'position': 'സ്ഥാനം', 
+        'phone': 'മൊബൈൽ' 
+    },
     'help_centers': { 
         'type': 'ഇനം', 
         'name': 'പേര്', 
