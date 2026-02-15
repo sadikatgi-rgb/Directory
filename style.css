@@ -643,12 +643,12 @@ header h1 {
     font-weight: 950 !important;
     font-size: 18px !important;
     color: #b71c1c !important;
-    padding-left: 10%; /* തുടക്കത്തിലെ താമസം കുറയ്ക്കാൻ */
+    padding-left: 1%; /* തുടക്കത്തിലെ താമസം കുറയ്ക്കാൻ */
 }
 
 @keyframes news-marquee {
     /* വാർത്ത വരാൻ ഒട്ടും താമസിക്കാതിരിക്കാൻ 100% (സ്ക്രീനിന് പുറത്ത്) എന്നതിന് പകരം 80% ൽ തുടങ്ങുന്നു */
-    0% { transform: translateX(95%); } 
+    0% { transform: translateX(100%); } 
     100% { transform: translateX(-100%); }
 }
 
