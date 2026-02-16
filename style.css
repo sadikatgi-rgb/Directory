@@ -538,12 +538,12 @@ header h1, header h3, #current-cat-title {
     top: 0; 
     left: 0; 
 }
-/* --- ഫൈനൽ ഭംഗിയുള്ള ഡിസൈൻ (All Screens Fixed) --- */
+/* --- ഫൈനൽ കംപ്ലീറ്റ് റീസ്റ്റോറേഷൻ (All Issues Fixed) --- */
 
-/* 1. പ്രധാന ഹെഡർ ക്രമീകരണം */
+/* 1. ഹെഡർ ഡിസൈൻ - ഹോം സ്ക്രീനിനും ലിസ്റ്റ് സ്ക്രീനിനും പ്രത്യേകം */
 header {
     background-color: #006400 !important;
-    height: 60px !important;
+    height: 65px !important;
     display: flex !important;
     align-items: center !important;
     position: relative !important;
@@ -555,63 +555,91 @@ header {
 header h1 {
     width: 100% !important;
     text-align: center !important;
-    font-size: 20px !important;
+    font-size: 21px !important;
     font-weight: 950 !important;
     color: #ffffff !important;
     margin: 0 !important;
 }
 
-/* ലിസ്റ്റ് സ്ക്രീനിലെ ബാക്ക് ബട്ടണും ടൈറ്റിലും (രണ്ടാമത്തെ ചിത്രം ശരിയാക്കാൻ) */
+/* ലിസ്റ്റ് സ്ക്രീനിലെ ഹെഡർ (ബാക്ക് ബട്ടൺ ഉള്ളപ്പോൾ) */
 .list-screen-header {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important; /* നടുവിൽ നിന്ന് മാറ്റി തുടക്കത്തിലേക്ക് */
+    justify-content: flex-start !important; /* തുടക്കത്തിൽ വരാൻ */
     gap: 15px !important;
+    width: 100% !important;
 }
 
+/* ലിസ്റ്റ് സ്ക്രീനിലെ ടൈറ്റിൽ ഇടതുവശത്ത് നിൽക്കാൻ */
 #current-cat-title {
     text-align: left !important;
     font-size: 19px !important;
     font-weight: 900 !important;
+    flex-grow: 1;
 }
 
-/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും കൃത്യമായി ഇടതുവശത്ത് വരാൻ */
-header .menu-icon, header .back-btn, header i {
+/* ഐക്കണുകൾ (മെനു & ബാക്ക് ബട്ടൺ) കൃത്യമായി ഇടതുവശത്ത് */
+header i, .menu-icon, .back-btn {
     position: absolute !important;
     left: 15px !important;
-    font-size: 22px !important;
+    font-size: 24px !important;
     color: white !important;
-    z-index: 10 !important;
+    z-index: 100 !important;
 }
 
-/* 2. മഞ്ഞ വാർത്താ ബാർ (ഗ്യാപ്പില്ലാതെ, ബോർഡറുകളോടെ) */
+/* 2. മഞ്ഞ വാർത്താ ബാർ (കൃത്യമായ ബോർഡറുകളും വേഗതയും) */
 #news-ticker {
-    height: 48px !important;
+    height: 52px !important;
     background: #ffeb3b !important;
-    /* ചുവപ്പും കറുപ്പും ബോർഡറുകൾ ഇവിടെയാണ് */
-    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ ചുവപ്പ് */
+    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
     border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
     margin: 0 !important;
     padding: 0 !important;
+    position: relative !important;
 }
 
-/* 3. കാർഡുകളുടെയും ലിസ്റ്റുകളുടെയും ഭംഗി തിരികെ കൊണ്ടുവരാൻ */
+/* വാർത്തകൾ വളരെ സാവകാശം നീങ്ങാൻ (120 സെക്കൻഡ്) */
+.news-ticker-scroll {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    animation: news-marquee 120s linear infinite !important; /* സമയം കൂട്ടി */
+    font-weight: 950 !important;
+    font-size: 18px !important;
+    color: #b71c1c !important;
+}
+
+@keyframes news-marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* 3. കാർഡുകളുടെയും ലിസ്റ്റുകളുടെയും ഡിസൈൻ തിരികെ കൊണ്ടുവരാൻ */
 .container {
-    padding-top: 10px !important;
+    padding: 10px 15px 150px 15px !important;
+    height: calc(100vh - 65px) !important;
+    overflow-y: auto !important;
 }
 
+/* ഹോം പേജ് കാർഡുകളിലെ അക്ഷരങ്ങൾ */
 .card p {
-    font-weight: 900 !important;
+    font-weight: 950 !important;
+    font-size: 16px !important;
     color: #004d00 !important;
 }
 
-/* പേഴ്സൺ കാർഡിലെ വിവരങ്ങൾ വ്യക്തമാകാൻ */
-.person-info small {
-    font-weight: 700 !important;
-    color: #333 !important;
+/* ലിസ്റ്റ് പേജിലെ പേര് കാർഡുകൾ */
+.person-card {
+    border-left: 6px solid #006400 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+.person-info strong {
+    font-size: 19px !important;
+    font-weight: 950 !important;
+    color: #006400 !important;
 }
 
 /* 4. സൈഡ് ബാർ പഴയപോലെ വശത്ത് ഉറപ്പിക്കാൻ */
@@ -621,9 +649,8 @@ header .menu-icon, header .back-btn, header i {
     top: 0;
     width: 250px !important; 
     height: 100% !important; 
-    background: white !important; 
     z-index: 5000 !important; 
-    transition: 0.3s ease !important; 
+    transition: 0.3s ease !important;
 }
 
 .sidebar.active { 
