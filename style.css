@@ -68,7 +68,7 @@ header h1 {
     font-size: 18px !important;
     color: #b71c1c !important;
     white-space: nowrap !important;
-    animation: news-marquee 120s linear infinite !important;
+    animation: news-marquee 30s linear infinite !important;
 }
 
 /* --- 4. സൈഡ്ബാർ & ഫോട്ടോ ഗ്യാപ്പ് ഫിക്സ് --- */
@@ -127,6 +127,16 @@ header h1 {
     font-weight: 950 !important;
     font-size: 20px !important;
 }
+/* സെർച്ച് ബാർ മനോഹരമാക്കാൻ */
+input[type="text"] {
+    width: 100% !important;
+    padding: 12px 15px !important;
+    margin: 10px 0 20px 0 !important;
+    border: 2px solid var(--primary) !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    outline: none !important;
+}
 
 /* --- 6. കാർഡുകൾ & ഗ്രിഡ് സിസ്റ്റം --- */
 .container { 
@@ -172,25 +182,27 @@ header h1 {
 .call-btn-new {
     background-color: #006400 !important;
     color: white !important;
-    padding: 6px 15px !important;
-    border-radius: 50px !important;
-    font-size: 14px !important;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    padding: 8px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 100px !important;
+    margin-right: 10px !important;
 
 .whatsapp-btn-new {
     background-color: #25D366 !important;
     color: white !important;
-    padding: 6px 15px !important;
-    border-radius: 25px !important;
-    font-size: 13px !important;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    padding: 8px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 100px !important;
 }
 
 .announcement-card {
