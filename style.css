@@ -576,3 +576,32 @@ header h3, #current-cat-title {
     font-size: 19px !important;
     color: #ffffff !important;
 }
+/* --- സൈഡ് ബാർ പഴയതുപോലെ സൈഡിൽ ഉറപ്പിച്ചു നിർത്താൻ --- */
+.sidebar { 
+    position: fixed !important; /* ഇത് വശത്ത് തന്നെ നിൽക്കാൻ സഹായിക്കും */
+    left: -260px; 
+    top: 0;
+    width: 250px; 
+    height: 100%; 
+    background: white; 
+    z-index: 2000 !important; /* ഹെഡറിന് മുകളിൽ കാണാൻ */
+    transition: 0.3s; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.active { 
+    left: 0 !important; 
+}
+
+.overlay { 
+    position: fixed !important; 
+    display: none; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.5); 
+    z-index: 1500 !important; 
+    top: 0; 
+    left: 0; 
+}
