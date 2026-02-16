@@ -432,157 +432,100 @@ input, select, textarea {
     font-weight: 500;
 }
 
-/* --- ഫൈനൽ ഏകീകരിച്ച ഡിസൈൻ (Clean & Fixed) --- */
+/* --- 100% ഫിക്സഡ് ഡിസൈൻ (Images Ref: 4457, 4444) --- */
 
-/* 1. ഹെഡർ ഡിസൈൻ - ഹോം & ലിസ്റ്റ് സ്ക്രീനുകൾക്ക് അനുയോജ്യമായ രീതിയിൽ */
+/* 1. ഹെഡർ - മെനുവും ടൈറ്റിലും കൂട്ടിമുട്ടാതിരിക്കാൻ */
 header {
     background-color: #006400 !important;
-    height: 65px !important;
+    height: 60px !important;
     display: flex !important;
     align-items: center !important;
+    justify-content: center !important; 
     position: relative !important;
-    padding: 0 15px !important;
+    padding: 0 50px !important; /* വശങ്ങളിൽ ഗ്യാപ്പ് നൽകി */
     margin: 0 !important;
-    color: #ffffff !important;
 }
 
-/* ഹോം സ്ക്രീനിലെ ടൈറ്റിൽ നടുവിൽ വരാൻ */
 header h1 {
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 21px !important;
+    font-size: 20px !important;
     font-weight: 950 !important;
     color: #ffffff !important;
+    text-align: center !important;
     margin: 0 !important;
+    white-space: nowrap;
 }
 
-/* ലിസ്റ്റ് സ്ക്രീനിലെ ഹെഡർ ക്രമീകരണം */
-.list-screen-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 15px !important;
-    width: 100% !important;
-}
-
-#current-cat-title {
-    text-align: left !important;
-    font-size: 19px !important;
-    font-weight: 900 !important;
-    color: #ffffff !important;
-    flex-grow: 1;
-}
-
-/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഇടതുവശത്ത് വരാൻ */
-header i, .menu-icon, .back-btn {
+/* മെനു ഐക്കൺ ഇടതുവശത്ത് മാത്രം */
+.menu-icon {
     position: absolute !important;
     left: 15px !important;
     font-size: 24px !important;
     color: white !important;
-    z-index: 100 !important;
     cursor: pointer;
 }
 
-/* 2. മഞ്ഞ വാർത്താ ബാർ (ബോർഡറുകളോടെ, ഗ്യാപ്പില്ലാതെ) */
-#news-ticker {
-    height: 52px !important;
-    background: #ffeb3b !important;
-    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
-    border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
+/* 2. ലിസ്റ്റ് പേജുകളിലെ ബാക്ക് ബട്ടൺ ഫിക്സ് (ചിത്രം 1000324457 പരിഹാരം) */
+.list-screen-header {
+    background-color: #006400 !important;
+    height: 55px !important;
     display: flex !important;
     align-items: center !important;
-    overflow: hidden !important;
-    margin: 0 !important; /* വെള്ള വര ഒഴിവാക്കുന്നു */
-    padding: 0 !important;
-    position: relative !important;
-    z-index: 100 !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 15px !important;
+    gap: 12px !important; /* ഐക്കണും പേരും തമ്മിലുള്ള അകലം */
 }
 
-.news-ticker-scroll {
-    display: inline-block !important;
-    white-space: nowrap !important;
-    animation: news-marquee 120s linear infinite !important; /* സാവധാനം ഓടാൻ 120 സെക്കൻഡ് */
-    font-weight: 950 !important;
-    font-size: 18px !important;
-    color: #b71c1c !important;
-}
-
-@keyframes news-marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* 3. സൈഡ് ബാറും ഓവർലേയും */
-.sidebar { 
-    position: fixed !important; 
-    left: -260px; 
-    top: 0;
-    width: 250px !important; 
-    height: 100% !important; 
-    background: #ffffff !important; 
-    z-index: 5000 !important; 
-    transition: 0.3s ease !important; 
-    box-shadow: 2px 0 15px rgba(0,0,0,0.3) !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
-.sidebar.active { 
-    left: 0 !important; 
-}
-
-.sidebar-header { 
-    background-color: #006400 !important;
-    color: white !important; 
-    padding: 20px 15px !important; 
-    font-weight: 900 !important; 
-    text-align: center;
-    font-size: 20px;
-}
-
-.sidebar a { 
-    display: block !important; 
-    padding: 15px !important; 
-    color: #333 !important; 
-    text-decoration: none !important; 
-    border-bottom: 1px solid #eee !important; 
-    font-weight: 850 !important; 
-    font-size: 18px !important; 
-}
-
-.overlay { 
-    position: fixed !important; 
-    display: none; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.5); 
-    z-index: 4500 !important; 
-    top: 0; 
-    left: 0; 
-}
-
-/* 4. കണ്ടെയ്നറും കാർഡുകളും (ഡിസൈൻ നിലനിർത്താൻ) */
-.container {
-    padding: 10px 15px 150px 15px !important;
-    height: calc(100vh - 65px) !important;
-    overflow-y: auto !important;
-}
-
-.card p {
-    font-weight: 950 !important;
-    font-size: 16px !important;
-    color: #004d00 !important;
-}
-
-.person-card {
-    border-left: 6px solid #006400 !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-}
-
-.person-info strong {
+#current-cat-title {
+    color: white !important;
     font-size: 19px !important;
-    font-weight: 950 !important;
-    color: #006400 !important;
+    font-weight: 900 !important;
+    text-align: left !important;
+    margin: 0 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* ലിസ്റ്റ് പേജിലെ ബാക്ക് ബട്ടൺ */
+.list-screen-header i.back-btn {
+    position: static !important; /* ഓവർലാപ്പിംഗ് ഒഴിവാക്കി */
+    font-size: 22px !important;
+    color: white !important;
+    min-width: 30px;
+}
+
+/* 3. വാർത്താ ബാർ - ഗ്യാപ്പ് ഇല്ലാതെ */
+#news-ticker {
+    height: 48px !important;
+    background: #ffeb3b !important;
+    border-top: 4px solid #b71c1c !important;
+    border-bottom: 4px solid #000000 !important;
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* 4. ഉള്ളടക്കം പേജിലെ ബാക്ക് ബട്ടൺ (ചിത്രം 1000324444 പരിഹാരം) */
+.back-btn-container {
+    padding: 10px !important;
+}
+
+/* പഴയ വലിയ ബാക്ക് ബട്ടൺ മാറ്റി ലളിതമായ സ്റ്റൈൽ */
+.content-back-btn, .back-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #eeeeee !important; /* ലഘുവായ ഗ്രേ നിറം */
+    color: #333 !important;
+    padding: 6px 15px !important;
+    border-radius: 20px !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    border: 1px solid #ccc !important;
+    margin-bottom: 10px !important;
+}
+
+/* 5. സൈഡ് ബാർ */
+.sidebar { 
+    z-index: 9999 !important; 
+}
