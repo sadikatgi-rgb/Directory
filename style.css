@@ -652,3 +652,30 @@ header h1 {
     100% { transform: translateX(-100%); }
 }
 
+/* പ്രധാന ഹെഡർ (Home Screen) */
+header {
+    background-color: #006400 !important; /* കടും പച്ച */
+    color: #ffffff !important;
+    padding: 15px;
+    text-align: center;
+}
+
+/* ലിസ്റ്റ് സ്ക്രീനിലെ ഹെഡർ (Back Button ഉള്ള ഭാഗം) */
+.list-screen-header {
+    background-color: #006400 !important;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+/* എഴുത്തുകൾ വ്യക്തമാകാൻ */
+header h1, #current-cat-title {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* ബാക്ക് ബട്ടൺ ഐക്കൺ വെളുപ്പിക്കാൻ */
+.list-screen-header i {
+    color: #ffffff !important;
+}
