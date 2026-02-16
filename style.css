@@ -34,22 +34,6 @@ body, html {
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .hidden { display: none !important; }
 
-/* 3. Header */
-header { 
-    background: var(--primary); 
-    color: white; 
-    padding: 0 15px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    height: 60px;
-    box-sizing: border-box;
-    position: relative; 
-    z-index: 100; 
-    font-weight: 900;
-}
-.menu-icon { font-size: 24px; cursor: pointer; }
-
 /* 4. Main Container */
 .container { 
     padding: 10px 15px 150px 15px !important; 
@@ -416,23 +400,6 @@ input, select, textarea {
     margin-bottom: 12px;
     font-size: 18px;
 }
-#news-ticker {
-    background: linear-gradient(90deg, #ffeb3b, #fff176); /* മഞ്ഞ നിറത്തിലുള്ള ഗ്രേഡിയന്റ് */
-    padding: 12px 0;
-    border-bottom: 3px solid #fbc02d;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    overflow: hidden;
-    position: relative;
-}
-
-#latest-news {
-    font-size: 18px;
-    font-weight: 800;
-    color: #1b5e20; /* കടും പച്ച നിറം */
-    text-align: center;
-    display: block;
-    width: 100%;
-}
 /* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള പ്രത്യേക ഡിസൈൻ */
 .announcement-card {
     background: #ffffff;
@@ -477,21 +444,6 @@ input, select, textarea {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-#latest-news {
-    color: #b71c1c; /* കടും ചുവപ്പ് നിറം - പെട്ടെന്ന് ശ്രദ്ധിക്കാൻ */
-    font-weight: 900;
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    white-space: nowrap;
-    animation: news-glow 1.5s infinite alternate; /* തിളങ്ങുന്ന ഇഫക്ട് */
-}
-
-/* അക്ഷരങ്ങൾ മെല്ലെ തിളങ്ങാൻ */
-@keyframes news-glow {
-    from { opacity: 1; transform: scale(1); }
-    to { opacity: 0.8; transform: scale(1.02); }
-}
 #latest-news {
     white-space: normal; /* വരികൾ ആവശ്യമെങ്കിൽ താഴേക്ക് വരാൻ */
     line-height: 1.2;
