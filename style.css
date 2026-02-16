@@ -431,67 +431,89 @@ input, select, textarea {
     line-height: 1.6;
     font-weight: 500;
 }
-    /* --- ഫൈനൽ കംപ്ലീറ്റ് ഡിസൈൻ (Merged & Fixed) --- */
 
-/* 1. പ്രധാന ഹെഡർ (വിഭവ ഡയറക്ടറി നടുവിൽ വരാൻ) */
+/* --- ഫൈനൽ ഏകീകരിച്ച ഡിസൈൻ (Clean & Fixed) --- */
+
+/* 1. ഹെഡർ ഡിസൈൻ - ഹോം & ലിസ്റ്റ് സ്ക്രീനുകൾക്ക് അനുയോജ്യമായ രീതിയിൽ */
 header {
     background-color: #006400 !important;
-    height: 60px !important;
+    height: 65px !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important; /* ടൈറ്റിൽ നടുവിൽ വരാൻ */
     position: relative !important;
+    padding: 0 15px !important;
     margin: 0 !important;
-    padding: 0 !important;
     color: #ffffff !important;
 }
 
-header h1, header h3, #current-cat-title {
+/* ഹോം സ്ക്രീനിലെ ടൈറ്റിൽ നടുവിൽ വരാൻ */
+header h1 {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 21px !important;
     font-weight: 950 !important;
-    font-size: 20px !important;
     color: #ffffff !important;
     margin: 0 !important;
 }
 
-/* മെനു ഐക്കൺ ഇടതുവശത്ത് ഉറപ്പിക്കാൻ */
-.menu-icon, header i {
+/* ലിസ്റ്റ് സ്ക്രീനിലെ ഹെഡർ ക്രമീകരണം */
+.list-screen-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 15px !important;
+    width: 100% !important;
+}
+
+#current-cat-title {
+    text-align: left !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    flex-grow: 1;
+}
+
+/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഇടതുവശത്ത് വരാൻ */
+header i, .menu-icon, .back-btn {
     position: absolute !important;
     left: 15px !important;
     font-size: 24px !important;
     color: white !important;
+    z-index: 100 !important;
     cursor: pointer;
 }
 
-/* 2. മഞ്ഞ വാർത്താ ബാർ (ഗ്യാപ്പില്ലാതെ, ബോർഡറുകളോടെ) */
+/* 2. മഞ്ഞ വാർത്താ ബാർ (ബോർഡറുകളോടെ, ഗ്യാപ്പില്ലാതെ) */
 #news-ticker {
-    height: 48px !important;
+    height: 52px !important;
     background: #ffeb3b !important;
     border-top: 4px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
     border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    margin: 0 !important; /* വെള്ള ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
+    margin: 0 !important; /* വെള്ള വര ഒഴിവാക്കുന്നു */
     padding: 0 !important;
     position: relative !important;
     z-index: 100 !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .news-ticker-scroll {
     display: inline-block !important;
     white-space: nowrap !important;
-    animation: news-marquee 90s linear infinite !important;
-    font-weight: 900 !important;
+    animation: news-marquee 120s linear infinite !important; /* സാവധാനം ഓടാൻ 120 സെക്കൻഡ് */
+    font-weight: 950 !important;
     font-size: 18px !important;
     color: #b71c1c !important;
 }
 
 @keyframes news-marquee {
-    0% { transform: translateX(100%); } 
+    0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
 
-/* 3. സൈഡ് ബാർ പഴയപോലെ സൈഡിൽ വരാൻ */
+/* 3. സൈഡ് ബാറും ഓവർലേയും */
 .sidebar { 
     position: fixed !important; 
     left: -260px; 
@@ -502,6 +524,8 @@ header h1, header h3, #current-cat-title {
     z-index: 5000 !important; 
     transition: 0.3s ease !important; 
     box-shadow: 2px 0 15px rgba(0,0,0,0.3) !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .sidebar.active { 
@@ -527,7 +551,6 @@ header h1, header h3, #current-cat-title {
     font-size: 18px !important; 
 }
 
-/* 4. ബാക്ക്ഗ്രൗണ്ട് മങ്ങൽ (Overlay) */
 .overlay { 
     position: fixed !important; 
     display: none; 
@@ -538,99 +561,20 @@ header h1, header h3, #current-cat-title {
     top: 0; 
     left: 0; 
 }
-/* --- ഫൈനൽ കംപ്ലീറ്റ് റീസ്റ്റോറേഷൻ (All Issues Fixed) --- */
 
-/* 1. ഹെഡർ ഡിസൈൻ - ഹോം സ്ക്രീനിനും ലിസ്റ്റ് സ്ക്രീനിനും പ്രത്യേകം */
-header {
-    background-color: #006400 !important;
-    height: 65px !important;
-    display: flex !important;
-    align-items: center !important;
-    position: relative !important;
-    padding: 0 15px !important;
-    margin: 0 !important;
-}
-
-/* ഹോം സ്ക്രീനിലെ ടൈറ്റിൽ മാത്രം നടുവിൽ വരാൻ */
-header h1 {
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 21px !important;
-    font-weight: 950 !important;
-    color: #ffffff !important;
-    margin: 0 !important;
-}
-
-/* ലിസ്റ്റ് സ്ക്രീനിലെ ഹെഡർ (ബാക്ക് ബട്ടൺ ഉള്ളപ്പോൾ) */
-.list-screen-header {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important; /* തുടക്കത്തിൽ വരാൻ */
-    gap: 15px !important;
-    width: 100% !important;
-}
-
-/* ലിസ്റ്റ് സ്ക്രീനിലെ ടൈറ്റിൽ ഇടതുവശത്ത് നിൽക്കാൻ */
-#current-cat-title {
-    text-align: left !important;
-    font-size: 19px !important;
-    font-weight: 900 !important;
-    flex-grow: 1;
-}
-
-/* ഐക്കണുകൾ (മെനു & ബാക്ക് ബട്ടൺ) കൃത്യമായി ഇടതുവശത്ത് */
-header i, .menu-icon, .back-btn {
-    position: absolute !important;
-    left: 15px !important;
-    font-size: 24px !important;
-    color: white !important;
-    z-index: 100 !important;
-}
-
-/* 2. മഞ്ഞ വാർത്താ ബാർ (കൃത്യമായ ബോർഡറുകളും വേഗതയും) */
-#news-ticker {
-    height: 52px !important;
-    background: #ffeb3b !important;
-    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
-    border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
-    display: flex !important;
-    align-items: center !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    position: relative !important;
-}
-
-/* വാർത്തകൾ വളരെ സാവകാശം നീങ്ങാൻ (120 സെക്കൻഡ്) */
-.news-ticker-scroll {
-    display: inline-block !important;
-    white-space: nowrap !important;
-    animation: news-marquee 120s linear infinite !important; /* സമയം കൂട്ടി */
-    font-weight: 950 !important;
-    font-size: 18px !important;
-    color: #b71c1c !important;
-}
-
-@keyframes news-marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* 3. കാർഡുകളുടെയും ലിസ്റ്റുകളുടെയും ഡിസൈൻ തിരികെ കൊണ്ടുവരാൻ */
+/* 4. കണ്ടെയ്നറും കാർഡുകളും (ഡിസൈൻ നിലനിർത്താൻ) */
 .container {
     padding: 10px 15px 150px 15px !important;
     height: calc(100vh - 65px) !important;
     overflow-y: auto !important;
 }
 
-/* ഹോം പേജ് കാർഡുകളിലെ അക്ഷരങ്ങൾ */
 .card p {
     font-weight: 950 !important;
     font-size: 16px !important;
     color: #004d00 !important;
 }
 
-/* ലിസ്റ്റ് പേജിലെ പേര് കാർഡുകൾ */
 .person-card {
     border-left: 6px solid #006400 !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
@@ -642,17 +586,3 @@ header i, .menu-icon, .back-btn {
     color: #006400 !important;
 }
 
-/* 4. സൈഡ് ബാർ പഴയപോലെ വശത്ത് ഉറപ്പിക്കാൻ */
-.sidebar { 
-    position: fixed !important; 
-    left: -260px; 
-    top: 0;
-    width: 250px !important; 
-    height: 100% !important; 
-    z-index: 5000 !important; 
-    transition: 0.3s ease !important;
-}
-
-.sidebar.active { 
-    left: 0 !important; 
-}
