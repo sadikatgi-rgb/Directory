@@ -592,3 +592,35 @@ header h1, #current-cat-title {
     color: #004d00 !important;
     margin-top: 10px;
 }
+/* --- സൈഡ് ബാർ മെനുവും ടൈറ്റിലും ശരിയാക്കാൻ --- */
+
+.sidebar-header { 
+    background-color: #006400 !important; /* MENU ബാക്ക്ഗ്രൗണ്ട് പച്ച */
+    color: white !important; 
+    padding: 15px; 
+    font-weight: 900 !important; 
+    text-align: center;
+    font-size: 20px;
+}
+
+.sidebar a { 
+    display: block; 
+    padding: 15px; 
+    color: #333 !important; 
+    text-decoration: none; 
+    border-bottom: 1px solid #eee; 
+    font-weight: 850 !important; 
+    font-size: 18px !important; 
+}
+
+/* ഹോം സ്ക്രീൻ ഹെഡർ */
+header {
+    background-color: #006400 !important;
+    color: #ffffff !important;
+}
+
+header h3, #current-cat-title {
+    font-weight: 950 !important;
+    font-size: 19px !important;
+    color: #ffffff !important;
+}
