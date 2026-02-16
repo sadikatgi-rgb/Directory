@@ -49,17 +49,17 @@ header h1 {
     z-index: 100 !important;
 }
 
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - മുകളിലും താഴെയും ബോർഡർ --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ബോർഡർ കട്ടി കൂട്ടി പുതുക്കിയത് --- */
 #news-ticker {
     height: 52px !important;
     background: #ffeb3b !important;
-    border-top: 5px solid #b71c1c !important;
-    border-bottom: 5px solid #000000 !important;
+    /* ബോർഡർ 5-ൽ നിന്ന് 6 ആക്കി വർദ്ധിപ്പിച്ചു */
+    border-top: 6px solid #b71c1c !important; 
+    border-bottom: 6px solid #000000 !important; 
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    position: relative !important;
-    z-index: 99 !important;
+    box-sizing: border-box !important;
 }
 
 .news-ticker-scroll {
@@ -154,19 +154,66 @@ header h1 {
     border-left: 6px solid var(--primary) !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
 }
+.person-info strong {
+    font-size: 17px !important; 
+    font-weight: 900 !important;
+    color: var(--primary);
+    display: block;
+}
 
+.person-info small {
+    font-size: 15px !important; 
+    color: #333;
+    display: block;
+    margin-top: 4px;
+}
 .call-btn-new {
-    background-color: #006400 !important; color: white !important;
-    padding: 10px 22px; border-radius: 50px; text-decoration: none;
-    font-weight: bold; display: flex; align-items: center; gap: 8px;
+    background-color: #006400 !important;
+    color: white !important;
+    padding: 6px 15px !important;
+    border-radius: 50px !important;
+    font-size: 14px !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .whatsapp-btn-new {
-    background-color: #25D366 !important; color: white !important;
-    padding: 8px 18px; border-radius: 25px; text-decoration: none;
-    font-weight: bold; display: flex; align-items: center; gap: 8px;
+    background-color: #25D366 !important;
+    color: white !important;
+    padding: 6px 15px !important;
+    border-radius: 25px !important;
+    font-size: 13px !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
+.announcement-card {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 15px !important;
+    border-left: 8px solid #b71c1c !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    display: block !important;
+}
+
+.announcement-title {
+    font-size: 19px !important;
+    color: #b71c1c !important;
+    font-weight: 800 !important;
+    margin-bottom: 10px !important;
+}
+
+.announcement-desc {
+    font-size: 16px !important;
+    color: #444 !important;
+    line-height: 1.6 !important;
+    font-weight: 600 !important;
+}
 /* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
 .blink-text {
     background: #080000; color: #fcfafa; padding: 12px;
