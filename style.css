@@ -563,3 +563,32 @@ header h1, #current-cat-title {
 .list-screen-header i {
     color: #ffffff !important;
 }
+/* --- സൈഡ് ബാർ മെനു ഡിസൈൻ തിരികെ കൊണ്ടുവരാൻ --- */
+
+.sidebar-header { 
+    background-color: #006400 !important; /* പച്ച നിറം */
+    color: white !important; 
+    padding: 15px; 
+    font-weight: 900 !important; 
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.sidebar a { 
+    display: block; 
+    padding: 15px; 
+    color: #333 !important; /* അക്ഷരങ്ങൾക്ക് കറുപ്പ് നിറം */
+    text-decoration: none; 
+    border-bottom: 1px solid #eee; 
+    font-weight: 850 !important; /* അക്ഷരങ്ങൾ കട്ടികൂട്ടാൻ */
+    font-size: 18px !important; 
+}
+
+/* ഹോം പേജിലെ കാറ്റഗറി പേരുകൾ (ഇത് നഷ്ടപ്പെട്ടെങ്കിൽ) */
+.card p {
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    color: #004d00 !important;
+    margin-top: 10px;
+}
