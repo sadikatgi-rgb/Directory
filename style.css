@@ -431,36 +431,21 @@ input, select, textarea {
     line-height: 1.6;
     font-weight: 500;
 }
-
-/* മുകളിലെ വാർത്താ ബോക്സ് */
+/* --- പുതുക്കിയ വാർത്താ ബോക്സ് (ലേറ്റസ്റ്റ്) --- */
 #news-ticker {
+    height: 50px !important; 
+    overflow: hidden;
+    display: flex;
+    align-items: center;
     background: #ffeb3b; /* തിളക്കമുള്ള മഞ്ഞ */
-    border-bottom: 3px solid #fbc02d;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-#latest-news {
-    white-space: normal; /* വരികൾ ആവശ്യമെങ്കിൽ താഴേക്ക് വരാൻ */
-    line-height: 1.2;
-    padding: 5px 10px;
-    font-size: 16px !important; /* വിവരണം കൂടി ഉള്ളതിനാൽ വലിപ്പം അല്പം കുറയ്ക്കുന്നത് നന്നായിരിക്കും */
-}
-
-/* പഴയ news-ticker-scroll, keyframes എന്നിവ പൂർണ്ണമായും നീക്കം ചെയ്ത് പകരം ഇത് നൽകുക */
-
-#news-ticker {
-    height: 45px !important;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    background: #ffeb3b;
-    border-bottom: 2px solid #fbc02d;
+    
+    /* മുകളിലും താഴെയുമുള്ള പുതിയ ബോർഡറുകൾ */
+    border-top: 3.5px solid #b71c1c;    /* മുകളിൽ കടും ചുവപ്പ് */
+    border-bottom: 3.5px solid #000000; /* താഴെ കറുപ്പ് */
+    
     position: relative;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    z-index: 50;
 }
 
 #latest-news {
@@ -474,16 +459,13 @@ input, select, textarea {
 .news-ticker-scroll {
     display: inline-block;
     white-space: nowrap;
-    /* സ്പീഡ് ഇനിയും കുറയ്ക്കാൻ 60s അല്ലെങ്കിൽ 70s നൽകാം */
-    animation: news-marquee 90s linear infinite; 
+    animation: news-marquee 90s linear infinite; /* 90 സെക്കന്റ് സ്ലോ സ്പീഡ് */
     font-weight: 950 !important;
     font-size: 18px !important;
-    color: #b71c1c !important;
-    padding-left: 0%; /* തുടക്കത്തിലെ താമസം കുറയ്ക്കാൻ */
+    color: #b71c1c !important; /* അക്ഷരങ്ങൾ ചുവപ്പ് നിറത്തിൽ */
 }
 
 @keyframes news-marquee {
-    /* വാർത്ത വരാൻ ഒട്ടും താമസിക്കാതിരിക്കാൻ 100% (സ്ക്രീനിന് പുറത്ത്) എന്നതിന് പകരം 80% ൽ തുടങ്ങുന്നു */
     0% { transform: translateX(0%); } 
     100% { transform: translateX(-100%); }
 }
