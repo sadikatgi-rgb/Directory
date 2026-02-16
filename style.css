@@ -595,3 +595,68 @@ header h1, .admin-header-text {
 #current-cat-title {
     margin: 0 !important;
 }
+/* --- 1. മഞ്ഞ ടിക്കർ ബോർഡർ ഉറപ്പാക്കാൻ --- */
+#news-ticker {
+    display: flex !important;
+    align-items: center !important;
+    background: #ffeb3b !important;
+    height: 52px !important;
+    /* നിർബന്ധമായും ബോർഡർ വരാൻ താഴെ നൽകുന്നു */
+    border-top: 5px solid #b71c1c !important; 
+    border-bottom: 5px solid #000000 !important; 
+    box-sizing: border-box !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+/* --- 2. ഹെഡറിലെ അക്ഷരങ്ങളും ഐക്കണും ശരിയാക്കാൻ (White Color) --- */
+header h1, .admin-header-text, .list-screen-header h2 {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    font-weight: 950 !important;
+    display: block !important;
+}
+
+/* മെനു ഐക്കൺ (Hamburger) ഇടതുവശത്ത് ഉറപ്പിക്കാൻ */
+header .menu-icon, header i {
+    color: #ffffff !important;
+    font-size: 24px !important;
+    margin-right: auto !important;
+    padding-left: 15px !important;
+}
+
+/* --- 3. ബാക്ക് ബട്ടൺ ഡിസൈൻ (Image 4444, 4541) --- */
+.back-btn {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border: 1px solid white !important;
+    padding: 5px 12px !important;
+    border-radius: 5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-weight: bold !important;
+    position: static !important; /* അക്ഷരങ്ങൾക്ക് മുകളിൽ കയറാതിരിക്കാൻ */
+    margin-right: 10px !important;
+}
+
+/* --- 4. ലിസ്റ്റ് ഹെഡർ അലൈൻമെന്റ് --- */
+.list-screen-header {
+    background-color: #006400 !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 15px !important;
+    min-height: 60px !important;
+}
+
+/* --- 5. സൈഡ്ബാർ ഇമേജ് ഗ്യാപ്പ് ഫിക്സ് (Image 4490) --- */
+.sidebar-top-img {
+    background-color: #006400 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+.sidebar-top-img img {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
