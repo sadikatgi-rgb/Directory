@@ -169,7 +169,7 @@ window.openCategory = async (catId, catName) => {
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;"><i class="fas fa-user-circle"></i> ${d.name || "പേര് ലഭ്യമല്ല"}</strong>   
+                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;"><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name) || "പേര് ലഭ്യമല്ല"}</strong>   
                         ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
                         ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
                         ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
