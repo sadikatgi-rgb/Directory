@@ -538,3 +538,94 @@ header h1, header h3, #current-cat-title {
     top: 0; 
     left: 0; 
 }
+/* --- ഫൈനൽ ഭംഗിയുള്ള ഡിസൈൻ (All Screens Fixed) --- */
+
+/* 1. പ്രധാന ഹെഡർ ക്രമീകരണം */
+header {
+    background-color: #006400 !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    padding: 0 15px !important;
+    margin: 0 !important;
+}
+
+/* ഹോം സ്ക്രീനിലെ ടൈറ്റിൽ മാത്രം നടുവിൽ വരാൻ */
+header h1 {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 20px !important;
+    font-weight: 950 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+}
+
+/* ലിസ്റ്റ് സ്ക്രീനിലെ ബാക്ക് ബട്ടണും ടൈറ്റിലും (രണ്ടാമത്തെ ചിത്രം ശരിയാക്കാൻ) */
+.list-screen-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* നടുവിൽ നിന്ന് മാറ്റി തുടക്കത്തിലേക്ക് */
+    gap: 15px !important;
+}
+
+#current-cat-title {
+    text-align: left !important;
+    font-size: 19px !important;
+    font-weight: 900 !important;
+}
+
+/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും കൃത്യമായി ഇടതുവശത്ത് വരാൻ */
+header .menu-icon, header .back-btn, header i {
+    position: absolute !important;
+    left: 15px !important;
+    font-size: 22px !important;
+    color: white !important;
+    z-index: 10 !important;
+}
+
+/* 2. മഞ്ഞ വാർത്താ ബാർ (ഗ്യാപ്പില്ലാതെ, ബോർഡറുകളോടെ) */
+#news-ticker {
+    height: 48px !important;
+    background: #ffeb3b !important;
+    /* ചുവപ്പും കറുപ്പും ബോർഡറുകൾ ഇവിടെയാണ് */
+    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ ചുവപ്പ് */
+    border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 3. കാർഡുകളുടെയും ലിസ്റ്റുകളുടെയും ഭംഗി തിരികെ കൊണ്ടുവരാൻ */
+.container {
+    padding-top: 10px !important;
+}
+
+.card p {
+    font-weight: 900 !important;
+    color: #004d00 !important;
+}
+
+/* പേഴ്സൺ കാർഡിലെ വിവരങ്ങൾ വ്യക്തമാകാൻ */
+.person-info small {
+    font-weight: 700 !important;
+    color: #333 !important;
+}
+
+/* 4. സൈഡ് ബാർ പഴയപോലെ വശത്ത് ഉറപ്പിക്കാൻ */
+.sidebar { 
+    position: fixed !important; 
+    left: -260px; 
+    top: 0;
+    width: 250px !important; 
+    height: 100% !important; 
+    background: white !important; 
+    z-index: 5000 !important; 
+    transition: 0.3s ease !important; 
+}
+
+.sidebar.active { 
+    left: 0 !important; 
+}
