@@ -431,9 +431,7 @@ input, select, textarea {
     line-height: 1.6;
     font-weight: 500;
 }
-/* --- ഫൈനൽ ഇൻ്റഗ്രേറ്റഡ് ഡിസൈൻ (Header & News Ticker) --- */
-
-/* 1. പ്രധാന ഹെഡർ - ടൈറ്റിൽ വെളുത്ത നിറത്തിൽ നടുവിൽ വരാൻ */
+/* --- 1. ഹെഡർ & ടൈറ്റിൽ (Fixed Image 4467) --- */
 header {
     background-color: #006400 !important;
     height: 65px !important;
@@ -442,90 +440,79 @@ header {
     justify-content: center !important;
     position: relative !important;
     margin: 0 !important;
-    padding: 0 50px !important;
-    border: none !important;
+    padding: 0 !important;
 }
 
 header h1 {
-    color: #ffffff !important;
-    font-size: 22px !important;
-    font-weight: 950 !important; /* പരമാവധി കട്ടി */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    color: #ffffff !important; /* മങ്ങിയ നിറം മാറി തെളിഞ്ഞ വെളുപ്പ് വരാൻ */
+    font-size: 21px !important;
+    font-weight: 950 !important;
     margin: 0 !important;
+    text-align: center !important;
 }
 
-/* മെനു ഐക്കൺ പൊസിഷൻ */
-.menu-icon {
-    position: absolute !important;
-    left: 15px !important;
-    color: white !important;
-    font-size: 24px !important;
-    z-index: 105 !important;
-}
-
-/* 2. ലിസ്റ്റ് സ്ക്രീൻ ഹെഡർ - ബാക്ക് ബട്ടൺ പൊസിഷൻ ഫിക്സ് */
-.list-screen-header {
-    background-color: #006400 !important;
-    height: 60px !important;
-    display: flex !important;
-    align-items: center !important;
-    padding: 0 15px !important;
-    gap: 15px !important;
-}
-
-#current-cat-title {
-    color: white !important;
-    font-size: 20px !important;
-    font-weight: 900 !important;
-    text-align: left !important;
-}
-
-/* 3. വാർത്താ ബാർ (News Ticker) - ബോർഡറുകളോടെയുള്ള കംപ്ലീറ്റ് ഡിസൈൻ */
+/* --- 2. വാർത്താ ബാർ (ടിക്കർ) - ബോർഡറുകൾ നിർബന്ധമാക്കി --- */
 #news-ticker {
-    height: 54px !important;
-    background: #ffeb3b !important; /* മഞ്ഞ ബാക്ക്ഗ്രൗണ്ട് */
-    
-    /* നിങ്ങൾ ആവശ്യപ്പെട്ട ബോർഡറുകൾ */
-    border-top: 5px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
-    border-bottom: 5px solid #000000 !important; /* താഴെ കറുപ്പ് */
-    
+    height: 52px !important;
+    background: #ffeb3b !important;
+    /* മുകളിൽ ചുവപ്പും താഴെ കറുപ്പും ബോർഡർ */
+    border-top: 5px solid #b71c1c !important; 
+    border-bottom: 5px solid #000000 !important; 
     display: flex !important;
     align-items: center !important;
-    overflow: hidden !important;
-    margin: 0 !important; 
-    margin-top: -1px !important; /* ഹെഡറുമായി ഗ്യാപ്പില്ലാതെ ഒട്ടി നിൽക്കാൻ */
+    margin: 0 !important;
     padding: 0 !important;
+    overflow: hidden !important;
     position: relative !important;
-    z-index: 100 !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    z-index: 99 !important;
 }
 
 .news-ticker-scroll {
-    display: inline-block !important;
-    white-space: nowrap !important;
-    animation: news-marquee 120s linear infinite !important; /* സാവധാനം നീങ്ങാൻ */
     font-weight: 950 !important;
-    font-size: 19px !important;
-    color: #b71c1c !important; /* വാർത്താ അക്ഷരങ്ങൾ കടും ചുവപ്പിൽ */
+    font-size: 18px !important;
+    color: #b71c1c !important;
+    white-space: nowrap !important;
+    animation: news-marquee 120s linear infinite !important;
 }
 
-/* 4. ഉള്ളടക്കം പേജിലെ ബാക്ക് ബട്ടൺ (Clean Look) */
-.content-back-btn {
-    display: inline-flex !important;
+/* --- 3. സൈഡ്ബാർ ഫോട്ടോയിലെ വിടവ് ഒഴിവാക്കാൻ (Fixed Image 4490) --- */
+.sidebar-top-img {
+    width: 100% !important;
+    line-height: 0 !important; /* ഫോട്ടോയ്ക്ക് താഴെയുള്ള വെള്ള വര ഒഴിവാക്കാൻ */
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #006400 !important;
+}
+
+.sidebar-top-img img {
+    width: 100% !important;
+    display: block !important;
+    height: auto !important;
+    border: none !important;
+}
+
+.sidebar-header {
+    margin-top: 0 !important; /* ഫോട്ടോയുമായി ചേർന്ന് നിൽക്കാൻ */
+    background-color: #006400 !important;
+    padding: 15px !important;
+    border: none !important;
+}
+
+/* --- 4. ലിസ്റ്റ് പേജുകളിലെ ബാക്ക് ബട്ടൺ (Fixed Image 4457) --- */
+.list-screen-header {
+    display: flex !important;
     align-items: center !important;
-    background-color: #f0f0f0 !important;
-    color: #006400 !important;
-    padding: 6px 16px !important;
-    border-radius: 30px !important;
-    font-weight: bold !important;
-    border: 1px solid #ccc !important;
-    margin: 10px 0 !important;
+    background-color: #006400 !important;
+    padding: 10px 15px !important;
 }
 
-/* ആനിമേഷൻ സെറ്റിംഗ്സ് */
+.list-screen-header .back-btn {
+    position: static !important; /* പേരിന്റെ മുകളിൽ കയറാതിരിക്കാൻ */
+    margin-right: 15px !important;
+    color: white !important;
+}
+
 @keyframes news-marquee {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
-
-
