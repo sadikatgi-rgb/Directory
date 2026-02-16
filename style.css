@@ -146,7 +146,7 @@ header h1 {
 .card img { width: 45px; height: 45px; }
 
 /* --- 7. കോൾ, വാട്സാപ്പ് & അഡ്മിൻ കണ്ട്രോൾസ് --- */
-..person-card {
+.person-card {
     background: #ffffff !important;
     padding: 20px !important;
     border-radius: 18px !important;
