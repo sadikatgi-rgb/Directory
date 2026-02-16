@@ -516,3 +516,35 @@ header h1 {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
+/* --- ഫൈനൽ ഫിക്സിംഗ് ടച്ചുകൾ --- */
+
+/* 1. ബാക്ക്ഗ്രൗണ്ട് ഓവർലേ തിരികെ കൊണ്ടുവരാൻ */
+.overlay { 
+    position: fixed !important; 
+    display: none; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.5); 
+    z-index: 1000 !important; 
+    top: 0; 
+    left: 0; 
+}
+
+/* 2. ലിസ്റ്റ് സ്ക്രീൻ ഹെഡറിലെ ടൈറ്റിൽ അലൈൻമെന്റ് */
+.list-screen-header #current-cat-title {
+    flex-grow: 1;
+    text-align: left !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* വലിയ പേരുകൾ വന്നാൽ മുറിഞ്ഞു പോകാതിരിക്കാൻ */
+}
+
+/* 3. വാർത്താ ബാറിലെ ഷാഡോ (ഭംഗി കൂട്ടാൻ) */
+#news-ticker {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16) !important;
+}
+
+/* 4. കണ്ടെയ്നർ ഉയരം കൃത്യമാക്കാൻ */
+.container {
+    height: calc(100vh - 117px) !important; /* Header (65) + Ticker (52) = 117 */
+}
