@@ -548,3 +548,50 @@ header h1 {
 .container {
     height: calc(100vh - 117px) !important; /* Header (65) + Ticker (52) = 117 */
 }
+/* --- 1. സ്ക്രോൾ ബോർഡിന് മുകളിലും താഴെയും കളർ വരാൻ --- */
+#news-ticker {
+    border-top: 4px solid #b71c1c !important;    /* മുകളിൽ കടും ചുവപ്പ് */
+    border-bottom: 4px solid #000000 !important; /* താഴെ കറുപ്പ് */
+    height: 52px !important;
+    background: #ffeb3b !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* --- 2. ഹെഡറിലെ അക്ഷരങ്ങൾ തെളിഞ്ഞു വരാൻ --- */
+header h1, .admin-header-text {
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* --- 3. സൈഡ്ബാർ ഫോട്ടോയിലെ വിടവ് മാറ്റാൻ (Image 4490) --- */
+.sidebar-top-img {
+    line-height: 0 !important;
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.sidebar-top-img img {
+    display: block !important;
+    margin: 0 !important;
+}
+
+/* --- 4. ബാക്ക് ബട്ടൺ ശരിയാക്കാൻ (Image 4404, 4541) --- */
+.list-screen-header {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.list-screen-header .back-btn, 
+.list-screen-header i {
+    position: static !important; /* അക്ഷരങ്ങളുടെ മുകളിൽ കയറാതിരിക്കാൻ */
+    margin-right: 15px !important;
+    color: white !important;
+}
+
+#current-cat-title {
+    margin: 0 !important;
+}
