@@ -162,32 +162,44 @@ input[type="text"] {
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
 /* --- ഉള്ളടക്ക പേജിലെ ലിസ്റ്റുകൾ കൂടുതൽ ഭംഗിയാക്കാൻ --- */
-.content-item {
+/* ഓരോ ലിസ്റ്റ് ഐറ്റവും (Card) */
+.list-item {
     background: #ffffff !important;
     border-radius: 12px !important;
-    padding: 18px !important;
-    margin: 15px 5px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-    border-left: 6px solid #2e7d32 !important; /* വശത്ത് പച്ച ബോർഡർ */
+    padding: 15px !important;
+    margin: 10px 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    border-left: 6px solid #2e7d32 !important;
 }
 
-/* ഉള്ളടക്കത്തിലെ വിഭാഗം പേര് (ഉദാ: ഓട്ടോ, കടകൾ) */
-.content-item h4 {
-    color: #d32f2f !important; /* ചുവപ്പ് നിറം */
-    font-size: 19px !important;
-    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
-    margin-bottom: 10px !important;
-    border-bottom: 1.5px solid #f0f0f0;
-    padding-bottom: 8px;
+/* പേര് (തലക്കെട്ട്) */
+.list-item h4 {
+    font-weight: 950 !important;
+    color: #1b5e20 !important;
+    font-size: 18px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
 }
 
-/* ഉള്ളടക്കത്തിലെ വിവരണങ്ങൾ */
-.content-item p {
-    color: #222 !important;
-    font-weight: 800 !important; /* കട്ടി കൂട്ടിയ അക്ഷരങ്ങൾ */
-    line-height: 1.7 !important;
-    font-size: 16px !important;
+/* വിവരങ്ങൾ നേരെ വരാൻ (Label and Value in same line) */
+.list-item p {
+    display: flex !important; /* ഫ്ലെക്സ് ബോക്സ് ഉപയോഗിക്കുന്നു */
+    justify-content: flex-start !important;
+    gap: 10px !important; /* അക്ഷരങ്ങൾക്കിടയിലെ അകലം */
+    font-weight: 700 !important;
+    color: #444 !important;
+    margin: 6px 0 !important;
+    font-size: 15px !important;
 }
+
+/* ലേബലുകൾ മാത്രം പച്ച നിറത്തിൽ (ഉദാ: വാർഡ് നമ്പർ:) */
+.list-item p strong, .list-item p b {
+    color: #2e7d32 !important;
+    min-width: 100px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ വീതി നൽകുന്നു */
+    font-weight: 900 !important;
+}
+
 /* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
 #list-container div[style*="text-align: center"] {
     background: #ffffff !important;
