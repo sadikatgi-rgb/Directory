@@ -248,30 +248,47 @@ input[type="text"] {
 
 #splash { position: fixed; width: 100%; height: 100vh; background: var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 3000; }
 .hidden { display: none !important; }
-/* 1. ലോഗിൻ ബോക്സുകൾ (Input) */
-input#admin-email, input#admin-password, .form-box input {
+
+/* 1. ലോഗിൻ ഇൻപുട്ട് ബോക്സുകൾ (Input Fields) */
+#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input {
     width: 90% !important;
     padding: 12px !important;
     margin: 10px auto !important;
+    border: 1.5px solid #2e7d32 !important; /* പച്ച ബോർഡർ */
+    border-radius: 8px !important;
     display: block !important;
-    border: 2px solid #ccc !important;
-    border-radius: 8px !important; /* ബോക്സുകൾക്ക് ചെറിയ വട്ടം */
     font-size: 16px !important;
     background: #fff !important;
 }
 
-/* 2. ലോഗിൻ ബട്ടണുകൾ (Buttons) */
-.login-btn, .btn-main, .login-container button {
+/* 2. ലോഗിൻ & സേവ് ഡാറ്റ ബട്ടണുകൾ */
+.login-btn, .btn-main, .login-container button, #admin-panel button[onclick="saveData()"] {
     padding: 12px 30px !important;
     margin: 15px auto !important; 
-    border-radius: 30px !important; /* ബട്ടണുകൾക്ക് നല്ല ഉരുണ്ട ആകൃതി */
+    border-radius: 30px !important; 
     font-weight: bold !important;
     cursor: pointer !important;
-    background-color: var(--primary) !important;
+    background-color: #2e7d32 !important; /* പച്ച നിറം */
     color: white !important;
     border: none !important;
     display: block !important;
     width: 80% !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
-    font-size: 16px !important;
 }
+
+/* 3. ലോഗൗട്ട് ബട്ടൺ (Logout) */
+button[onclick="logout()"] {
+    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
+    color: white !important;
+    padding: 10px 25px !important;
+    border-radius: 20px !important;
+    border: none !important;
+    font-weight: bold !important;
+    margin: 20px auto !important;
+    display: block !important;
+    width: fit-content !important;
+}
+
+/* 4. എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ */
+.edit-btn { background: #ff9800 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; margin-right: 5px !important; }
+.delete-btn { background: #f44336 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; }
