@@ -20,16 +20,18 @@ body, html {
     touch-action: manipulation;
 }
 
-/* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed White Color) --- */
+/* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
 header {
     background-color: var(--primary) !important;
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 100 !important;
-    position: relative !important;
-    margin-bottom: 0 !important;
+    z-index: 1000 !important; /* z-index കൂട്ടി */
+    position: sticky !important; /* relative എന്നതിന് പകരം sticky നൽകി */
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important; /* margin പൂർണ്ണമായും ഒഴിവാക്കി */
     padding: 0 15px !important;
 }
 
@@ -38,8 +40,6 @@ header h3 {
     font-size: 20px !important;
     font-weight: 950 !important;
     margin: 0 auto !important;
-    opacity: 1 !important;
-    visibility: visible !important;
     display: block !important;
 }
 
@@ -56,12 +56,13 @@ header h3 {
     height: 52px !important;
     background: #ffeb3b !important;
     position: relative !important;
-    border-top: 6px solid #b71c1c !important; 
-    border-bottom: 6px solid #000000 !important; 
+    border-top: 4px solid #b71c1c !important; 
+    border-bottom: 4px solid #000000 !important; 
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
     width: 100% !important;
+    margin-top: 0 !important; 
 }
 
 .news-ticker-container {
