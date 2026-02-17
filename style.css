@@ -92,33 +92,57 @@ header h3 {
 
 /* --- 4. സൈഡ്ബാർ & ഫോട്ടോ ഗ്യാപ്പ് ഫിക്സ് --- */
 .sidebar { 
-    position: fixed; left: -260px; width: 250px; height: 100%; 
-    background: white; z-index: 1001; transition: 0.3s; 
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1); 
+    position: fixed !important; 
+    /* ഇവിടെ -260px തന്നെ നിൽക്കട്ടെ, അപ്പോൾ അത് പൂർണ്ണമായും പുറത്തുപോകും */
+    left: -260px !important; 
+    width: 250px !important; 
+    height: 100% !important; 
+    background: white !important; 
+    /* ഹെഡറിനേക്കാൾ (2000) മുൻഗണന നൽകാൻ z-index കൂട്ടുന്നു */
+    z-index: 4000 !important; 
+    transition: 0.3s ease-in-out !important; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; 
+    top: 0 !important;
 }
 
-.sidebar.active { left: 0; }
+.sidebar.active { 
+    left: 0 !important; 
+}
 
 .sidebar-top-img {
     width: 100% !important;
     line-height: 0 !important;
     font-size: 0 !important;
     background-color: var(--primary) !important;
+    /* ചിത്രം ഹെഡറിലെ അക്ഷരങ്ങളെ മറയ്ക്കുന്നു എന്ന് ഉറപ്പാക്കാൻ */
+    position: relative !important;
 }
 
 .sidebar-top-img img { 
-    display: block !important; width: 100%; height: auto; border: none; 
+    display: block !important; 
+    width: 100% !important; 
+    height: auto !important; 
+    border: none !important; 
 }
 
 .sidebar-header { 
-    background-color: var(--primary); color: white; padding: 15px; 
-    margin-top: -1px; font-weight: bold; text-align: center;
+    background-color: var(--primary) !important; 
+    color: white !important; 
+    padding: 15px !important; 
+    /* ഹെഡറിന് മുകളിലെ ഗ്യാപ്പ് ഒഴിവാക്കാൻ margin-top ശ്രദ്ധിക്കുക */
+    margin-top: 0 !important; 
+    font-weight: bold !important; 
+    text-align: center !important;
 }
 
 .sidebar a { 
-    display: block; padding: 15px; color: #000; 
-    text-decoration: none; border-bottom: 1px solid #eee; 
-    font-weight: 800; font-size: 19px; 
+    display: block !important; 
+    padding: 15px !important; 
+    color: #000 !important; 
+    text-decoration: none !important; 
+    border-bottom: 1px solid #eee !important; 
+    font-weight: 800 !important; 
+    font-size: 19px !important; 
 }
 
 /* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
