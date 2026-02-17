@@ -188,7 +188,33 @@ input[type="text"] {
     line-height: 1.7 !important;
     font-size: 16px !important;
 }
+/* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
+#list-container div[style*="text-align: center"] {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 15px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    border-top: 5px solid #d32f2f !important; /* മുകളിൽ ചുവപ്പ് ബോർഡർ */
+}
 
+/* അക്ഷരങ്ങളുടെ കട്ടി കൂട്ടാൻ */
+#list-container b {
+    font-weight: 950 !important;
+    color: #2e7d32 !important; /* പച്ച നിറം */
+    font-size: 18px !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+/* ലിസ്റ്റിലെ പേരുകൾ (1. 2. 3...) */
+#list-container div {
+    font-weight: 700 !important; /* അക്ഷരങ്ങൾക്ക് കട്ടി കൂട്ടി */
+    line-height: 1.8 !important;
+    color: #333 !important;
+    text-align: left !important; /* പേരുകൾ ഇടത് വശത്തേക്ക് ചേർക്കാൻ */
+    padding-left: 10px !important;
+}
 
 /* --- 7. കോൾ, വാട്സാപ്പ് & അഡ്മിൻ കണ്ട്രോൾസ് --- */
 .person-card {
