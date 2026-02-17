@@ -72,7 +72,7 @@ header h3 {
 .news-ticker-scroll {
     display: flex !important;
     /* വേഗത കുറയ്ക്കാൻ സമയം 60s-ൽ നിന്ന് 120s വരെയാക്കാം */
-    animation: news-marquee 60s linear infinite !important; 
+    animation: news-marquee 50s linear infinite !important; 
 }
 
 .news-ticker-scroll span {
