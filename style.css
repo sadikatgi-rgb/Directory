@@ -161,7 +161,7 @@ input[type="text"] {
 
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* --- ഉള്ളടക്ക പേജിലെ ലിസ്റ്റുകൾ കൂടുതൽ ഭംഗിയാക്കാൻ --- */
+
 /* ഓരോ ലിസ്റ്റ് ഐറ്റവും (Card) */
 .list-item {
     background: #ffffff !important;
@@ -183,21 +183,24 @@ input[type="text"] {
 }
 
 /* വിവരങ്ങൾ നേരെ വരാൻ (Label and Value in same line) */
+/* ഓരോ ലിസ്റ്റ് ഐറ്റവും (ഉദാ: ജനപ്രതിനിധികൾ) */
 .list-item p {
-    display: flex !important; /* ഫ്ലെക്സ് ബോക്സ് ഉപയോഗിക്കുന്നു */
-    justify-content: flex-start !important;
-    gap: 10px !important; /* അക്ഷരങ്ങൾക്കിടയിലെ അകലം */
-    font-weight: 700 !important;
-    color: #444 !important;
-    margin: 6px 0 !important;
-    font-size: 15px !important;
+    display: flex !important;
+    flex-direction: row !important; /* വരിയായി കാണിക്കാൻ */
+    align-items: flex-start !important;
+    gap: 10px !important; 
+    margin: 8px 0 !important;
+    font-weight: 800 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
+    color: #333 !important;
 }
 
-/* ലേബലുകൾ മാത്രം പച്ച നിറത്തിൽ (ഉദാ: വാർഡ് നമ്പർ:) */
-.list-item p strong, .list-item p b {
-    color: #2e7d32 !important;
-    min-width: 100px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ വീതി നൽകുന്നു */
-    font-weight: 900 !important;
+/* ഇടത് വശത്തെ തലക്കെട്ടുകൾ (Labels) */
+.list-item p b, .list-item p strong {
+    color: #2e7d32 !important; /* പച്ച നിറം */
+    min-width: 100px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ വീതി */
+    font-weight: 950 !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
 }
 
 /* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
