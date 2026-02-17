@@ -51,29 +51,41 @@ header h3 {
     z-index: 100 !important;
 }
 
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ബോർഡർ കട്ടി കൂട്ടി പുതുക്കിയത് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
 #news-ticker {
     height: 52px !important;
     background: #ffeb3b !important;
-    /* ബോർഡറുകൾ വ്യക്തമാകാൻ position ചേർത്തു */
     position: relative !important;
     border-top: 6px solid #b71c1c !important; 
     border-bottom: 6px solid #000000 !important; 
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    box-sizing: border-box !important;
     width: 100% !important;
 }
 
+.news-ticker-container {
+    display: flex !important;
+    white-space: nowrap !important;
+}
+
 .news-ticker-scroll {
+    display: flex !important;
+    /* വേഗത കുറയ്ക്കാൻ സമയം 60s-ൽ നിന്ന് 120s വരെയാക്കാം */
+    animation: news-marquee 60s linear infinite !important; 
+}
+
+.news-ticker-scroll span {
     font-weight: 950 !important;
     font-size: 19px !important;
     color: #b71c1c !important;
     white-space: nowrap !important;
-    /* സമയം 60s ആക്കി - ഇത് വേഗത കുറയ്ക്കും */
-    animation: news-marquee 60s linear infinite !important;
-    display: inline-block !important;
+    padding-right: 80px; /* വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് ക്രമീകരിക്കാൻ */
+}
+
+@keyframes news-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* ഗ്യാപ്പ് ഇല്ലാതെ വരാൻ -50% നൽകുക */
 }
 
 /* --- 4. സൈഡ്ബാർ & ഫോട്ടോ ഗ്യാപ്പ് ഫിക്സ് --- */
@@ -310,8 +322,6 @@ input[type="text"] {
 }
 
 @keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
-
-@keyframes news-marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
 .overlay { position: fixed !important;  display: none; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.5); z-index: 1000 !important; top: 0 !important; left: 0 !important; pointer-events: auto !important;  }
 
