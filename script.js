@@ -262,8 +262,14 @@ window.showAdminLogin = () => {
     } else {
         document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    toggleMenu();
+    
+    // സൈഡ് ബാർ അടഞ്ഞുപോകാൻ താഴെ പറയുന്നവ ഉറപ്പാക്കുക
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) sidebar.classList.remove('active');
+    if(overlay) overlay.style.display = 'none';
 };
+
 
 window.handleLogin = async () => {
     const id = document.getElementById('admin-email').value.trim();
@@ -278,9 +284,32 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
-window.showContentPage = () => { hideAll(); document.getElementById('content-info-screen').classList.remove('hidden'); toggleMenu(); };
-window.showAboutApp = () => { hideAll(); document.getElementById('about-app-screen').classList.remove('hidden'); toggleMenu(); };
-window.showLeaders = () => { hideAll(); document.getElementById('leaders-screen').classList.remove('hidden'); toggleMenu(); };
+window.showContentPage = () => { 
+    hideAll(); 
+    document.getElementById('content-info-screen').classList.remove('hidden'); 
+    
+    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
+
+window.showAboutApp = () => { 
+    hideAll(); 
+    document.getElementById('about-app-screen').classList.remove('hidden'); 
+    
+    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
+
+window.showLeaders = () => { 
+    hideAll(); 
+    document.getElementById('leaders-screen').classList.remove('hidden'); 
+    
+    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
 
 // --- വാട്‌സാപ്പ് ---
 window.goToWhatsApp = function(phoneNumber) {
