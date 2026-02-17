@@ -248,22 +248,30 @@ input[type="text"] {
 
 #splash { position: fixed; width: 100%; height: 100vh; background: var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 3000; }
 .hidden { display: none !important; }
-    /* ലോഗിൻ പേജ് സ്റ്റൈൽ */
-input#admin-id, input#admin-pass, .login-container input {
+/* 1. ലോഗിൻ ബോക്സുകൾ (Input) */
+input#admin-email, input#admin-password, .form-box input {
     width: 90% !important;
     padding: 12px !important;
     margin: 10px auto !important;
     display: block !important;
     border: 2px solid #ccc !important;
-    border-radius: 8px !important;
+    border-radius: 8px !important; /* ബോക്സുകൾക്ക് ചെറിയ വട്ടം */
     font-size: 16px !important;
+    background: #fff !important;
 }
 
-.login-container button, .login-btn {
-    padding: 10px 25px !important;
-    margin: 10px 5px !important;
-    border-radius: 8px !important;
+/* 2. ലോഗിൻ ബട്ടണുകൾ (Buttons) */
+.login-btn, .btn-main, .login-container button {
+    padding: 12px 30px !important;
+    margin: 15px auto !important; 
+    border-radius: 30px !important; /* ബട്ടണുകൾക്ക് നല്ല ഉരുണ്ട ആകൃതി */
     font-weight: bold !important;
     cursor: pointer !important;
+    background-color: var(--primary) !important;
+    color: white !important;
+    border: none !important;
+    display: block !important;
+    width: 80% !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    font-size: 16px !important;
 }
-
