@@ -26,7 +26,6 @@ header {
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
     z-index: 2000 !important;
     position: fixed !important;
     top: 0 !important;
@@ -41,15 +40,17 @@ header h3 {
     font-size: 20px !important;
     font-weight: 950 !important;
     margin: 0 auto !important;
-    display: block !important;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .menu-icon {
-    position: absolute !important;
-    left: 15px !important;
-    color: #ffffff !important; /* മെനു ഐക്കൺ വെളുപ്പ് നിറം */
+    /* position: absolute; ഒഴിവാക്കി */
+    color: #ffffff !important; 
     font-size: 24px !important;
-    z-index: 100 !important;
+    z-index: 2100 !important; /* ഹെഡറിന് മുകളിൽ വരാൻ */
+    cursor: pointer !important;
+    padding-right: 10px !important; /* അക്ഷരങ്ങളുമായി മുട്ടാതിരിക്കാൻ */
 }
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
@@ -130,9 +131,10 @@ header h3 {
     color: white !important; 
     padding: 15px !important; 
     /* ഹെഡറിന് മുകളിലെ ഗ്യാപ്പ് ഒഴിവാക്കാൻ margin-top ശ്രദ്ധിക്കുക */
-    margin-top: 0 !important; 
+    margin-top: -1px !important; 
     font-weight: bold !important; 
     text-align: center !important;
+    border: none !important;
 }
 
 .sidebar a { 
@@ -371,6 +373,7 @@ input[type="text"] {
     display: none !important; 
     opacity: 0 !important;
     visibility: hidden !important;
+    z-index: -1 !important;
 }
 
 .hidden { display: none !important; }
