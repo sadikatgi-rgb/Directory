@@ -194,22 +194,20 @@ input[type="text"] {
     padding-bottom: 5px;
 }
 
-/* വിവരങ്ങൾ നേരെ വരാൻ (Label and Value in same line) */
-/* ഓരോ ലിസ്റ്റ് ഐറ്റവും (ഉദാ: ജനപ്രതിനിധികൾ) */
-.list-item p {
+/* 1. ഈ ഭാഗം മാറ്റുക: വിവരങ്ങൾ ഒരേ വരിയിൽ വരാൻ */
+.list-item p, .list-item div, .person-info p, .person-info small {
     display: flex !important;
-    flex-direction: row !important; /* വരിയായി കാണിക്കാൻ */
-    align-items: flex-start !important;
+    flex-direction: row !important; /* വരിയായി മാറ്റുന്നു */
+    flex-wrap: nowrap !important;  /* വരി മുറിയാതിരിക്കാൻ */
+    align-items: center !important;
     gap: 10px !important; 
     margin: 8px 0 !important;
-    font-weight: 800 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
-    color: #333 !important;
 }
 
-/* ഇടത് വശത്തെ തലക്കെട്ടുകൾ (Labels) */
-.list-item p b, .list-item p strong {
-    color: #2e7d32 !important; /* പച്ച നിറം */
-    min-width: 100px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ വീതി */
+/* 2. ഈ ഭാഗം മാറ്റുക: തലക്കെട്ടുകൾക്ക് (Labels) ഒരേ വീതി കിട്ടാൻ */
+.list-item p b, .list-item p strong, .person-info b, .list-item div b {
+    color: #2e7d32 !important;
+    min-width: 105px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം */
     font-weight: 950 !important;
     display: inline-block !important;
     flex-shrink: 0 !important;
