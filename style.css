@@ -161,6 +161,34 @@ input[type="text"] {
 
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
+/* --- ഉള്ളടക്ക പേജിലെ ലിസ്റ്റുകൾ കൂടുതൽ ഭംഗിയാക്കാൻ --- */
+.content-item {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 18px !important;
+    margin: 15px 5px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    border-left: 6px solid #2e7d32 !important; /* വശത്ത് പച്ച ബോർഡർ */
+}
+
+/* ഉള്ളടക്കത്തിലെ വിഭാഗം പേര് (ഉദാ: ഓട്ടോ, കടകൾ) */
+.content-item h4 {
+    color: #d32f2f !important; /* ചുവപ്പ് നിറം */
+    font-size: 19px !important;
+    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി */
+    margin-bottom: 10px !important;
+    border-bottom: 1.5px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+/* ഉള്ളടക്കത്തിലെ വിവരണങ്ങൾ */
+.content-item p {
+    color: #222 !important;
+    font-weight: 800 !important; /* കട്ടി കൂട്ടിയ അക്ഷരങ്ങൾ */
+    line-height: 1.7 !important;
+    font-size: 16px !important;
+}
+
 
 /* --- 7. കോൾ, വാട്സാപ്പ് & അഡ്മിൻ കണ്ട്രോൾസ് --- */
 .person-card {
