@@ -1,4 +1,4 @@
-/* --- 1. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
+#000000 !important;/* --- 1. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
 :root { 
     --primary: #006400; 
     --bg: #f4f7f6; 
@@ -316,9 +316,9 @@ input[type="text"] {
 }
 /* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
 .blink-text {
-    background: #080000; color: #fcfafa; padding: 12px;
-    border-radius: 10px; text-align: center; font-weight: bold;
-    animation: slowBlink 3s ease-in-out infinite;
+    background: #000000 !important; color: #ffffff !important; padding: 15px;
+    border-radius: 12px; text-align: center; font-weight: 950 !important;
+    animation: slowBlink 6s ease-in-out infinite !important;
 }
 
 @keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
