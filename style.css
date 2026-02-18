@@ -21,30 +21,35 @@ body, html {
 }
 
 /* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
+/* --- ഹെഡർ & ടൈറ്റിൽ സെറ്റിംഗ്സ് --- */
 header {
-    background-color: var(--primary) !important;
+    background-color: #006400 !important; /* പച്ച നിറം നിർബന്ധമായും വരാൻ */
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
-    /* ഇത് വളരെ പ്രധാനമാണ്: ഐക്കണിനും പേരിനും ഇടയിൽ കൃത്യമായ അകലം നൽകാൻ */
-    justify-content: space-between !important; 
-    z-index: 3000 !important; 
+    justify-content: center !important;
+    z-index: 5000 !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 15px !important;
 }
 
 header h3 {
-    color: #ffffff !important; 
+    color: #ffffff !important;
     font-size: 20px !important;
     font-weight: 950 !important;
-    /* അക്ഷരങ്ങൾ കൃത്യം നടുവിൽ വരാൻ margin: 0 auto മാറ്റി flex-grow നൽകുക */
-    flex-grow: 1 !important;
-    text-align: center !important;
     margin: 0 !important;
+}
+
+/* അറിയിപ്പ് കാർഡിലെ ഇടതുവശത്തെ വിടവ് ശരിയാക്കാൻ */
+.announcement-card {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 15px !important;
+    border-left: none !important; /* ആ ചുവന്ന വര ഒഴിവാക്കി */
 }
 
 .menu-icon {
@@ -97,16 +102,14 @@ header h3 {
     100% { transform: translateX(-50%); } /* ഗ്യാപ്പ് ഇല്ലാതെ വരാൻ -50% നൽകുക */
 }
 
-/* --- 4. സൈഡ്ബാർ & ഫോട്ടോ ഗ്യാപ്പ് ഫിക്സ് --- */
+/* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
     position: fixed !important; 
-    /* ഇവിടെ -260px തന്നെ നിൽക്കട്ടെ, അപ്പോൾ അത് പൂർണ്ണമായും പുറത്തുപോകും */
     left: -260px !important; 
     width: 250px !important; 
     height: 100% !important; 
     background: white !important; 
-    /* ഹെഡറിനേക്കാൾ (2000) മുൻഗണന നൽകാൻ z-index കൂട്ടുന്നു */
-    z-index: 4000 !important; 
+    z-index: 6000 !important; /* ഹെഡറിന് മുകളിൽ വരാൻ 6000 നൽകി */
     transition: 0.3s ease-in-out !important; 
     box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; 
     top: 0 !important;
@@ -120,8 +123,7 @@ header h3 {
     width: 100% !important;
     line-height: 0 !important;
     font-size: 0 !important;
-    background-color: var(--primary) !important;
-    /* ചിത്രം ഹെഡറിലെ അക്ഷരങ്ങളെ മറയ്ക്കുന്നു എന്ന് ഉറപ്പാക്കാൻ */
+    background-color: #006400 !important;
     position: relative !important;
 }
 
@@ -129,21 +131,17 @@ header h3 {
     display: block !important; 
     width: 100% !important; 
     height: auto !important; 
-    border: none !important; 
 }
 
 .sidebar-header { 
-    background-color: var(--primary) !important; 
+    background-color: #006400 !important; /* പച്ച നിറം */
     color: white !important; 
     padding: 15px !important; 
-    /* ഗ്യാപ്പ് വരാതിരിക്കാൻ margin-top പൂജ്യം ആക്കുക */
-    margin-top: 0 !important; 
-    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് കട്ടി കൂട്ടാൻ */
+    margin-top: 0 !important; /* വെള്ള പാളി ഒഴിവാക്കി */
+    font-weight: 950 !important; 
     text-align: center !important;
     border: none !important;
-    /* ചിത്രവുമായി ഒട്ടി ഇരിക്കാൻ താഴെ പറയുന്നവ കൂടി ചേർക്കാം */
     display: block !important;
-    position: relative !important;
 }
 
 .sidebar a { 
