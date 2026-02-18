@@ -144,14 +144,28 @@ header h3 {
     display: block !important;
 }
 
+/* പുതുക്കിയ സൈഡ്‌ബാർ ഡിസൈൻ */
 .sidebar a { 
-    display: block !important; 
-    padding: 15px !important; 
-    color: #000 !important; 
+    display: flex !important; /* അലൈൻമെന്റ് ശരിയാക്കാൻ flex ആക്കി */
+    align-items: center !important;
+    padding: 15px 20px !important; 
+    color: #333 !important; 
     text-decoration: none !important; 
-    border-bottom: 1px solid #eee !important; 
+    border-bottom: 1px solid #f0f0f0 !important; 
     font-weight: 800 !important; 
-    font-size: 19px !important; 
+    font-size: 17px !important; /* ഫോൺ സ്ക്രീനിന് അനുയോജ്യമായ വലിപ്പം */
+    transition: 0.2s !important;
+}
+
+.sidebar a:hover {
+    background: #f9f9f9 !important;
+    color: #006400 !important;
+}
+
+/* ഐക്കണുകൾക്കും അക്ഷരങ്ങൾക്കും ഇടയിൽ വിടവ് നൽകാൻ */
+.sidebar a i, .sidebar a img {
+    margin-right: 15px !important;
+    font-size: 20px !important;
 }
 
 /* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
@@ -185,17 +199,25 @@ header h3 {
 }
 
 /* സെർച്ച് ബാർ മനോഹരമാക്കാൻ */
+/* --- സെർച്ച് ബാർ ഡിസൈൻ --- */
 input[type="text"] {
-    width: 92% !important; /* അല്പം വീതി കുറച്ചു */
+    width: 92% !important;
     padding: 12px 15px !important;
-    margin: 15px auto !important; /* നടുവിൽ വരാൻ */
-    border: 2px solid #006400 !important; /* പച്ച ബോർഡർ */
+    margin: 15px auto !important;
+    border: 2px solid #006400 !important;
     border-radius: 12px !important;
     font-size: 16px !important;
     display: block !important;
     outline: none !important;
     background: #ffffff !important;
     font-weight: 600 !important;
+}
+
+/* ഇതിന് തൊട്ടുതാഴെ ഇത് ചേർക്കുക */
+input[type="text"]::placeholder {
+    color: #888 !important; /* 'തിരയുക' എന്ന എഴുത്തിന് ചാരനിറം നൽകാൻ */
+    font-weight: 500 !important;
+    opacity: 1 !important;
 }
 
 /* --- 6. കണ്ടെയ്നർ (Content Area) --- */
@@ -265,13 +287,19 @@ input[type="text"] {
 }
 
 /* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
-#list-container div[style*="text-align: center"] {
+/* ഉള്ളടക്കം, ആപ്പ് വിവരം, Leaders പേജുകളിലെ വിവരങ്ങൾ കള്ളികളാക്കാൻ */
+#list-container div, .app-details-list li, .leaders-list li {
     background: #ffffff !important;
-    border-radius: 15px !important;
-    padding: 20px !important;
-    margin: 15px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-    border-top: 5px solid #d32f2f !important; /* മുകളിൽ ചുവപ്പ് ബോർഡർ */
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+    margin: 10px 5px !important; /* അല്പം സൈഡ് ഗ്യാപ്പ് നൽകി */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    border-left: 6px solid #006400 !important; /* സൈഡിലെ പച്ച വര */
+    list-style: none !important;
+    font-weight: 700 !important; /* അക്ഷരങ്ങൾക്ക് കട്ടി കൂട്ടി */
+    color: #333 !important;
+    display: block !important;
+    text-align: left !important; /* എഴുത്തുകൾ ഇടത് വശത്ത് വരാൻ */
 }
 
 /* അക്ഷരങ്ങളുടെ കട്ടി കൂട്ടാൻ */
@@ -454,3 +482,19 @@ button[onclick="logout()"] {
 /* 4. എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ */
 .edit-btn { background: #ff9800 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; margin-right: 5px !important; }
 .delete-btn { background: #f44336 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; }
+
+/* --- 9. ബാക്ക് ബട്ടൺ ഡിസൈൻ (ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്കായി) --- */
+button[onclick*="back"], .back-btn-simple {
+    background: #006400 !important; /* പച്ച നിറം */
+    color: white !important;
+    border: none !important;
+    padding: 8px 22px !important; /* അല്പം കൂടി വീതി കൂട്ടി */
+    border-radius: 20px !important; /* വശങ്ങൾ ഉരുണ്ടിരിക്കാൻ */
+    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി നൽകി */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    cursor: pointer !important;
+    margin-bottom: 20px !important;
+    display: inline-block !important;
+    text-transform: uppercase !important; /* അക്ഷരങ്ങൾ ക്ലിയർ ആകാൻ */
+}
+
