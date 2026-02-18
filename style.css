@@ -132,13 +132,21 @@ header h3 {
 }
 
 .sidebar a { 
-    display: block !important; 
+    display: flex !important; /* അലൈൻമെന്റ് ശരിയാക്കാൻ */
+    align-items: center !important;
+    gap: 15px !important; /* ഐക്കണും അക്ഷരങ്ങളും തമ്മിലുള്ള വിടവ് */
     padding: 15px !important; 
     color: #000 !important; 
     text-decoration: none !important; 
     border-bottom: 1px solid #eee !important; 
     font-weight: 800 !important; 
     font-size: 19px !important; 
+    transition: 0.2s !important;
+}
+
+.sidebar a:hover {
+    background: #f9f9f9 !important;
+    color: var(--primary) !important;
 }
 
 /* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
@@ -184,10 +192,10 @@ header h3 {
 .list-item {
     background: #ffffff !important;
     border-radius: 12px !important;
-    padding: 15px !important;
-    margin: 10px 8px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    border-left: 6.5px solid var(--primary) !important;
+    padding: 18px !important;
+    margin: 15px 10px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    border-left: 8px solid var(--primary) !important;
 }
 
 .list-item h4 {
@@ -288,4 +296,57 @@ header h3 {
     display: block !important;
     width: 80% !important;
     margin: 15px auto !important;
+}
+/* ബാക്ക് ബട്ടൺ മനോഹരമാക്കാൻ */
+.back-btn, button[onclick*="back"] {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1.5px solid #ffffff !important;
+    color: #ffffff !important;
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    font-weight: 850 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+/* ഹോം പേജിലെ ബാക്ക് ബട്ടൺ (ഗ്രീൻ സ്റ്റൈൽ വേണമെങ്കിൽ) */
+.back-btn-home {
+    background: var(--primary) !important;
+    color: white !important;
+    border-radius: 30px !important;
+    padding: 10px 25px !important;
+}
+/* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
+
+/* കോൾ ബട്ടൺ */
+.call-btn-new {
+    background-color: #006400 !important;
+    color: white !important;
+    padding: 10px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 10px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* വാട്സാപ്പ് ബട്ടൺ */
+.whatsapp-btn-new {
+    background-color: #25D366 !important;
+    color: white !important;
+    padding: 10px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 10px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
 }
