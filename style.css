@@ -27,14 +27,16 @@ header {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 9000 !important; /* സ്പ്ലാഷ് സ്ക്രീനിന് താഴെ */
+    z-index: 9000 !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    margin: 0 !important;
+    margin: 0 !important; /* മാർജിൻ പൂർണ്ണമായും ഒഴിവാക്കി */
+    margin-bottom: 0 !important; /* ഇത് പ്രത്യേകം ശ്രദ്ധിക്കുക */
     padding: 0 15px !important;
 }
+
 
 header h3 {
     color: #ffffff !important; 
