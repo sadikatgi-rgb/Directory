@@ -1,1 +1,421 @@
+#000000 !important;/* --- 1. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
+:root { 
+    --primary: #006400; 
+    --bg: #f4f7f6; 
+    --white: #ffffff; 
+    --text: #333;
+    --danger: #ff4444;
+}
+
+* { box-sizing: border-box; }
+
+body, html { 
+    font-family: 'Manjari', sans-serif; 
+    margin: 0 !important; padding: 0 !important;
+    background: var(--bg); 
+    color: var(--text);
+    height: 100%; width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+/* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
+header {
+    background-color: var(--primary) !important;
+    height: 65px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 2000 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important; /* margin പൂർണ്ണമായും ഒഴിവാക്കി */
+    padding: 0 15px !important;
+}
+
+header h3 {
+    color: #ffffff !important; 
+    font-size: 20px !important;
+    font-weight: 950 !important;
+    margin: 0 auto !important;
+    display: block !important;
+}
+
+.menu-icon {
+    position: absolute !important;
+    left: 15px !important;
+    color: #ffffff !important; /* മെനു ഐക്കൺ വെളുപ്പ് നിറം */
+    font-size: 24px !important;
+    z-index: 100 !important;
+}
+
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
+#news-ticker {
+    margin-top: 65px !important;
+    height: 52px !important;
+    background: #ffeb3b !important;
+    position: relative !important;
+    border-top: 4px solid #b71c1c !important; 
+    border-bottom: 4px solid #000000 !important; 
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    width: 100% !important; 
+}
+
+.news-ticker-container {
+    display: flex !important;
+    white-space: nowrap !important;
+}
+
+.news-ticker-scroll {
+    display: flex !important;
+    /* വേഗത കുറയ്ക്കാൻ സമയം 60s-ൽ നിന്ന് 120s വരെയാക്കാം */
+    animation: news-marquee 40s linear infinite !important; 
+}
+
+.news-ticker-scroll span {
+    font-weight: 950 !important;
+    font-size: 19px !important;
+    color: #b71c1c !important;
+    white-space: nowrap !important;
+    padding-right: 80px; /* വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് ക്രമീകരിക്കാൻ */
+}
+
+@keyframes news-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* ഗ്യാപ്പ് ഇല്ലാതെ വരാൻ -50% നൽകുക */
+}
+
+/* --- 4. സൈഡ്ബാർ & ഫോട്ടോ ഗ്യാപ്പ് ഫിക്സ് --- */
+.sidebar { 
+    position: fixed !important; 
+    /* ഇവിടെ -260px തന്നെ നിൽക്കട്ടെ, അപ്പോൾ അത് പൂർണ്ണമായും പുറത്തുപോകും */
+    left: -260px !important; 
+    width: 250px !important; 
+    height: 100% !important; 
+    background: white !important; 
+    /* ഹെഡറിനേക്കാൾ (2000) മുൻഗണന നൽകാൻ z-index കൂട്ടുന്നു */
+    z-index: 4000 !important; 
+    transition: 0.3s ease-in-out !important; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; 
+    top: 0 !important;
+}
+
+.sidebar.active { 
+    left: 0 !important; 
+}
+
+.sidebar-top-img {
+    width: 100% !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+    background-color: var(--primary) !important;
+    /* ചിത്രം ഹെഡറിലെ അക്ഷരങ്ങളെ മറയ്ക്കുന്നു എന്ന് ഉറപ്പാക്കാൻ */
+    position: relative !important;
+}
+
+.sidebar-top-img img { 
+    display: block !important; 
+    width: 100% !important; 
+    height: auto !important; 
+    border: none !important; 
+}
+
+.sidebar-header { 
+    background-color: var(--primary) !important; 
+    color: white !important; 
+    padding: 15px !important; 
+    /* ഹെഡറിന് മുകളിലെ ഗ്യാപ്പ് ഒഴിവാക്കാൻ margin-top ശ്രദ്ധിക്കുക */
+    margin-top: 0 !important; 
+    font-weight: bold !important; 
+    text-align: center !important;
+}
+
+.sidebar a { 
+    display: block !important; 
+    padding: 15px !important; 
+    color: #000 !important; 
+    text-decoration: none !important; 
+    border-bottom: 1px solid #eee !important; 
+    font-weight: 800 !important; 
+    font-size: 19px !important; 
+}
+
+/* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
+.list-screen-header {
+    background-color: var(--primary) !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 15px !important;
+    min-height: 60px !important;
+}
+
+.list-screen-header .back-btn {
+    position: absolute !important;
+    margin-left: 15px !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid white !important;
+    color: white !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    z-index: 100 !important;
+}
+
+#current-cat-title {
+    color: white !important;
+    font-weight: 950 !important;
+    font-size: 20px !important;
+}
+/* സെർച്ച് ബാർ മനോഹരമാക്കാൻ */
+input[type="text"] {
+    width: 100% !important;
+    padding: 12px 15px !important;
+    margin: 10px 0 20px 0 !important;
+    border: 2px solid var(--primary) !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    outline: none !important;
+}
+
+/* --- 6. കാർഡുകൾ & ഗ്രിഡ് സിസ്റ്റം --- */
+.container { 
+    padding: 10px 15px 150px 15px !important; 
+    height: calc(100vh - 117px) !important; 
+    overflow-y: auto !important; 
+    -webkit-overflow-scrolling: touch; 
+}
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.card { 
+    background: white; padding: 20px 10px; border-radius: 20px; 
+    text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;
+}
+
+.card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
+.card img { width: 45px; height: 45px; }
+
+/* ഓരോ ലിസ്റ്റ് ഐറ്റവും (Card) */
+.list-item {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    margin: 10px 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    border-left: 6px solid #2e7d32 !important;
+}
+
+/* പേര് (തലക്കെട്ട്) */
+.list-item h4 {
+    font-weight: 950 !important;
+    color: #1b5e20 !important;
+    font-size: 18px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+/* 1. ഈ ഭാഗം മാറ്റുക: വിവരങ്ങൾ ഒരേ വരിയിൽ വരാൻ */
+.list-item p, .list-item div, .person-info p, .person-info small {
+    display: flex !important;
+    flex-direction: row !important; /* വരിയായി മാറ്റുന്നു */
+    flex-wrap: nowrap !important;  /* വരി മുറിയാതിരിക്കാൻ */
+    align-items: center !important;
+    gap: 10px !important; 
+    margin: 8px 0 !important;
+}
+
+/* 2. ഈ ഭാഗം മാറ്റുക: തലക്കെട്ടുകൾക്ക് (Labels) ഒരേ വീതി കിട്ടാൻ */
+.list-item p b, .list-item p strong, .person-info b, .list-item div b {
+    color: #2e7d32 !important;
+    min-width: 105px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം */
+    font-weight: 950 !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+}
+
+/* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
+#list-container div[style*="text-align: center"] {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 15px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    border-top: 5px solid #d32f2f !important; /* മുകളിൽ ചുവപ്പ് ബോർഡർ */
+}
+
+/* അക്ഷരങ്ങളുടെ കട്ടി കൂട്ടാൻ */
+#list-container b {
+    font-weight: 950 !important;
+    color: #2e7d32 !important; /* പച്ച നിറം */
+    font-size: 18px !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+/* ലിസ്റ്റിലെ പേരുകൾ (1. 2. 3...) */
+#list-container div {
+    font-weight: 700 !important; /* അക്ഷരങ്ങൾക്ക് കട്ടി കൂട്ടി */
+    line-height: 1.8 !important;
+    color: #333 !important;
+    text-align: left !important; /* പേരുകൾ ഇടത് വശത്തേക്ക് ചേർക്കാൻ */
+    padding-left: 10px !important;
+}
+
+/* --- 7. കോൾ, വാട്സാപ്പ് & അഡ്മിൻ കണ്ട്രോൾസ് --- */
+.person-card {
+    background: #ffffff !important;
+    padding: 20px !important;
+    border-radius: 18px !important;
+    margin: 15px 10px !important;
+    border-left: 6px solid var(--primary) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08) !important;
+}
+.person-info strong {
+    font-size: 17px !important; 
+    font-weight: 900 !important;
+    color: var(--primary);
+    display: block;
+}
+
+.person-info small {
+    font-size: 15px !important; 
+    color: #333;
+    display: block;
+    margin-top: 4px;
+}
+.call-btn-new {
+    background-color: #006400 !important;
+    color: white !important;
+    padding: 8px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 100px !important;
+    margin-right: 10px !important;
+}
+.whatsapp-btn-new {
+    background-color: #25D366 !important;
+    color: white !important;
+    padding: 8px 25px !important;
+    border-radius: 30px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 100px !important;
+}
+
+.announcement-card {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 15px !important;
+    border-left: 8px solid #b71c1c !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    display: block !important;
+}
+
+.announcement-title {
+    font-size: 19px !important;
+    color: #b71c1c !important;
+    font-weight: 800 !important;
+    margin-bottom: 10px !important;
+}
+
+.announcement-desc {
+    font-size: 16px !important;
+    color: #444 !important;
+    line-height: 1.6 !important;
+    font-weight: 600 !important;
+}
+/* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
+.blink-text {
+    background: #000000 !important; color: #ffffff !important; padding: 15px;
+    border-radius: 12px; text-align: center; font-weight: 950 !important;
+    animation: slowBlink 6s ease-in-out infinite !important;
+}
+
+@keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+
+.overlay { position: fixed !important;  display: none; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.5); z-index: 1000 !important; top: 0 !important; left: 0 !important; pointer-events: auto !important;  }
+
+/* --- 8. സ്പ്ലാഷ് സ്ക്രീൻ (പൂർണ്ണമായും മറയാൻ) --- */
+#splash { 
+    position: fixed !important; 
+    top: 0 !important; /* മുകളിലെ ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
+    left: 0 !important;
+    width: 100% !important; 
+    height: 100vh !important; 
+    background: var(--primary) !important; 
+    display: flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    color: white !important; 
+    z-index: 5000 !important; /* ഹെഡറിനേക്കാൾ മുകളിൽ വരാൻ */
+    transition: opacity 0.5s ease !important;
+}
+
+/* സ്പ്ലാഷ് മറയുമ്പോൾ വെള്ള പാളി വരാതിരിക്കാൻ */
+#splash.hidden { 
+    display: none !important; 
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.hidden { display: none !important; }
+
+/* 1. ലോഗിൻ ഇൻപുട്ട് ബോക്സുകൾ (Input Fields) */
+#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input {
+    width: 90% !important;
+    padding: 12px !important;
+    margin: 10px auto !important;
+    border: 1.5px solid #2e7d32 !important; /* പച്ച ബോർഡർ */
+    border-radius: 8px !important;
+    display: block !important;
+    font-size: 16px !important;
+    background: #fff !important;
+}
+
+/* 2. ലോഗിൻ & സേവ് ഡാറ്റ ബട്ടണുകൾ */
+.login-btn, .btn-main, .login-container button, #admin-panel button[onclick="saveData()"] {
+    padding: 12px 30px !important;
+    margin: 15px auto !important; 
+    border-radius: 30px !important; 
+    font-weight: bold !important;
+    cursor: pointer !important;
+    background-color: #2e7d32 !important; /* പച്ച നിറം */
+    color: white !important;
+    border: none !important;
+    display: block !important;
+    width: 80% !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* 3. ലോഗൗട്ട് ബട്ടൺ (Logout) */
+button[onclick="logout()"] {
+    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
+    color: white !important;
+    padding: 10px 25px !important;
+    border-radius: 20px !important;
+    border: none !important;
+    font-weight: bold !important;
+    margin: 20px auto !important;
+    display: block !important;
+    width: fit-content !important;
+}
+
+/* 4. എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ */
+.edit-btn { background: #ff9800 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; margin-right: 5px !important; }
+.delete-btn { background: #f44336 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; }
 
