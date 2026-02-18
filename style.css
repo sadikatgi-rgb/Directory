@@ -287,19 +287,22 @@ input[type="text"]::placeholder {
 }
 
 /* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
-/* ഉള്ളടക്കം, ആപ്പ് വിവരം, Leaders പേജുകളിലെ വിവരങ്ങൾ കള്ളികളാക്കാൻ */
+/* 1. ഉള്ളടക്കം, ആപ്പ് വിവരം, Leaders പേജുകൾക്ക് മാത്രം മാറ്റം വരുത്തുന്നു */
 #list-container > div, .app-details-list li, .leaders-list li {
-    background: #ffffff !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
-    margin: 12px 8px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
-    border-left: 6px solid #006400 !important; /* പുറത്തെ ബോക്സിന് മാത്രം വര */
+    background: transparent !important; /* ബാക്ക്ഗ്രൗണ്ട് മാറ്റി */
+    border: none !important;
+    border-bottom: 1.5px solid #eeeeee !important; /* ഓരോ വരിക്ക് താഴെയും മാത്രം വര */
+    padding: 15px 5px !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border-left: none !important; /* പഴയ പച്ച വര ഇവിടെ ഒഴിവാക്കി */
     display: block !important;
     text-align: left !important;
     font-weight: 700 !important;
     color: #333 !important;
 }
+
 
 /* ബി) ബോക്സിനുള്ളിലെ മറ്റ് ഭാഗങ്ങളിൽ പച്ച വര വരുന്നത് ഒഴിവാക്കാൻ */
 #list-container div div, .list-item div, .list-item p {
@@ -423,7 +426,11 @@ button[onclick*="back"]::before {
     font-size: 18px !important;
 }
 
-@keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+@keyframes slowBlink { 
+    0% { opacity: 1; } 
+    50% { opacity: 0.2; } 
+    100% { opacity: 1; } 
+}
 
 .overlay { position: fixed !important;  display: none; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.5); z-index: 1000 !important; top: 0 !important; left: 0 !important; pointer-events: auto !important;  }
 
