@@ -286,33 +286,32 @@ input[type="text"]::placeholder {
     flex-shrink: 0 !important;
 }
 
-/* 1. ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്ക് മാത്രം (താഴെ വര വരാൻ) */
+/* --- 1. ഉള്ളടക്കം പേജ് മാത്രം (ബോക്സ് മാറ്റി വരികൾക്ക് താഴെ വര നൽകാൻ) --- */
 #list-container > div {
     background: transparent !important;
     border: none !important;
-    border-bottom: 1.2px solid #e0e0e0 !important; /* വരികൾക്ക് താഴെ മാത്രം വര */
+    border-bottom: 1.5px solid #e0e0e0 !important; /* ഓരോ വരിക്കും താഴെ മാത്രം വര */
     padding: 15px 5px !important;
     margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    border-left: none !important; /* പച്ച വര ഇവിടെ ഒഴിവാക്കി */
+    border-left: none !important; /* ഇവിടെ പച്ച വര ഒഴിവാക്കി */
     display: block !important;
 }
 
-/* 2. ഹോം പേജിലെ ബോക്സുകൾ (പഴയ ഭംഗിയുള്ള രൂപം തിരികെ ലഭിക്കാൻ) */
+/* --- 2. ഹോം പേജിലെ വിഷയങ്ങൾ (പഴയ ഭംഗിയുള്ള ബോക്സും പച്ച വരയും തിരികെ നൽകാൻ) --- */
 .list-item, .person-card, .admin-card {
     background: #ffffff !important;
     border-radius: 12px !important;
     padding: 15px !important;
     margin: 12px 8px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
-    border-left: 6px solid #006400 !important; /* ആ പച്ച വര തിരികെ നൽകി */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    border-left: 6.5px solid #006400 !important; /* കട്ടിയുള്ള പച്ച വര തിരികെ വന്നു */
     display: block !important;
-    overflow: hidden !important;
-    border-bottom: none !important; /* അടിയിലെ വര ഒഴിവാക്കി */
+    border-bottom: none !important; /* ഇവിടെ താഴെ വര വേണ്ട */
 }
 
-/* 3. അഡ്മിൻ അറിയിപ്പ് ബോക്സ് (ബ്ലിങ്കിംഗ് നിലനിർത്തിക്കൊണ്ട് കളർ ശരിയാക്കാൻ) */
+/* --- 3. അഡ്മിൻ അറിയിപ്പ് ബോക്സ് (ബ്ലിങ്കിംഗും കളറും ശരിയാക്കാൻ) --- */
 .blink-text {
     background: #1a1a1a !important; /* കറുപ്പ് ബാക്ക്ഗ്രൗണ്ട് */
     color: #ffffff !important;
