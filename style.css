@@ -27,26 +27,26 @@ header {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 9000 !important;
+    z-index: 10000 !important; /* ടിക്കറിന് മുകളിൽ വരാൻ വാല്യൂ കൂട്ടി */
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    margin: 0 !important; /* മാർജിൻ പൂർണ്ണമായും ഒഴിവാക്കി */
-    margin-bottom: 0 !important; /* ഇത് പ്രത്യേകം ശ്രദ്ധിക്കുക */
+    margin: 0 !important; 
+    margin-bottom: 0 !important; /* ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
     padding: 0 15px !important;
+    border-bottom: none !important; /* വെളുത്ത വര ഒഴിവാക്കാൻ */
 }
-
 
 header h3 {
     color: #ffffff !important; 
     font-size: 20px !important;
-    font-weight: 950 !important;
-    margin: 0 auto !important;
+    font-weight: 900 !important;
+    margin: 0 auto !important; /* അക്ഷരങ്ങൾ നടുവിൽ വരാൻ */
     display: block !important;
-    /* ഇത് പുതുതായി ചേർക്കുക */
     z-index: 10001 !important; 
     position: relative !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important; /* വ്യക്തത കൂട്ടാൻ */
 }
 
 .menu-icon {
@@ -60,7 +60,7 @@ header h3 {
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
 #news-ticker {
-    margin-top: 65px !important;
+    margin-top: 65px !important; /* ഹെഡറിന്റെ ഉയരം */
     height: 52px !important;
     background: #ffeb3b !important;
     position: relative !important;
@@ -71,12 +71,13 @@ header h3 {
     align-items: center !important;
     overflow: hidden !important;
     width: 100% !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 0 !important; /* താഴെയുള്ള കണ്ടന്റുമായുള്ള ഗ്യാപ്പ് കുറയ്ക്കാൻ */
 }
 
 .news-ticker-container {
     display: flex !important;
     white-space: nowrap !important;
+    width: 100% !important;
 }
 
 .news-ticker-scroll {
@@ -89,13 +90,15 @@ header h3 {
     font-size: 19px !important;
     color: #b71c1c !important;
     white-space: nowrap !important;
-    padding-right: 80px;
+    padding-right: 50px !important; /* സ്പാൻ തമ്മിലുള്ള അകലം */
 }
 
+/* അനിമേഷൻ കൃത്യമാക്കാൻ */
 @keyframes news-marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
+
 
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
@@ -338,18 +341,17 @@ header h3 {
 
 /* കോൾ ബട്ടൺ */
 .call-btn-new {
-    background-color: #006400 !important;
+    background-color: var(--primary) !important;
     color: white !important;
-    padding: 10px 25px !important;
+    padding: 10px 28px !important;
     border-radius: 30px !important;
     text-decoration: none !important;
     font-weight: bold !important;
     display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-top: 10px !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    margin-top: 15px !important; /* അകലം കൂട്ടി */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
 }
+
 
 /* വാട്സാപ്പ് ബട്ടൺ */
 .whatsapp-btn-new {
@@ -366,35 +368,36 @@ header h3 {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
 }
 
-/* കാൻസൽ ബട്ടൺ ഡിസൈൻ */
-.cancel-btn, button[onclick*="cancel"], button[type="reset"] {
-    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
+input[type="text"] {
+    width: 92% !important; /* വീതി അല്പം കൂട്ടി */
+    padding: 14px !important;
+    margin: 20px auto !important; 
+    border: 2px solid var(--primary) !important;
+    border-radius: 12px !important;
+    display: block !important;
+    font-size: 16px !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+}
+
+/* എഡിറ്റ് ബട്ടൺ */
+.edit-btn, button[onclick*="edit"] {
+    background: #2196F3 !important;
     color: white !important;
+    border-radius: 8px !important; /* അല്പം കൂടി വട്ടം */
+    padding: 8px 15px !important; /* വലിപ്പം കൂട്ടി */
     border: none !important;
-    padding: 10px 20px !important;
+    font-weight: 800 !important;
+    margin-right: 8px !important; /* ഡിലീറ്റ് ബട്ടണിൽ നിന്നുള്ള അകലം */
+    cursor: pointer !important;
+}
+
+/* ഡിലീറ്റ് ബട്ടൺ */
+.delete-btn, button[onclick*="delete"] {
+    background: #f44336 !important;
+    color: white !important;
     border-radius: 8px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-}
-/* എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ മനോഹരമാക്കാൻ */
-button[onclick*="edit"], .edit-btn {
-    background-color: #2196F3 !important; /* നീല നിറം */
-    color: white !important;
+    padding: 8px 15px !important;
     border: none !important;
-    padding: 6px 15px !important;
-    border-radius: 6px !important;
-    font-weight: bold !important;
-    margin-right: 5px !important;
+    font-weight: 800 !important;
     cursor: pointer !important;
 }
-
-button[onclick*="delete"], .delete-btn {
-    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
-    color: white !important;
-    border: none !important;
-    padding: 6px 15px !important;
-    border-radius: 6px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-}
-
