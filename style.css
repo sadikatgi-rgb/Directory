@@ -288,18 +288,26 @@ input[type="text"]::placeholder {
 
 /* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
 /* ഉള്ളടക്കം, ആപ്പ് വിവരം, Leaders പേജുകളിലെ വിവരങ്ങൾ കള്ളികളാക്കാൻ */
-#list-container div, .app-details-list li, .leaders-list li {
+#list-container > div, .app-details-list li, .leaders-list li {
     background: #ffffff !important;
-    border-radius: 10px !important;
-    padding: 12px 15px !important;
-    margin: 10px 5px !important; /* അല്പം സൈഡ് ഗ്യാപ്പ് നൽകി */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
-    border-left: 6px solid #006400 !important; /* സൈഡിലെ പച്ച വര */
-    list-style: none !important;
-    font-weight: 700 !important; /* അക്ഷരങ്ങൾക്ക് കട്ടി കൂട്ടി */
-    color: #333 !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    margin: 12px 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+    border-left: 6px solid #006400 !important; /* പുറത്തെ ബോക്സിന് മാത്രം വര */
     display: block !important;
-    text-align: left !important; /* എഴുത്തുകൾ ഇടത് വശത്ത് വരാൻ */
+    text-align: left !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+}
+
+/* ബി) ബോക്സിനുള്ളിലെ മറ്റ് ഭാഗങ്ങളിൽ പച്ച വര വരുന്നത് ഒഴിവാക്കാൻ */
+#list-container div div, .list-item div, .list-item p {
+    border-left: none !important; /* ഉള്ളിലെ വരകൾ ഒഴിവാക്കി */
+    padding: 2px 0 !important;
+    margin: 2px 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
 }
 
 /* അക്ഷരങ്ങളുടെ കട്ടി കൂട്ടാൻ */
@@ -393,19 +401,26 @@ input[type="text"]::placeholder {
 }
 
 /* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
-.blink-text {
-    background: #000000 !important; 
-    color: #ffffff !important; 
-    padding: 18px !important; /* അല്പം കൂടി സ്ഥലം നൽകി */
-    border-radius: 12px !important; 
-    text-align: center !important; 
-    font-weight: 950 !important; 
-    font-size: 16px !important; /* എഴുത്ത് വ്യക്തമാകാൻ */
-    line-height: 1.6 !important; /* വരികൾക്കിടയിൽ അകലം നൽകി */
-    margin: 15px !important; 
-    display: block !important;
-    border: 1px solid #333 !important; /* ചെറിയൊരു ബോർഡർ */
-    animation: slowBlink 6s ease-in-out infinite !important;
+/* എല്ലാ പേജുകളിലെയും ബാക്ക് ബട്ടൺ ശരിയാക്കാൻ */
+button[onclick*="back"], .back-btn-simple {
+    background: #006400 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    border-radius: 25px !important;
+    font-weight: 850 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    margin: 15px 10px !important;
+    cursor: pointer !important;
+}
+
+/* ബാക്ക് ആരോ ചിഹ്നം വരാൻ */
+button[onclick*="back"]::before {
+    content: '←' !important;
+    font-size: 18px !important;
 }
 
 @keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
@@ -484,17 +499,24 @@ button[onclick="logout()"] {
 .delete-btn { background: #f44336 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; }
 
 /* --- 9. ബാക്ക് ബട്ടൺ ഡിസൈൻ (ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്കായി) --- */
+/* എല്ലാ പേജുകളിലെയും ബാക്ക് ബട്ടൺ ശരിയാക്കാൻ */
 button[onclick*="back"], .back-btn-simple {
-    background: #006400 !important; /* പച്ച നിറം */
-    color: white !important;
+    background: #006400 !important;
+    color: #ffffff !important;
     border: none !important;
-    padding: 8px 22px !important; /* അല്പം കൂടി വീതി കൂട്ടി */
-    border-radius: 20px !important; /* വശങ്ങൾ ഉരുണ്ടിരിക്കാൻ */
-    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി നൽകി */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    padding: 10px 22px !important;
+    border-radius: 25px !important;
+    font-weight: 850 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    margin: 15px 10px !important;
     cursor: pointer !important;
-    margin-bottom: 20px !important;
-    display: inline-block !important;
-    text-transform: uppercase !important; /* അക്ഷരങ്ങൾ ക്ലിയർ ആകാൻ */
 }
 
+/* ബാക്ക് ആരോ ചിഹ്നം വരാൻ */
+button[onclick*="back"]::before {
+    content: '←' !important;
+    font-size: 18px !important;
+}
