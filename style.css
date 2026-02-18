@@ -165,13 +165,17 @@ header h3 {
 
 .list-screen-header .back-btn {
     position: absolute !important;
-    margin-left: 15px !important;
+    left: 15px !important; /* margin-left മാറ്റി left ആക്കി */
     background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid white !important;
-    color: white !important;
-    padding: 6px 12px !important;
+    border: 1.5px solid #ffffff !important; /* ബോർഡർ അല്പം കൂടി കട്ടിയാക്കി */
+    color: #ffffff !important;
+    padding: 5px 12px !important;
     border-radius: 8px !important;
-    z-index: 100 !important;
+    z-index: 5500 !important; /* ഹെഡറിന് മുകളിൽ വരാൻ കൂട്ടി നൽകി */
+    font-weight: bold !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 #current-cat-title {
@@ -179,15 +183,19 @@ header h3 {
     font-weight: 950 !important;
     font-size: 20px !important;
 }
+
 /* സെർച്ച് ബാർ മനോഹരമാക്കാൻ */
 input[type="text"] {
-    width: 100% !important;
+    width: 92% !important; /* അല്പം വീതി കുറച്ചു */
     padding: 12px 15px !important;
-    margin: 10px 0 20px 0 !important;
-    border: 2px solid var(--primary) !important;
-    border-radius: 10px !important;
+    margin: 15px auto !important; /* നടുവിൽ വരാൻ */
+    border: 2px solid #006400 !important; /* പച്ച ബോർഡർ */
+    border-radius: 12px !important;
     font-size: 16px !important;
+    display: block !important;
     outline: none !important;
+    background: #ffffff !important;
+    font-weight: 600 !important;
 }
 
 /* --- 6. കണ്ടെയ്നർ (Content Area) --- */
@@ -234,20 +242,20 @@ input[type="text"] {
     padding-bottom: 5px;
 }
 
-/* 1. ഈ ഭാഗം മാറ്റുക: വിവരങ്ങൾ ഒരേ വരിയിൽ വരാൻ */
+/* വിവരങ്ങൾ കൃത്യമായ വരിയിൽ വരാൻ */
 .list-item p, .list-item div, .person-info p, .person-info small {
     display: flex !important;
-    flex-direction: row !important; /* വരിയായി മാറ്റുന്നു */
-    flex-wrap: nowrap !important;  /* വരി മുറിയാതിരിക്കാൻ */
-    align-items: center !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important; 
+    align-items: flex-start !important; /* മുകളിൽ നിന്ന് തുടങ്ങാൻ */
     gap: 10px !important; 
-    margin: 8px 0 !important;
+    margin: 10px 0 !important;
 }
 
-/* 2. ഈ ഭാഗം മാറ്റുക: തലക്കെട്ടുകൾക്ക് (Labels) ഒരേ വീതി കിട്ടാൻ */
+/* തലക്കെട്ടുകൾ (Labels) ഒരേ വീതിയിൽ നിൽക്കാൻ */
 .list-item p b, .list-item p strong, .person-info b, .list-item div b {
-    color: #2e7d32 !important;
-    min-width: 105px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം */
+    color: #006400 !important;
+    min-width: 105px !important; /* ഇത് മാറ്റരുത്, എല്ലാത്തിനും ഒരേ അകലം നൽകും */
     font-weight: 950 !important;
     display: inline-block !important;
     flex-shrink: 0 !important;
@@ -354,8 +362,17 @@ input[type="text"] {
 }
 /* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
 .blink-text {
-    background: #000000 !important; color: #ffffff !important; padding: 15px;
-    border-radius: 12px; text-align: center; font-weight: 950 !important;
+    background: #000000 !important; 
+    color: #ffffff !important; 
+    padding: 18px !important; /* അല്പം കൂടി സ്ഥലം നൽകി */
+    border-radius: 12px !important; 
+    text-align: center !important; 
+    font-weight: 950 !important; 
+    font-size: 16px !important; /* എഴുത്ത് വ്യക്തമാകാൻ */
+    line-height: 1.6 !important; /* വരികൾക്കിടയിൽ അകലം നൽകി */
+    margin: 15px !important; 
+    display: block !important;
+    border: 1px solid #333 !important; /* ചെറിയൊരു ബോർഡർ */
     animation: slowBlink 6s ease-in-out infinite !important;
 }
 
