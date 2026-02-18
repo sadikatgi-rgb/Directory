@@ -75,7 +75,7 @@ header h3 {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    width: 100% !important; 
+    width: 100% !important; '
 }
 
 .news-ticker-container {
@@ -430,6 +430,19 @@ button[onclick*="back"]::before {
     0% { opacity: 1; } 
     50% { opacity: 0.2; } 
     100% { opacity: 1; } 
+}
+/* അഡ്മിൻ അറിയിപ്പ് ബോക്സ് സ്റ്റൈലും ആനിമേഷനും */
+.blink-text {
+    background: #1a1a1a !important; /* കറുപ്പ് നിറം */
+    color: #ffffff !important;
+    padding: 18px !important;
+    border-radius: 12px !important;
+    border-left: 6px solid #006400 !important; /* പച്ച വര */
+    margin: 15px !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    display: block !important;
+    animation: slowBlink 3s ease-in-out infinite !important; /* ആനിമേഷൻ ഇവിടെ പ്രവർത്തിക്കുന്നു */
 }
 
 .overlay { position: fixed !important;  display: none; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.5); z-index: 1000 !important; top: 0 !important; left: 0 !important; pointer-events: auto !important;  }
