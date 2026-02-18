@@ -459,32 +459,32 @@ button[onclick*="back"]::before {
 
 .overlay { position: fixed !important;  display: none; width: 100% !important; height: 100% !important; background: rgba(0,0,0,0.5); z-index: 1000 !important; top: 0 !important; left: 0 !important; pointer-events: auto !important;  }
 
-/* --- 8. സ്പ്ലാഷ് സ്ക്രീൻ (പൂർണ്ണമായും മറയാൻ) --- */
+/* --- 8. സ്പ്ലാഷ് സ്ക്രീൻ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 #splash { 
     position: fixed !important; 
-    top: 0 !important; /* മുകളിലെ ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
+    top: 0 !important; 
     left: 0 !important;
     width: 100% !important; 
     height: 100vh !important; 
-    background: var(--primary) !important; 
+    background: #006400 !important; /* പച്ച നിറം */
     display: flex !important; 
     flex-direction: column !important; 
     align-items: center !important; 
     justify-content: center !important; 
     color: white !important; 
-    z-index: 5000 !important; /* ഹെഡറിനേക്കാൾ മുകളിൽ വരാൻ */
-    transition: opacity 0.5s ease !important;
+    z-index: 99999 !important; /* ഏറ്റവും ഉയർന്ന സംഖ്യ നൽകി */
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-/* സ്പ്ലാഷ് മറയുമ്പോൾ വെള്ള പാളി വരാതിരിക്കാൻ */
+/* സ്പ്ലാഷ് മറയുമ്പോൾ */
 #splash.hidden { 
-    display: none !important; 
     opacity: 0 !important;
     visibility: hidden !important;
-    z-index: -1 !important;
+    transition: opacity 0.5s ease-out !important;
+    display: none !important; /* ആനിമേഷൻ കഴിഞ്ഞ ശേഷം മാത്രം മറയാൻ */
 }
 
-.hidden { display: none !important; }
 
 /* 1. ലോഗിൻ ഇൻപുട്ട് ബോക്സുകൾ (Input Fields) */
 #admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input {
