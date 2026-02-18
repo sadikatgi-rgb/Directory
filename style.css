@@ -4,7 +4,6 @@
     --bg: #f4f7f6; 
     --white: #ffffff; 
     --text: #333;
-    --danger: #ff4444;
 }
 
 * { box-sizing: border-box; }
@@ -15,36 +14,30 @@ body, html {
     background: var(--bg); 
     color: var(--text);
     height: 100%; width: 100%;
-    overflow-x: hidden;
-    -webkit-text-size-adjust: 100%;
-    touch-action: manipulation;
 }
 
-/* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
+/* --- 2. ഹെഡർ (Fixed & Bold) --- */
 header {
     background-color: var(--primary) !important;
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 9000 !important; /* സ്പ്ലാഷ് സ്ക്രീനിന് താഴെ */
+    z-index: 9000 !important;
     position: fixed !important;
     top: 0 !important;
-    left: 0 !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 15px !important;
 }
 
 header h3 {
     color: #ffffff !important; 
-    font-size: 20px !important;
-    font-weight: 950 !important;
-    margin: 0 auto !important;
-    display: block !important;
+    font-size: 22px !important;
+    font-weight: 950 !important; /* അക്ഷരങ്ങൾ തെളിഞ്ഞു വരാൻ */
+    margin: 0 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-.menu-icon {
+.menu-icon, .back-btn {
     position: absolute !important;
     left: 15px !important;
     color: #ffffff !important; 
@@ -64,228 +57,92 @@ header h3 {
     border-bottom: 4px solid #000000 !important; 
     display: flex !important;
     align-items: center !important;
-    overflow: hidden !important;
-    width: 100% !important; 
-}
-
-.news-ticker-container {
-    display: flex !important;
-    white-space: nowrap !important;
-}
-
-.news-ticker-scroll {
-    display: flex !important;
-    animation: news-marquee 40s linear infinite !important; 
 }
 
 .news-ticker-scroll span {
     font-weight: 950 !important;
     font-size: 19px !important;
     color: #b71c1c !important;
-    white-space: nowrap !important;
     padding-right: 80px;
 }
 
-@keyframes news-marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+/* --- 4. കണ്ടെയ്നർ (Content Area) --- */
+.container { 
+    margin-top: 0 !important;
+    padding: 20px 15px 150px 15px !important; 
+    height: calc(100vh - 117px) !important; 
+    overflow-y: auto !important; 
+    background: var(--bg);
 }
 
-/* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
+/* --- 5. പഴയ ഭംഗിയുള്ള ലിസ്റ്റ് കാർഡുകൾ (Fix) --- */
+.list-item {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 18px !important;
+    margin: 15px 5px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important; /* കാർഡുകൾ പൊന്തി നിൽക്കാൻ */
+    border-left: 8px solid var(--primary) !important; /* കട്ടിയുള്ള പച്ച വര */
+    display: block !important;
+}
+
+.list-item h4 {
+    font-weight: 950 !important;
+    color: var(--primary) !important;
+    font-size: 19px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1.5px solid #eee;
+    padding-bottom: 8px;
+}
+
+.list-item p {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important; 
+    margin: 12px 0 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
+
+.list-item b {
+    color: var(--primary) !important;
+    min-width: 110px !important; 
+    font-weight: 950 !important;
+    flex-shrink: 0 !important;
+}
+
+/* --- 6. സെർച്ച് ബാർ ഡിസൈൻ --- */
+input[type="text"] {
+    width: 95% !important;
+    padding: 14px 15px !important;
+    margin: 15px auto !important;
+    border: 2.5px solid var(--primary) !important;
+    border-radius: 12px !important;
+    font-size: 17px !important;
+    display: block !important;
+    background: #fff !important;
+    font-weight: 600 !important;
+}
+
+/* --- 7. സൈഡ്ബാർ --- */
 .sidebar { 
     position: fixed !important; 
     left: -260px !important; 
     width: 250px !important; 
     height: 100% !important; 
     background: white !important; 
-    z-index: 10000 !important; /* ഏറ്റവും മുകളിൽ */
-    transition: 0.3s ease-in-out !important; 
-    box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; 
+    z-index: 10000 !important; 
     top: 0 !important;
+    transition: 0.3s ease-in-out !important; 
 }
 
-.sidebar.active { 
-    left: 0 !important; 
-}
+.sidebar.active { left: 0 !important; }
 
-.sidebar-top-img {
-    width: 100% !important;
-    line-height: 0 !important;
-    font-size: 0 !important;
-    background-color: var(--primary) !important;
-    position: relative !important;
-}
-
-.sidebar-top-img img { 
-    display: block !important; 
-    width: 100% !important; 
-    height: auto !important; 
-}
-
-.sidebar-header { 
-    background-color: var(--primary) !important; 
-    color: white !important; 
-    padding: 15px !important; 
-    margin-top: 0 !important; 
-    font-weight: bold !important; 
-    text-align: center !important;
-}
-
-.sidebar a { 
-    display: block !important; 
-    padding: 15px !important; 
-    color: #000 !important; 
-    text-decoration: none !important; 
-    border-bottom: 1px solid #eee !important; 
-    font-weight: 800 !important; 
-    font-size: 19px !important; 
-}
-
-/* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
-.list-screen-header {
-    background-color: var(--primary) !important;
-    display: flex !important;
-    align-items: center !important;
-    padding: 10px 15px !important;
-    min-height: 60px !important;
-}
-
-.list-screen-header .back-btn {
-    position: absolute !important;
-    left: 15px !important;
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1.5px solid white !important;
-    color: white !important;
-    padding: 6px 12px !important;
-    border-radius: 8px !important;
-    z-index: 9100 !important;
-}
-
-/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
-.container { 
-    padding: 20px 15px 150px 15px !important; 
-    height: calc(100vh - 117px) !important; 
-    margin-top: 0 !important;
-    overflow-y: auto !important; 
-    -webkit-overflow-scrolling: touch; 
-}
-
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-.card { 
-    background: white; padding: 20px 10px; border-radius: 20px; 
-    text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-    border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;
-}
-
-.card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
-.card img { width: 45px; height: 45px; }
-
-.list-item {
-    background: #ffffff !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
-    margin: 10px 8px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    border-left: 6.5px solid var(--primary) !important;
-}
-
-.list-item h4 {
-    font-weight: 950 !important;
-    color: var(--primary) !important;
-    font-size: 18px !important;
-    margin-bottom: 12px !important;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
-}
-
-.list-item p, .list-item div, .person-info p, .person-info small {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important; 
-    align-items: flex-start !important;
-    gap: 10px !important; 
-    margin: 10px 0 !important;
-}
-
-.list-item p b, .list-item p strong, .person-info b, .list-item div b {
-    color: var(--primary) !important;
-    min-width: 115px !important; 
-    font-weight: 950 !important;
-    display: inline-block !important;
-    flex-shrink: 0 !important;
-}
-
-/* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
-.blink-text {
-    background: #1a1a1a !important;
-    color: #ffffff !important;
-    padding: 18px !important;
-    border-radius: 12px !important;
-    border-left: 6px solid var(--primary) !important;
-    margin: 15px !important;
-    font-weight: 900 !important;
-    text-align: center !important;
-    animation: slowBlink 3s ease-in-out infinite !important;
-}
-
-@keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-.overlay { 
-    position: fixed !important;  
-    display: none; 
-    width: 100% !important; 
-    height: 100% !important; 
-    background: rgba(0,0,0,0.5); 
-    z-index: 9500 !important; 
-    top: 0 !important; 
-    left: 0 !important; 
-}
-
-/* --- 8. സ്പ്ലാഷ് സ്ക്രീൻ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
+/* --- 8. സ്പ്ലാഷ് സ്ക്രീൻ --- */
 #splash { 
     position: fixed !important; 
-    top: 0 !important; 
-    left: 0 !important;
-    width: 100% !important; 
-    height: 100vh !important; 
-    background: var(--primary) !important; 
-    display: flex !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    color: white !important; 
-    z-index: 11000 !important; /* ഹെഡറിനും സൈഡ്ബാറിനും മുകളിൽ */
-    transition: opacity 0.5s ease !important;
-}
-
-#splash.hidden { 
-    display: none !important; 
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-.hidden { display: none !important; }
-
-/* ലോഗിൻ & ഫോം സെറ്റിംഗ്സ് */
-#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input {
-    width: 90% !important;
-    padding: 12px !important;
-    margin: 10px auto !important;
-    border: 1.5px solid var(--primary) !important;
-    border-radius: 8px !important;
-    display: block !important;
-    font-size: 16px !important;
-}
-
-.login-btn, .btn-main {
-    background-color: var(--primary) !important;
-    color: white !important;
-    padding: 12px 30px !important;
-    border-radius: 30px !important;
-    font-weight: bold !important;
-    border: none !important;
-    display: block !important;
-    width: 80% !important;
-    margin: 15px auto !important;
+    top: 0; left: 0; width: 100%; height: 100vh; 
+    background: var(--primary); 
+    z-index: 20000 !important; 
+    display: flex; align-items: center; justify-content: center;
 }
