@@ -286,42 +286,44 @@ input[type="text"]::placeholder {
     flex-shrink: 0 !important;
 }
 
-/* ആപ്പ് വിവരങ്ങളിലെ പ്രധാന ബോക്സ് */
-/* 1. ഉള്ളടക്കം, ആപ്പ് വിവരം, Leaders പേജുകൾ (താഴെ മാത്രം വര വരാൻ) */
-#list-container > div, .app-details-list li, .leaders-list li {
+/* 1. ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്ക് മാത്രം (താഴെ വര വരാൻ) */
+#list-container > div {
     background: transparent !important;
     border: none !important;
-    border-bottom: 1.5px solid #eeeeee !important; /* അടിയിൽ മാത്രം വര */
+    border-bottom: 1.2px solid #e0e0e0 !important; /* വരികൾക്ക് താഴെ മാത്രം വര */
     padding: 15px 5px !important;
     margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    border-left: none !important; /* പച്ച വര ഇവിടെ വേണ്ട */
+    border-left: none !important; /* പച്ച വര ഇവിടെ ഒഴിവാക്കി */
     display: block !important;
-    text-align: left !important;
-    font-weight: 700 !important;
-    color: #333 !important;
 }
 
-/* 2. ഹോം പേജിലെയും മറ്റ് മെയിൻ പേജുകളിലെയും ബോക്സുകൾ (പച്ച വര തിരികെ ലഭിക്കാൻ) */
+/* 2. ഹോം പേജിലെ ബോക്സുകൾ (പഴയ ഭംഗിയുള്ള രൂപം തിരികെ ലഭിക്കാൻ) */
 .list-item, .person-card, .admin-card {
     background: #ffffff !important;
     border-radius: 12px !important;
     padding: 15px !important;
     margin: 12px 8px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
-    border-left: 6px solid #006400 !important; /* ഹോം പേജിലെ പച്ച വര ഇവിടെ നൽകി */
+    border-left: 6px solid #006400 !important; /* ആ പച്ച വര തിരികെ നൽകി */
     display: block !important;
     overflow: hidden !important;
+    border-bottom: none !important; /* അടിയിലെ വര ഒഴിവാക്കി */
 }
 
-/* 3. ബോക്സിനുള്ളിലെ മറ്റ് ഭാഗങ്ങളിൽ പച്ച വര വരുന്നത് ഒഴിവാക്കാൻ */
-#list-container div div, .list-item div, .list-item p {
-    border-left: none !important;
-    padding: 2px 0 !important;
-    margin: 2px 0 !important;
-    box-shadow: none !important;
-    background: transparent !important;
+/* 3. അഡ്മിൻ അറിയിപ്പ് ബോക്സ് (ബ്ലിങ്കിംഗ് നിലനിർത്തിക്കൊണ്ട് കളർ ശരിയാക്കാൻ) */
+.blink-text {
+    background: #1a1a1a !important; /* കറുപ്പ് ബാക്ക്ഗ്രൗണ്ട് */
+    color: #ffffff !important;
+    padding: 18px !important;
+    border-radius: 12px !important;
+    border-left: 6px solid #006400 !important;
+    margin: 15px !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    display: block !important;
+    animation: slowBlink 3s ease-in-out infinite !important;
 }
 
 /* അക്ഷരങ്ങളുടെ കട്ടി കൂട്ടാൻ */
