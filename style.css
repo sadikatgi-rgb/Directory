@@ -520,3 +520,15 @@ button[onclick*="back"]::before {
     content: '←' !important;
     font-size: 18px !important;
 }
+/* എല്ലാ ബട്ടണുകളും ഒരേപോലെയാക്കാൻ */
+button, .back-btn-simple, .cancel-btn {
+    background: #006400 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    border-radius: 25px !important;
+    font-weight: 850 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    cursor: pointer !important;
+    margin: 10px !important;
+}
