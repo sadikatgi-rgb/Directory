@@ -229,17 +229,20 @@ input[type="text"] {
     padding: 15px !important;
     margin: 10px 8px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    border-left: 6px solid #2e7d32 !important;
+    /* സൈഡിലെ ഡിസൈൻ പച്ച നിറത്തിൽ വരാൻ */
+    border-left: 6px solid #006400 !important; 
+    display: block !important;
+    overflow: hidden !important;
 }
 
 /* പേര് (തലക്കെട്ട്) */
 .list-item h4 {
     font-weight: 950 !important;
-    color: #1b5e20 !important;
+    color: #006400 !important; /* ഹെഡറിലെ അതേ പച്ച നിറം */
     font-size: 18px !important;
-    margin-bottom: 12px !important;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
+    margin-bottom: 10px !important;
+    border-bottom: 1px solid #eee !important; /* പേരിന് താഴെയുള്ള വര */
+    padding-bottom: 5px !important;
 }
 
 /* വിവരങ്ങൾ കൃത്യമായ വരിയിൽ വരാൻ */
@@ -360,6 +363,7 @@ input[type="text"] {
     line-height: 1.6 !important;
     font-weight: 600 !important;
 }
+
 /* --- 8. മറ്റ് സ്റ്റൈലുകൾ (Blink, Announcement etc.) --- */
 .blink-text {
     background: #000000 !important; 
