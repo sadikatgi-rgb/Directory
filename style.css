@@ -42,6 +42,9 @@ header h3 {
     font-weight: 950 !important;
     margin: 0 auto !important;
     display: block !important;
+    /* ഇത് പുതുതായി ചേർക്കുക */
+    z-index: 10001 !important; 
+    position: relative !important;
 }
 
 .menu-icon {
@@ -65,7 +68,8 @@ header h3 {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    width: 100% !important; 
+    width: 100% !important;
+    margin-bottom: 0 !important;
 }
 
 .news-ticker-container {
@@ -276,14 +280,16 @@ header h3 {
 .hidden { display: none !important; }
 
 /* ലോഗിൻ & ഫോം സെറ്റിംഗ്സ് */
-#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input {
+/* പഴയ വരിക്ക് പകരം താഴെ കാണുന്ന വരി നൽകുക */
+#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input, input[type="text"] {
     width: 90% !important;
     padding: 12px !important;
-    margin: 10px auto !important;
+    margin: 15px auto !important; /* അല്പം വിടവ് നൽകി */
     border: 1.5px solid var(--primary) !important;
     border-radius: 8px !important;
     display: block !important;
     font-size: 16px !important;
+    background: #ffffff !important;
 }
 
 .login-btn, .btn-main {
@@ -312,13 +318,20 @@ header h3 {
     text-decoration: none !important;
 }
 
-/* ഹോം പേജിലെ ബാക്ക് ബട്ടൺ (ഗ്രീൻ സ്റ്റൈൽ വേണമെങ്കിൽ) */
+/* ഹോം പേജിലെ ബാക്ക് ബട്ടൺ (ഗ്രീൻ സ്റ്റൈൽ) - ഇത് പൂർണ്ണമായി മാറ്റുക */
 .back-btn-home {
     background: var(--primary) !important;
     color: white !important;
     border-radius: 30px !important;
     padding: 10px 25px !important;
+    font-weight: bold !important;
+    text-decoration: none !important; /* ലിങ്കിന്റെ അടിവര മാറ്റാൻ */
+    display: inline-block !important; /* ബട്ടൺ കൃത്യമായ വലിപ്പത്തിൽ വരാൻ */
+    border: 2px solid #ffffff !important; /* ബോർഡർ നൽകാൻ */
+    margin-top: 15px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
 }
+
 /* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
 
 /* കോൾ ബട്ടൺ */
@@ -349,4 +362,15 @@ header h3 {
     justify-content: center !important;
     margin-left: 10px !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* കാൻസൽ ബട്ടൺ ഡിസൈൻ */
+.cancel-btn, button[onclick*="cancel"], button[type="reset"] {
+    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
 }
