@@ -374,3 +374,25 @@ header h3 {
     font-weight: bold !important;
     cursor: pointer !important;
 }
+/* എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ മനോഹരമാക്കാൻ */
+button[onclick*="edit"], .edit-btn {
+    background-color: #2196F3 !important; /* നീല നിറം */
+    color: white !important;
+    border: none !important;
+    padding: 6px 15px !important;
+    border-radius: 6px !important;
+    font-weight: bold !important;
+    margin-right: 5px !important;
+    cursor: pointer !important;
+}
+
+button[onclick*="delete"], .delete-btn {
+    background-color: #f44336 !important; /* ചുവപ്പ് നിറം */
+    color: white !important;
+    border: none !important;
+    padding: 6px 15px !important;
+    border-radius: 6px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
