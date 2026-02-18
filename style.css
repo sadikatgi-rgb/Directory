@@ -27,7 +27,7 @@ header {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    z-index: 2000 !important;
+    z-index: 9999 !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -58,6 +58,7 @@ header h3 {
     height: 52px !important;
     background: #ffeb3b !important;
     position: relative !important;
+    z-index: 9998 !important;
     border-top: 4px solid #b71c1c !important; 
     border-bottom: 4px solid #000000 !important; 
     display: flex !important;
@@ -233,7 +234,8 @@ input[type="text"] {
 /* 2. ഈ ഭാഗം മാറ്റുക: തലക്കെട്ടുകൾക്ക് (Labels) ഒരേ വീതി കിട്ടാൻ */
 .list-item p b, .list-item p strong, .person-info b, .list-item div b {
     color: #2e7d32 !important;
-    min-width: 105px !important; /* എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം */
+    /* 105px എന്നതിന് പകരം 130px നൽകുക, അപ്പോൾ 'പാർട്ടി ഓർഡർ' പോലുള്ള വാക്കുകൾക്ക് കൃത്യമായ സ്ഥലം ലഭിക്കും */
+    min-width: 130px !important; 
     font-weight: 950 !important;
     display: inline-block !important;
     flex-shrink: 0 !important;
@@ -419,3 +421,4 @@ button[onclick="logout()"] {
 .edit-btn { background: #ff9800 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; margin-right: 5px !important; }
 .delete-btn { background: #f44336 !important; color: white !important; padding: 6px 12px !important; border-radius: 4px !important; border:none !important; }
 
+    
