@@ -38,17 +38,19 @@ header {
     border-bottom: none !important; /* വെളുത്ത വര ഒഴിവാക്കാൻ */
 }
 
+
 header h3 {
     color: #ffffff !important; 
     font-size: 20px !important;
     width: 100%;
     text-align: center;
     font-weight: 900 !important;
-    margin: 0 auto !important; /* അക്ഷരങ്ങൾ നടുവിൽ വരാൻ */
+    margin: 0 !important; /* auto മാറ്റി 0 ആക്കി */
     display: block !important;
     z-index: 10001 !important; 
     position: relative !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important; /* വ്യക്തത കൂട്ടാൻ */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    pointer-events: none !important; /* ഇത് നൽകിയാൽ മെനു ക്ലിക്ക് ചെയ്യാൻ തടസ്സമുണ്ടാകില്ല */
 }
 
 .menu-icon {
@@ -56,8 +58,9 @@ header h3 {
     left: 15px !important;
     color: #ffffff !important; 
     font-size: 24px !important;
-    z-index: 9100 !important;
+    z-index: 10005 !important; /* ടൈറ്റിലിനേക്കാൾ വലിയ സംഖ്യ നൽകി */
     cursor: pointer !important;
+    padding: 5px !important; /* തൊടാൻ എളുപ്പത്തിന് */
 }
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
@@ -217,36 +220,31 @@ header h3 {
     margin: 15px 0 !important;
 }
 
-/* വിവരങ്ങൾ ക്രമീകരിക്കാൻ */
-.person-card p, .person-card div, .person-info p, .person-info small {
+/* വിവരങ്ങൾ ഓരോ വരിയിലും നേരെ വരാൻ */
+.person-card p, .person-card div, .person-info p {
     display: flex !important;
-    flex-direction: column !important;
-    flex-wrap: nowrap !important; 
-    align-items: flex-start !important;
-    gap: 10px !important; 
+    flex-direction: row !important; /* column മാറ്റി row ആക്കി */
+    align-items: flex-start !important; /* അലൈൻമെന്റ് ശരിയാക്കാൻ */
+    gap: 8px !important; 
     margin: 10px 0 !important;
+    flex-wrap: nowrap !important; /* വരി താഴോട്ട് പോകാതിരിക്കാൻ */
 }
 
-/* വിവരങ്ങളുടെ തലക്കെട്ട് (ഉദാ: സ്ഥലം, സമയം) */
-.person-card p b, 
-.person-card p strong, 
-.person-info b, 
-.person-card div b {
+/* തലക്കെട്ടിന്റെ (Label) സ്റ്റൈൽ */
+.person-card p b, .person-card p strong, .person-info b {
     color: var(--primary) !important;
-    font-weight: 950 !important;
-    display: block !important; /* വരിയുടെ തുടക്കത്തിൽ വരാൻ */
-    margin-bottom: 2px !important; /* താഴെയുള്ള വിവരവുമായി ചെറിയ വിടവ് */
-    font-size: 14px !important;
+    min-width: 100px !important; /* എല്ലാ വരികളും ഒരേപോലെ വരാൻ ഇത് സഹായിക്കും */
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+    font-size: 15px !important;
 }
 
-/* തലക്കെട്ടിന് താഴെ വരുന്ന യഥാർത്ഥ വിവരങ്ങൾ */
-.person-card p span, 
-.person-info span {
-    display: block !important;
+/* വിവരങ്ങളുടെ (Value) സ്റ്റൈൽ */
+.person-card p span, .person-info span {
     color: #333 !important;
     font-weight: 700 !important;
-    font-size: 17px !important;
-    padding-left: 5px !important;
+    font-size: 16px !important;
+    display: inline-block !important;
 }
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
