@@ -221,33 +221,29 @@ header h3 {
 }
 
 /* ഓരോ വിവരവും (സ്ഥലം, സമയം) ഓരോ വരിയായി വരാൻ */
-.person-card p, .person-card div, .person-info p {
+/* ഓരോ വരിയും ക്രമീകരിക്കാൻ */
+.list-item p, .person-info p {
     display: flex !important;
-    flex-direction: row !important; /* ഹെഡിംഗും വിവരവും നേരെ വരാൻ */
-    align-items: center !important;
-    gap: 10px !important;
+    flex-direction: row !important; /* വരിയായി നിർത്താൻ */
+    align-items: flex-start !important;
     margin: 8px 0 !important;
-    width: 100% !important; /* ഇത് ഓരോ പി.ടാഗും മുഴുവൻ വരിയും എടുക്കാൻ സഹായിക്കും */
-    border-bottom: 1px solid #f0f0f0; /* വരികൾ തമ്മിൽ വേർതിരിക്കാൻ നേർത്ത വര */
-    padding-bottom: 5px;
+    width: 100% !important;
 }
 
-/* ഹെഡിംഗ് (Label) - ഇതിന് ഒരു നിശ്ചിത വീതി നൽകുക */
-.person-card p b, .person-card p strong, .person-info b {
-    min-width: 90px !important; /* എല്ലാ ഹെഡിംഗും ഒരേ വരിയിൽ തുടങ്ങാൻ */
-    color: var(--primary) !important;
-    font-size: 14px !important;
-    flex-shrink: 0 !important; /* ഹെഡിംഗ് ചുരുങ്ങിപ്പോകാതിരിക്കാൻ */
+/* തലക്കെട്ടുകൾ (Labels) ഒരേ വീതിയിൽ വരാൻ */
+.list-item p b, .person-info b {
+    min-width: 130px !important; /* ഇത് മാറ്റരുത്, എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം നൽകും */
+    color: #2e7d32 !important;
+    font-weight: 950 !important;
+    display: inline-block !important;
+    flex-shrink: 0 !important; /* ലേബൽ ചുരുങ്ങിപ്പോകാതിരിക്കാൻ */
 }
 
-/* യഥാർത്ഥ വിവരം (Value) */
-.person-card p span, .person-info span {
-    color: #333 !important;
-    font-weight: 700 !important;
-    font-size: 16px !important;
-    word-break: break-word !important; /* നീളമുള്ള പേരാണെങ്കിൽ മുറിഞ്ഞു താഴെ വരാൻ */
+/* വിവരങ്ങൾ (Values) ലേബലിന് തൊട്ടടുത്ത് വരാൻ */
+.list-item p span, .list-item p strong {
+    flex: 1 !important;
+    word-break: break-word !important; /* നീളമുള്ള വാക്കുകൾ താഴേക്ക് വരാൻ */
 }
-
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
 .blink-text {
