@@ -453,3 +453,37 @@ input[type="text"] {
     flex: 1 !important;
     text-align: center !important;
 }
+/* --- 9. ബാക്ക് ബട്ടൺ ഡിസൈൻ (ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്കായി) --- */
+/* എല്ലാ പേജുകളിലെയും ബാക്ക് ബട്ടൺ ശരിയാക്കാൻ */
+button[onclick*="back"], .back-btn-simple {
+    background: #006400 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    border-radius: 25px !important;
+    font-weight: 850 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    margin: 15px 10px !important;
+    cursor: pointer !important;
+}
+
+/* ബാക്ക് ആരോ ചിഹ്നം വരാൻ */
+button[onclick*="back"]::before {
+    content: '←' !important;
+    font-size: 18px !important;
+}
+/* എല്ലാ ബട്ടണുകളും ഒരേപോലെയാക്കാൻ */
+button, .back-btn-simple, .cancel-btn {
+    background: #006400 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 10px 22px !important;
+    border-radius: 25px !important;
+    font-weight: 850 !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    cursor: pointer !important;
+    margin: 10px !important;
+}
