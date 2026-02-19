@@ -236,12 +236,26 @@ header h3 {
     margin: 10px 0 !important;
 }
 
-.person-card p b, .person-card p strong, .person-info b, .person-card div b {
+/* വിവരങ്ങളുടെ തലക്കെട്ട് (ഉദാ: സ്ഥലം, സമയം) */
+.person-card p b, 
+.person-card p strong, 
+.person-info b, 
+.person-card div b {
     color: var(--primary) !important;
-    min-width: 115px !important; 
     font-weight: 950 !important;
-    display: inline-block !important;
-    flex-shrink: 0 !important;
+    display: block !important; /* വരിയുടെ തുടക്കത്തിൽ വരാൻ */
+    margin-bottom: 2px !important; /* താഴെയുള്ള വിവരവുമായി ചെറിയ വിടവ് */
+    font-size: 14px !important;
+}
+
+/* തലക്കെട്ടിന് താഴെ വരുന്ന യഥാർത്ഥ വിവരങ്ങൾ */
+.person-card p span, 
+.person-info span {
+    display: block !important;
+    color: #333 !important;
+    font-weight: 700 !important;
+    font-size: 17px !important;
+    padding-left: 5px !important;
 }
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
