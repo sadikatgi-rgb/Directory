@@ -200,11 +200,14 @@ header h3 {
 
 .list-item {
     background: #ffffff !important;
-    border-radius: 12px !important;
-    padding: 18px !important;
-    margin: 15px 10px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-    border-left: 8px solid var(--primary) !important;
+    border-radius: 20px !important; /* കാർഡ് വട്ടം തിരിക്കാൻ */
+    margin: 15px auto !important;
+    padding: 20px !important;
+    width: 90% !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; /* ഷാഡോ നൽകാൻ */
+    border-left: 10px solid #006400 !important; /* സൈഡിലെ പച്ച വര */
+    position: relative !important;
+    display: block !important;
 }
 
 .list-item h4 {
@@ -214,6 +217,13 @@ header h3 {
     margin-bottom: 12px !important;
     border-bottom: 1px solid #eee;
     padding-bottom: 5px;
+}
+
+
+.list-item hr {
+    border: 0 !important;
+    border-top: 1px solid #eee !important;
+    margin: 15px 0 !important;
 }
 
 .list-item p, .list-item div, .person-info p, .person-info small {
@@ -338,19 +348,20 @@ header h3 {
 }
 
 /* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
-
-/* കോൾ ബട്ടൺ */
+/* കോൾ ബട്ടൺ - പരിഷ്കരിച്ചത് */
 .call-btn-new {
-    background-color: var(--primary) !important;
+    background-color: #006400 !important; /* കടും പച്ച നിറം */
     color: white !important;
-    padding: 10px 28px !important;
+    padding: 12px 35px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     border-radius: 30px !important;
     text-decoration: none !important;
     font-weight: bold !important;
-    display: inline-flex !important;
-    margin-top: 15px !important; /* അകലം കൂട്ടി */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    display: table !important; /* സെന്റർ ആക്കാൻ ഏറ്റവും എളുപ്പവഴി */
+    margin: 20px auto !important; /* മുകളിലും താഴെയും ഗ്യാപ്പ് നൽകി നടുവിൽ നിർത്തും */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+    font-size: 16px !important;
 }
+
 
 
 /* വാട്സാപ്പ് ബട്ടൺ */
