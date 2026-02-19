@@ -333,33 +333,33 @@ header h3 {
     width: 80% !important;
     margin: 15px auto !important;
 }
-/* ബാക്ക് ബട്ടൺ മനോഹരമാക്കാൻ */
-.back-btn, button[onclick*="back"] {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1.5px solid #ffffff !important;
-    color: #ffffff !important;
-    padding: 8px 18px !important;
-    border-radius: 10px !important;
+/* ഹെഡറിന് ഉള്ളിലെ ബാക്ക് ബട്ടൺ (Arrow + Text) */
+header a[href*="javascript:history.back"], 
+header button[onclick*="back"],
+.nav-back {
+    background: transparent !important; /* ബോക്സ് ഒഴിവാക്കി */
+    color: #ffffff !important; /* വെളുത്ത നിറം */
+    border: none !important;
+    font-size: 17px !important;
     font-weight: 850 !important;
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    cursor: pointer !important;
+    gap: 5px !important;
     text-decoration: none !important;
+    position: absolute !important; /* ഹെഡറിൽ ഇടതുവശത്ത് ഉറപ്പിച്ചു നിർത്താൻ */
+    left: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
-/* ഹോം പേജിലെ ബാക്ക് ബട്ടൺ (ഗ്രീൻ സ്റ്റൈൽ) - ഇത് പൂർണ്ണമായി മാറ്റുക */
-.back-btn-home {
-    background: var(--primary) !important;
-    color: white !important;
-    border-radius: 30px !important;
-    padding: 10px 25px !important;
+/* ആരോ മാർക്ക് വലുപ്പത്തിൽ വരാൻ */
+header a[href*="javascript:history.back"]::before, 
+header button[onclick*="back"]::before {
+    content: '←' !important;
+    font-size: 24px !important;
     font-weight: bold !important;
-    text-decoration: none !important; /* ലിങ്കിന്റെ അടിവര മാറ്റാൻ */
-    display: inline-block !important; /* ബട്ടൺ കൃത്യമായ വലിപ്പത്തിൽ വരാൻ */
-    border: 2px solid #ffffff !important; /* ബോർഡർ നൽകാൻ */
-    margin-top: 15px !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
 }
 
 /* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
@@ -452,38 +452,4 @@ input[type="text"] {
     cursor: pointer !important;
     flex: 1 !important;
     text-align: center !important;
-}
-/* --- 9. ബാക്ക് ബട്ടൺ ഡിസൈൻ (ഉള്ളടക്കം, ആപ്പ് വിവരം പേജുകൾക്കായി) --- */
-/* എല്ലാ പേജുകളിലെയും ബാക്ക് ബട്ടൺ ശരിയാക്കാൻ */
-button[onclick*="back"], .back-btn-simple {
-    background: #006400 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 10px 22px !important;
-    border-radius: 25px !important;
-    font-weight: 850 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
-    margin: 15px 10px !important;
-    cursor: pointer !important;
-}
-
-/* ബാക്ക് ആരോ ചിഹ്നം വരാൻ */
-button[onclick*="back"]::before {
-    content: '←' !important;
-    font-size: 18px !important;
-}
-/* എല്ലാ ബട്ടണുകളും ഒരേപോലെയാക്കാൻ */
-button, .back-btn-simple, .cancel-btn {
-    background: #006400 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 10px 22px !important;
-    border-radius: 25px !important;
-    font-weight: 850 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
-    cursor: pointer !important;
-    margin: 10px !important;
 }
