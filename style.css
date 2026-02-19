@@ -220,32 +220,34 @@ header h3 {
     margin: 15px 0 !important;
 }
 
-/* വിവരങ്ങൾ ഓരോ വരിയിലും നേരെ വരാൻ */
+/* ഓരോ വിവരവും (സ്ഥലം, സമയം) ഓരോ വരിയായി വരാൻ */
 .person-card p, .person-card div, .person-info p {
     display: flex !important;
-    flex-direction: row !important; /* column മാറ്റി row ആക്കി */
-    align-items: flex-start !important; /* അലൈൻമെന്റ് ശരിയാക്കാൻ */
-    gap: 8px !important; 
-    margin: 10px 0 !important;
-    flex-wrap: nowrap !important; /* വരി താഴോട്ട് പോകാതിരിക്കാൻ */
+    flex-direction: row !important; /* ഹെഡിംഗും വിവരവും നേരെ വരാൻ */
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 8px 0 !important;
+    width: 100% !important; /* ഇത് ഓരോ പി.ടാഗും മുഴുവൻ വരിയും എടുക്കാൻ സഹായിക്കും */
+    border-bottom: 1px solid #f0f0f0; /* വരികൾ തമ്മിൽ വേർതിരിക്കാൻ നേർത്ത വര */
+    padding-bottom: 5px;
 }
 
-/* തലക്കെട്ടിന്റെ (Label) സ്റ്റൈൽ */
+/* ഹെഡിംഗ് (Label) - ഇതിന് ഒരു നിശ്ചിത വീതി നൽകുക */
 .person-card p b, .person-card p strong, .person-info b {
+    min-width: 90px !important; /* എല്ലാ ഹെഡിംഗും ഒരേ വരിയിൽ തുടങ്ങാൻ */
     color: var(--primary) !important;
-    min-width: 100px !important; /* എല്ലാ വരികളും ഒരേപോലെ വരാൻ ഇത് സഹായിക്കും */
-    display: inline-block !important;
-    flex-shrink: 0 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
+    flex-shrink: 0 !important; /* ഹെഡിംഗ് ചുരുങ്ങിപ്പോകാതിരിക്കാൻ */
 }
 
-/* വിവരങ്ങളുടെ (Value) സ്റ്റൈൽ */
+/* യഥാർത്ഥ വിവരം (Value) */
 .person-card p span, .person-info span {
     color: #333 !important;
     font-weight: 700 !important;
     font-size: 16px !important;
-    display: inline-block !important;
+    word-break: break-word !important; /* നീളമുള്ള പേരാണെങ്കിൽ മുറിഞ്ഞു താഴെ വരാൻ */
 }
+
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
 .blink-text {
