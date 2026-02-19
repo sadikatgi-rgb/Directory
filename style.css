@@ -313,6 +313,13 @@ input[type="text"] {
     font-size: 16px !important;
     background: #ffffff !important;
     height: auto !important; /* സെലക്ട് ബോക്സിന്റെ വലിപ്പം ശരിയാക്കാൻ ഇത് സഹായിക്കും */
+    font-weight: 800 !important; 
+    color: #000000 !important;
+}
+::placeholder {
+    font-weight: 800 !important; /* അക്ഷരങ്ങളുടെ കട്ടി */
+    color: #555555 !important; /* അല്പം കടും നിറം */
+    opacity: 1; 
 }
 
 .login-btn, .btn-main {
@@ -320,7 +327,7 @@ input[type="text"] {
     color: white !important;
     padding: 12px 30px !important;
     border-radius: 30px !important;
-    font-weight: bold !important;
+    font-weight: 900 !important;
     border: none !important;
     display: block !important;
     width: 80% !important;
