@@ -390,26 +390,52 @@ input[type="text"] {
     font-size: 16px !important;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
 }
+/* എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ ഒരു വരിയിൽ വരാൻ */
+.admin-btns {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+}
+
+.edit-btn, .delete-btn {
+    flex: 1 !important; /* രണ്ട് ബട്ടണും തുല്യ വലിപ്പത്തിൽ വരും */
+    text-align: center !important;
+    margin-right: 0 !important; /* പഴയ മാർജിൻ ഒഴിവാക്കാൻ */
+}
+
+/* എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ ഒരു വരിയിൽ വരാൻ */
+.admin-btns {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+}
 
 /* എഡിറ്റ് ബട്ടൺ */
-.edit-btn, button[onclick*="edit"] {
+.edit-btn {
     background: #2196F3 !important;
     color: white !important;
-    border-radius: 8px !important; /* അല്പം കൂടി വട്ടം */
-    padding: 8px 15px !important; /* വലിപ്പം കൂട്ടി */
+    border-radius: 8px !important;
+    padding: 10px !important; /* പാഡിംഗ് ഏകീകരിച്ചു */
     border: none !important;
     font-weight: 800 !important;
-    margin-right: 8px !important; /* ഡിലീറ്റ് ബട്ടണിൽ നിന്നുള്ള അകലം */
     cursor: pointer !important;
+    flex: 1 !important; /* രണ്ട് ബട്ടണും തുല്യ വലിപ്പമാകാൻ */
+    text-align: center !important;
 }
 
 /* ഡിലീറ്റ് ബട്ടൺ */
-.delete-btn, button[onclick*="delete"] {
+.delete-btn {
     background: #f44336 !important;
     color: white !important;
     border-radius: 8px !important;
-    padding: 8px 15px !important;
+    padding: 10px !important;
     border: none !important;
     font-weight: 800 !important;
     cursor: pointer !important;
+    flex: 1 !important;
+    text-align: center !important;
 }
