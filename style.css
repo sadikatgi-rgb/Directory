@@ -41,6 +41,8 @@ header {
 header h3 {
     color: #ffffff !important; 
     font-size: 20px !important;
+    width: 100%;
+    text-align: center;
     font-weight: 900 !important;
     margin: 0 auto !important; /* അക്ഷരങ്ങൾ നടുവിൽ വരാൻ */
     display: block !important;
@@ -218,7 +220,7 @@ header h3 {
 /* വിവരങ്ങൾ ക്രമീകരിക്കാൻ */
 .person-card p, .person-card div, .person-info p, .person-info small {
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     flex-wrap: nowrap !important; 
     align-items: flex-start !important;
     gap: 10px !important; 
