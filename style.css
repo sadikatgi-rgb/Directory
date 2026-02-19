@@ -198,35 +198,36 @@ header h3 {
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
 
-.list-item {
+/* .list-item എന്നത് മാറ്റി .person-card എന്നാക്കി */
+.person-card {
     background: #ffffff !important;
-    border-radius: 20px !important; /* കാർഡ് വട്ടം തിരിക്കാൻ */
+    border-radius: 20px !important;
     margin: 15px auto !important;
     padding: 20px !important;
     width: 90% !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; /* ഷാഡോ നൽകാൻ */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
     border-left: 10px solid #006400 !important; /* സൈഡിലെ പച്ച വര */
     position: relative !important;
     display: block !important;
 }
 
-.list-item h4 {
+/* പേര് വരുന്ന ഭാഗം (JS-ൽ ഇത് strong ടാഗിലാണ് ഉള്ളത്) */
+.person-card strong {
     font-weight: 950 !important;
     color: var(--primary) !important;
     font-size: 18px !important;
     margin-bottom: 12px !important;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
+    display: block !important;
 }
 
-
-.list-item hr {
+.person-card hr {
     border: 0 !important;
     border-top: 1px solid #eee !important;
     margin: 15px 0 !important;
 }
 
-.list-item p, .list-item div, .person-info p, .person-info small {
+/* വിവരങ്ങൾ ക്രമീകരിക്കാൻ */
+.person-card p, .person-card div, .person-info p, .person-info small {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important; 
@@ -235,7 +236,7 @@ header h3 {
     margin: 10px 0 !important;
 }
 
-.list-item p b, .list-item p strong, .person-info b, .list-item div b {
+.person-card p b, .person-card p strong, .person-info b, .person-card div b {
     color: var(--primary) !important;
     min-width: 115px !important; 
     font-weight: 950 !important;
