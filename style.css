@@ -297,16 +297,22 @@ header h3 {
 .hidden { display: none !important; }
 
 /* ലോഗിൻ & ഫോം സെറ്റിംഗ്സ് */
-/* പഴയ വരിക്ക് പകരം താഴെ കാണുന്ന വരി നൽകുക */
-#admin-fields input, #admin-fields select, #admin-fields textarea, .form-box input, input[type="text"] {
+/* പഴയ വരിക്ക് പകരം ഈ കോഡ് മുഴുവനായി നൽകുക */
+#admin-fields input, 
+#admin-fields select, 
+#admin-fields textarea, 
+.form-box input, 
+.form-box select, 
+input[type="text"] {
     width: 90% !important;
     padding: 12px !important;
-    margin: 15px auto !important; /* അല്പം വിടവ് നൽകി */
+    margin: 15px auto !important; 
     border: 1.5px solid var(--primary) !important;
     border-radius: 8px !important;
     display: block !important;
     font-size: 16px !important;
     background: #ffffff !important;
+    height: auto !important; /* സെലക്ട് ബോക്സിന്റെ വലിപ്പം ശരിയാക്കാൻ ഇത് സഹായിക്കും */
 }
 
 .login-btn, .btn-main {
@@ -420,4 +426,28 @@ header button[onclick*="back"]::before {
     cursor: pointer !important;
     flex: 1 !important;
     text-align: center !important;
+}
+/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ */
+.announcement-card {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    margin: 15px auto !important;
+    padding: 20px !important;
+    width: 90% !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    
+    /* അറിയിപ്പിന് വേണ്ടിയുള്ള ചുവന്ന വര */
+    border-left: 10px solid #ff4444 !important; 
+    
+    position: relative !important;
+    display: block !important;
+}
+
+/* അറിയിപ്പിലെ തലക്കെട്ട് ചുവപ്പ് നിറത്തിൽ വരാൻ */
+.announcement-title {
+    font-weight: 950 !important;
+    color: #b71c1c !important; /* കടും ചുവപ്പ് */
+    font-size: 18px !important;
+    margin-bottom: 12px !important;
+    display: block !important;
 }
