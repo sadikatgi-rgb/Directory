@@ -157,7 +157,20 @@ window.openCategory = async (catId, catName) => {
             if (catId === 'announcements') {
                 displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else if (catId === 'admins') {
-                displayHTML = `<div class="person-card"><div class="person-info"><strong><i class="fas fa-user-shield"></i> ${d.name}</strong><small>${d.phone}</small><small>${d.place || ""}</small></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new">കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+    displayHTML = `
+    <div class="person-card">
+        <div class="person-info">
+            <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
+            <p><i class="fas fa-phone-alt"></i> ${d.phone}</p>
+            <p><i class="fas fa-map-marker-alt" style="color: #d32f2f;"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
+        </div>
+        <div class="call-section">
+            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
+        </div>
+        ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
+    </div>`;
+                
             } else {
                 let extraInfo = "";
                 for (let key in d) {
