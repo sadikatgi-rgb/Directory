@@ -221,28 +221,38 @@ header h3 {
 }
 
 /* ഓരോ വിവരവും (സ്ഥലം, സമയം) ഓരോ വരിയായി വരാൻ */
-/* ഓരോ വരിയും ക്രമീകരിക്കാൻ */
+/* ഓരോ വരിയും (ഫോണ്ട് വലിപ്പവും വിടവും കൂട്ടി) */
 .list-item p, .person-info p {
     display: flex !important;
-    flex-direction: row !important; /* വരിയായി നിർത്താൻ */
-    align-items: flex-start !important;
-    margin: 8px 0 !important;
+    flex-direction: row !important;
+    align-items: center !important; 
+    margin: 14px 0 !important; /* വരികൾ തമ്മിലുള്ള അകലം കൂട്ടി */
     width: 100% !important;
+    font-size: 18px !important; /* അക്ഷരങ്ങൾ വലുതാക്കി */
 }
 
-/* തലക്കെട്ടുകൾ (Labels) ഒരേ വീതിയിൽ വരാൻ */
+/* ഐക്കണുകൾക്ക് വിടവ് നൽകാൻ */
+.list-item p i, .person-info p i, .list-item p img, .person-info p img {
+    margin-right: 18px !important; /* ഐക്കണിന് ശേഷം കൂടുതൽ വിടവ് */
+    font-size: 22px !important; /* ഐക്കൺ അല്പം കൂടി വലുതാക്കി */
+    flex-shrink: 0 !important;
+}
+
+/* ലേബലുകൾ (Labels) കട്ടിയാക്കാൻ */
 .list-item p b, .person-info b {
-    min-width: 130px !important; /* ഇത് മാറ്റരുത്, എല്ലാ ലേബലുകൾക്കും ഒരേ അകലം നൽകും */
+    min-width: 145px !important; /* ലേബലുകൾക്ക് ഒരേ വീതി */
     color: #2e7d32 !important;
     font-weight: 950 !important;
     display: inline-block !important;
-    flex-shrink: 0 !important; /* ലേബൽ ചുരുങ്ങിപ്പോകാതിരിക്കാൻ */
+    flex-shrink: 0 !important;
 }
 
-/* വിവരങ്ങൾ (Values) ലേബലിന് തൊട്ടടുത്ത് വരാൻ */
+/* വിവരങ്ങൾ (Values) */
 .list-item p span, .list-item p strong {
     flex: 1 !important;
-    word-break: break-word !important; /* നീളമുള്ള വാക്കുകൾ താഴേക്ക് വരാൻ */
+    font-weight: 800 !important;
+    color: #000000 !important; /* നല്ല കറുപ്പ് നിറം */
+    word-break: break-word !important;
 }
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
