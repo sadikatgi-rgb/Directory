@@ -22,7 +22,7 @@ body, html {
 
 /* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
 header {
-    background-color: #ffffff !important; /* വെള്ള നിറം */
+    background-color: #006400 !important; /* വെള്ള നിറം */
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
