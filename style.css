@@ -39,7 +39,7 @@ header {
 }
 
 header h3 {
-    color: #ffffff !important;/* 
+    color: #ffffff !important;
     font-size: 22px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     width: 100%;
     text-align: center;
@@ -481,11 +481,17 @@ header button[onclick*="back"]::before {
     color: #000000 !important;
 }
 /* അഡ്മിൻ കാർഡിലെ പേരും നമ്പറും നാടും വേർതിരിക്കാൻ */
+/* പഴയതിന് പകരം ഇത് നൽകി നോക്കുക */
 .admin-card p {
-    display: flex !important;
-    flex-direction: column !important; /* വരികൾ താഴെ താഴെ വരാൻ */
-    align-items: flex-start !important;
-    gap: 8px !important;
+    display: block !important; /* ഫ്ലെക്സ് മാറ്റി ബ്ലോക്ക് ആക്കി */
+    margin: 10px 0 !important;
+    line-height: 1.6 !important;
 }
 
-
+/* ഉള്ളിലെ നമ്പറും നാടും താഴെ താഴെ വരാൻ */
+.admin-card p span, 
+.admin-card p strong,
+.admin-card p b {
+    display: block !important; 
+    margin-bottom: 5px !important;
+}
