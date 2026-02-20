@@ -39,7 +39,7 @@ header {
 }
 
 header h3 {
-    color: #006400 !important; /* കടും പച്ച */
+    color: #ffffff !important;/* 
     font-size: 22px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     width: 100%;
     text-align: center;
@@ -55,7 +55,7 @@ header h3 {
 .menu-icon, header a[href*="javascript:history.back"] {
     position: absolute !important;
     left: 15px !important;
-    color: #006400 !important; 
+    color: #ffffff !important;
     font-size: 26px !important; /* ഐക്കൺ വലിപ്പം കൂട്ടി */
     z-index: 10005 !important;
     cursor: pointer !important;
@@ -480,3 +480,12 @@ header button[onclick*="back"]::before {
     line-height: 1.7 !important;
     color: #000000 !important;
 }
+/* അഡ്മിൻ കാർഡിലെ പേരും നമ്പറും നാടും വേർതിരിക്കാൻ */
+.admin-card p {
+    display: flex !important;
+    flex-direction: column !important; /* വരികൾ താഴെ താഴെ വരാൻ */
+    align-items: flex-start !important;
+    gap: 8px !important;
+}
+
+
