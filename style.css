@@ -193,7 +193,7 @@ header h3 {
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
 
-/* .list-item എന്നത് മാറ്റി .person-card എന്നാക്കി */
+/* അഡ്മിൻ/പേഴ്സൺ കാർഡുകൾക്കുള്ള കംപ്ലീറ്റ് സ്റ്റൈൽ */
 .person-card {
     background: #ffffff !important;
     border-radius: 20px !important;
@@ -206,19 +206,42 @@ header h3 {
     display: block !important;
 }
 
-/* പേര് വരുന്ന ഭാഗം (JS-ൽ ഇത് strong ടാഗിലാണ് ഉള്ളത്) */
-.person-card strong {
-    font-weight: 950 !important;
-    color: var(--primary) !important;
-    font-size: 18px !important;
-    margin-bottom: 12px !important;
-    display: block !important;
+/* 1. കാർഡിനുള്ളിലെ വിവരങ്ങൾ താഴെ താഴെ വരാൻ (പേര്, നമ്പർ, സ്ഥലം) */
+.person-card .person-info strong, 
+.person-card .person-info p, 
+.person-card .person-info small {
+    display: block !important; /* നമ്പറും നാടും നിർബന്ധമായും താഴെ വരും */
+    margin: 8px 0 !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+    text-align: left !important;
 }
 
-.person-card hr {
-    border: 0 !important;
-    border-top: 1px solid #eee !important;
-    margin: 15px 0 !important;
+/* 2. പേര് വരുന്ന ഭാഗം (Strong Tag) */
+.person-card .person-info strong {
+    font-weight: 950 !important;
+    color: #004d00 !important; /* കടും പച്ച നിറം */
+    font-size: 20px !important;
+}
+
+/* 3. കാർഡിലെ കോൾ, ചാറ്റ് ബട്ടണുകൾ ഒരേ നിരയിൽ വരാൻ */
+.call-section {
+    display: flex !important;
+    gap: 12px !important;
+    margin-top: 15px !important;
+    justify-content: space-between !important;
+}
+
+.call-btn-new, .whatsapp-btn-new {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 12px !important;
+    border-radius: 30px !important;
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 /* ഓരോ വിവരവും (സ്ഥലം, സമയം) ഓരോ വരിയായി വരാൻ */
@@ -479,19 +502,4 @@ header button[onclick*="back"]::before {
     font-weight: 800 !important;
     line-height: 1.7 !important;
     color: #000000 !important;
-}
-/* അഡ്മിൻ കാർഡിലെ പേരും നമ്പറും നാടും വേർതിരിക്കാൻ */
-/* പഴയതിന് പകരം ഇത് നൽകി നോക്കുക */
-.admin-card p {
-    display: block !important; /* ഫ്ലെക്സ് മാറ്റി ബ്ലോക്ക് ആക്കി */
-    margin: 10px 0 !important;
-    line-height: 1.6 !important;
-}
-
-/* ഉള്ളിലെ നമ്പറും നാടും താഴെ താഴെ വരാൻ */
-.admin-card p span, 
-.admin-card p strong,
-.admin-card p b {
-    display: block !important; 
-    margin-bottom: 5px !important;
 }
