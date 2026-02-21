@@ -269,7 +269,7 @@ header h3 {
 /* ലേബലുകൾ (Labels) - ഒരേ വീതിയും കട്ടിയും */
 .list-item p b, .person-info b {
     min-width: 100px !important;
-    max-width: 100px !important;
+    max-width: 130px !important;
     color: #2e7d32 !important;
     font-weight: 950 !important;
     display: inline-block !important;
