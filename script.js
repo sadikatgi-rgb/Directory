@@ -249,7 +249,7 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     try {
         await updateDoc(doc(db, catId, docId), newData);
         alert("വിവരങ്ങൾ പുതുക്കി!");
-        openCategory(catId, document.getElementById('current-cat-title').innerText);
+        openCategory(catId, document.getElementById('main-header-title').innerText);
     } catch (e) { alert("Error updating!"); }
 };
 
@@ -259,7 +259,7 @@ window.deleteEntry = async (catId, docId) => {
         try {
             await deleteDoc(doc(db, catId, docId));
             alert("നീക്കം ചെയ്തു!");
-            openCategory(catId, document.getElementById('current-cat-title').innerText); 
+            openCategory(catId, document.getElementById('main-header-title').innerText);
         } catch (e) { alert("Error!"); }
     }
 };
