@@ -114,7 +114,6 @@ header button[onclick*="back"],
     100% { transform: translateX(-50%); }
 }
 
-
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
     position: fixed !important; 
@@ -446,8 +445,6 @@ header button[onclick*="back"]::before,
     box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
     font-size: 16px !important;
 }
-
-
 
 /* വാട്സാപ്പ് ബട്ടൺ */
 .whatsapp-btn-new {
