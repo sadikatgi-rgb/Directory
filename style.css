@@ -10,7 +10,9 @@
 * { box-sizing: border-box; }
 
 body, html { 
-    font-family: 'Manjari', sans-serif; 
+    font-family: 'Manjari', sans-serif;
+    letter-spacing: 0.2px;
+    line-height: 1.6;
     margin: 0 !important; padding: 0 !important;
     background: var(--bg); 
     color: var(--text);
@@ -104,6 +106,7 @@ header button[onclick*="back"],
     font-weight: 950 !important;
     font-size: 19px !important;
     color: #b71c1c !important;
+    text-shadow: 0.5px 0.5px 0px rgba(0,0,0,0.1);
     white-space: nowrap !important;
     padding-right: 50px !important; /* സ്പാൻ തമ്മിലുള്ള അകലം */
 }
@@ -197,9 +200,31 @@ header button[onclick*="back"],
     text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
     border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;
 }
-
+.card:active {
+    transform: scale(0.95); /* ക്ലിക്ക് ചെയ്യുമ്പോൾ അല്പം ചെറുതാകും */
+    transition: 0.1s;
+    background-color: #f0f0f0;
+}
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
+/* സെർച്ച് ബാർ മാത്രം സ്പെഷ്യൽ ആയി കാണാൻ */
+#search-input {
+    width: 95% !important;
+    padding: 12px 20px !important;
+    margin: 10px auto !important;
+    border-radius: 25px !important; /* ക്യാപ്സ്യൂൾ ആകൃതി */
+    border: 2px solid #006400 !important; /* പച്ച ബോർഡർ */
+    display: block !important;
+    font-weight: 800 !important;
+    font-family: 'Manjari', sans-serif;
+    outline: none !important;
+}
+
+#search-input::placeholder {
+    color: #888 !important;
+    font-weight: 500 !important;
+}
+
 
 /* അഡ്മിൻ/പേഴ്സൺ കാർഡുകൾക്കുള്ള കംപ്ലീറ്റ് സ്റ്റൈൽ */
 .person-card {
@@ -240,6 +265,7 @@ header button[onclick*="back"],
     justify-content: space-between !important;
 }
 
+/* നിലവിലുള്ള ഈ ഭാഗം മാറ്റേണ്ടതില്ല */
 .call-btn-new, .whatsapp-btn-new {
     flex: 1 !important;
     text-align: center !important;
@@ -250,6 +276,13 @@ header button[onclick*="back"],
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important; /* ചെറിയ ഷാഡോ */
+    transition: transform 0.2s; /* അമർത്തുമ്പോൾ ഉള്ള മാറ്റത്തിന് */
+}
+
+/* അമർത്തുമ്പോൾ ഉള്ള ഇഫക്റ്റ് */
+.call-btn-new:active, .whatsapp-btn-new:active {
+    transform: scale(0.95) !important;
 }
 
 /* ഓരോ വിവരവും (സ്ഥലം, സമയം) ഓരോ വരിയായി വരാൻ */
