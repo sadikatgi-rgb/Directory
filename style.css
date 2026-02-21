@@ -38,30 +38,39 @@ header {
     border-bottom: none !important;
 }
 
-header h3 {
+header h3, #current-cat-title {
     color: #ffffff !important;
-    font-size: 22px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
+    font-size: 22px !important;
     width: 100%;
     text-align: center;
-    font-weight: 950 !important; /* നല്ല കട്ടി */
+    font-weight: 950 !important;
     margin: 0 !important;
     display: block !important;
     z-index: 10001 !important; 
     position: relative !important;
-    /* വെള്ള ബാക്ക്ഗ്രൗണ്ട് ആയതുകൊണ്ട് ഷാഡോ ഒഴിവാക്കി, അല്ലെങ്കിൽ വൃത്തികേടാകും */
-    pointer-events: none !important; /* മെനു ക്ലിക്ക് തടസ്സപ്പെടാതിരിക്കാൻ ഇത് നിർബന്ധമാണ് */
+    pointer-events: none !important;
 }
 
-.menu-icon, header a[href*="javascript:history.back"] {
+/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരുപോലെ വെള്ളയാക്കാൻ */
+.menu-icon, 
+header a[href*="javascript:history.back"], 
+header button[onclick*="back"],
+.nav-back,
+.back-btn {
     position: absolute !important;
     left: 15px !important;
-    color: #ffffff !important;
-    font-size: 26px !important; /* ഐക്കൺ വലിപ്പം കൂട്ടി */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #ffffff !important; /* ഇവിടെ വെള്ള നിറം ഉറപ്പിച്ചു */
+    font-size: 24px !important; 
     z-index: 10005 !important;
     cursor: pointer !important;
-    padding: 5px !important;
-    font-weight: 900 !important;
     text-decoration: none !important;
+    background: transparent !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
 }
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
@@ -390,11 +399,13 @@ button[onclick*="hide"], .cancel-btn {
 }
 
 /* ഹെഡറിന് ഉള്ളിലെ ബാക്ക് ബട്ടൺ (Arrow + Text) */
+/* ബാക്ക് ബട്ടൺ ബോക്സ് ഒഴിവാക്കി അലൈൻമെന്റ് ശരിയാക്കാൻ */
 header a[href*="javascript:history.back"], 
 header button[onclick*="back"],
-.nav-back {
-    background: transparent !important; /* ബോക്സ് ഒഴിവാക്കി */
-    color: #ffffff !important; /* വെളുത്ത നിറം */
+.nav-back, 
+.back-btn {
+    background: transparent !important;
+    color: #ffffff !important;
     border: none !important;
     font-size: 17px !important;
     font-weight: 850 !important;
@@ -402,7 +413,7 @@ header button[onclick*="back"],
     align-items: center !important;
     gap: 5px !important;
     text-decoration: none !important;
-    position: absolute !important; /* ഹെഡറിൽ ഇടതുവശത്ത് ഉറപ്പിച്ചു നിർത്താൻ */
+    position: absolute !important;
     left: 15px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
@@ -410,12 +421,15 @@ header button[onclick*="back"],
     padding: 0 !important;
 }
 
-/* ആരോ മാർക്ക് വലുപ്പത്തിൽ വരാൻ */
+/* ബാക്ക് ആരോ സ്റ്റൈൽ - വലിപ്പവും നിറവും */
 header a[href*="javascript:history.back"]::before, 
-header button[onclick*="back"]::before {
+header button[onclick*="back"]::before,
+.back-btn::before {
     content: '←' !important;
-    font-size: 24px !important;
+    font-size: 26px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     font-weight: bold !important;
+    color: #ffffff !important; /* നിറം വെള്ളയായി ഉറപ്പിച്ചു */
+    margin-right: 5px;
 }
 
 /* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
