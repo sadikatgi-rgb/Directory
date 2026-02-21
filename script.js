@@ -107,6 +107,12 @@ window.showHome = () => {
     hideAll();
     const home = document.getElementById('home-screen');
     if(home) home.classList.remove('hidden');
+    
+    // ഹെഡർ പഴയപടിയാക്കാൻ (പുതിയ വരികൾ)
+    document.getElementById('main-menu-icon').style.display = 'block';
+    document.getElementById('header-back-btn').classList.add('hidden');
+    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
+
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -124,16 +130,16 @@ window.toggleMenu = () => {
 window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
-    document.getElementById('current-cat-title').innerText = catName;
+    
+    // പഴയ current-cat-title വരിക്ക് പകരം ഈ 3 വരികൾ ഉറപ്പാക്കുക
+    document.getElementById('main-menu-icon').style.display = 'none';
+    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = catName;
+
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
-
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        searchInput.style.display = (catId === 'admins' || catId === 'announcements') ? 'none' : 'block';
-        searchInput.value = ""; 
-    }
-
+    
+    // ബാക്കി സെർച്ച് ഇൻപുട്ട് കോഡുകൾ...
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
         const querySnapshot = await getDocs(q);
@@ -305,12 +311,15 @@ window.showContentPage = () => {
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
-
 window.showAboutApp = () => { 
     hideAll(); 
     document.getElementById('about-app-screen').classList.remove('hidden'); 
     
-    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    // ഹെഡർ മാറ്റാൻ
+    document.getElementById('main-menu-icon').style.display = 'none';
+    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
+
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
@@ -319,7 +328,11 @@ window.showLeaders = () => {
     hideAll(); 
     document.getElementById('leaders-screen').classList.remove('hidden'); 
     
-    // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
+    // ഹെഡർ മാറ്റാൻ
+    document.getElementById('main-menu-icon').style.display = 'none';
+    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = "Leaders";
+
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
