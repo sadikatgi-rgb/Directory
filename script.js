@@ -307,10 +307,16 @@ window.showContentPage = () => {
     hideAll(); 
     document.getElementById('content-info-screen').classList.remove('hidden'); 
     
+    // ഹെഡർ മാറ്റാൻ (ഈ 3 വരികൾ പുതുതായി ചേർക്കുന്നു)
+    document.getElementById('main-menu-icon').style.display = 'none';
+    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
+    
     // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
+
 window.showAboutApp = () => { 
     hideAll(); 
     document.getElementById('about-app-screen').classList.remove('hidden'); 
