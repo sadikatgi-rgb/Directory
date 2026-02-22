@@ -288,7 +288,6 @@ window.showAdminLogin = () => {
     if(overlay) overlay.style.display = 'none';
 };
 
-
 window.handleLogin = async () => {
     const id = document.getElementById('admin-email').value.trim();
     const pass = document.getElementById('admin-password').value;
