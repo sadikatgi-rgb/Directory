@@ -477,21 +477,21 @@ header button[onclick*="back"]::before,
 .call-btn-new {
     background-color: #006400 !important; /* കടും പച്ച നിറം */
     color: white !important;
-    padding: 12px 35px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
+    padding: 7px 20px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     border-radius: 30px !important;
     text-decoration: none !important;
     font-weight: bold !important;
     display: table !important; /* സെന്റർ ആക്കാൻ ഏറ്റവും എളുപ്പവഴി */
-    margin: 20px auto !important; /* മുകളിലും താഴെയും ഗ്യാപ്പ് നൽകി നടുവിൽ നിർത്തും */
+    margin: 10px auto !important; /* മുകളിലും താഴെയും ഗ്യാപ്പ് നൽകി നടുവിൽ നിർത്തും */
     box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
 /* വാട്സാപ്പ് ബട്ടൺ */
 .whatsapp-btn-new {
     background-color: #25D366 !important;
     color: white !important;
-    padding: 10px 25px !important;
+    padding: 6px 15px !important;
     border-radius: 30px !important;
     text-decoration: none !important;
     font-weight: bold !important;
@@ -499,6 +499,7 @@ header button[onclick*="back"]::before,
     align-items: center !important;
     justify-content: center !important;
     margin-left: 10px !important;
+    font-size: 13px !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
 }
 
