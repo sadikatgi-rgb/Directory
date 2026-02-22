@@ -108,11 +108,12 @@ window.showHome = () => {
     const home = document.getElementById('home-screen');
     if(home) home.classList.remove('hidden');
     
-    // ഹെഡർ പഴയപടിയാക്കാൻ (പുതിയ വരികൾ)
-    document.getElementById('main-menu-icon').style.display = 'block';
-    document.getElementById('header-back-btn').classList.add('hidden');
+    // ഹെഡർ മാറ്റങ്ങൾ - ഇതാണ് ശ്രദ്ധിക്കേണ്ട ഭാഗം
+    document.getElementById('header-back-btn').style.display = 'none'; // ബാക്ക് ബട്ടൺ മറയ്ക്കുന്നു
+    document.getElementById('main-menu-icon').style.display = 'block'; // മെനു കാണിക്കുന്നു
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
 
+    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യാൻ
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
@@ -131,15 +132,15 @@ window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
     
-    // പഴയ current-cat-title വരിക്ക് പകരം ഈ 3 വരികൾ ഉറപ്പാക്കുക
-    document.getElementById('main-menu-icon').style.display = 'none';
-    document.getElementById('header-back-btn').classList.remove('hidden');
+    // ഹെഡർ മാറ്റങ്ങൾ
+    document.getElementById('main-menu-icon').style.display = 'none';  
+    document.getElementById('header-back-btn').style.display = 'block'; 
     document.getElementById('main-header-title').innerText = catName;
-
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
     
-    // ബാക്കി സെർച്ച് ഇൻപുട്ട് കോഡുകൾ...
+    // ... പിന്നീട് വരുന്ന Firebase ഡാറ്റ ലോഡിംഗ് കോഡുകൾ ...
+}
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
         const querySnapshot = await getDocs(q);
@@ -307,9 +308,9 @@ window.showContentPage = () => {
     hideAll(); 
     document.getElementById('content-info-screen').classList.remove('hidden'); 
     
-    // ഹെഡർ മാറ്റാൻ (ഈ 3 വരികൾ പുതുതായി ചേർക്കുന്നു)
-    document.getElementById('main-menu-icon').style.display = 'none';
-    document.getElementById('header-back-btn').classList.remove('hidden');
+    // ഹെഡർ മാറ്റാൻ
+    document.getElementById('main-menu-icon').style.display = 'none'; // മെനു ഒളിപ്പിക്കുന്നു
+    document.getElementById('header-back-btn').style.display = 'block'; // ബാക്ക് ബട്ടൺ കാണിക്കുന്നു (ഇവിടെയാണ് മാറ്റം)
     document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
     
     // സൈഡ് ബാർ ക്ലോസ് ചെയ്യാൻ
@@ -321,9 +322,9 @@ window.showAboutApp = () => {
     hideAll(); 
     document.getElementById('about-app-screen').classList.remove('hidden'); 
     
-    // ഹെഡർ മാറ്റാൻ
+    // ഹെഡർ മാറ്റാൻ (കൂടുതൽ വ്യക്തതയ്ക്ക് style.display ഉപയോഗിക്കുന്നു)
     document.getElementById('main-menu-icon').style.display = 'none';
-    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('header-back-btn').style.display = 'block'; // മാറ്റം ഇവിടെ
     document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
 
     document.getElementById('sidebar').classList.remove('active');
@@ -336,12 +337,13 @@ window.showLeaders = () => {
     
     // ഹെഡർ മാറ്റാൻ
     document.getElementById('main-menu-icon').style.display = 'none';
-    document.getElementById('header-back-btn').classList.remove('hidden');
+    document.getElementById('header-back-btn').style.display = 'block'; // മാറ്റം ഇവിടെ
     document.getElementById('main-header-title').innerText = "Leaders";
 
     document.getElementById('sidebar').classList.remove('active');
     document.getElementById('overlay').style.display = 'none';
 };
+
 
 // --- വാട്‌സാപ്പ് ---
 window.goToWhatsApp = function(phoneNumber) {
