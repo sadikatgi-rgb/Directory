@@ -53,8 +53,7 @@ header h3 {
 }
 
 /* --- 3. മെനു & ബാക്ക് ബട്ടൺ (ഒരേ സ്ഥാനത്ത് വരാൻ) --- */
-/* പഴയ .menu-icon, .back-btn എന്നിവ മാറ്റിയ ശേഷം ഇത് നൽകുക */
-/* ഹെഡർ ഐക്കൺ ഡിസൈൻ */
+/* പഴയ header span, .menu-icon, .back-btn എന്നിവ പൂർണ്ണമായും ഒഴിവാക്കി ഇത് മാത്രം നൽകുക */
 .menu-icon, .back-btn {
     position: absolute !important;
     left: 15px !important;
@@ -67,14 +66,17 @@ header h3 {
     justify-content: center !important;
     z-index: 10005 !important;
     color: #ffffff !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
 }
 
-/* ഹോം സ്ക്രീനിൽ ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കാൻ */
+/* ഹോം സ്ക്രീൻ ലോഡാകുമ്പോൾ ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കാൻ */
 #home-screen:not(.hidden) ~ header #header-back-btn {
     display: none !important;
 }
 
-/* മറ്റ് സ്ക്രീനുകളിൽ മെനു ഒളിപ്പിക്കാൻ */
+/* ഹോം സ്ക്രീൻ അല്ലാത്തപ്പോൾ മെനു ഐക്കൺ ഒളിപ്പിക്കാൻ */
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
