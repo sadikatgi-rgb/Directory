@@ -238,7 +238,7 @@ header h1 {
     font-weight: 500 !important;
 }
 
-/* പഴയ കാർഡ് സ്റ്റൈലുകൾ മാറ്റി ഇത് നൽകുക */
+/* പഴയ .person-card ലും .person-info ലും ഉള്ള flex ഒഴിവാക്കി ഇത് നൽകുക */
 .person-card {
     background: #ffffff !important;
     border-radius: 20px !important;
@@ -247,33 +247,21 @@ header h1 {
     width: 90% !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
     border-left: 10px solid #006400 !important;
-    position: relative !important;
-    display: block !important; /* വിവരങ്ങൾ താഴെ താഴെ വരാൻ നിർബന്ധമായും block വേണം */
+    display: block !important; /* flex മാറ്റി block ആക്കി */
+    text-align: left !important;
 }
 
-/* കാർഡിനുള്ളിലെ ഓരോ വരിയും (പേര്, ഫോൺ, സ്ഥലം) താഴെ താഴെ വരാൻ */
-.person-info, 
+.person-info {
+    display: block !important;
+    width: 100% !important;
+}
+
 .person-info strong, 
 .person-info p, 
 .person-info div {
-    display: block !important;
+    display: block !important; /* ഓരോ വരിയും താഴെ വരാൻ */
+    margin: 10px 0 !important;
     width: 100% !important;
-    text-align: left !important;
-    margin: 8px 0 !important;
-}
-
-/* പേര് കൂടുതൽ വ്യക്തമാകാൻ */
-.person-info strong {
-    font-weight: 950 !important;
-    color: #004d00 !important;
-    font-size: 20px !important;
-}
-
-/* ഫോൺ നമ്പറും സ്ഥലവും സ്റ്റൈൽ ചെയ്യാൻ */
-.person-info p {
-    font-size: 16px !important;
-    color: #333 !important;
-    font-weight: 600 !important;
 }
 
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
