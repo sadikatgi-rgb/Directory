@@ -102,18 +102,17 @@ function hideAll() {
         if(el) el.classList.add('hidden');
     });
 }
-
 window.showHome = () => {
-    hideAll();
+    hideAll(); // മറ്റ് സ്ക്രീനുകൾ മറയ്ക്കുന്നു
     const home = document.getElementById('home-screen');
     if(home) home.classList.remove('hidden');
     
-    // ഹെഡർ മാറ്റങ്ങൾ - ഇതാണ് ശ്രദ്ധിക്കേണ്ട ഭാഗം
-    document.getElementById('header-back-btn').style.display = 'none'; // ബാക്ക് ബട്ടൺ മറയ്ക്കുന്നു
+    // ഹെഡർ ഐക്കണുകൾ ക്രമീകരിക്കുന്നു
+    document.getElementById('header-back-btn').style.display = 'none'; // ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കുന്നു
     document.getElementById('main-menu-icon').style.display = 'block'; // മെനു കാണിക്കുന്നു
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
 
-    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യാൻ
+    // സൈഡ്ബാർ ലേഔട്ട് ശരിയാക്കാൻ ഇവ കൂടി വേണം
     const sidebar = document.getElementById('sidebar');
     if(sidebar) sidebar.classList.remove('active');
     const overlay = document.getElementById('overlay');
