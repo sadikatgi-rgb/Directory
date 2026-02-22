@@ -123,6 +123,7 @@ window.showHome = () => {
     // ശ്രദ്ധിക്കുക: ഐക്കണുകളെ CSS തന്നെ നിയന്ത്രിച്ചുകൊള്ളും
 };
 
+
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
