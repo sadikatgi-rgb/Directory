@@ -136,10 +136,16 @@ window.openCategory = async (catId, catName) => {
     hideAll();
     document.getElementById('list-screen').classList.remove('hidden');
     
-    // ഹെഡർ മാറ്റങ്ങൾ
-    document.getElementById('main-menu-icon').style.display = 'none';  
-    document.getElementById('header-back-btn').style.display = 'block'; 
+    // മെനു ഐക്കൺ ഒളിപ്പിക്കുന്നു, ബാക്ക് ബട്ടൺ കാണിക്കുന്നു
+    const menuIcon = document.getElementById('main-menu-icon');
+    const backBtn = document.getElementById('header-back-btn');
+    
+    if(menuIcon) menuIcon.style.setProperty('display', 'none', 'important');
+    if(backBtn) backBtn.style.setProperty('display', 'block', 'important');
+    
     document.getElementById('main-header-title').innerText = catName;
+    // ബാക്കി കോഡ്...
+
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
     
