@@ -76,6 +76,12 @@ header h3 {
     display: none !important;
 }
 
+/* ഹോം പേജിൽ മെനു ഉണ്ടെന്ന് ഉറപ്പാക്കാൻ */
+#home-screen:not(.hidden) ~ header #main-menu-icon {
+    display: flex !important;
+}
+
+
 /* വലതുവശത്തെ ബാലൻസിംഗിന് വേണ്ടി */
 header span[style*="width: 40px"], 
 header span[style*="width: 45px"] {
