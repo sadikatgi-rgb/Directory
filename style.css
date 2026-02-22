@@ -50,19 +50,19 @@ header h3 {
 }
 
 /* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരുപോലെ വെള്ളയാക്കാൻ */
+/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരേ സ്റ്റൈലിൽ */
 .menu-icon, .back-btn {
-    position: relative !important; /* Absolute മാറ്റി Relative ആക്കി */
-    left: 0 !important;
-    top: 0 !important;
-    transform: none !important;
-    width: 45px !important; /* ഐക്കണിന് കൃത്യമായ വീതി */
-    height: 45px !important;
+    position: relative !important; /* absolute മാറ്റുക */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    width: 45px !important;
+    height: 45px !important;
     color: #ffffff !important;
     font-size: 24px !important;
     cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
     z-index: 10005 !important;
     background: transparent !important;
     border: none !important;
