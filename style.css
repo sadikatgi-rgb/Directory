@@ -64,10 +64,7 @@ header h3 {
     background: transparent !important;
     border: none !important;
     z-index: 10005 !important;
-    background: transparent !important;
-    border: none !important;
-}
-
+    
 /* ബാക്ക് ബട്ടണിലെ അനാവശ്യ Before വരികൾ ഒഴിവാക്കാൻ */
 .back-btn::before {
     display: none !important; /* നമ്മൾ HTML-ൽ തന്നെ അമ്പ് നൽകിയതുകൊണ്ട് ഇത് വേണ്ട */
