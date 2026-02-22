@@ -52,42 +52,7 @@ header h3 {
     pointer-events: none !important;
 }
 
-/* --- 3. മെനു & ബാക്ക് ബട്ടൺ (ഒരേ സ്ഥാനത്ത് വരാൻ) --- */
-/* പഴയ header span, .menu-icon, .back-btn എന്നിവ പൂർണ്ണമായും ഒഴിവാക്കി ഇത് മാത്രം നൽകുക */
-.menu-icon, .back-btn {
-    position: absolute !important;
-    left: 15px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: 45px !important;
-    height: 45px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 10005 !important;
-    color: #ffffff !important;
-    background: transparent !important;
-    border: none !important;
-    cursor: pointer !important;
-}
 
-/* ഹോം സ്ക്രീൻ ലോഡാകുമ്പോൾ ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കാൻ */
-#home-screen:not(.hidden) ~ header #header-back-btn {
-    display: none !important;
-}
-
-/* ഹോം സ്ക്രീൻ അല്ലാത്തപ്പോൾ മെനു ഐക്കൺ ഒളിപ്പിക്കാൻ */
-#home-screen.hidden ~ header #main-menu-icon {
-    display: none !important;
-}
-
-/* ടൈറ്റിൽ കൃത്യമായി നടുവിൽ വരാൻ */
-header h1 {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    padding: 0 50px; /* ഐക്കണുകൾക്ക് സ്ഥലം വിടാൻ */
-}
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
 #news-ticker {
