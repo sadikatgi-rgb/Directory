@@ -51,6 +51,7 @@ header h3 {
     flex-grow: 1 !important;
     pointer-events: none !important;
 }
+
 /* പഴയ header span, .menu-icon, .back-btn എന്നിവ പൂർണ്ണമായും ഒഴിവാക്കി ഇത് മാത്രം നൽകുക */
 .menu-icon, .back-btn {
     position: absolute !important;
