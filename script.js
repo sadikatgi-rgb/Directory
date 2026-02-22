@@ -139,8 +139,6 @@ window.openCategory = async (catId, catName) => {
     const container = document.getElementById('list-container');
     container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
     
-    // ... പിന്നീട് വരുന്ന Firebase ഡാറ്റ ലോഡിംഗ് കോഡുകൾ ...
-}
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
         const querySnapshot = await getDocs(q);
