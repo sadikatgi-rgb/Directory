@@ -53,26 +53,26 @@ header h3 {
 }
 
 /* --- 3. മെനു & ബാക്ക് ബട്ടൺ (ഒരേ സ്ഥാനത്ത് വരാൻ) --- */
+/* പഴയ .menu-icon, .back-btn എന്നിവ മാറ്റിയ ശേഷം ഇത് നൽകുക */
 .menu-icon, .back-btn {
-    position: absolute !important; /* ഇത് അമ്പും മെനുവും ഒരേ സ്ഥലത്ത് നിർത്തും */
+    position: absolute !important;
     left: 15px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
+    width: 45px !important;
+    height: 45px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 45px !important;
-    height: 45px !important;
-    color: #ffffff !important;
-    font-size: 24px !important;
-    cursor: pointer !important;
     z-index: 10005 !important;
+    color: #ffffff !important;
     background: transparent !important;
     border: none !important;
+    cursor: pointer !important;
 }
 
-/* ബാക്ക് ബട്ടണിലെ അനാവശ്യ വരികൾ ഒഴിവാക്കാൻ */
-.back-btn::before {
+/* ഹോം പേജിൽ നിൽക്കുമ്പോൾ ബാക്ക് ബട്ടൺ പൂർണ്ണമായും അദൃശ്യമാക്കാൻ */
+#home-screen:not(.hidden) ~ header #header-back-btn {
     display: none !important;
 }
 
