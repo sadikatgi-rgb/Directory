@@ -22,56 +22,7 @@ body, html {
     touch-action: manipulation;
 }
 
-/* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
 
-header {
-    background-color: #006400 !important;
-    height: 65px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important; /* വശങ്ങളിലേക്ക് ഐക്കണുകളെ മാറ്റാൻ */
-    z-index: 10000 !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    padding: 0 10px !important; /* വശങ്ങളിലെ വിടവ് */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-}
-
-header h3 {
-    flex-grow: 1 !important; /* ബാക്കി വരുന്ന സ്ഥലം ടൈറ്റിൽ എടുക്കും */
-    color: #ffffff !important;
-    font-size: 20px !important; /* ഫോണ്ട് അല്പം കുറച്ചു */
-    text-align: center !important;
-    font-weight: 950 !important;
-    margin: 0 !important;
-    pointer-events: none !important;
-}
-
-/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരുപോലെ വെള്ളയാക്കാൻ */
-/* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരേ സ്റ്റൈലിൽ */
-.menu-icon, .back-btn {
-    position: relative !important; /* absolute മാറ്റുക */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 45px !important;
-    height: 45px !important;
-    color: #ffffff !important;
-    font-size: 24px !important;
-    cursor: pointer !important;
-    background: transparent !important;
-    border: none !important;
-    z-index: 10005 !important;
-    
-/* ബാക്ക് ബട്ടണിലെ അനാവശ്യ Before വരികൾ ഒഴിവാക്കാൻ */
-.back-btn::before {
-    display: none !important; /* നമ്മൾ HTML-ൽ തന്നെ അമ്പ് നൽകിയതുകൊണ്ട് ഇത് വേണ്ട */
-}
-header span[style*="width: 40px"] {
-    display: block !important;
-}
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
 #news-ticker {
