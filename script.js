@@ -103,7 +103,7 @@ function hideAll() {
     });
 }
 
-Window.showHome = () => {
+window.showHome = () => {
     hideAll(); 
     const home = document.getElementById('home-screen');
     if(home) home.classList.remove('hidden');
