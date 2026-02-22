@@ -23,56 +23,57 @@ body, html {
 }
 
 /* --- 2. ഹെഡർ & മെനു ഐക്കൺ (Fixed) --- */
+
 header {
-    background-color: #006400 !important; /* വെള്ള നിറം */
+    background-color: #006400 !important;
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    z-index: 10000 !important; /* ടിക്കറിന് മുകളിൽ വരാൻ */
+    justify-content: space-between !important; /* വശങ്ങളിലേക്ക് ഐക്കണുകളെ മാറ്റാൻ */
+    z-index: 10000 !important;
     position: fixed !important;
     top: 0 !important;
-    left: 0 !important; /* പഴയ കോഡിലെ ഇതേ വാല്യൂ നിലനിർത്തി */
+    left: 0 !important;
     width: 100% !important;
-    margin: 0 !important; 
-    padding: 0 15px !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; /* വെള്ള ഹെഡറിൽ ഷാഡോ ഭംഗി നൽകും */
-    border-bottom: none !important;
+    padding: 0 10px !important; /* വശങ്ങളിലെ വിടവ് */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
 }
 
-header h3, #current-cat-title {
+header h3 {
+    flex-grow: 1 !important; /* ബാക്കി വരുന്ന സ്ഥലം ടൈറ്റിൽ എടുക്കും */
     color: #ffffff !important;
-    font-size: 22px !important;
-    width: 100%;
-    text-align: center;
+    font-size: 20px !important; /* ഫോണ്ട് അല്പം കുറച്ചു */
+    text-align: center !important;
     font-weight: 950 !important;
     margin: 0 !important;
-    display: block !important;
-    z-index: 10001 !important; 
-    position: relative !important;
     pointer-events: none !important;
 }
 
 /* മെനു ഐക്കണും ബാക്ക് ബട്ടണും ഒരുപോലെ വെള്ളയാക്കാൻ */
-.menu-icon, 
-header a[href*="javascript:history.back"], 
-header button[onclick*="back"],
-.nav-back,
-.back-btn {
-    position: absolute !important;
-    left: 15px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    color: #ffffff !important; /* ഇവിടെ വെള്ള നിറം ഉറപ്പിച്ചു */
-    font-size: 24px !important; 
-    z-index: 10005 !important;
-    cursor: pointer !important;
-    text-decoration: none !important;
-    background: transparent !important;
-    border: none !important;
+.menu-icon, .back-btn {
+    position: relative !important; /* Absolute മാറ്റി Relative ആക്കി */
+    left: 0 !important;
+    top: 0 !important;
+    transform: none !important;
+    width: 45px !important; /* ഐക്കണിന് കൃത്യമായ വീതി */
+    height: 45px !important;
     display: flex !important;
     align-items: center !important;
-    gap: 5px !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+    font-size: 24px !important;
+    cursor: pointer !important;
+    z-index: 10005 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* ബാക്ക് ബട്ടണിലെ അനാവശ്യ Before വരികൾ ഒഴിവാക്കാൻ */
+.back-btn::before {
+    display: none !important; /* നമ്മൾ HTML-ൽ തന്നെ അമ്പ് നൽകിയതുകൊണ്ട് ഇത് വേണ്ട */
+}
+header span[style*="width: 40px"] {
+    display: block !important;
 }
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
