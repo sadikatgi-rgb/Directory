@@ -102,6 +102,26 @@ function hideAll() {
         if(el) el.classList.add('hidden');
     });
 }
+window.showHome = () => {
+    hideAll(); 
+    const home = document.getElementById('home-screen');
+    if(home) home.classList.remove('hidden');
+    
+    // ഹോം പേജിൽ അമ്പ് ഒളിപ്പിക്കുന്നു, മെനു മാത്രം കാണിക്കുന്നു
+    const backBtn = document.getElementById('header-back-btn');
+    const menuIcon = document.getElementById('main-menu-icon');
+    
+    if(backBtn) backBtn.style.setProperty('display', 'none', 'important');
+    if(menuIcon) menuIcon.style.setProperty('display', 'block', 'important');
+    
+    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
+
+    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യാൻ
+    const sidebar = document.getElementById('sidebar');
+    if(sidebar) sidebar.classList.remove('active');
+    const overlay = document.getElementById('overlay');
+    if(overlay) overlay.style.display = 'none';
+};
 
 
 window.toggleMenu = () => {
