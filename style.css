@@ -47,15 +47,18 @@ header h3 {
     font-size: 20px !important;
     text-align: center !important;
     font-weight: 950 !important;
-    margin: 0 !important;
-    flex-grow: 1 !important;
+   margin: 0 auto !important;
+    width: 100% !important;
+    padding: 0 50px !important;
     pointer-events: none !important;
+    white-space: nowrap !important; 
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
-
-/* പഴയ header span, .menu-icon, .back-btn എന്നിവ പൂർണ്ണമായും ഒഴിവാക്കി ഇത് മാത്രം നൽകുക */
+/* ഹെഡർ ഐക്കണുകൾ കൃത്യമായി ക്രമീകരിക്കാൻ */
 .menu-icon, .back-btn {
     position: absolute !important;
-    left: 15px !important;
+    left: 10px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 45px !important;
@@ -68,24 +71,17 @@ header h3 {
     background: transparent !important;
     border: none !important;
     cursor: pointer !important;
+    font-size: 26px !important; /* ആരോ മാർക്കിന്റെ വലിപ്പം */
 }
 
-/* ഹോം സ്ക്രീൻ ലോഡാകുമ്പോൾ ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കാൻ */
+/* ഹോം പേജിൽ ആണെങ്കിൽ ബാക്ക് ബട്ടൺ പൂർണ്ണമായും ഒളിപ്പിക്കും */
 #home-screen:not(.hidden) ~ header #header-back-btn {
     display: none !important;
 }
 
-/* ഹോം സ്ക്രീൻ അല്ലാത്തപ്പോൾ മെനു ഐക്കൺ ഒളിപ്പിക്കാൻ */
+/* കാറ്റഗറി പേജിൽ ആണെങ്കിൽ മെനു ഐക്കൺ ഒളിപ്പിക്കും */
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
-}
-
-/* ടൈറ്റിൽ കൃത്യമായി നടുവിൽ വരാൻ */
-header h1 {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    padding: 0 50px; /* ഐക്കണുകൾക്ക് സ്ഥലം വിടാൻ */
 }
 
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
@@ -222,16 +218,16 @@ header h1 {
 .card img { width: 45px; height: 45px; }
 /* സെർച്ച് ബാർ മാത്രം സ്പെഷ്യൽ ആയി കാണാൻ */
 #search-input {
-    width: 95% !important;
+    width: calc(100% - 30px) !important; /* വശങ്ങളിൽ കൃത്യമായ ഗ്യാപ്പ് വരാൻ */
     padding: 12px 20px !important;
-    margin: 10px auto !important;
-    border-radius: 25px !important; /* ക്യാപ്സ്യൂൾ ആകൃതി */
-    border: 2px solid #006400 !important; /* പച്ച ബോർഡർ */
+    margin: 15px auto !important;
+    border-radius: 25px !important;
+    border: 2px solid #006400 !important;
     display: block !important;
     font-weight: 800 !important;
-    font-family: 'Manjari', sans-serif;
     outline: none !important;
 }
+
 
 #search-input::placeholder {
     color: #888 !important;
@@ -477,35 +473,46 @@ header button[onclick*="back"]::before,
     margin-right: 5px;
 }
 
-/* --- നഷ്ടപ്പെട്ട ബട്ടണുകൾ തിരികെ കൊണ്ടുവരാൻ --- */
-/* കോൾ ബട്ടൺ - പരിഷ്കരിച്ചത് */
-.call-btn-new {
-    background-color: #006400 !important; /* കടും പച്ച നിറം */
-    color: white !important;
-    padding: 7px 20px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
-    border-radius: 30px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-    display: table !important; /* സെന്റർ ആക്കാൻ ഏറ്റവും എളുപ്പവഴി */
-    margin: 10px auto !important; /* മുകളിലും താഴെയും ഗ്യാപ്പ് നൽകി നടുവിൽ നിർത്തും */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-    font-size: 14px !important;
+/* --- കോൾ & വാട്സാപ്പ് സെക്ഷൻ (ക്ലീൻ ഡിസൈൻ) --- */
+.call-section {
+    display: flex !important;
+    gap: 12px !important;
+    margin-top: 15px !important;
+    justify-content: space-between !important;
+    width: 100% !important;
 }
 
-/* വാട്സാപ്പ് ബട്ടൺ */
-.whatsapp-btn-new {
-    background-color: #25D366 !important;
-    color: white !important;
-    padding: 6px 15px !important;
+.call-btn-new, .whatsapp-btn-new {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 12px 8px !important;
     border-radius: 30px !important;
+    font-weight: 900 !important;
     text-decoration: none !important;
-    font-weight: bold !important;
-    display: inline-flex !important;
+    display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin-left: 10px !important;
-    font-size: 13px !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    font-size: 15px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+    transition: transform 0.1s ease !important;
+}
+
+/* കോൾ ബട്ടൺ - കടും പച്ച */
+.call-btn-new {
+    background-color: #006400 !important;
+    color: #ffffff !important;
+}
+
+/* വാട്സാപ്പ് ബട്ടൺ - വാട്സാപ്പ് പച്ച */
+.whatsapp-btn-new {
+    background-color: #25D366 !important;
+    color: #ffffff !important;
+}
+
+/* ബട്ടൺ അമർത്തുമ്പോൾ ഉള്ള ഇഫക്റ്റ് */
+.call-btn-new:active, .whatsapp-btn-new:active {
+    transform: scale(0.96) !important;
+    opacity: 0.9 !important;
 }
 
 /* എഡിറ്റ്, ഡിലീറ്റ് ബട്ടണുകൾ ഒരു വരിയിൽ വരാൻ */
@@ -566,4 +573,4 @@ header button[onclick*="back"]::before,
     font-weight: 800 !important;
     line-height: 1.7 !important;
     color: #000000 !important;
-  }
+    }
