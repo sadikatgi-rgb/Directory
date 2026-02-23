@@ -1,1 +1,227 @@
+<!DOCTYPE html>
+<html lang="ml">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>വിഭവ ഡയറക്ടറി</title>
+    <link rel="stylesheet" href="style.css?v=52.0">
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#006400">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <div id="splash">
+        <h1>വിഭവ ഡയറക്ടറി</h1>
+        <p>ചിറമംഗലം സൗത്ത് യൂണിറ്റ്</p>
+        <div class="loader"></div>
+    </div>
 
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-top-img" style="line-height: 0; padding: 0; margin: 0;">
+            <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block; border: none;">
+        </div>
+        <div class="sidebar-header" style="margin-top: 0;">MENU</div>
+        <a href="#" onclick="showHome()">🏠 ഹോം</a>
+        <a href="#" onclick="showContentPage()">📖 ഉള്ളടക്കം</a>
+        <a href="#" onclick="showAboutApp()">ℹ️ ആപ്പ് വിവരം</a>
+        <a href="#" onclick="showLeaders()">👥 Leaders</a>
+        <a href="#" onclick="openCategory('admins', 'അഡ്മിൻസ്')">📞 അഡ്മിൻസ്</a>
+        <a href="#" onclick="showAdminLogin()">🔑 അഡ്മിൻ ലോഗിൻ</a>
+    </div>
+
+<header>
+    <span class="menu-icon" id="main-menu-icon" onclick="toggleMenu()">☰</span>
+    <a href="javascript:void(0)" id="header-back-btn" class="back-btn hidden" onclick="showHome()">←</a>
+    <h3 id="main-header-title">വിഭവ ഡയറക്ടറി</h3>
+    </header>
+
+    <div id="news-ticker">
+    <div id="latest-news" class="news-ticker-container">
+        </div>
+</div>
+
+    <div class="container" id="main-container">
+        <div id="home-screen">
+            <div class="grid">
+                <div class="card" onclick="openCategory('auto', 'ഓട്ടോ & ടാക്സി')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2853/2853784.png" alt="Auto">
+                    <p>ഓട്ടോ & ടാക്സി</p>
+                </div>
+                <div class="card" onclick="openCategory('shops', 'കടകൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/609/609803.png" alt="Shops">
+                    <p>കടകൾ</p>
+                </div>
+                <div class="card" onclick="openCategory('workers', 'ജോലിക്കാർ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995531.png" alt="Workers">
+                    <p>ജോലിക്കാർ</p>
+                </div>
+                <div class="card" onclick="openCategory('catering', 'പണ്ടാരികൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Catering">
+                    <p>പണ്ടാരികൾ</p>
+                </div>
+                <div class="card" onclick="openCategory('travels', 'ടാക്സി & ട്രാവൽ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2611/2611090.png" alt="Travels">
+                    <p>ടാക്സി & ട്രാവൽ</p>
+                </div>
+                <div class="card" onclick="openCategory('institutions', 'സ്ഥാപനങ്ങൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2912/2912781.png" alt="Institutions">
+                    <p>സ്ഥാപനങ്ങൾ</p>
+                </div>
+                <div class="card" onclick="openCategory('representatives', 'ജനപ്രതിനിധികൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3050/3050017.png" alt="Leaders">
+                    <p>ജനപ്രതിനിധികൾ</p>
+                </div>
+                <div class="card" onclick="openCategory('professionals', 'ഉസ്താദ് & പ്രൊഫഷണൽസ്')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2302/2302834.png" alt="Professionals">
+                    <p>ഉസ്താദ് & പ്രൊഫഷണൽസ്</p>
+                </div>
+                <div class="card" onclick="openCategory('help_centers', 'സഹായ കേന്ദ്രങ്ങൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4359/4359295.png" alt="Help">
+                    <p>സഹായ കേന്ദ്രങ്ങൾ</p>
+                </div>
+                <div class="card" onclick="openCategory('announcements', 'അറിയിപ്പുകൾ')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1040/1040230.png" alt="Announcements">
+                    <p>അറിയിപ്പുകൾ</p>
+                </div>
+            </div>
+        </div>
+        <div id="content-info-screen" class="hidden content-screen">
+       <div class="info-card" style="width: 96% !important; max-width: 500px; height: 85vh; margin: 10px auto !important; padding: 15px !important; border-radius: 15px; box-sizing: border-box; display: flex; flex-direction: column; background: #fff;"> 
+        <div class="scroll-content" style="overflow-y: auto; flex-grow: 1; padding-right: 5px;">
+            <p style="font-weight: 950 !important; font-size: 19px !important; color: #000 !important; line-height: 1.5; text-align: center; margin-bottom: 25px; padding: 0 5px;">
+                എസ്.വൈ.എസ് 70-ാം വാർഷികം അനുബന്ധിച്ച് യൂണിറ്റുകളിൽ നടത്തപ്പെടുന്ന <span style="color: #d32f2f;">"ഗ്രാമ സമ്മേളനം"</span> പരിപാടിയോടനുബന്ധിച്ച് തയ്യാറാക്കിയ വിഭവ ഡയറക്ടറിയാണിത്.
+            </p>
+
+            <ul style="font-weight: 800; color: #333; padding: 0; margin: 0; list-style: none; font-size: 17px;">
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">1.</b> <span><b>ഓട്ടോ:</b> നാട്ടിലെ എല്ലാവിധ ഓട്ടോറിക്ഷകളും.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">2.</b> <span><b>കടകൾ:</b> പലചരക്ക്, ഹോട്ടൽ, ടെക്സ്റ്റൈൽസ് തുടങ്ങിയവ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">3.</b> <span><b>ടാക്സി & ട്രാവൽ:</b> കാർ, ട്രക്കർ, ജീപ്പ്, ബസ് തുടങ്ങിയവ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">4.</b> <span><b>പണ്ടാരി:</b> ഭക്ഷണമുണ്ടാക്കുന്നവരുടെ വിവരങ്ങൾ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">5.</b> <span><b>വിവിധ ജോലിക്കാർ:</b> പ്ലംബർ, ഇലക്ട്രീഷ്യൻ തുടങ്ങിയവർ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">6.</b> <span><b>സ്ഥാപനങ്ങൾ:</b> മദ്രസ, പള്ളി, സ്കൂൾ, ഹോസ്പിറ്റൽ തുടങ്ങിയവ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">7.</b> <span><b>ജനപ്രതിനിധികൾ:</b> വാർഡ് മെമ്പർമാർ, MLA, MP തുടങ്ങിയവർ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">8.</b> <span><b>ഉസ്താദ് & പ്രൊഫഷണൽസ്:</b> ഡോക്ടർമാർ, വക്കീൽ തുടങ്ങിയവർ.</span></li>
+                <li style="margin-bottom: 15px; line-height: 1.4; display: flex;"><b style="color: #d32f2f; min-width: 25px;">9.</b> <span><b>സഹായ കേന്ദ്രങ്ങൾ:</b> അക്ഷയ സെന്ററുകൾ, പാമ്പ് പിടുത്തം തുടങ്ങിയവ.</span></li>
+            </ul>
+            
+            <p style="text-align: center; font-weight: 950 !important; margin-top: 25px; color: #000; font-size: 16px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 15px; margin-bottom: 10px;">
+                കേരള മുസ്ലിം ജമാഅത്ത്, എസ്.വൈ.എസ്, SSF <br> ചിറമംഗലം സൗത്ത് യൂണിറ്റ്
+            </p>
+        </div>
+    </div>
+</div>
+    
+        <div id="about-app-screen" class="hidden content-screen">
+    <div class="info-card">
+        <div class="scroll-content">
+            <p class="bold-text-950" style="text-align: center; font-size: 22px; line-height: 1.6;">
+                07/11/2024 ന് സമാപിച്ച ഗ്രാമ സമ്മേളന ഉപഹാരം...
+            </p>
+
+            <p class="bold-text-950" style="text-align: center; font-size: 19px; margin-top: 20px; margin-bottom: 15px;">
+                അണിയറയിൽ പ്രവർത്തിച്ചത്:
+            </p>
+
+            <ol style="font-weight: 800; line-height: 1.8; color: #000;">
+                <li>സയ്യിദ് സ്വാലിഹ് ജിഫ്രി ഫാളിലി</li>
+                <li>സയ്യിദ് മുഹ്സിൻ ജിഫ്രി ഫാളിലി</li>
+                <li>സയ്യിദ് ശഫീഖ് ജിഫ്രി സഅദി</li>
+                <li>റാഫി സഖാഫി സി</li>
+                <li>സയ്യിദ് സഈദ് ബാഫഖി</li>
+                <li>അബ്ദുസ്സലാം T</li>
+                <li>സാദിഖ് അലി സഖാഫി സി.</li>
+                <li>മുജീബ് റഹ്മാൻ PP</li>
+                <li>ഫാറൂഖ് സഖാഫി മലയിൽ</li>
+                <li>സ്വലാഹുദ്ദീൻ T</li>
+            </ol>
+
+            <div style="text-align: center; line-height: 1.8; margin-top: 30px; margin-bottom: 25px; background-color: #fff9c4; padding: 20px; border-radius: 15px; border: 2px solid #fbc02d; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <p class="bold-text-950" style="font-size: 20px !important; margin-bottom: 12px;">
+                    " ഉത്തരവാദിത്തം മനുഷ്യപ്പറ്റിന്റെ രാഷ്ട്രീയം "
+                </p>
+                <p style="color: #d32f2f !important; font-weight: 950 !important; font-size: 18px !important; margin: 12px 0;">
+                    എസ്.വൈ.എസ് <span style="color: #d32f2f;">"പ്ലാറ്റിനം ഇയർ"</span> <br>(70-ാം വാർഷിക സമ്മേളനം)
+                </p>
+                <p class="bold-text-950" style="font-size: 20px !important; margin-top: 12px;">
+                    2024 ഡിസംബർ 27, 28, 29 <span style="color: #d32f2f;">"തൃശ്ശൂർ"</span>
+                </p>
+            </div>
+
+            <p style="text-align: center; font-style: italic; font-weight: 950 !important; border-top: 1px solid #eee; padding-top: 15px; color: #000 !important; font-size: 16px;">
+                Application Creator: Sadikali Saquafi C
+            </p>
+        </div> 
+    </div> 
+</div>
+
+<div id="leaders-screen" class="hidden content-screen">
+    <div class="info-card">
+        <div class="scroll-content">
+            <p style="text-align: center; font-weight: 900; font-size: 18px; margin-bottom: 15px; color: var(--primary);">
+                എസ്. വൈ. എസ്. ചിറമംഗലം സൗത്ത് യൂണിറ്റ് 2023-24 കമ്മിറ്റി
+            </p>
+            <ul style="font-weight: 800; color: #000; font-size: 16px; list-style: none; padding: 0; line-height: 2;">
+                <li><b>• പ്രസിഡന്റ്:</b> സയ്യിദ് സ്വാലിഹ് ഫാളിലി ജിഫ്രി</li>
+                <li><b>• ജന: സെക്രട്ടറി:</b> സ്വാദിഖ് അലി സഖാഫി സി</li>
+                <li><b>• വൈ. പ്രസിഡന്റ്:</b> സയ്യിദ് സഈദ് ബാഫഖി അഹ്സനി</li>
+                <li><b>• വൈ. പ്രസിഡന്റ്:</b> സ്വാബിർ</li>
+                <li><b>• ജോ. സെക്രട്ടറി:</b> ഫാറൂഖ് സഖാഫി മലയിൽ</li>
+                <li><b>• ജോ. സെക്രട്ടറി:</b> മുജീബ് റഹ്മാൻ PP</li>
+                <li><b>• സെക്രട്ടറി:</b> മുബാറക് T</li>
+                <li><b>• സെക്രട്ടറി:</b> മുഹ്സിൻ</li>
+            </ul>
+        </div>
+    </div>
+</div>
+          
+        <div id="admin-login-screen" class="hidden">
+            <div class="form-box">
+                <h4>അഡ്മിൻ ലോഗിൻ</h4>
+                <input type="text" id="admin-email" placeholder="അഡ്മിൻ ID"> 
+                <input type="password" id="admin-password" placeholder="പാസ്‌വേഡ്">
+                <button class="btn-main" onclick="handleLogin()">Login</button>
+                <button class="btn-text" onclick="showHome()">Cancel</button>
+            </div>
+        </div>
+
+ <div id="admin-panel" class="hidden">
+    <div class="form-box">
+        <h4>വിവരങ്ങൾ ചേർക്കുക</h4>
+        <select id="new-cat" onchange="renderAdminFields()">
+            <option value="auto">ഓട്ടോ & ടാക്സി</option>
+            <option value="shops">കടകൾ</option>
+            <option value="workers">ജോലിക്കാർ</option>
+            <option value="catering">പണ്ടാരികൾ</option>
+            <option value="travels">ടാക്സി & ട്രാവൽ</option>
+            <option value="institutions">സ്ഥാപനങ്ങൾ</option>
+            <option value="representatives">ജനപ്രതിനിധികൾ</option>
+            <option value="professionals">ഉസ്താദ് & പ്രൊഫഷണൽസ്</option>
+            <option value="help_centers">സഹായ കേന്ദ്രങ്ങൾ</option>
+            <option value="announcements">അറിയിപ്പുകൾ</option>
+            <option value="admins">അഡ്മിൻസ് (Contacts)</option>
+        </select>
+        
+        <div id="dynamic-inputs" style="margin-top: 10px;"></div>
+        
+        <button class="btn-main" onclick="handleSaveData()">Save Data</button>
+        <button class="btn-text" onclick="handleLogout()">Logout</button>
+    </div>
+</div>
+
+    <div id="list-screen" class="hidden">
+    <div class="container" style="padding-top: 10px;">
+        <input type="text" id="search-input" placeholder="തിരയുക..." onkeyup="filterResults()">
+        <div id="list-container"></div>
+    </div>
+</div>
+
+    </div>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
+        
