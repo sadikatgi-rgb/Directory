@@ -55,9 +55,9 @@ function loadScrollingNews() {
                     const data = doc.data();
                     if (data.name && data.name.trim() !== "") {
                         newsItems.push(`
-                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
+                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 19px;">അറിയിപ്പ്: ${data.name}</span> 
                             &nbsp;&nbsp;
-                            <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+                            <span style="color: #000; font-weight: 800; font-size: 17px;">${data.description || ""}</span>
                         `);
                     }
                 });
@@ -96,16 +96,7 @@ const categoryConfig = {
 
 // --- നാവിഗേഷൻ കൺട്രോൾ ---
 function hideAll() {
-    const screens = [
-        'home-screen', 
-        'home-screen-view', 
-        'content-info-screen', 
-        'admin-login-screen', 
-        'admin-panel', 
-        'list-screen', 
-        'about-app-screen', 
-        'leaders-screen'
-    ];
+    const screens = ['home-screen', 'home-screen-view', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
         const el = document.getElementById(s);
         if(el) el.classList.add('hidden');
@@ -114,30 +105,19 @@ function hideAll() {
     if(searchInput) searchInput.value = ""; 
 }
 
-// ഹോം പേജ് കാണിക്കാൻ
 window.showHome = () => {
     hideAll(); 
-    
-    // ലോജിക് ആങ്കറും വ്യൂവും കാണിക്കുന്നു
     const homeLogic = document.getElementById('home-screen');
     const homeView = document.getElementById('home-screen-view');
-    
     if(homeLogic) homeLogic.classList.remove('hidden');
     if(homeView) {
         homeView.classList.remove('hidden');
         homeView.style.display = 'block';
     }
-    
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
-
-    const menuIcon = document.getElementById('main-menu-icon');
-    const backBtn = document.getElementById('header-back-btn');
-
-    // മെനു കാണിക്കുന്നു, ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കുന്നു
-    if(menuIcon) menuIcon.classList.remove('hidden');
-    if(backBtn) backBtn.classList.add('hidden');
-
-    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
+    document.getElementById('main-menu-icon').classList.remove('hidden');
+    document.getElementById('header-back-btn').classList.add('hidden');
+    
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
@@ -148,21 +128,24 @@ window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     sidebar.classList.toggle('active');
-    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+    
+    if(sidebar.classList.contains('active')) {
+        overlay.style.display = 'block';
+        overlay.style.zIndex = '9500'; 
+        sidebar.style.zIndex = '10000';
+    } else {
+        overlay.style.display = 'none';
+    }
 };
 
 // കാറ്റഗറി ലിസ്റ്റ് തുറക്കാൻ
 window.openCategory = async (catId, catName) => {
     hideAll();
-    
-    // ഹോം ലോജിക് ഒളിപ്പിക്കുന്നു (ബാക്ക് ബട്ടൺ കാണാൻ ഇത് പ്രധാനം)
     const homeLogic = document.getElementById('home-screen');
     if(homeLogic) homeLogic.classList.add('hidden');
 
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
-
-    // ഐക്കൺ മാറ്റങ്ങൾ
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 
@@ -190,38 +173,48 @@ window.openCategory = async (catId, catName) => {
             let displayHTML = "";
 
             if (catId === 'announcements') {
-                displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+                displayHTML = `
+                <div class="announcement-card">
+                    <div class="announcement-title">📢 ${d.name}</div>
+                    <div class="announcement-desc">${d.description}</div>
+                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
+                </div>`;
             } else if (catId === 'admins') {
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <p><i class="fas fa-phone-alt"></i> ${d.phone}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
+                        <strong class="name-text"><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <p class="phone-text"><i class="fas fa-phone-alt"></i> ${d.phone}</p>
+                        <p class="loc-text"><i class="fas fa-map-marker-alt"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
                     </div>
                     <div class="call-section">
                         <a href="tel:${d.phone}" class="call-btn-new">കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">Chat</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">WhatsApp</a>
                     </div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
             } else {
                 let extraInfo = "";
                 for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
+                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'].includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraInfo += `<p><b>${label}:</b> ${d[key]}</p>`;
                     }
                 }
+                
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name)}</strong>   
-                        <p><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</p>
-                        ${d.time ? `<p><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
+                        <strong class="name-text"><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name)}</strong>   
+                        <p class="loc-text"><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</p>
+                        ${d.time ? `<p class="time-text"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
+                        ${(d.leave || d.off) ? `<p class="off-text"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
                         <div class="extra-info">${extraInfo}</div>
                     </div>
-                    <div class="call-section"><a href="tel:${d.phone}" class="call-btn-new">കോൾ</a></div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new">കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">WhatsApp</a>
+                    </div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
             }
@@ -233,16 +226,12 @@ window.openCategory = async (catId, catName) => {
 // --- അഡ്മിൻ ഫങ്ക്ഷനുകൾ ---
 window.showAdminLogin = () => { 
     hideAll(); 
-    const homeLogic = document.getElementById('home-screen');
-    if(homeLogic) homeLogic.classList.add('hidden');
-
     if (currentUser) {
         document.getElementById('admin-panel').classList.remove('hidden');
         renderAdminFields(); 
     } else {
         document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    
     document.getElementById('main-header-title').innerText = "അഡ്മിൻ ലോഗിൻ";
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
@@ -255,7 +244,7 @@ window.handleLogin = async () => {
         await signInWithEmailAndPassword(auth, id + "@sys.com", pass);
         alert("ലോഗിൻ വിജയിച്ചു!");
         showHome();
-    } catch (e) { alert("തെറ്റായ വിവരം!"); }
+    } catch (e) { alert("ലോഗിൻ പരാജയപ്പെട്ടു. വിവരങ്ങൾ പരിശോധിക്കുക."); }
 };
 
 window.renderAdminFields = () => {
@@ -285,13 +274,12 @@ window.handleSaveData = async () => {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
         renderAdminFields();
-    } catch (e) { alert("Error!"); }
+    } catch (e) { alert("സേവ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു!"); }
 };
 
 // --- മറ്റ് പേജുകൾ ---
 window.showContentPage = () => { 
     hideAll(); 
-    document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('content-info-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
     document.getElementById('main-menu-icon').classList.add('hidden');
@@ -300,7 +288,6 @@ window.showContentPage = () => {
 
 window.showAboutApp = () => { 
     hideAll(); 
-    document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('about-app-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
     document.getElementById('main-menu-icon').classList.add('hidden');
@@ -309,7 +296,6 @@ window.showAboutApp = () => {
 
 window.showLeaders = () => { 
     hideAll(); 
-    document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('leaders-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "Leaders";
     document.getElementById('main-menu-icon').classList.add('hidden');
@@ -326,7 +312,8 @@ window.filterResults = () => {
 };
 
 window.goToWhatsApp = (num) => {
-    window.location.assign(`whatsapp://send?phone=91${num.replace(/\D/g, '')}`);
+    const cleanNum = num.replace(/\D/g, '');
+    window.location.assign(`https://wa.me/91${cleanNum}`);
 };
 
 window.handleLogout = () => { signOut(auth); location.reload(); };
