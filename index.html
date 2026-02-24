@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>വിഭവ ഡയറക്ടറി</title>
-    <link rel="stylesheet" href="style.css?v=71.0">
+    <link rel="stylesheet" href="style.css?v=70.0">
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
@@ -22,30 +22,17 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="sidebar" id="sidebar">
-    <div class="sidebar-top-img" style="line-height: 0; padding: 0; margin: 0;">
-        <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block; border: none;">
+        <div class="sidebar-top-img" style="line-height: 0; padding: 0; margin: 0;">
+            <img src="top.jpg" alt="Top Image" style="width: 100%; height: auto; display: block; border: none;">
+        </div>
+        <div class="sidebar-header" style="margin-top: 0;">MENU</div>
+        <a href="javascript:void(0)" onclick="showHome()">🏠 ഹോം</a>
+        <a href="javascript:void(0)" onclick="showContentPage()">📖 ഉള്ളടക്കം</a>
+        <a href="javascript:void(0)" onclick="showAboutApp()">ℹ️ ആപ്പ് വിവരം</a>
+        <a href="javascript:void(0)" onclick="showLeaders()">👥 Leaders</a>
+        <a href="javascript:void(0)" onclick="openCategory('admins', 'അഡ്മിൻസ്')">📞 അഡ്മിൻസ്</a>
+        <a href="javascript:void(0)" onclick="showAdminLogin()">🔑 അഡ്മിൻ ലോഗിൻ</a>
     </div>
-    <div class="sidebar-header" style="margin-top: 0;">MENU</div>
-    
-    <div class="sidebar-item" onclick="showHome()">
-        <i class="fas fa-home"></i> ഹോം
-    </div>
-    <div class="sidebar-item" onclick="showContentPage()">
-        <i class="fas fa-book"></i> ഉള്ളടക്കം
-    </div>
-    <div class="sidebar-item" onclick="showAboutApp()">
-        <i class="fas fa-info-circle"></i> ആപ്പ് വിവരം
-    </div>
-    <div class="sidebar-item" onclick="showLeaders()">
-        <i class="fas fa-users"></i> Leaders
-    </div>
-    <div class="sidebar-item" onclick="openCategory('admins', 'അഡ്മിൻസ്')">
-        <i class="fas fa-user-shield"></i> അഡ്മിൻസ്
-    </div>
-    <div class="sidebar-item" onclick="showAdminLogin()">
-        <i class="fas fa-key"></i> അഡ്മിൻ ലോഗിൻ
-    </div>
-</div>
 
     <div id="home-screen">
         </div>
@@ -218,3 +205,27 @@
     </div> <script type="module" src="script.js"></script>
 </body>
 </html>
+
+
+ഇതാണ് നിലവിൽ 
+
+
+ഇതിൽ മുകളിലെ
+<div class="sidebar-item" onclick="showHome()">
+    <img src="home-icon.png"> ഹോം
+</div>
+<div class="sidebar-item" onclick="showContentPage()">
+    <img src="content-icon.png"> ഉള്ളടക്കം
+</div>
+<div class="sidebar-item" onclick="showAboutApp()">
+    <img src="info-icon.png"> ആപ്പ് വിവരം
+</div>
+<div class="sidebar-item" onclick="showLeaders()">
+    <img src="leaders-icon.png"> Leaders
+</div>
+<div class="sidebar-item" onclick="openCategory('admins', 'അഡ്മിൻസ്')">
+    <img src="admin-icon.png"> അഡ്മിൻസ്
+</div>
+<div class="sidebar-item" onclick="showAdminLogin()">
+    <img src="login-icon.png"> അഡ്മിൻ ലോഗിൻ
+</div>
