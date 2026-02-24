@@ -55,7 +55,13 @@ header h3 {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
-/* ഹെഡർ ഐക്കണുകൾ കൃത്യമായി ക്രമീകരിക്കാൻ */
+/* --- ഹെഡർ ഐക്കണുകൾ ക്രമീകരണം --- */
+
+/* ഈ ക്ലാസ്സ് ഉള്ളപ്പോൾ ഐക്കൺ മറയും */
+.hidden-icon {
+    display: none !important;
+}
+
 .menu-icon, .back-btn {
     position: absolute !important;
     left: 10px !important;
@@ -71,12 +77,13 @@ header h3 {
     background: transparent !important;
     border: none !important;
     cursor: pointer !important;
-    font-size: 26px !important; /* ആരോ മാർക്കിന്റെ വലിപ്പം */
+    font-size: 26px !important;
 }
 
-/* ഹോം പേജിൽ ആണെങ്കിൽ ബാക്ക് ബട്ടൺ പൂർണ്ണമായും ഒളിപ്പിക്കും */
-#home-screen:not(.hidden) ~ header #header-back-btn {
-    display: none !important;
+/* ബാക്ക് ആരോ കൃത്യമായി കാണാൻ */
+#header-back-btn::before {
+    content: '←' !important;
+    font-weight: bold !important;
 }
 
 /* കാറ്റഗറി പേജിൽ ആണെങ്കിൽ മെനു ഐക്കൺ ഒളിപ്പിക്കും */
@@ -574,37 +581,3 @@ header button[onclick*="back"]::before,
     line-height: 1.7 !important;
     color: #000000 !important;
     }
-/* --- ബാക്ക് ബട്ടൺ & മെനു ലോജിക് --- */
-
-/* 1. ഹോം പേജിൽ ബാക്ക് ആരോ പൂർണ്ണമായും ഒളിപ്പിക്കാൻ */
-#home-screen:not(.hidden) ~ header #header-back-btn {
-    display: none !important;
-}
-
-/* 2. ഹോം പേജിൽ മെനു ഐക്കൺ (☰) മാത്രം കാണിക്കാൻ */
-#home-screen:not(.hidden) ~ header #main-menu-icon {
-    display: block !important;
-}
-
-/* 3. മറ്റ് പേജുകളിൽ (ഉദാ: ആപ്പ് വിവരം) ബാക്ക് ആരോ കാണിക്കാൻ */
-#home-screen.hidden ~ header #header-back-btn {
-    display: block !important;
-    position: absolute !important;
-    left: 15px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    color: #ffffff !important;
-    font-size: 28px !important;
-    z-index: 10005 !important;
-}
-
-/* ആരോ ചിഹ്നം (←) ഡിസൈൻ */
-#header-back-btn::before {
-    content: '←' !important;
-    font-weight: bold !important;
-}
-
-/* 4. മറ്റ് പേജുകളിൽ മെനു ഐക്കൺ (☰) ഒളിപ്പിക്കാൻ */
-#home-screen.hidden ~ header #main-menu-icon {
-    display: none !important;
-    } 
