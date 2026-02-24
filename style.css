@@ -1,6 +1,1 @@
-#home-screen.hidden ~ header #header-back-btn {
-    display: block !important;
-}
-#home-screen.hidden ~ header #main-menu-icon {
-    display: none !important;
-}
+
