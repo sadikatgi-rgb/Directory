@@ -483,21 +483,26 @@ header button[onclick*="back"],
 }
 
 /* ബാക്ക് ആരോ സ്റ്റൈൽ - വലിപ്പവും നിറവും */
-header a[href*="javascript:history.back"]::before, 
-#header-back-btn i {
-    font-size: 30px !important;    /* വലിപ്പം കൂട്ടി */
-    font-weight: 950 !important;   /* മാക്സിമം കട്ടി */
+/* ബാക്ക് ബട്ടണിലെ ആരോ കട്ടി കൂട്ടാൻ */
+#header-back-btn i, 
+header a[href*="javascript:history.back"]::before {
+    font-size: 34px !important;    /* വലിപ്പം അല്പം കൂടി കൂട്ടി */
+    font-weight: 950 !important;   /* മാക്സിമം കട്ടി ഉറപ്പിച്ചു */
     color: #ffffff !important;
-    -webkit-text-stroke: 1.2px #ffffff !important; /* ഐക്കണിന് കട്ടി കൂട്ടാൻ */
+    
+    /* ഈ വരിയാണ് കട്ടി നിശ്ചയിക്കുന്നത് - 1.2px എന്നത് 2.5px ആക്കി */
+    -webkit-text-stroke: 2.5px #ffffff !important; 
+    
     display: flex !important;
     align-items: center;
     justify-content: center;
 }
 
+/* ബട്ടണിന്റെ ടച്ച് ഏരിയ ക്രമീകരിക്കാൻ */
 #header-back-btn {
     position: absolute !important;
-    left: 5px !important;
-    width: 55px !important; 
+    left: 2px !important;      /* അല്പം കൂടി ഇടത്തോട്ട് നീക്കി */
+    width: 65px !important;    /* ക്ലിക്ക് ചെയ്യാൻ കൂടുതൽ സൗകര്യം നൽകി */
     height: 100% !important;
     display: flex !important;
     align-items: center !important;
@@ -505,7 +510,6 @@ header a[href*="javascript:history.back"]::before,
     z-index: 10006 !important;
     background: transparent !important;
 }
-
 
 /* --- കോൾ & വാട്സാപ്പ് സെക്ഷൻ (ക്ലീൻ ഡിസൈൻ) --- */
 .call-section {
