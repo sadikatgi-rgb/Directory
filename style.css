@@ -129,14 +129,14 @@ header h3 {
 
 .news-ticker-scroll {
     display: flex !important;
-    animation: news-marquee 40s linear infinite !important; 
+    animation: news-marquee 70s linear infinite !important; 
 }
 
 .news-ticker-scroll span {
     font-weight: 950 !important;
     font-size: 19px !important;
     color: #b71c1c !important;
-    text-shadow: 0.5px 0.5px 0px rgba(0,0,0,0.1);
+    text-shadow: 0.5px 0.5px 0px #000;
     white-space: nowrap !important;
     padding-right: 50px !important; /* സ്പാൻ തമ്മിലുള്ള അകലം */
 }
