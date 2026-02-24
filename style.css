@@ -484,14 +484,28 @@ header button[onclick*="back"],
 
 /* ബാക്ക് ആരോ സ്റ്റൈൽ - വലിപ്പവും നിറവും */
 header a[href*="javascript:history.back"]::before, 
-header button[onclick*="back"]::before,
-.back-btn::before {
-    content: '←' !important;
-    font-size: 26px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
-    font-weight: bold !important;
-    color: #ffffff !important; /* നിറം വെള്ളയായി ഉറപ്പിച്ചു */
-    margin-right: 5px;
+#header-back-btn i {
+    font-size: 30px !important;    /* വലിപ്പം കൂട്ടി */
+    font-weight: 950 !important;   /* മാക്സിമം കട്ടി */
+    color: #ffffff !important;
+    -webkit-text-stroke: 1.2px #ffffff !important; /* ഐക്കണിന് കട്ടി കൂട്ടാൻ */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
+
+#header-back-btn {
+    position: absolute !important;
+    left: 5px !important;
+    width: 55px !important; 
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10006 !important;
+    background: transparent !important;
+}
+
 
 /* --- കോൾ & വാട്സാപ്പ് സെക്ഷൻ (ക്ലീൻ ഡിസൈൻ) --- */
 .call-section {
