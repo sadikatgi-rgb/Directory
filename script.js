@@ -55,9 +55,9 @@ function loadScrollingNews() {
                     const data = doc.data();
                     if (data.name && data.name.trim() !== "") {
                         newsItems.push(`
-                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 19px;">അറിയിപ്പ്: ${data.name}</span> 
+                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
                             &nbsp;&nbsp;
-                            <span style="color: #000; font-weight: 800; font-size: 17px;">${data.description || ""}</span>
+                            <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
                         `);
                     }
                 });
@@ -94,9 +94,18 @@ const categoryConfig = {
     'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
 };
 
-// --- നാവിഗേഷൻ കൺട്രോൾ ---
+// --- നാവിഗേഷൻ ---
 function hideAll() {
-    const screens = ['home-screen', 'home-screen-view', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
+    const screens = [
+        'home-screen', 
+        'home-screen-view', 
+        'content-info-screen', 
+        'admin-login-screen', 
+        'admin-panel', 
+        'list-screen', 
+        'about-app-screen', 
+        'leaders-screen'
+    ];
     screens.forEach(s => {
         const el = document.getElementById(s);
         if(el) el.classList.add('hidden');
@@ -105,47 +114,48 @@ function hideAll() {
     if(searchInput) searchInput.value = ""; 
 }
 
-window.showHome = () => {
+
+ window.showHome = () => {
     hideAll(); 
-    const homeLogic = document.getElementById('home-screen');
     const homeView = document.getElementById('home-screen-view');
-    if(homeLogic) homeLogic.classList.remove('hidden');
-    if(homeView) {
-        homeView.classList.remove('hidden');
-        homeView.style.display = 'block';
-    }
-    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
-    document.getElementById('main-menu-icon').classList.remove('hidden');
-    document.getElementById('header-back-btn').classList.add('hidden');
+    const homeLogic = document.getElementById('home-screen'); // Logic anchor
     
+    if(homeView) homeView.classList.remove('hidden');
+    if(homeLogic) homeLogic.classList.remove('hidden'); // ലോജിക് ആങ്കർ കാണിക്കുന്നു
+    
+    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
+
+    const menuIcon = document.getElementById('main-menu-icon');
+    const backBtn = document.getElementById('header-back-btn');
+
+    // ഹോം പേജിൽ മെനു കാണിക്കുക, ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കുക
+    if(menuIcon) menuIcon.classList.remove('hidden');
+    if(backBtn) backBtn.classList.add('hidden');
+
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 };
 
+
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     sidebar.classList.toggle('active');
-    
-    if(sidebar.classList.contains('active')) {
-        overlay.style.display = 'block';
-        overlay.style.zIndex = '9500'; 
-        sidebar.style.zIndex = '10000';
-    } else {
-        overlay.style.display = 'none';
-    }
+    overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-// കാറ്റഗറി ലിസ്റ്റ് തുറക്കാൻ
 window.openCategory = async (catId, catName) => {
     hideAll();
+    // ലോജിക് ആങ്കർ ഒളിപ്പിക്കുന്നു (ഇതോടെ ബാക്ക് ബട്ടൺ ദൃശ്യമാകും)
     const homeLogic = document.getElementById('home-screen');
     if(homeLogic) homeLogic.classList.add('hidden');
 
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
+
+    // ഐക്കൺ മാറ്റങ്ങൾ
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 
@@ -158,7 +168,7 @@ window.openCategory = async (catId, catName) => {
         container.innerHTML = "";
 
         if (catId === 'admins') {
-            container.innerHTML += `<div class="blink-text">" വിവരങ്ങൾ ചേർക്കാനും മാറ്റങ്ങൾ വരുത്താനും അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
+            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
@@ -173,94 +183,65 @@ window.openCategory = async (catId, catName) => {
             let displayHTML = "";
 
             if (catId === 'announcements') {
-                displayHTML = `
-                <div class="announcement-card">
-                    <div class="announcement-title">📢 ${d.name}</div>
-                    <div class="announcement-desc">${d.description}</div>
-                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
-                </div>`;
+                displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else if (catId === 'admins') {
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong class="name-text"><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <p class="phone-text"><i class="fas fa-phone-alt"></i> ${d.phone}</p>
-                        <p class="loc-text"><i class="fas fa-map-marker-alt"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
+                        <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
+                        <p><i class="fas fa-phone-alt"></i> ${d.phone}</p>
+                        <p><i class="fas fa-map-marker-alt" style="color: #d32f2f;"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
                     </div>
                     <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new">കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">WhatsApp</a>
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
                     </div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
+                
             } else {
                 let extraInfo = "";
                 for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'].includes(key)) { 
+                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraInfo += `<p><b>${label}:</b> ${d[key]}</p>`;
+                        extraInfo += `<p style="margin: 5px 0; color: #444; font-size: 16px; font-weight: 700;"><b>${label}:</b> ${d[key]}</p>`;
                     }
                 }
-                
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong class="name-text"><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name)}</strong>   
-                        <p class="loc-text"><i class="fas fa-map-marker-alt"></i> ${d.place || ""}</p>
-                        ${d.time ? `<p class="time-text"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
-                        ${(d.leave || d.off) ? `<p class="off-text"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
-                        <div class="extra-info">${extraInfo}</div>
+                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;"><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name) || "പേര് ലഭ്യമല്ല"}</strong>   
+                        ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
+                        ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
+                        ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
+                        <div style="margin-top: 5px;">${extraInfo}</div>
                     </div>
-                    <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new">കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new">WhatsApp</a>
-                    </div>
+                    <div class="call-section"><a href="tel:${d.phone}" class="call-btn-new">കോൾ</a></div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
             }
             container.innerHTML += displayHTML;
         });
-    } catch (e) { console.error("Error:", e); }
+    } catch (e) { console.error("Open Category Error:", e); }
 };
 
-// --- അഡ്മിൻ ഫങ്ക്ഷനുകൾ ---
-window.showAdminLogin = () => { 
-    hideAll(); 
-    if (currentUser) {
-        document.getElementById('admin-panel').classList.remove('hidden');
-        renderAdminFields(); 
-    } else {
-        document.getElementById('admin-login-screen').classList.remove('hidden');
-    }
-    document.getElementById('main-header-title').innerText = "അഡ്മിൻ ലോഗിൻ";
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
-};
-
-window.handleLogin = async () => {
-    const id = document.getElementById('admin-email').value.trim();
-    const pass = document.getElementById('admin-password').value;
-    try {
-        await signInWithEmailAndPassword(auth, id + "@sys.com", pass);
-        alert("ലോഗിൻ വിജയിച്ചു!");
-        showHome();
-    } catch (e) { alert("ലോഗിൻ പരാജയപ്പെട്ടു. വിവരങ്ങൾ പരിശോധിക്കുക."); }
-};
-
+// --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
     const container = document.getElementById('dynamic-inputs');
+    if (!container) return;
     const fields = categoryConfig[cat] || categoryConfig['default'];
     container.innerHTML = ""; 
     for (let key in fields) {
         if(key === 'description') {
-            container.innerHTML += `<textarea id="field-${key}" placeholder="${fields[key]}"></textarea>`;
+            container.innerHTML += `<textarea id="field-${key}" placeholder="${fields[key]}" style="width:100%; height:80px; margin-bottom:10px; padding:8px; border-radius:5px; border:1px solid #ccc;"></textarea>`;
         } else {
-            container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}">`;
+            container.innerHTML += `<input type="text" id="field-${key}" placeholder="${fields[key]}" style="width:100%; margin-bottom:10px; padding:8px; border-radius:5px; border:1px solid #ccc; display:block;">`;
         }
     }
 };
 
+// --- ഡാറ്റ സേവ് ചെയ്യുക ---
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
@@ -274,35 +255,38 @@ window.handleSaveData = async () => {
         await addDoc(collection(db, cat), dataToSave);
         alert("വിജയകരമായി ചേർത്തു!");
         renderAdminFields();
-    } catch (e) { alert("സേവ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു!"); }
+    } catch (e) { alert("Error saving data!"); }
 };
 
-// --- മറ്റ് പേജുകൾ ---
-window.showContentPage = () => { 
-    hideAll(); 
-    document.getElementById('content-info-screen').classList.remove('hidden'); 
-    document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
+// --- തിരുത്തലുകൾ ---
+window.editEntry = async (catId, docId, currentDataStr) => {
+    const currentData = JSON.parse(decodeURIComponent(currentDataStr));
+    const fields = categoryConfig[catId] || categoryConfig['default'];
+    let newData = { timestamp: serverTimestamp() }; 
+    for (let key in fields) {
+        const val = prompt(`${fields[key]} തിരുത്തുക:`, currentData[key] || "");
+        if (val === null) return; 
+        newData[key] = val;
+    }
+    try {
+        await updateDoc(doc(db, catId, docId), newData);
+        alert("വിവരങ്ങൾ പുതുക്കി!");
+        openCategory(catId, document.getElementById('main-header-title').innerText);
+    } catch (e) { alert("Error updating!"); }
 };
 
-window.showAboutApp = () => { 
-    hideAll(); 
-    document.getElementById('about-app-screen').classList.remove('hidden'); 
-    document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
+// --- നീക്കം ചെയ്യൽ ---
+window.deleteEntry = async (catId, docId) => {
+    if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
+        try {
+            await deleteDoc(doc(db, catId, docId));
+            alert("നീക്കം ചെയ്തു!");
+            openCategory(catId, document.getElementById('main-header-title').innerText);
+        } catch (e) { alert("Error!"); }
+    }
 };
 
-window.showLeaders = () => { 
-    hideAll(); 
-    document.getElementById('leaders-screen').classList.remove('hidden'); 
-    document.getElementById('main-header-title').innerText = "Leaders";
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
-};
-
-// --- യൂട്ടിലിറ്റികൾ ---
+// --- ബാക്കി ഫങ്ക്ഷനുകൾ ---
 window.filterResults = () => {
     const filter = document.getElementById('search-input').value.toLowerCase();
     const cards = document.getElementsByClassName('person-card');
@@ -311,14 +295,96 @@ window.filterResults = () => {
     }
 };
 
-window.goToWhatsApp = (num) => {
-    const cleanNum = num.replace(/\D/g, '');
-    window.location.assign(`https://wa.me/91${cleanNum}`);
+// പഴയ showAdminLogin ഫംഗ്ഷന് പകരം ഇത് ചേർക്കുക
+window.showAdminLogin = () => { 
+    hideAll(); 
+    if (currentUser) {
+        document.getElementById('admin-panel').classList.remove('hidden');
+        renderAdminFields(); 
+    } else {
+        document.getElementById('admin-login-screen').classList.remove('hidden');
+    }
+    
+    // ടൈറ്റിൽ മാറ്റം
+    document.getElementById('main-header-title').innerText = "അഡ്മിൻ ലോഗിൻ";
+
+    // ഹെഡറിൽ മെനു മാറ്റുന്നു, ബാക്ക് ബട്ടൺ കാണിക്കുന്നു
+    const menuIcon = document.getElementById('main-menu-icon');
+    const backBtn = document.getElementById('header-back-btn');
+    
+    if(menuIcon) menuIcon.classList.add('hidden');
+    if(backBtn) {
+        backBtn.classList.remove('hidden');
+        backBtn.style.display = 'flex'; // നിർബന്ധമായും കാണിക്കാൻ
+    }
+
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) sidebar.classList.remove('active');
+    if(overlay) overlay.style.display = 'none';
+};
+
+
+window.handleLogin = async () => {
+    const id = document.getElementById('admin-email').value.trim();
+    const pass = document.getElementById('admin-password').value;
+    try {
+        await signInWithEmailAndPassword(auth, id + "@sys.com", pass);
+        alert("ലോഗിൻ വിജയിച്ചു!");
+        showHome();
+    } catch (e) { alert("തെറ്റായ വിവരം!"); }
 };
 
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
+window.showContentPage = () => { 
+    hideAll(); 
+    document.getElementById('content-info-screen').classList.remove('hidden'); 
+    document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
+    
+    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
+    document.getElementById('main-menu-icon').classList.add('hidden');
+    document.getElementById('header-back-btn').classList.remove('hidden');
+
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
+
+window.showAboutApp = () => { 
+    hideAll(); 
+    document.getElementById('about-app-screen').classList.remove('hidden'); 
+    document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
+
+    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
+    document.getElementById('main-menu-icon').classList.add('hidden');
+    document.getElementById('header-back-btn').classList.remove('hidden');
+
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
+
+window.showLeaders = () => { 
+    hideAll(); 
+    document.getElementById('leaders-screen').classList.remove('hidden'); 
+    document.getElementById('main-header-title').innerText = "Leaders";
+
+    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
+    document.getElementById('main-menu-icon').classList.add('hidden');
+    document.getElementById('header-back-btn').classList.remove('hidden');
+
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+};
+
+
+// --- വാട്‌സാപ്പ് ---
+window.goToWhatsApp = function(phoneNumber) {
+    const cleanNumber = phoneNumber.replace(/\D/g, '');
+    window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
+};
+
+// --- നോട്ടിഫിക്കേഷൻ ---
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
@@ -330,4 +396,4 @@ async function setupNotifications() {
         });
         if (token) localStorage.setItem('fcm_token', token);
     } catch (e) { console.error(e); }
-}
+                        }
