@@ -397,3 +397,14 @@ async function setupNotifications() {
         if (token) localStorage.setItem('fcm_token', token);
     } catch (e) { console.error(e); }
         }
+// അഡ്മിൻ കാറ്റഗറി തുറക്കാനും സൈഡ്ബാർ ക്ലോസ് ചെയ്യാനും
+window.openAdminCategory = () => {
+    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) sidebar.classList.remove('active');
+    if(overlay) overlay.style.display = 'none';
+
+    // അഡ്മിൻ പേജ് ലോഡ് ചെയ്യുന്നു
+    openCategory('admins', 'അഡ്മിൻസ്');
+};
