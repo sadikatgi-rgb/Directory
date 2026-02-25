@@ -1,18 +1,1 @@
-/* സൈഡ്ബാർ ഐറ്റങ്ങളിലെ ഐക്കണുകൾ */
-.sidebar-item i, .sidebar a i {
-    font-size: 24px !important; 
-    color: #000000 !important; /* കടും കറുപ്പ് */
-    font-weight: 900 !important; 
-    width: 35px !important;
-    text-align: center !important;
-    /* ഐക്കണുകൾക്കും കട്ടി നൽകാൻ സ്ട്രോക്ക് ഉപയോഗിക്കാം */
-    -webkit-text-stroke: 1.2px #000000 !important;
-}
-
-/* സൈഡ്ബാർ ലിങ്കുകൾ */
-.sidebar-item, .sidebar a {
-    padding: 18px 20px !important; /* ഐറ്റങ്ങൾക്കിടയിൽ കൂടുതൽ വിടവ് */
-    border-bottom: 1px solid #f0f0f0 !important;
-    font-weight: 850 !important; /* അക്ഷരങ്ങൾക്കും നല്ല കട്ടി */
-}
 
