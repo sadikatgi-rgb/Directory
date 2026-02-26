@@ -121,7 +121,7 @@ header h3 {
 
 .news-ticker-scroll span {
     font-weight: 950 !important;
-    font-size: 22px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
+    font-size: 20px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
     color: #b71c1c !important; /* കടും ചുവപ്പ് */
     text-shadow: none !important; /* മങ്ങൽ ഒഴിവാക്കാൻ ഇത് മാറ്റി */
     opacity: 1 !important;
@@ -580,53 +580,45 @@ header button[onclick*="back"]::before,
     color: #000000 !important;
 }
 
-
-/* --- ഓരോ കാർഡിലെയും വരികൾ കൂടുതൽ വ്യക്തമാക്കാൻ --- */
+/* ഓരോ വരിയുടെയും ലേഔട്ട് */
 .info-row {
     display: flex !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-    margin-bottom: 12px !important; /* വരികൾ തമ്മിൽ അല്പം കൂടി അകലം */
+    align-items: flex-start !important; /* അക്ഷരങ്ങൾ മുകളിൽ നിന്ന് തുടങ്ങാൻ */
+    margin-bottom: 12px !important;
     width: 100% !important;
-    border-bottom: 1px dotted #eee; /* വരികൾ വേർതിരിക്കാൻ നേരിയ ഒരു വര */
-    padding-bottom: 5px;
+    gap: 8px !important; /* ലേബലും വാല്യൂവും തമ്മിലുള്ള ഗ്യാപ്പ് */
 }
 
-/* ലേബലുകൾക്ക് കൃത്യമായ വീതി (Fixed) */
+/* ലേബലുകൾക്ക് (നീളമുള്ള ലേബലുകൾ വന്നാലും പ്രശ്നമില്ലാത്ത രീതിയിൽ) */
 .info-label {
-    min-width: 110px !important;
-    max-width: 110px !important;
-    font-weight: 900 !important;
-    font-size: 14px !important;
-    color: #555 !important;
+    /* ഫിക്സഡ് വീതിക്ക് പകരം കണ്ടന്റിന് അനുസരിച്ചുള്ള വീതി */
+    white-space: nowrap !important; 
+    font-size: 17px !important; /* അല്പം കുറച്ചു, വരിയിൽ കൊള്ളാൻ എളുപ്പമാകും */
+    font-weight: 950 !important;
     display: flex !important;
     align-items: center !important;
-    flex-shrink: 0 !important;
-    line-height: 1.2 !important;
+    flex-shrink: 0 !important; /* ലേബൽ ഒരിക്കലും ചുരുങ്ങരുത് */
 }
 
-/* ഐക്കണുകളുടെ വലിപ്പം ക്രമീകരിച്ചു */
+/* വിവരങ്ങൾക്ക് (Value) */
+.info-value {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+    word-break: break-word !important; /* വാല്യൂ നീളമുള്ളതാണെങ്കിൽ അടുത്ത വരിയിലേക്ക് പോകാൻ */
+    flex: 1 !important; /* ബാക്കിയുള്ള സ്ഥലം മുഴുവൻ എടുക്കാൻ */
+    line-height: 1.3 !important;
+}
+
+/* ഐക്കണുകൾക്ക് */
 .info-label i {
-    width: 20px !important;
-    font-size: 16px !important;
-    margin-right: 8px !important;
+    width: 22px !important;
+    font-size: 18px !important;
+    margin-right: 5px !important;
     text-align: center !important;
 }
 
-/* വിവരങ്ങൾ (Value) */
-.info-value {
-    flex: 1 !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #000 !important;
-    line-height: 1.4 !important;
-    word-break: break-word !important;
-}
-.info-row:last-of-type {
-    border-bottom: none !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
+
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
