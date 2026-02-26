@@ -136,7 +136,7 @@ header h3 {
 
 .news-ticker-scroll {
     display: flex !important;
-    animation: news-marquee 60s linear infinite !important; 
+    animation: news-marquee 50s linear infinite !important; 
 }
 
 
@@ -237,28 +237,12 @@ header h3 {
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
 /* സെർച്ച് ബാർ മാത്രം സ്പെഷ്യൽ ആയി കാണാൻ */
-#search-input {
-    width: calc(100% - 30px) !important; /* വശങ്ങളിൽ കൃത്യമായ ഗ്യാപ്പ് വരാൻ */
-    padding: 12px 20px !important;
-    margin: 15px auto !important;
-    border-radius: 25px !important;
-    border: 2px solid #006400 !important;
-    display: block !important;
-    font-weight: 800 !important;
-    outline: none !important;
-}
-
-
-#search-input::placeholder {
-    color: #888 !important;
-    font-weight: 500 !important;
-}
 
 /* പഴയ .person-card ലും .person-info ലും ഉള്ള flex ഒഴിവാക്കി ഇത് നൽകുക */
 .person-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    margin: 15px auto !important;
+    margin: 20px auto !important;
     padding: 20px !important;
     width: 90% !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
@@ -596,31 +580,99 @@ header button[onclick*="back"]::before,
     color: #000000 !important;
 }
 
-/* ഓരോ വരിയുടെയും പൊതുവായ സ്റ്റൈൽ */
+
+/* --- ഓരോ കാർഡിലെയും വരികൾ കൂടുതൽ വ്യക്തമാക്കാൻ --- */
 .info-row {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 10px;
-    margin-bottom: 12px;
-    align-items: center;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important; /* വരികൾ തമ്മിൽ അല്പം കൂടി അകലം */
+    width: 100% !important;
+    border-bottom: 1px dotted #eee; /* വരികൾ വേർതിരിക്കാൻ നേരിയ ഒരു വര */
+    padding-bottom: 5px;
 }
 
-/* പേര് (Name) - പച്ച നിറം */
-.row-name .info-label, .row-name .info-label i { color: #006400; }
-.row-name .info-value { color: #000; font-weight: 800; }
+/* ലേബലുകൾക്ക് കൃത്യമായ വീതി (Fixed) */
+.info-label {
+    min-width: 110px !important;
+    max-width: 110px !important;
+    font-weight: 900 !important;
+    font-size: 14px !important;
+    color: #555 !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    line-height: 1.2 !important;
+}
 
-/* സ്ഥലം (Location) - ചുവപ്പ്/മറൂൺ */
-.row-place .info-label, .row-place .info-label i { color: #d32f2f; }
-.row-place .info-value { color: #333; }
+/* ഐക്കണുകളുടെ വലിപ്പം ക്രമീകരിച്ചു */
+.info-label i {
+    width: 20px !important;
+    font-size: 16px !important;
+    margin-right: 8px !important;
+    text-align: center !important;
+}
 
-/* സമയം (Time) - നീല */
-.row-time .info-label, .row-time .info-label i { color: #1976d2; }
-.row-time .info-value { color: #0056b3; }
+/* വിവരങ്ങൾ (Value) */
+.info-value {
+    flex: 1 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+}
+.info-row:last-of-type {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
 
-/* അവധി (Holiday) - കടും ചുവപ്പ് */
-.row-off .info-label, .row-off .info-label i { color: #b71c1c; }
-.row-off .info-value { color: #b71c1c; }
+/* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
+#search-input {
+    width: 92% !important;
+    padding: 14px 25px !important;
+    margin: 20px auto !important;
+    border-radius: 50px !important; /* പൂർണ്ണമായും റൗണ്ട് ഷേപ്പ് */
+    border: 2px solid var(--primary) !important;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 95% center;
+    background-size: 20px;
+}
 
-/* മറ്റ് വിവരങ്ങൾ (Extra) - പച്ച */
-.row-extra .info-label { color: #2e7d32; }
-.row-extra .info-value { color: #000; }
+
+
+#search-input::placeholder {
+    color: #888 !important;
+    font-weight: 500 !important;
+}
+
+
+/* --- നിറങ്ങൾ (Colors) --- */
+
+/* പേര് - പച്ച */
+.row-name .info-label, .row-name .info-label i { color: #006400 !important; }
+.row-name .info-value { color: #000 !important; font-size: 19px !important; }
+
+/* സ്ഥലം - ചുവപ്പ് */
+.row-place .info-label, .row-place .info-label i { color: #d32f2f !important; }
+.row-place .info-value { color: #333 !important; }
+
+/* സമയം - നീല */
+.row-time .info-label, .row-time .info-label i { color: #1976d2 !important; }
+.row-time .info-value { color: #0056b3 !important; }
+
+/* അവധി - കടും ചുവപ്പ് */
+.row-off .info-label, .row-off .info-label i { color: #b71c1c !important; }
+.row-off .info-value { color: #b71c1c !important; }
+
+/* മറ്റ് വിവരങ്ങൾ - കടും പച്ച */
+.row-extra .info-label { color: #2e7d32 !important; }
+.row-extra .info-value { color: #000 !important; }
+
+.container::-webkit-scrollbar {
+    width: 4px;
+}
+.container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+    }
