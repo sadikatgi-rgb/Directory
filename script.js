@@ -397,6 +397,26 @@ async function setupNotifications() {
         if (token) localStorage.setItem('fcm_token', token);
     } catch (e) { console.error(e); }
         }
+// ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ
+function updateOnlineStatus() {
+    const offlineScreen = document.getElementById('offline-screen');
+    
+    if (navigator.onLine) {
+        // ഇന്റർനെറ്റ് ഉണ്ടെങ്കിൽ സ്ക്രീൻ ഒളിപ്പിക്കുന്നു
+        if(offlineScreen) offlineScreen.style.display = 'none';
+    } else {
+        // ഇന്റർനെറ്റ് ഇല്ലെങ്കിൽ സ്ക്രീൻ കാണിക്കുന്നു
+        if(offlineScreen) offlineScreen.style.display = 'flex'; 
+    }
+}
+
+// ഇന്റർനെറ്റ് പോകുമ്പോഴും വരുമ്പോഴും ഇത് പ്രവർത്തിക്കും
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// പേജ് ലോഡ് ചെയ്യുമ്പോൾ തന്നെ ഒരിക്കൽ പരിശോധിക്കാൻ
+window.addEventListener('DOMContentLoaded', updateOnlineStatus);
+
 // അഡ്മിൻ കാറ്റഗറി തുറക്കാനും സൈഡ്ബാർ ക്ലോസ് ചെയ്യാനും
 window.openAdminCategory = () => {
     // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
