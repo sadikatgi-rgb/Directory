@@ -211,45 +211,109 @@ window.openCategory = async (catId, catName) => {
                         <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
                         <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
                     </div>
+window.openCategory = async (catId, catName) => {
+    hideAll();
+    const homeLogic = document.getElementById('home-screen');
+    if(homeLogic) homeLogic.classList.add('hidden');
+
+    document.getElementById('list-screen').classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = catName;
+
+    document.getElementById('main-menu-icon').classList.add('hidden');
+    document.getElementById('header-back-btn').classList.remove('hidden');
+
+    const container = document.getElementById('list-container');
+    container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
+    
+    try {
+        let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
+        const querySnapshot = await getDocs(q);
+        container.innerHTML = "";
+
+        if (catId === 'admins') {
+            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
+        }
+        
+        if (querySnapshot.empty) {
+            container.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            return;
+        }
+
+        querySnapshot.forEach(docSnap => {
+            const d = docSnap.data();
+            const id = docSnap.id;
+            const dataStr = encodeURIComponent(JSON.stringify(d));
+            let displayHTML = "";
+
+            // --- 1. അറിയിപ്പുകൾ (Announcements) ---
+            if (catId === 'announcements') {
+                displayHTML = `
+                <div class="announcement-card">
+                    <div class="announcement-title">📢 ${d.name}</div>
+                    <div class="announcement-desc">${d.description}</div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
             } 
-            // --- 3. മറ്റുള്ളവ (Auto, Travels, Shops etc.) ---
+            // --- 2. അഡ്മിൻസ് (Admins) - നഷ്ടമായ ഭാഗം തിരികെ ചേർത്തു ---
+            else if (catId === 'admins') {
+                displayHTML = `
+                <div class="person-card">
+                    <div class="person-info">
+                        <div class="info-row row-name">
+                            <div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div>
+                            <div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div>
+                            <div class="info-value">${d.phone}</div>
+                        </div>
+                        <div class="info-row row-place">
+                            <div class="info-label"><i class="fas fa-map-marker-alt" style="color: #d32f2f;"></i> സ്ഥലം:</div>
+                            <div class="info-value">${d.place || "ലഭ്യമല്ല"}</div>
+                        </div>
+                    </div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
+                    </div>
+                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
+                </div>`;
+            } 
+            // --- 3. ബാക്കി എല്ലാ വിഭാഗങ്ങളും ---
             else {
-                let extraFields = "";
+                let extraFieldsHTML = "";
                 
-                // പേര് (Travels ആണെങ്കിൽ Owner Name)
-                const nameVal = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
-                extraFields += `<div class="info-row row-name"><div class="info-label"><i class="fas fa-user-circle"></i> പേര്:</div><div class="info-value">${nameVal}</div></div>`;
+                const nameLabel = (catId === 'travels') ? "ഓണർ പേര്" : "പേര്";
+                const nameValue = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
+                
+                extraFieldsHTML += `
+                    <div class="info-row row-name">
+                        <div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div>
+                        <div class="info-value">${nameValue}</div>
+                    </div>`;
 
-                // സ്ഥലം
                 if (d.place) {
-                    extraFields += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
+                    extraFieldsHTML += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
                 }
-
-                // സമയം
                 if (d.time) {
-                    extraFields += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
+                    extraFieldsHTML += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
+                }
+                const offValue = d.leave || d.off;
+                if (offValue) {
+                    extraFieldsHTML += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offValue}</div></div>`;
                 }
 
-                // അവധി
-                const offVal = d.leave || d.off;
-                if (offVal) {
-                    extraFields += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offVal}</div></div>`;
-                }
-
-                // ബാക്കി ഡൈനാമിക് ഫീൽഡുകൾ
                 for (let key in d) {
-                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
-                    if (!reserved.includes(key)) { 
+                    const reservedKeys = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
+                    if (!reservedKeys.includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraFields += `<div class="info-row row-extra"><div class="info-label">${label}:</div><div class="info-value">${d[key]}</div></div>`;
+                        extraFieldsHTML += `<div class="info-row row-extra"><div class="info-label">${label}:</div><div class="info-value">${d[key]}</div></div>`;
                     }
                 }
 
                 displayHTML = `
                 <div class="person-card">
-                    <div class="person-info">${extraFields}</div>
+                    <div class="person-info">${extraFieldsHTML}</div>
                     <div class="call-section">
                         <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
                         <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
@@ -261,6 +325,7 @@ window.openCategory = async (catId, catName) => {
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
+
 
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
