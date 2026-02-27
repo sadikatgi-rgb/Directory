@@ -24,6 +24,7 @@ let currentUser = null;
 // --- വിൻഡോ ലോഡ് ചെയ്യുമ്പോൾ ---
 window.addEventListener('load', () => {
     setupNotifications();
+    updateOnlineStatus(); // സ്റ്റാറ്റസ് ചെക്ക്
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(reg => console.log('SW Registered'))
@@ -80,10 +81,10 @@ function loadScrollingNews() {
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
 const categoryConfig = {
-    'auto': { 'name': 'ഡ്രൈവർ പേര്', 'ty': 'വാഹന ഇനം', 'category': 'വാഹന വിഭാഗം', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ', 'time': 'സമയം', 'leave': 'അവധി' },
+    'auto': { 'name': 'ഡ്രൈവർ പേര്', 'ty': 'വാഹന ഇനം', 'category': 'വാഹന വിഭാഗം', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ', 'time': 'സമയം', 'leave': 'അവധി', 'night': 'നൈറ്റ് വർക്ക്' },
     'shops': { 'item': 'ഇനം', 'name': 'കടയുടെ പേര്', 'time': 'സമയം', 'place': 'സ്ഥലം', 'owner': 'ഓണർ പേര്', 'phone': 'മൊബൈൽ', 'off': 'അവധി' },
     'workers': { 'category': 'വിഭാഗം', 'name': 'പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം', 'time': 'സമയം', 'off': 'അവധി' },
-    'catering': { 'name': 'പണ്ടാരിയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ നമ്പർ', 'catering': 'കാറ്ററിങ്', 'party_order': 'പാർട്ടി ഓർഡർ' },
+    'catering': { 'name': 'പണ്ടാриയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ നമ്പർ', 'catering': 'കാറ്ററിങ്', 'party_order': 'പാർട്ടി ഓർഡർ' },
     'travels': { 'vname': 'വാഹനത്തിന്റെ പേര്', 'oname': 'ഓണറുടെ പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം', 'vtype': 'വാഹന ഇനം', 'seat': 'സീറ്റ് നില' },
     'institutions': { 'name': 'സ്ഥാപനത്തിന്റെ പേര്', 'place': 'സ്ഥലം', 'type': 'ഇനം', 'manager': 'മേധാവി', 'phone': 'മൊബൈൽ' },
     'professionals': { 'category': 'വിഭാഗം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'home': 'നാട്', 'work': 'ജോലിസ്ഥലം' },
@@ -96,16 +97,7 @@ const categoryConfig = {
 
 // --- നാവിഗേഷൻ ---
 function hideAll() {
-    const screens = [
-        'home-screen', 
-        'home-screen-view', 
-        'content-info-screen', 
-        'admin-login-screen', 
-        'admin-panel', 
-        'list-screen', 
-        'about-app-screen', 
-        'leaders-screen'
-    ];
+    const screens = ['home-screen', 'home-screen-view', 'content-info-screen', 'admin-login-screen', 'admin-panel', 'list-screen', 'about-app-screen', 'leaders-screen'];
     screens.forEach(s => {
         const el = document.getElementById(s);
         if(el) el.classList.add('hidden');
@@ -114,30 +106,22 @@ function hideAll() {
     if(searchInput) searchInput.value = ""; 
 }
 
-
- window.showHome = () => {
+window.showHome = () => {
     hideAll(); 
     const homeView = document.getElementById('home-screen-view');
-    const homeLogic = document.getElementById('home-screen'); // Logic anchor
-    
+    const homeLogic = document.getElementById('home-screen');
     if(homeView) homeView.classList.remove('hidden');
-    if(homeLogic) homeLogic.classList.remove('hidden'); // ലോജിക് ആങ്കർ കാണിക്കുന്നു
-    
-    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
-
+    if(homeLogic) homeLogic.classList.remove('hidden');
+    document.getElementById('main-header-title').innerText = "വിഭവ ഡಯറക്ടറി";
     const menuIcon = document.getElementById('main-menu-icon');
     const backBtn = document.getElementById('header-back-btn');
-
-    // ഹോം പേജിൽ മെനു കാണിക്കുക, ബാക്ക് ബട്ടൺ ഒളിപ്പിക്കുക
     if(menuIcon) menuIcon.classList.remove('hidden');
     if(backBtn) backBtn.classList.add('hidden');
-
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 };
-
 
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
@@ -146,6 +130,7 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
+// --- കാറ്റഗറി പേജ് തുറക്കാൻ ---
 window.openCategory = async (catId, catName) => {
     hideAll();
     const homeLogic = document.getElementById('home-screen');
@@ -153,7 +138,6 @@ window.openCategory = async (catId, catName) => {
 
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
-
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 
@@ -180,153 +164,37 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let displayHTML = "";
 
-            // --- 1. അറിയിപ്പുകൾ ---
             if (catId === 'announcements') {
-                displayHTML = `
-                <div class="announcement-card">
-                    <div class="announcement-title">📢 ${d.name}</div>
-                    <div class="announcement-desc">${d.description}</div>
-                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
-                </div>`;
-            } 
-            // --- 2. അഡ്മിൻസ് ---
-            else if (catId === 'admins') {
-                displayHTML = `
-                <div class="person-card">
-                    <div class="person-info">
-                        <div class="info-row row-name">
-                            <div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div>
-                            <div class="info-value" style="font-size: 19px;">${d.name}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div>
-                            <div class="info-value">${d.phone}</div>
-                        </div>
-                        <div class="info-row row-place">
-                            <div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div>
-                            <div class="info-value">${d.place || "ലഭ്യമല്ല"}</div>
-                        </div>
-                    </div>
-                    <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>
-window.openCategory = async (catId, catName) => {
-    hideAll();
-    const homeLogic = document.getElementById('home-screen');
-    if(homeLogic) homeLogic.classList.add('hidden');
-
-    document.getElementById('list-screen').classList.remove('hidden');
-    document.getElementById('main-header-title').innerText = catName;
-
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
-
-    const container = document.getElementById('list-container');
-    container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
-    
-    try {
-        let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
-        const querySnapshot = await getDocs(q);
-        container.innerHTML = "";
-
-        if (catId === 'admins') {
-            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
-        }
-        
-        if (querySnapshot.empty) {
-            container.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
-            return;
-        }
-
-        querySnapshot.forEach(docSnap => {
-            const d = docSnap.data();
-            const id = docSnap.id;
-            const dataStr = encodeURIComponent(JSON.stringify(d));
-            let displayHTML = "";
-
-            // --- 1. അറിയിപ്പുകൾ (Announcements) ---
-            if (catId === 'announcements') {
-                displayHTML = `
-                <div class="announcement-card">
-                    <div class="announcement-title">📢 ${d.name}</div>
-                    <div class="announcement-desc">${d.description}</div>
-                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
-                </div>`;
-            } 
-            // --- 2. അഡ്മിൻസ് (Admins) - നഷ്ടമായ ഭാഗം തിരികെ ചേർത്തു ---
-            else if (catId === 'admins') {
-                displayHTML = `
-                <div class="person-card">
-                    <div class="person-info">
-                        <div class="info-row row-name">
-                            <div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div>
-                            <div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div>
-                            <div class="info-value">${d.phone}</div>
-                        </div>
-                        <div class="info-row row-place">
-                            <div class="info-label"><i class="fas fa-map-marker-alt" style="color: #d32f2f;"></i> സ്ഥലം:</div>
-                            <div class="info-value">${d.place || "ലഭ്യമല്ല"}</div>
-                        </div>
-                    </div>
-                    <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
-                </div>`;
-            } 
-            // --- 3. ബാക്കി എല്ലാ വിഭാഗങ്ങളും ---
-            else {
+                displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+            } else if (catId === 'admins') {
+                displayHTML = `<div class="person-card"><div class="person-info"><div class="info-row row-name"><div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div><div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div></div><div class="info-row"><div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div><div class="info-value">${d.phone}</div></div><div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place || "ലഭ്യമല്ല"}</div></div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+            } else {
                 let extraFieldsHTML = "";
-                
                 const nameLabel = (catId === 'travels') ? "ഓണർ പേര്" : "പേര്";
                 const nameValue = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
                 
-                extraFieldsHTML += `
-                    <div class="info-row row-name">
-                        <div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div>
-                        <div class="info-value">${nameValue}</div>
-                    </div>`;
-
-                if (d.place) {
-                    extraFieldsHTML += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
-                }
-                if (d.time) {
-                    extraFieldsHTML += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
-                }
+                extraFieldsHTML += `<div class="info-row row-name"><div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div><div class="info-value">${nameValue}</div></div>`;
+                if (d.place) extraFieldsHTML += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
+                if (d.time) extraFieldsHTML += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
+                
                 const offValue = d.leave || d.off;
-                if (offValue) {
-                    extraFieldsHTML += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offValue}</div></div>`;
-                }
+                if (offValue) extraFieldsHTML += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offValue}</div></div>`;
 
+                // ബാക്കി എല്ലാ ഫീൽഡുകളും (Night work, Seat, etc.) ഇവിടെ വരും
                 for (let key in d) {
-                    const reservedKeys = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
-                    if (!reservedKeys.includes(key)) { 
+                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
+                    if (!reserved.includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         extraFieldsHTML += `<div class="info-row row-extra"><div class="info-label">${label}:</div><div class="info-value">${d[key]}</div></div>`;
                     }
                 }
 
-                displayHTML = `
-                <div class="person-card">
-                    <div class="person-info">${extraFieldsHTML}</div>
-                    <div class="call-section">
-                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>
-                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
-                </div>`;
+                displayHTML = `<div class="person-card"><div class="person-info">${extraFieldsHTML}</div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             }
             container.innerHTML += displayHTML;
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
-
-
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
@@ -344,7 +212,6 @@ window.renderAdminFields = () => {
     }
 };
 
-// --- ഡാറ്റ സേവ് ചെയ്യുക ---
 window.handleSaveData = async () => {
     const cat = document.getElementById('new-cat').value;
     const fields = categoryConfig[cat] || categoryConfig['default'];
@@ -361,7 +228,6 @@ window.handleSaveData = async () => {
     } catch (e) { alert("Error saving data!"); }
 };
 
-// --- തിരുത്തലുകൾ ---
 window.editEntry = async (catId, docId, currentDataStr) => {
     const currentData = JSON.parse(decodeURIComponent(currentDataStr));
     const fields = categoryConfig[catId] || categoryConfig['default'];
@@ -378,7 +244,6 @@ window.editEntry = async (catId, docId, currentDataStr) => {
     } catch (e) { alert("Error updating!"); }
 };
 
-// --- നീക്കം ചെയ്യൽ ---
 window.deleteEntry = async (catId, docId) => {
     if (confirm("ഈ വിവരം നീക്കം ചെയ്യട്ടെ?")) {
         try {
@@ -389,7 +254,6 @@ window.deleteEntry = async (catId, docId) => {
     }
 };
 
-// --- ബാക്കി ഫങ്ക്ഷനുകൾ ---
 window.filterResults = () => {
     const filter = document.getElementById('search-input').value.toLowerCase();
     const cards = document.getElementsByClassName('person-card');
@@ -398,7 +262,6 @@ window.filterResults = () => {
     }
 };
 
-// പഴയ showAdminLogin ഫംഗ്ഷന് പകരം ഇത് ചേർക്കുക
 window.showAdminLogin = () => { 
     hideAll(); 
     if (currentUser) {
@@ -407,26 +270,19 @@ window.showAdminLogin = () => {
     } else {
         document.getElementById('admin-login-screen').classList.remove('hidden');
     }
-    
-    // ടൈറ്റിൽ മാറ്റം
     document.getElementById('main-header-title').innerText = "അഡ്മിൻ ലോഗിൻ";
-
-    // ഹെഡറിൽ മെനു മാറ്റുന്നു, ബാക്ക് ബട്ടൺ കാണിക്കുന്നു
     const menuIcon = document.getElementById('main-menu-icon');
     const backBtn = document.getElementById('header-back-btn');
-    
     if(menuIcon) menuIcon.classList.add('hidden');
     if(backBtn) {
         backBtn.classList.remove('hidden');
-        backBtn.style.display = 'flex'; // നിർബന്ധമായും കാണിക്കാൻ
+        backBtn.style.display = 'flex';
     }
-
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 };
-
 
 window.handleLogin = async () => {
     const id = document.getElementById('admin-email').value.trim();
@@ -445,49 +301,31 @@ window.showContentPage = () => {
     hideAll(); 
     document.getElementById('content-info-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
-    
-    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
-
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').style.display = 'none';
 };
 
 window.showAboutApp = () => { 
     hideAll(); 
     document.getElementById('about-app-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
-
-    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
-
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').style.display = 'none';
 };
 
 window.showLeaders = () => { 
     hideAll(); 
     document.getElementById('leaders-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "Leaders";
-
-    // ഹെഡർ മാറ്റങ്ങൾ - ഇത് നിർബന്ധമായും ചേർക്കുക
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
-
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').style.display = 'none';
 };
 
-
-// --- വാട്‌സാപ്പ് ---
 window.goToWhatsApp = function(phoneNumber) {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
 };
 
-// --- നോട്ടിഫിക്കേഷൻ ---
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
@@ -499,25 +337,28 @@ async function setupNotifications() {
         });
         if (token) localStorage.setItem('fcm_token', token);
     } catch (e) { console.error(e); }
-        }
-// ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ
+}
+
+// --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
 function updateOnlineStatus() {
     const offlineScreen = document.getElementById('offline-screen');
-    
-    if (!offlineScreen) return; // സ്ക്രീൻ നിലവിലില്ലെങ്കിൽ തിരിച്ചുപോകുക
+    if (!offlineScreen) return; 
 
     if (navigator.onLine) {
-        // ഇന്റർനെറ്റ് ഉണ്ടെങ്കിൽ സ്ക്രീൻ മാറ്റുന്നു
         offlineScreen.style.display = 'none';
     } else {
-        // ഇന്റർനെറ്റ് ഇല്ലെങ്കിൽ സ്ക്രീൻ കാണിക്കുന്നു (Flexbox ഉപയോഗിച്ച്)
         offlineScreen.style.display = 'flex'; 
     }
 }
 
-// ഇന്റർനെറ്റ് പോകുമ്പോഴും വരുമ്പോഴും ഈ ഇവന്റുകൾ പ്രവർത്തിക്കും
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
-
-// പേജ് ആദ്യമായി ലോഡ് ചെയ്യുമ്പോൾ ഒരിക്കൽ പരിശോധിക്കാൻ
 document.addEventListener('DOMContentLoaded', updateOnlineStatus);
+
+window.openAdminCategory = () => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) sidebar.classList.remove('active');
+    if(overlay) overlay.style.display = 'none';
+    openCategory('admins', 'അഡ്മിൻസ്');
+};
