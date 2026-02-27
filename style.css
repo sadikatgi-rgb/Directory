@@ -580,41 +580,41 @@ header button[onclick*="back"]::before,
     color: #000000 !important;
 }
 
-/* ഓരോ വരിയുടെയും ലേഔട്ട് */
+/* --- ഏകീകൃതമായ ഇൻഫോ റോ സ്റ്റൈൽ --- */
 .info-row {
     display: flex !important;
-    align-items: flex-start !important; /* അക്ഷരങ്ങൾ മുകളിൽ നിന്ന് തുടങ്ങാൻ */
-    margin-bottom: 12px !important;
+    align-items: flex-start !important; 
+    margin-bottom: 10px !important;
     width: 100% !important;
-    gap: 8px !important; /* ലേബലും വാല്യൂവും തമ്മിലുള്ള ഗ്യാപ്പ് */
 }
 
-/* ലേബലുകൾക്ക് (നീളമുള്ള ലേബലുകൾ വന്നാലും പ്രശ്നമില്ലാത്ത രീതിയിൽ) */
 .info-label {
-    /* ഫിക്സഡ് വീതിക്ക് പകരം കണ്ടന്റിന് അനുസരിച്ചുള്ള വീതി */
-    white-space: nowrap !important; 
-    font-size: 17px !important; /* അല്പം കുറച്ചു, വരിയിൽ കൊള്ളാൻ എളുപ്പമാകും */
+    /* എല്ലാ ലേബലുകൾക്കും ഒരേ വീതി നൽകുന്നു. ഇത് വിവരങ്ങൾ നേരെ വരാൻ സഹായിക്കും */
+    min-width: 120px !important; 
+    max-width: 120px !important;
+    font-size: 16px !important;
     font-weight: 950 !important;
+    color: #2e7d32 !important; 
     display: flex !important;
     align-items: center !important;
-    flex-shrink: 0 !important; /* ലേബൽ ഒരിക്കലും ചുരുങ്ങരുത് */
+    flex-shrink: 0 !important;
+    white-space: normal !important; 
+    line-height: 1.2 !important;
 }
 
-/* വിവരങ്ങൾക്ക് (Value) */
 .info-value {
-    font-size: 18px !important;
+    flex: 1 !important;
+    font-size: 17px !important;
     font-weight: 800 !important;
     color: #000 !important;
-    word-break: break-word !important; /* വാല്യൂ നീളമുള്ളതാണെങ്കിൽ അടുത്ത വരിയിലേക്ക് പോകാൻ */
-    flex: 1 !important; /* ബാക്കിയുള്ള സ്ഥലം മുഴുവൻ എടുക്കാൻ */
+    word-break: break-word !important;
     line-height: 1.3 !important;
+    padding-left: 5px !important;
 }
 
-/* ഐക്കണുകൾക്ക് */
 .info-label i {
-    width: 22px !important;
-    font-size: 18px !important;
-    margin-right: 5px !important;
+    width: 20px !important;
+    margin-right: 8px !important;
     text-align: center !important;
 }
 
