@@ -148,14 +148,12 @@ window.toggleMenu = () => {
 
 window.openCategory = async (catId, catName) => {
     hideAll();
-    // ലോജിക് ആങ്കർ ഒളിപ്പിക്കുന്നു (ഇതോടെ ബാക്ക് ബട്ടൺ ദൃശ്യമാകും)
     const homeLogic = document.getElementById('home-screen');
     if(homeLogic) homeLogic.classList.add('hidden');
 
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
 
-    // ഐക്കൺ മാറ്റങ്ങൾ
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 
@@ -182,15 +180,32 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let displayHTML = "";
 
+            // --- 1. അറിയിപ്പുകൾ ---
             if (catId === 'announcements') {
-                displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
-            } else if (catId === 'admins') {
+                displayHTML = `
+                <div class="announcement-card">
+                    <div class="announcement-title">📢 ${d.name}</div>
+                    <div class="announcement-desc">${d.description}</div>
+                    ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
+                </div>`;
+            } 
+            // --- 2. അഡ്മിൻസ് ---
+            else if (catId === 'admins') {
                 displayHTML = `
                 <div class="person-card">
                     <div class="person-info">
-                        <strong><i class="fas fa-user-shield"></i> ${d.name}</strong>
-                        <p><i class="fas fa-phone-alt"></i> ${d.phone}</p>
-                        <p><i class="fas fa-map-marker-alt" style="color: #d32f2f;"></i> ${d.place || "സ്ഥലം ലഭ്യമല്ല"}</p>
+                        <div class="info-row row-name">
+                            <div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div>
+                            <div class="info-value" style="font-size: 19px;">${d.name}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div>
+                            <div class="info-value">${d.phone}</div>
+                        </div>
+                        <div class="info-row row-place">
+                            <div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div>
+                            <div class="info-value">${d.place || "ലഭ്യമല്ല"}</div>
+                        </div>
                     </div>
                     <div class="call-section">
                         <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
@@ -198,25 +213,47 @@ window.openCategory = async (catId, catName) => {
                     </div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
+            } 
+            // --- 3. മറ്റുള്ളവ (Auto, Travels, Shops etc.) ---
+            else {
+                let extraFields = "";
                 
-            } else {
-                let extraInfo = "";
+                // പേര് (Travels ആണെങ്കിൽ Owner Name)
+                const nameVal = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
+                extraFields += `<div class="info-row row-name"><div class="info-label"><i class="fas fa-user-circle"></i> പേര്:</div><div class="info-value">${nameVal}</div></div>`;
+
+                // സ്ഥലം
+                if (d.place) {
+                    extraFields += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
+                }
+
+                // സമയം
+                if (d.time) {
+                    extraFields += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
+                }
+
+                // അവധി
+                const offVal = d.leave || d.off;
+                if (offVal) {
+                    extraFields += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offVal}</div></div>`;
+                }
+
+                // ബാക്കി ഡൈനാമിക് ഫീൽഡുകൾ
                 for (let key in d) {
-                    if (!['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off'].includes(key)) { 
+                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
+                    if (!reserved.includes(key)) { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraInfo += `<p style="margin: 5px 0; color: #444; font-size: 16px; font-weight: 700;"><b>${label}:</b> ${d[key]}</p>`;
+                        extraFields += `<div class="info-row row-extra"><div class="info-label">${label}:</div><div class="info-value">${d[key]}</div></div>`;
                     }
                 }
+
                 displayHTML = `
                 <div class="person-card">
-                    <div class="person-info">
-                        <strong style="font-size: 20px; color: #004d00; font-weight: 950; display: block; margin-bottom: 5px;"><i class="fas fa-user-circle"></i> ${(catId === 'travels' ? d.oname : d.name) || "പേര് ലഭ്യമല്ല"}</strong>   
-                        ${d.place ? `<p style="margin: 5px 0; color: #333; font-size: 17px; font-weight: 700;"><i class="fas fa-map-marker-alt" style="color: #d9534f;"></i> ${d.place}</p>` : ""}
-                        ${d.time ? `<p style="margin: 5px 0; color: #007bff; font-size: 16px; font-weight: 800;"><i class="fas fa-clock"></i> സമയം: ${d.time}</p>` : ""}
-                        ${(d.leave || d.off) ? `<p style="margin: 5px 0; color: #b71c1c; font-size: 16px; font-weight: 800;"><i class="fas fa-calendar-times"></i> അവധി: ${d.leave || d.off}</p>` : ""}
-                        <div style="margin-top: 5px;">${extraInfo}</div>
+                    <div class="person-info">${extraFields}</div>
+                    <div class="call-section">
+                        <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
                     </div>
-                    <div class="call-section"><a href="tel:${d.phone}" class="call-btn-new">കോൾ</a></div>
                     ${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}
                 </div>`;
             }
@@ -224,6 +261,7 @@ window.openCategory = async (catId, catName) => {
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
+
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
@@ -401,30 +439,20 @@ async function setupNotifications() {
 function updateOnlineStatus() {
     const offlineScreen = document.getElementById('offline-screen');
     
+    if (!offlineScreen) return; // സ്ക്രീൻ നിലവിലില്ലെങ്കിൽ തിരിച്ചുപോകുക
+
     if (navigator.onLine) {
-        // ഇന്റർനെറ്റ് ഉണ്ടെങ്കിൽ സ്ക്രീൻ ഒളിപ്പിക്കുന്നു
-        if(offlineScreen) offlineScreen.style.display = 'none';
+        // ഇന്റർനെറ്റ് ഉണ്ടെങ്കിൽ സ്ക്രീൻ മാറ്റുന്നു
+        offlineScreen.style.display = 'none';
     } else {
-        // ഇന്റർനെറ്റ് ഇല്ലെങ്കിൽ സ്ക്രീൻ കാണിക്കുന്നു
-        if(offlineScreen) offlineScreen.style.display = 'flex'; 
+        // ഇന്റർനെറ്റ് ഇല്ലെങ്കിൽ സ്ക്രീൻ കാണിക്കുന്നു (Flexbox ഉപയോഗിച്ച്)
+        offlineScreen.style.display = 'flex'; 
     }
 }
 
-// ഇന്റർനെറ്റ് പോകുമ്പോഴും വരുമ്പോഴും ഇത് പ്രവർത്തിക്കും
+// ഇന്റർനെറ്റ് പോകുമ്പോഴും വരുമ്പോഴും ഈ ഇവന്റുകൾ പ്രവർത്തിക്കും
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 
-// പേജ് ലോഡ് ചെയ്യുമ്പോൾ തന്നെ ഒരിക്കൽ പരിശോധിക്കാൻ
-window.addEventListener('DOMContentLoaded', updateOnlineStatus);
-
-// അഡ്മിൻ കാറ്റഗറി തുറക്കാനും സൈഡ്ബാർ ക്ലോസ് ചെയ്യാനും
-window.openAdminCategory = () => {
-    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    if(sidebar) sidebar.classList.remove('active');
-    if(overlay) overlay.style.display = 'none';
-
-    // അഡ്മിൻ പേജ് ലോഡ് ചെയ്യുന്നു
-    openCategory('admins', 'അഡ്മിൻസ്');
-};
+// പേജ് ആദ്യമായി ലോഡ് ചെയ്യുമ്പോൾ ഒരിക്കൽ പരിശോധിക്കാൻ
+document.addEventListener('DOMContentLoaded', updateOnlineStatus);
