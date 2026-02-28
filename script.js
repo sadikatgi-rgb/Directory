@@ -165,22 +165,29 @@ window.openCategory = async (catId, catName) => {
             const dataStr = encodeURIComponent(JSON.stringify(d));
             let extraFieldsHTML = "";
 
-            // 1. പേര് (Title) - കടും പച്ച
+            // --- 1. കാർഡിന്റെ ബോർഡർ നിറം തീരുമാനിക്കുന്നു ---
+            const isAnnouncement = (catId === 'announcements');
+            const cardBorderColor = isAnnouncement ? "#c62828" : "#1b5e20"; // അറിയിപ്പിന് ചുവപ്പ്, മറ്റുള്ളവയ്ക്ക് പച്ച
+            const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
+
+            // --- 2. പേര് (Title) ---
             const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
-            extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:#1b5e20; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="fas fa-user-circle"></i> ${nameValue}</div>`;
+            const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
+            
+            extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
             const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
             const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
             for (let key in d) {
                 if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                    const label = (categoryConfig[catId] && categoryConfig[catId][key]) ? categoryConfig[catId][key] : key;
+                    const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                     const iconClass = icons[key] || 'fas fa-chevron-right';
                     
-                    // 2. ലേബലുകൾക്ക് വെവ്വേറെ നിറങ്ങൾ നൽകുന്നു
-                    let labelColor = "#2e7d32"; // ഡിഫോൾട്ട് പച്ച
-                    if (key === 'place' || key === 'leave' || key === 'off') labelColor = "#c62828"; // ചുവപ്പ്
-                    if (key === 'time') labelColor = "#1565c0"; // നീല
+                    // വിവരങ്ങൾക്കുള്ള നിറങ്ങൾ
+                    let labelColor = "#2e7d32"; 
+                    if (key === 'place' || key === 'leave' || key === 'off') labelColor = "#c62828"; 
+                    if (key === 'time') labelColor = "#1565c0"; 
 
                     extraFieldsHTML += `
                         <div class="info-inline-row" style="display:block; margin-bottom:12px;">
@@ -194,22 +201,34 @@ window.openCategory = async (catId, catName) => {
                 }
             }
 
-            // ഇവിടെ 'const' ചേർത്തിട്ടുണ്ട് - ഇത് വളരെ പ്രധാനമാണ്
-            const displayHTML = `
-                <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.1); border-left:10px solid #1b5e20; display:block;">
-                    <div class="person-info">${extraFieldsHTML}</div>
+            // --- 3. ബട്ടണുകൾ തീരുമാനിക്കുന്നു ---
+            let buttonsHTML = "";
+            if (currentUser) {
+                // അഡ്മിൻ ആണെങ്കിൽ എല്ലാത്തിലും (അറിയിപ്പിലും) Edit/Delete വേണം
+                buttonsHTML = `
+                    <div class="admin-btns" style="display:flex; gap:10px; margin-top:15px;">
+                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Edit</button>
+                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Delete</button>
+                    </div>`;
+            } else if (!isAnnouncement) {
+                // അറിയിപ്പുകൾ അല്ലാത്ത സാധാരണ വിഭാഗങ്ങൾക്ക് മാത്രം കോൾ/Chat ബട്ടൺ
+                buttonsHTML = `
                     <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                        <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>
+                        <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
+                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
+                    </div>`;
+            }
+
+            // --- 4. കാർഡ് ഡിസൈൻ ---
+            const displayHTML = `
+                <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
+                    <div class="person-info">${extraFieldsHTML}</div>
+                    ${buttonsHTML}
                 </div>`;
             
             container.innerHTML += displayHTML;
         });
-    } catch (e) { 
-        console.error("Open Category Error:", e); 
-        container.innerHTML = "<p style='text-align:center;'>ക്ഷമിക്കണം, ഒരു പിശക് സംഭവിച്ചു.</p>";
-    }
+    } catch (e) { console.error("Open Category Error:", e); }
 };
 
 
