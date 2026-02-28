@@ -202,7 +202,7 @@ window.openCategory = async (catId, catName) => {
             }
 
             // --- 3. ബട്ടണുകൾ തീരുമാനിക്കുന്നു ---
-            let buttonsHTML = "";
+                        let buttonsHTML = "";
             if (currentUser) {
                 // അഡ്മിൻ ആണെങ്കിൽ എല്ലാത്തിലും (അറിയിപ്പിലും) Edit/Delete വേണം
                 buttonsHTML = `
@@ -211,13 +211,25 @@ window.openCategory = async (catId, catName) => {
                         <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Delete</button>
                     </div>`;
             } else if (!isAnnouncement) {
-                // അറിയിപ്പുകൾ അല്ലാത്ത സാധാരണ വിഭാഗങ്ങൾക്ക് മാത്രം കോൾ/Chat ബട്ടൺ
-                buttonsHTML = `
-                    <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                        <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
-                        <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>`;
+                // വാട്സാപ്പ് ബട്ടൺ ആവശ്യമുള്ള കാറ്റഗറികൾ (ഇപ്പോൾ അഡ്മിൻസും ഉൾപ്പെടുത്തി)
+                const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
+                
+                if (whatsappCategories.includes(catId)) {
+                    // കടകൾ, സഹായ കേന്ദ്രങ്ങൾ, പണ്ടാരികൾ, അഡ്മിൻസ് എന്നിവർക്ക് കോൾ + വാട്സാപ്പ് ബട്ടൺ
+                    buttonsHTML = `
+                        <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
+                        </div>`;
+                } else {
+                    // മറ്റുള്ളവർക്ക് കോൾ ബട്ടൺ മാത്രം
+                    buttonsHTML = `
+                        <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                        </div>`;
+                }
             }
+
 
             // --- 4. കാർഡ് ഡിസൈൻ ---
             const displayHTML = `
