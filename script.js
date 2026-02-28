@@ -407,11 +407,13 @@ function updateOnlineStatus() {
 window.addEventListener('online', updateOnlineStatus);
 window.addEventListener('offline', updateOnlineStatus);
 document.addEventListener('DOMContentLoaded', updateOnlineStatus);
-
+// അഡ്മിൻ ലിസ്റ്റ് കാണാൻ (സൈഡ് ബാറിൽ നിന്ന്)
 window.openAdminCategory = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
+    
+    // അഡ്മിൻ കാറ്റഗറി തുറക്കുന്നു
     openCategory('admins', 'അഡ്മിൻസ്');
 };
