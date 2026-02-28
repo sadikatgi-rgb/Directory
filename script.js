@@ -289,12 +289,43 @@ window.deleteEntry = async (catId, docId) => {
         } catch (e) { alert("Error!"); }
     }
 };
-
 window.filterResults = () => {
-    const filter = document.getElementById('search-input').value.toLowerCase();
+    // 1. സെർച്ച് ബാറിലെ വാക്ക് എടുക്കുന്നു (ചെറിയ അക്ഷരത്തിലാക്കുന്നു)
+    const searchInput = document.getElementById('search-input');
+    if (!searchInput) return;
+
+    const filter = searchInput.value.toLowerCase().trim();
+    
+    // 2. ലിസ്റ്റ് കണ്ടെയ്നറിലെ എല്ലാ കാർഡുകളും എടുക്കുന്നു
     const cards = document.getElementsByClassName('person-card');
+    let hasResults = false;
+
     for (let card of cards) {
-        card.style.display = card.innerText.toLowerCase().includes(filter) ? "" : "none";
+        // കാർഡിനുള്ളിലെ മുഴുവൻ ടെക്സ്റ്റും പരിശോധിക്കുന്നു
+        const content = card.innerText.toLowerCase();
+        
+        if (content.includes(filter)) {
+            card.style.display = "block"; // വാക്ക് ഉണ്ടെങ്കിൽ കാണിക്കുന്നു
+            hasResults = true;
+        } else {
+            card.style.display = "none"; // ഇല്ലെങ്കിൽ മറയ്ക്കുന്നു
+        }
+    }
+
+    // 3. ഫലം ഒന്നും ലഭിച്ചില്ലെങ്കിൽ മാത്രം സന്ദേശം കാണിക്കുന്നു
+    const container = document.getElementById('list-container');
+    let noResultMsg = document.getElementById('no-search-result');
+    
+    if (!hasResults && filter !== "") {
+        if (!noResultMsg) {
+            noResultMsg = document.createElement('p');
+            noResultMsg.id = 'no-search-result';
+            noResultMsg.style.cssText = "text-align:center; padding:20px; font-weight:800; color:#666;";
+            noResultMsg.innerText = "അന്വേഷിച്ച വിവരം ലഭ്യമല്ല!";
+            container.appendChild(noResultMsg);
+        }
+    } else if (noResultMsg) {
+        noResultMsg.remove();
     }
 };
 
