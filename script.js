@@ -350,30 +350,46 @@ window.handleLogin = async () => {
 window.handleLogout = () => { signOut(auth); location.reload(); };
 onAuthStateChanged(auth, (user) => { currentUser = user; });
 
+// --- ഉള്ളടക്കം (Content Page) ---
 window.showContentPage = () => { 
     hideAll(); 
+    // സൈഡ്ബാർ അടയ്ക്കാൻ താഴെ പറയുന്ന 2 വരികൾ സഹായിക്കും
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+    
     document.getElementById('content-info-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ഉള്ളടക്കം";
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 };
 
+// --- ആപ്പ് വിവരം (About App) ---
 window.showAboutApp = () => { 
     hideAll(); 
+    // സൈഡ്ബാർ അടയ്ക്കാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+    
     document.getElementById('about-app-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "ആപ്പ് വിവരം";
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 };
 
+// --- Leaders ---
 window.showLeaders = () => { 
     hideAll(); 
+    // സൈഡ്ബാർ അടയ്ക്കാൻ
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').style.display = 'none';
+    
     document.getElementById('leaders-screen').classList.remove('hidden'); 
     document.getElementById('main-header-title').innerText = "Leaders";
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 };
 
+// --- WhatsApp Link ---
 window.goToWhatsApp = function(phoneNumber) {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
