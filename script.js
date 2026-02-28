@@ -301,45 +301,41 @@ window.deleteEntry = async (catId, docId) => {
         } catch (e) { alert("Error!"); }
     }
 };
+// സെർച്ച് ഫംഗ്‌ഷൻ (ഇത് script.js-ൽ എവിടെയെങ്കിലും ചേർക്കുക)
 window.filterResults = () => {
-    // 1. സെർച്ച് ബാറിലെ വാക്ക് എടുക്കുന്നു (ചെറിയ അക്ഷരത്തിലാക്കുന്നു)
-    const searchInput = document.getElementById('search-input');
-    if (!searchInput) return;
-
-    const filter = searchInput.value.toLowerCase().trim();
+    const input = document.getElementById('search-input');
+    const filter = input.value.toLowerCase().trim();
+    const container = document.getElementById('list-container');
+    const cards = container.getElementsByClassName('person-card');
     
-    // 2. ലിസ്റ്റ് കണ്ടെയ്നറിലെ എല്ലാ കാർഡുകളും എടുക്കുന്നു
-    const cards = document.getElementsByClassName('person-card');
-    let hasResults = false;
-
-    for (let card of cards) {
-        // കാർഡിനുള്ളിലെ മുഴുവൻ ടെക്സ്റ്റും പരിശോധിക്കുന്നു
-        const content = card.innerText.toLowerCase();
-        
+    let found = false;
+    for (let i = 0; i < cards.length; i++) {
+        // കാർഡിനുള്ളിലെ പേരും സ്ഥലവും മറ്റ് വിവരങ്ങളും പരിശോധിക്കുന്നു
+        const content = cards[i].innerText.toLowerCase();
         if (content.includes(filter)) {
-            card.style.display = "block"; // വാക്ക് ഉണ്ടെങ്കിൽ കാണിക്കുന്നു
-            hasResults = true;
+            cards[i].style.display = ""; // കാണിക്കുന്നു
+            found = true;
         } else {
-            card.style.display = "none"; // ഇല്ലെങ്കിൽ മറയ്ക്കുന്നു
+            cards[i].style.display = "none"; // മറയ്ക്കുന്നു
         }
     }
 
-    // 3. ഫലം ഒന്നും ലഭിച്ചില്ലെങ്കിൽ മാത്രം സന്ദേശം കാണിക്കുന്നു
-    const container = document.getElementById('list-container');
-    let noResultMsg = document.getElementById('no-search-result');
-    
-    if (!hasResults && filter !== "") {
-        if (!noResultMsg) {
-            noResultMsg = document.createElement('p');
-            noResultMsg.id = 'no-search-result';
-            noResultMsg.style.cssText = "text-align:center; padding:20px; font-weight:800; color:#666;";
-            noResultMsg.innerText = "അന്വേഷിച്ച വിവരം ലഭ്യമല്ല!";
-            container.appendChild(noResultMsg);
+    // ഫലം ഇല്ലെങ്കിൽ സന്ദേശം കാണിക്കാൻ
+    let noMsg = document.getElementById('no-results');
+    if (!found && filter !== "") {
+        if (!noMsg) {
+            noMsg = document.createElement('p');
+            noMsg.id = 'no-results';
+            noMsg.style.cssText = "text-align:center; padding:20px; font-weight:bold; color:red;";
+            noMsg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
+            container.appendChild(noMsg);
         }
-    } else if (noResultMsg) {
-        noResultMsg.remove();
+    } else if (noMsg) {
+        noMsg.remove();
     }
 };
+
+    
 
 window.showAdminLogin = () => { 
     hideAll(); 
