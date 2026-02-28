@@ -641,26 +641,33 @@ header button[onclick*="back"]::before,
 
 /* --- നിറങ്ങൾ (Colors) --- */
 
-/* പേര് - പച്ച */
+/* --- പുതുക്കിയ നിറങ്ങളും ഫോണ്ട് വലിപ്പവും --- */
+
+/* പേര് (Name) - പച്ച */
 .row-name .info-label, .row-name .info-label i { color: #006400 !important; }
-.row-name .info-value { color: #000 !important; font-size: 19px !important; }
+.row-name .info-value { 
+    color: #006400 !important; 
+    font-size: 24px !important; /* പേര് മാത്രം നല്ല വലിപ്പത്തിൽ */
+    font-weight: 900 !important;
+}
 
-/* സ്ഥലം - ചുവപ്പ് */
+/* സ്ഥലം (Place) - ചുവപ്പ് */
 .row-place .info-label, .row-place .info-label i { color: #d32f2f !important; }
-.row-place .info-value { color: #333 !important; }
+.row-place .info-value { color: #333 !important; font-size: 20px !important; }
 
-/* സമയം - നീല */
+/* സമയം (Time) - നീല */
 .row-time .info-label, .row-time .info-label i { color: #1976d2 !important; }
-.row-time .info-value { color: #0056b3 !important; }
+.row-time .info-value { color: #0056b3 !important; font-size: 20px !important; }
 
-/* അവധി - കടും ചുവപ്പ് */
+/* അവധി (Holiday) - കടും ചുവപ്പ് */
 .row-off .info-label, .row-off .info-label i { color: #b71c1c !important; }
-.row-off .info-value { color: #b71c1c !important; }
+.row-off .info-value { color: #b71c1c !important; font-size: 20px !important; }
 
-/* മറ്റ് വിവരങ്ങൾ - കടും പച്ച */
-.row-extra .info-label { color: #2e7d32 !important; }
-.row-extra .info-value { color: #000 !important; }
+/* വാഹനഇനം/മറ്റ് വിവരങ്ങൾ - കടും പച്ച */
+.row-extra .info-label, .row-extra .info-label i { color: #2e7d32 !important; }
+.row-extra .info-value { color: #000 !important; font-size: 20px !important; }
 
+/* കണ്ടെയ്നർ സ്ക്രോൾ ബാർ */
 .container::-webkit-scrollbar {
     width: 4px;
 }
