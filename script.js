@@ -168,43 +168,44 @@ window.openCategory = async (catId, catName) => {
             if (catId === 'announcements') {
                 displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else if (catId === 'admins') {
-                displayHTML = `<div class="person-card"><div class="person-info"><div class="info-row row-name"><div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div><div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div></div><div class="info-row"><div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div><div class="info-value">${d.phone}</div></div><div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place || "ലഭ്യമല്ല"}</div></div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+                displayHTML = `<div class="person-card" style="border-left:8px solid #1b5e20;"><div class="person-info"><div class="main-card-name" style="font-size:22px; font-weight:950; color:#1b5e20; margin-bottom:12px;"><i class="fas fa-user-shield"></i> ${d.name}</div><div class="info-inline-row" style="display:flex; margin-bottom:8px; font-size:16px;"><span class="inline-label" style="font-weight:800; min-width:120px; color:#2e7d32;"><i class="fas fa-phone-alt"></i> ഫോൺ:</span><span class="inline-value" style="font-weight:700; color:#000;">${d.phone}</span></div><div class="info-inline-row" style="display:flex; margin-bottom:8px; font-size:16px;"><span class="inline-label" style="font-weight:800; min-width:120px; color:#2e7d32;"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</span><span class="inline-value" style="font-weight:700; color:#000;">${d.place || "ലഭ്യമല്ല"}</span></div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
 
             } else {
                 let extraFieldsHTML = "";
                 
-                // 1. പേര് മാത്രം ബോൾഡ് ആയി മുകളിൽ വരാൻ (ആവർത്തനം ഒഴിവാക്കി)
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
-                extraFieldsHTML += `<div class="main-card-name" style="font-size:16px; font-weight:bold; color:#1b5e20; margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:4px;"><i class="fas fa-user-circle"></i> ${nameValue}</div>`;
+                // പേര് വലുപ്പം 22px, കട്ടി 950
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:#1b5e20; margin-bottom:12px; border-bottom:2px solid #ddd; padding-bottom:6px;"><i class="fas fa-user-circle"></i> ${nameValue}</div>`;
 
-                // 2. ബാക്കി വിവരങ്ങൾ നേരെ വരാൻ (Label: Value format)
-                // ഈ ലിസ്റ്റിലുള്ള ഫീൽഡുകൾ ആവർത്തിക്കാതിരിക്കാൻ ശ്രദ്ധിക്കുന്നു
+                const icons = {
+                    'place': 'fas fa-map-marker-alt',
+                    'time': 'fas fa-clock',
+                    'leave': 'fas fa-calendar-times',
+                    'off': 'fas fa-calendar-times',
+                    'category': 'fas fa-th-list',
+                    'vtype': 'fas fa-car'
+                };
+
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // സ്ഥലം
-                if (d.place) {
-                    extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">സ്ഥലം:</span><span class="inline-value">${d.place}</span></div>`;
-                    reserved.push('place');
-                }
-
-                // സമയം
-                if (d.time) {
-                    extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">സമയം:</span><span class="inline-value">${d.time}</span></div>`;
-                    reserved.push('time');
-                }
-
-                // ബാക്കി ഡാറ്റ ലൂപ്പ് ചെയ്യുന്നു
                 for (let key in d) {
                     if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">${label}:</span><span class="inline-value">${d[key]}</span></div>`;
+                        const iconClass = icons[key] || 'fas fa-chevron-right';
+                        
+                        // ലേബലും വാല്യൂവും വലുപ്പം 16px, കട്ടി കൂട്ടി
+                        extraFieldsHTML += `
+                            <div class="info-inline-row" style="display:flex; align-items:flex-start; margin-bottom:8px; font-size:16px;">
+                                <span class="inline-label" style="font-weight:800; min-width:125px; color:#2e7d32; display:flex; align-items:center; gap:6px;"><i class="${iconClass}" style="width:18px;"></i> ${label}:</span>
+                                <span class="inline-value" style="color:#000; font-weight:700; flex:1;">${d[key]}</span>
+                            </div>`;
                     }
                 }
 
                 displayHTML = `
-                    <div class="person-card" style="border-left:5px solid #1b5e20;">
+                    <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.12); border-left:10px solid #1b5e20; position:relative;">
                         <div class="person-info">${extraFieldsHTML}</div>
-                        <div class="call-section">
+                        <div class="call-section" style="margin-top:15px;">
                             <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
                             <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
                         </div>
@@ -219,8 +220,6 @@ window.openCategory = async (catId, catName) => {
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
-
-
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
