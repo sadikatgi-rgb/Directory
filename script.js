@@ -168,33 +168,86 @@ window.openCategory = async (catId, catName) => {
                 displayHTML = `<div class="announcement-card"><div class="announcement-title">📢 ${d.name}</div><div class="announcement-desc">${d.description}</div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
             } else if (catId === 'admins') {
                 displayHTML = `<div class="person-card"><div class="person-info"><div class="info-row row-name"><div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div><div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div></div><div class="info-row"><div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div><div class="info-value">${d.phone}</div></div><div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place || "ലഭ്യമല്ല"}</div></div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
-            } else {
+
+                       } else {
                 let extraFieldsHTML = "";
-                const nameLabel = (catId === 'travels') ? "ഓണർ പേര്" : "പേര്";
+                
+                // 1. പേര് (Name) - കാറ്റഗറി അനുസരിച്ച് ലേബൽ മാറുന്നു
+                let nameLabel = "പേര്";
+                if (catId === 'travels') nameLabel = "ഓണർ പേര്";
+                else if (catId === 'auto') nameLabel = "ഡ്രൈവർ പേര്";
+                else if (categoryConfig[catId] && categoryConfig[catId]['name']) nameLabel = categoryConfig[catId]['name'];
+
                 const nameValue = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
                 
-                extraFieldsHTML += `<div class="info-row row-name"><div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div><div class="info-value">${nameValue}</div></div>`;
-                if (d.place) extraFieldsHTML += `<div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place}</div></div>`;
-                if (d.time) extraFieldsHTML += `<div class="info-row row-time"><div class="info-label"><i class="fas fa-clock"></i> സമയം:</div><div class="info-value">${d.time}</div></div>`;
-                
-                const offValue = d.leave || d.off;
-                if (offValue) extraFieldsHTML += `<div class="info-row row-off"><div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div><div class="info-value">${offValue}</div></div>`;
+                extraFieldsHTML += `
+                    <div class="info-row row-name">
+                        <div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div>
+                        <div class="info-value">${nameValue}</div>
+                    </div>`;
 
-                // ബാക്കി എല്ലാ ഫീൽഡുകളും (Night work, Seat, etc.) ഇവിടെ വരും
+                // 2. സ്ഥലം (Place)
+                if (d.place) {
+                    extraFieldsHTML += `
+                        <div class="info-row row-place">
+                            <div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div>
+                            <div class="info-value">${d.place}</div>
+                        </div>`;
+                }
+
+                // 3. സമയം (Time)
+                if (d.time) {
+                    extraFieldsHTML += `
+                        <div class="info-row row-time">
+                            <div class="info-label"><i class="fas fa-clock"></i> സമയം:</div>
+                            <div class="info-value">${d.time}</div>
+                        </div>`;
+                }
+                
+                // 4. അവധി (Holiday)
+                const offValue = d.leave || d.off;
+                if (offValue) {
+                    extraFieldsHTML += `
+                        <div class="info-row row-off">
+                            <div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div>
+                            <div class="info-value">${offValue}</div>
+                        </div>`;
+                }
+
+                // 5. ബാക്കി എല്ലാ ഫീൽഡുകളും (വാഹന ഇനം, വിഭാഗം തുടങ്ങിയവ)
                 for (let key in d) {
-                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname'];
-                    if (!reserved.includes(key)) { 
+                    // ഇതിനകം മുകളിൽ കൊടുത്തവയും, സിസ്റ്റം ഫീൽഡുകളും ഒഴിവാക്കുന്നു
+                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname', 'vname', 'item', 'category', 'vtype'];
+                    
+                    if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraFieldsHTML += `<div class="info-row row-extra"><div class="info-label">${label}:</div><div class="info-value">${d[key]}</div></div>`;
+                        extraFieldsHTML += `
+                            <div class="info-row row-extra">
+                                <div class="info-label">${label}:</div>
+                                <div class="info-value">${d[key]}</div>
+                            </div>`;
                     }
                 }
 
-                displayHTML = `<div class="person-card"><div class="person-info">${extraFieldsHTML}</div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
+                displayHTML = `
+                    <div class="person-card">
+                        <div class="person-info">${extraFieldsHTML}</div>
+                        <div class="call-section">
+                            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
+                        </div>
+                        ${currentUser ? `
+                        <div class="admin-btns">
+                            <button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button>
+                            <button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button>
+                        </div>` : ""}
+                    </div>`;
             }
             container.innerHTML += displayHTML;
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
+
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
