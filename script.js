@@ -130,11 +130,12 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-// --- കാറ്റഗറി പേജ് തുറക്കാൻ ---
 window.openCategory = async (catId, catName) => {
     hideAll();
-    const homeLogic = document.getElementById('home-screen');
-    if(homeLogic) homeLogic.classList.add('hidden');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if(sidebar) sidebar.classList.remove('active');
+    if(overlay) overlay.style.display = 'none';
 
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
@@ -169,68 +170,39 @@ window.openCategory = async (catId, catName) => {
             } else if (catId === 'admins') {
                 displayHTML = `<div class="person-card"><div class="person-info"><div class="info-row row-name"><div class="info-label"><i class="fas fa-user-shield"></i> അഡ്മിൻ:</div><div class="info-value" style="font-size: 19px; font-weight: 900;">${d.name}</div></div><div class="info-row"><div class="info-label"><i class="fas fa-phone-alt"></i> ഫോൺ:</div><div class="info-value">${d.phone}</div></div><div class="info-row row-place"><div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div><div class="info-value">${d.place || "ലഭ്യമല്ല"}</div></div></div><div class="call-section"><a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a><a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a></div>${currentUser ? `<div class="admin-btns"><button class="edit-btn" onclick="editEntry('${catId}', '${id}', '${dataStr}')">Edit</button><button class="delete-btn" onclick="deleteEntry('${catId}', '${id}')">Delete</button></div>` : ""}</div>`;
 
-                       } else {
+            } else {
                 let extraFieldsHTML = "";
                 
-                // 1. പേര് (Name) - കാറ്റഗറി അനുസരിച്ച് ലേബൽ മാറുന്നു
-                let nameLabel = "പേര്";
-                if (catId === 'travels') nameLabel = "ഓണർ പേര്";
-                else if (catId === 'auto') nameLabel = "ഡ്രൈവർ പേര്";
-                else if (categoryConfig[catId] && categoryConfig[catId]['name']) nameLabel = categoryConfig[catId]['name'];
+                // 1. പേര് മാത്രം ബോൾഡ് ആയി മുകളിൽ വരാൻ (ആവർത്തനം ഒഴിവാക്കി)
+                const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:16px; font-weight:bold; color:#1b5e20; margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:4px;"><i class="fas fa-user-circle"></i> ${nameValue}</div>`;
 
-                const nameValue = (catId === 'travels' ? d.oname : d.name) || "ലഭ്യമല്ല";
-                
-                extraFieldsHTML += `
-                    <div class="info-row row-name">
-                        <div class="info-label"><i class="fas fa-user-circle"></i> ${nameLabel}:</div>
-                        <div class="info-value">${nameValue}</div>
-                    </div>`;
+                // 2. ബാക്കി വിവരങ്ങൾ നേരെ വരാൻ (Label: Value format)
+                // ഈ ലിസ്റ്റിലുള്ള ഫീൽഡുകൾ ആവർത്തിക്കാതിരിക്കാൻ ശ്രദ്ധിക്കുന്നു
+                const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // 2. സ്ഥലം (Place)
+                // സ്ഥലം
                 if (d.place) {
-                    extraFieldsHTML += `
-                        <div class="info-row row-place">
-                            <div class="info-label"><i class="fas fa-map-marker-alt"></i> സ്ഥലം:</div>
-                            <div class="info-value">${d.place}</div>
-                        </div>`;
+                    extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">സ്ഥലം:</span><span class="inline-value">${d.place}</span></div>`;
+                    reserved.push('place');
                 }
 
-                // 3. സമയം (Time)
+                // സമയം
                 if (d.time) {
-                    extraFieldsHTML += `
-                        <div class="info-row row-time">
-                            <div class="info-label"><i class="fas fa-clock"></i> സമയം:</div>
-                            <div class="info-value">${d.time}</div>
-                        </div>`;
-                }
-                
-                // 4. അവധി (Holiday)
-                const offValue = d.leave || d.off;
-                if (offValue) {
-                    extraFieldsHTML += `
-                        <div class="info-row row-off">
-                            <div class="info-label"><i class="fas fa-calendar-times"></i> അവധി:</div>
-                            <div class="info-value">${offValue}</div>
-                        </div>`;
+                    extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">സമയം:</span><span class="inline-value">${d.time}</span></div>`;
+                    reserved.push('time');
                 }
 
-                // 5. ബാക്കി എല്ലാ ഫീൽഡുകളും (വാഹന ഇനം, വിഭാഗം തുടങ്ങിയവ)
+                // ബാക്കി ഡാറ്റ ലൂപ്പ് ചെയ്യുന്നു
                 for (let key in d) {
-                    // ഇതിനകം മുകളിൽ കൊടുത്തവയും, സിസ്റ്റം ഫീൽഡുകളും ഒഴിവാക്കുന്നു
-                    const reserved = ['name', 'phone', 'place', 'ty', 'no', 'timestamp', 'time', 'leave', 'off', 'oname', 'vname', 'item', 'category', 'vtype'];
-                    
                     if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") { 
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                        extraFieldsHTML += `
-                            <div class="info-row row-extra">
-                                <div class="info-label">${label}:</div>
-                                <div class="info-value">${d[key]}</div>
-                            </div>`;
+                        extraFieldsHTML += `<div class="info-inline-row" style="display:flex; margin-bottom:4px; font-size:14px;"><span class="inline-label" style="font-weight:600; min-width:100px; color:#555;">${label}:</span><span class="inline-value">${d[key]}</span></div>`;
                     }
                 }
 
                 displayHTML = `
-                    <div class="person-card">
+                    <div class="person-card" style="border-left:5px solid #1b5e20;">
                         <div class="person-info">${extraFieldsHTML}</div>
                         <div class="call-section">
                             <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
@@ -247,6 +219,7 @@ window.openCategory = async (catId, catName) => {
         });
     } catch (e) { console.error("Open Category Error:", e); }
 };
+
 
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
