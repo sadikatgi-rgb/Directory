@@ -242,42 +242,40 @@ window.openCategory = async (catId, catName) => {
             });
         }
 
-        // 2. സെർച്ച് ലിസണർ
-        if (searchInput) {
-            searchInput.addEventListener('input', () => {
-                const filter = searchInput.value.toLowerCase().trim();
-                const cards = cardsInner.getElementsByClassName('person-card');
-                let found = false;
+        // 2. സെർച്ച് ലിസണർ (Updated)
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase().trim();
+        const cards = cardsInner.getElementsByClassName('person-card');
+        let found = false;
 
-                Array.from(cards).forEach(card => {
-                    const infoElement = card.querySelector('.person-info');
-                    const content = infoElement ? infoElement.innerText.toLowerCase() : "";
-                    
-                    if (content.includes(filter)) {
-                        card.style.display = "block";
-                        found = true;
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
+        Array.from(cards).forEach(card => {
+            // കാർഡിനുള്ളിലെ എല്ലാ ടെക്സ്റ്റും (പേര്, സ്ഥലം, ഫോൺ ഉൾപ്പെടെ) എടുക്കുന്നു
+            const content = card.textContent || card.innerText;
+            
+            if (content.toLowerCase().indexOf(filter) > -1) {
+                card.style.display = ""; // കാണിക്കുന്നു (block എന്നതിന് പകരം "" നൽകുന്നത് ലേഔട്ട് കൃത്യമാക്കും)
+                found = true;
+            } else {
+                card.style.display = "none"; // മറയ്ക്കുന്നു
+            }
+        });
 
-                let noMsg = document.getElementById('no-results-msg');
-                if (!found && filter !== "") {
-                    if (!noMsg) {
-                        const msg = document.createElement('p');
-                        msg.id = 'no-results-msg';
-                        msg.style.textAlign = 'center';
-                        msg.style.padding = '20px';
-                        msg.style.fontWeight = 'bold';
-                        msg.style.color = 'red';
-                        msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
-                        cardsInner.appendChild(msg);
-                    }
-                } else if (noMsg) {
-                    noMsg.remove();
-                }
-            });
+        // 'വിവരങ്ങൾ ലഭ്യമല്ല' എന്ന സന്ദേശം കൈകാര്യം ചെയ്യുന്നു
+        let noMsg = document.getElementById('no-results-msg');
+        if (!found && filter !== "") {
+            if (!noMsg) {
+                const msg = document.createElement('p');
+                msg.id = 'no-results-msg';
+                msg.style.cssText = "text-align:center; padding:20px; font-weight:bold; color:red; width:100%;";
+                msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
+                cardsInner.appendChild(msg);
+            }
+        } else if (noMsg) {
+            noMsg.remove();
         }
+    });
+}
 
     } catch (e) { 
         console.error("Error:", e); 
