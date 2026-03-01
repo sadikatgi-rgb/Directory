@@ -144,7 +144,7 @@ window.openCategory = async (catId, catName) => {
 
     const container = document.getElementById('list-container');
     
-    // 1. സെർച്ച് ബാർ ഒതുക്കമുള്ളതാക്കി (width: 80%) ഇവിടെ ചേർക്കുന്നു
+    // 1. സെർച്ച് ബാർ ഡിസൈൻ
     container.innerHTML = `
         <div style="padding: 10px 15px; position: sticky; top: 0; background: #fff; z-index: 100;">
             <input type="text" id="live-search-box" placeholder="തിരയുക..." 
@@ -183,40 +183,32 @@ window.openCategory = async (catId, catName) => {
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
-                // പേര് നൽകുന്ന ഭാഗം (Font size 20px ആക്കി കുറച്ചു)
+                // പേര് സെക്ഷൻ
                 extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
                 const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
+                // വിവരങ്ങൾ ലൂപ്പ് ചെയ്യുന്നു (Compact Design)
                 for (let key in d) {
                     if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
                         const iconClass = icons[key] || 'fas fa-chevron-right';
                         let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
 
-                        // വരികൾക്കിടയിലുള്ള അകലം കുറച്ചു (margin-bottom: 4px)
-                        // പഴയ extraFieldsHTML ഭാഗത്തിന് പകരം ഇത് നൽകുക
-// ഫോണ്ട് സൈസ് കുറയ്ക്കാതെ തന്നെ സ്പേസ് കുറച്ച പുതിയ കോഡ്
-for (let key in d) {
-    if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
-        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-        const iconClass = icons[key] || 'fas fa-chevron-right';
-        let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
+                        extraFieldsHTML += `
+                            <div class="info-inline-row" style="display:block; margin-bottom: 2px; line-height: 1.1;">
+                                <div style="font-weight:900; font-size:17px; color:${labelColor}; margin-bottom: 0px; display:flex; align-items:center; gap:8px;">
+                                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
+                                </div>
+                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: -2px;">
+                                    ${d[key]}
+                                </div>
+                            </div>`;
+                    }
+                }
 
-        // margin-bottom ഉം line-height ഉം കുറച്ചു
-        extraFieldsHTML += `
-            <div class="info-inline-row" style="display:block; margin-bottom: 2px; line-height: 1.1;">
-                <div style="font-weight:900; font-size:18px; color:${labelColor}; margin-bottom: 0px; display:flex; align-items:center; gap:8px;">
-                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
-                </div>
-                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: -2px;">
-                    ${d[key]}
-                </div>
-            </div>`;
-    }
-}
-
+                // ബട്ടണുകൾ
                 let buttonsHTML = "";
                 if (currentUser) {
                     buttonsHTML = `
@@ -240,17 +232,17 @@ for (let key in d) {
                     }
                 }
 
-                // കാർഡിന്റെ padding ഉം margin ഉം കുറച്ചു
+                // ഫൈനൽ കാർഡ് നിർമ്മാണം
                 const displayHTML = `
-    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 6px 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor}; display: block;">
-        <div class="person-info" style="margin-bottom: 2px;">${extraFieldsHTML}</div>
-        ${buttonsHTML}
-    </div>`;         
+                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 6px 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor}; display: block;">
+                        <div class="person-info" style="margin-bottom: 2px;">${extraFieldsHTML}</div>
+                        ${buttonsHTML}
+                    </div>`;         
                 cardsInner.innerHTML += displayHTML;
             });
         }
 
-   // 2. സെർച്ച് കൃത്യമായി പ്രവർത്തിപ്പിക്കാനുള്ള Event Listener
+        // 2. സെർച്ച് ലിസണർ
         if (searchInput) {
             searchInput.addEventListener('input', () => {
                 const filter = searchInput.value.toLowerCase().trim();
@@ -258,7 +250,6 @@ for (let key in d) {
                 let found = false;
 
                 Array.from(cards).forEach(card => {
-                    // കാർഡിനുള്ളിലെ .person-info എന്ന ഭാഗത്തെ ടെക്സ്റ്റ് മാത്രം പരിശോധിക്കുന്നു
                     const infoElement = card.querySelector('.person-info');
                     const content = infoElement ? infoElement.innerText.toLowerCase() : "";
                     
@@ -270,7 +261,6 @@ for (let key in d) {
                     }
                 });
 
-                // "വിവരങ്ങൾ ലഭ്യമല്ല" എന്ന സന്ദേശം നിയന്ത്രിക്കാൻ
                 let noMsg = document.getElementById('no-results-msg');
                 if (!found && filter !== "") {
                     if (!noMsg) {
@@ -294,6 +284,7 @@ for (let key in d) {
         cardsInner.innerHTML = "<p style='text-align:center;'>പിശക് സംഭവിച്ചു!</p>";
     }
 };
+      
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
