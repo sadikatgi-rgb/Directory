@@ -112,7 +112,7 @@ window.showHome = () => {
     const homeLogic = document.getElementById('home-screen');
     if(homeView) homeView.classList.remove('hidden');
     if(homeLogic) homeLogic.classList.remove('hidden');
-    document.getElementById('main-header-title').innerText = "വിഭവ ഡಯറക്ടറി";
+    document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
     const menuIcon = document.getElementById('main-menu-icon');
     const backBtn = document.getElementById('header-back-btn');
     if(menuIcon) menuIcon.classList.remove('hidden');
