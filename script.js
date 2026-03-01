@@ -130,7 +130,7 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-window.openCategory = async (catId, catName) => {
+Window.openCategory = async (catId, catName) => {
     hideAll();
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -148,105 +148,102 @@ window.openCategory = async (catId, catName) => {
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
         const querySnapshot = await getDocs(q);
-        container.innerHTML = "";
+        
+        // 1. കണ്ടെയ്നർ ക്ലിയർ ചെയ്ത് ആദ്യം സെർച്ച് ബാർ ആഡ് ചെയ്യുന്നു
+        container.innerHTML = `
+            <div style="padding: 10px 15px;">
+                <input type="text" id="search-input" placeholder="തിരയുക..." 
+                    style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none;">
+            </div>
+            <div id="cards-inner-container"></div>`;
+
+        const cardsInner = document.getElementById('cards-inner-container');
 
         if (catId === 'admins') {
-            container.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
+            cardsInner.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
-            container.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
-            return;
+            cardsInner.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+        } else {
+            querySnapshot.forEach(docSnap => {
+                const d = docSnap.data();
+                const id = docSnap.id;
+                const dataStr = encodeURIComponent(JSON.stringify(d));
+                let extraFieldsHTML = "";
+
+                const isAnnouncement = (catId === 'announcements');
+                const cardBorderColor = isAnnouncement ? "#c62828" : "#1b5e20";
+                const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
+
+                const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
+                const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
+                
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+
+                const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
+                const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
+
+                for (let key in d) {
+                    if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
+                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+                        const iconClass = icons[key] || 'fas fa-chevron-right';
+                        let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
+
+                        extraFieldsHTML += `
+                            <div class="info-inline-row" style="display:block; margin-bottom:12px;">
+                                <div style="font-weight:900; font-size:17px; color:${labelColor}; margin-bottom:4px; display:flex; align-items:center; gap:8px;">
+                                    <i class="${iconClass}" style="width:20px;"></i> ${label}:
+                                </div>
+                                <div style="font-weight:800; font-size:19px; color:#000; padding-left:28px;">
+                                    ${d[key]}
+                                </div>
+                            </div>`;
+                    }
+                }
+
+                let buttonsHTML = "";
+                if (currentUser) {
+                    buttonsHTML = `
+                        <div class="admin-btns" style="display:flex; gap:10px; margin-top:15px;">
+                            <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Edit</button>
+                            <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Delete</button>
+                        </div>`;
+                } else if (!isAnnouncement) {
+                    const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
+                    if (whatsappCategories.includes(catId)) {
+                        buttonsHTML = `
+                            <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
+                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
+                                <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
+                            </div>`;
+                    } else {
+                        buttonsHTML = `
+                            <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
+                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                            </div>`;
+                    }
+                }
+
+                const displayHTML = `
+                    <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
+                        <div class="person-info">${extraFieldsHTML}</div>
+                        ${buttonsHTML}
+                    </div>`;
+                
+                cardsInner.innerHTML += displayHTML;
+            });
         }
 
-        querySnapshot.forEach(docSnap => {
-            const d = docSnap.data();
-            const id = docSnap.id;
-            const dataStr = encodeURIComponent(JSON.stringify(d));
-            let extraFieldsHTML = "";
+        // 2. ലൂപ്പിന് ശേഷം മാത്രം Event Listener കൊടുക്കുന്നു
+        const searchBox = document.getElementById('search-input');
+        if (searchBox) {
+            searchBox.addEventListener('input', window.filterResults);
+        }
 
-            // --- 1. കാർഡിന്റെ ബോർഡർ നിറം തീരുമാനിക്കുന്നു ---
-            const isAnnouncement = (catId === 'announcements');
-            const cardBorderColor = isAnnouncement ? "#c62828" : "#1b5e20"; // അറിയിപ്പിന് ചുവപ്പ്, മറ്റുള്ളവയ്ക്ക് പച്ച
-            const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
-
-            // --- 2. പേര് (Title) ---
-            const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
-            const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
-            
-            extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
-
-            const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
-            const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
-
-            for (let key in d) {
-                if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                    const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
-                    const iconClass = icons[key] || 'fas fa-chevron-right';
-                    
-                    // വിവരങ്ങൾക്കുള്ള നിറങ്ങൾ
-                    let labelColor = "#2e7d32"; 
-                    if (key === 'place' || key === 'leave' || key === 'off') labelColor = "#c62828"; 
-                    if (key === 'time') labelColor = "#1565c0"; 
-
-                    extraFieldsHTML += `
-                        <div class="info-inline-row" style="display:block; margin-bottom:12px;">
-                            <div style="font-weight:900; font-size:17px; color:${labelColor}; margin-bottom:4px; display:flex; align-items:center; gap:8px;">
-                                <i class="${iconClass}" style="width:20px;"></i> ${label}:
-                            </div>
-                            <div style="font-weight:800; font-size:19px; color:#000; padding-left:28px;">
-                                ${d[key]}
-                            </div>
-                        </div>`;
-                }
-            }
-
-            // --- 3. ബട്ടണുകൾ തീരുമാനിക്കുന്നു ---
-                        let buttonsHTML = "";
-            if (currentUser) {
-                // അഡ്മിൻ ആണെങ്കിൽ എല്ലാത്തിലും (അറിയിപ്പിലും) Edit/Delete വേണം
-                buttonsHTML = `
-                    <div class="admin-btns" style="display:flex; gap:10px; margin-top:15px;">
-                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Edit</button>
-                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Delete</button>
-                    </div>`;
-            } else if (!isAnnouncement) {
-                // വാട്സാപ്പ് ബട്ടൺ ആവശ്യമുള്ള കാറ്റഗറികൾ (ഇപ്പോൾ അഡ്മിൻസും ഉൾപ്പെടുത്തി)
-                const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
-                
-                if (whatsappCategories.includes(catId)) {
-                    // കടകൾ, സഹായ കേന്ദ്രങ്ങൾ, പണ്ടാരികൾ, അഡ്മിൻസ് എന്നിവർക്ക് കോൾ + വാട്സാപ്പ് ബട്ടൺ
-                    buttonsHTML = `
-                        <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
-                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
-                        </div>`;
-                } else {
-                    // മറ്റുള്ളവർക്ക് കോൾ ബട്ടൺ മാത്രം
-                    buttonsHTML = `
-                        <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
-                        </div>`;
-                }
-            }
-
-// openCategory ഫംഗ്‌ഷന്റെ അവസാനം ഇത് ചേർക്കുക
-const searchBox = document.getElementById('search-input');
-if (searchBox) {
-    searchBox.addEventListener('input', window.filterResults);
-}
-
-            // --- 4. കാർഡ് ഡിസൈൻ ---
-            const displayHTML = `
-                <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
-                    <div class="person-info">${extraFieldsHTML}</div>
-                    ${buttonsHTML}
-                </div>`;
-            
-            container.innerHTML += displayHTML;
-        });
     } catch (e) { console.error("Open Category Error:", e); }
 };
+
 
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
