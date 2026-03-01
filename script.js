@@ -343,41 +343,6 @@ window.deleteEntry = async (catId, docId) => {
         } catch (e) { alert("Error!"); }
     }
 };
-// സെർച്ച് ഫംഗ്‌ഷൻ (ഇത് script.js-ൽ എവിടെയെങ്കിലും ചേർക്കുക)
-window.filterResults = () => {
-    const input = document.getElementById('search-input');
-    const filter = input.value.toLowerCase().trim();
-    const container = document.getElementById('list-container');
-    const cards = container.getElementsByClassName('person-card');
-    
-    let found = false;
-    for (let i = 0; i < cards.length; i++) {
-        // കാർഡിനുള്ളിലെ പേരും സ്ഥലവും മറ്റ് വിവരങ്ങളും പരിശോധിക്കുന്നു
-        const content = cards[i].innerText.toLowerCase();
-        if (content.includes(filter)) {
-            cards[i].style.display = ""; // കാണിക്കുന്നു
-            found = true;
-        } else {
-            cards[i].style.display = "none"; // മറയ്ക്കുന്നു
-        }
-    }
-
-    // ഫലം ഇല്ലെങ്കിൽ സന്ദേശം കാണിക്കാൻ
-    let noMsg = document.getElementById('no-results');
-    if (!found && filter !== "") {
-        if (!noMsg) {
-            noMsg = document.createElement('p');
-            noMsg.id = 'no-results';
-            noMsg.style.cssText = "text-align:center; padding:20px; font-weight:bold; color:red;";
-            noMsg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
-            container.appendChild(noMsg);
-        }
-    } else if (noMsg) {
-        noMsg.remove();
-    }
-};
-
-    
 
 window.showAdminLogin = () => { 
     hideAll(); 
