@@ -196,17 +196,26 @@ window.openCategory = async (catId, catName) => {
                         let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
 
                         // വരികൾക്കിടയിലുള്ള അകലം കുറച്ചു (margin-bottom: 4px)
-                        extraFieldsHTML += `
-                            <div class="info-inline-row" style="display:block; margin-bottom:4px;">
-                                <div style="font-weight:900; font-size:16px; color:${labelColor}; margin-bottom:2px; display:flex; align-items:center; gap:8px;">
-                                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
-                                </div>
-                                <div style="font-weight:800; font-size:17px; color:#000; padding-left:26px;">
-                                    ${d[key]}
-                                </div>
-                            </div>`;
-                    }
-                }
+                        // പഴയ extraFieldsHTML ഭാഗത്തിന് പകരം ഇത് നൽകുക
+// ഫോണ്ട് സൈസ് കുറയ്ക്കാതെ തന്നെ സ്പേസ് കുറച്ച പുതിയ കോഡ്
+for (let key in d) {
+    if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
+        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+        const iconClass = icons[key] || 'fas fa-chevron-right';
+        let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
+
+        // margin-bottom ഉം line-height ഉം കുറച്ചു
+        extraFieldsHTML += `
+            <div class="info-inline-row" style="display:block; margin-bottom: 2px; line-height: 1.1;">
+                <div style="font-weight:900; font-size:18px; color:${labelColor}; margin-bottom: 0px; display:flex; align-items:center; gap:8px;">
+                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
+                </div>
+                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: -2px;">
+                    ${d[key]}
+                </div>
+            </div>`;
+    }
+}
 
                 let buttonsHTML = "";
                 if (currentUser) {
@@ -233,25 +242,50 @@ window.openCategory = async (catId, catName) => {
 
                 // കാർഡിന്റെ padding ഉം margin ഉം കുറച്ചു
                 const displayHTML = `
-                    <div class="person-card" style="background:#fff; border-radius:12px; padding:12px; margin-bottom:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
-                        <div class="person-info">${extraFieldsHTML}</div>
-                        ${buttonsHTML}
-                    </div>`;
-                
+    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 6px 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor}; display: block;">
+        <div class="person-info" style="margin-bottom: 2px;">${extraFieldsHTML}</div>
+        ${buttonsHTML}
+    </div>`;         
                 cardsInner.innerHTML += displayHTML;
             });
         }
 
-        // 2. സെർച്ച് കൃത്യമായി പ്രവർത്തിപ്പിക്കാനുള്ള Event Listener
+   // 2. സെർച്ച് കൃത്യമായി പ്രവർത്തിപ്പിക്കാനുള്ള Event Listener
         if (searchInput) {
             searchInput.addEventListener('input', () => {
                 const filter = searchInput.value.toLowerCase().trim();
                 const cards = cardsInner.getElementsByClassName('person-card');
-                
+                let found = false;
+
                 Array.from(cards).forEach(card => {
-                    const content = card.innerText.toLowerCase();
-                    card.style.display = content.includes(filter) ? "block" : "none";
+                    // കാർഡിനുള്ളിലെ .person-info എന്ന ഭാഗത്തെ ടെക്സ്റ്റ് മാത്രം പരിശോധിക്കുന്നു
+                    const infoElement = card.querySelector('.person-info');
+                    const content = infoElement ? infoElement.innerText.toLowerCase() : "";
+                    
+                    if (content.includes(filter)) {
+                        card.style.display = "block";
+                        found = true;
+                    } else {
+                        card.style.display = "none";
+                    }
                 });
+
+                // "വിവരങ്ങൾ ലഭ്യമല്ല" എന്ന സന്ദേശം നിയന്ത്രിക്കാൻ
+                let noMsg = document.getElementById('no-results-msg');
+                if (!found && filter !== "") {
+                    if (!noMsg) {
+                        const msg = document.createElement('p');
+                        msg.id = 'no-results-msg';
+                        msg.style.textAlign = 'center';
+                        msg.style.padding = '20px';
+                        msg.style.fontWeight = 'bold';
+                        msg.style.color = 'red';
+                        msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
+                        cardsInner.appendChild(msg);
+                    }
+                } else if (noMsg) {
+                    noMsg.remove();
+                }
             });
         }
 
@@ -260,8 +294,6 @@ window.openCategory = async (catId, catName) => {
         cardsInner.innerHTML = "<p style='text-align:center;'>പിശക് സംഭവിച്ചു!</p>";
     }
 };
-
-
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
