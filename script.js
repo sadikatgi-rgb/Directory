@@ -130,7 +130,8 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-window.openCategory = async (catId, catName) => {
+
+    Window.openCategory = async (catId, catName) => {
     hideAll();
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -144,22 +145,23 @@ window.openCategory = async (catId, catName) => {
 
     const container = document.getElementById('list-container');
     
-    // 1. സെർച്ച് ബാർ ഡിസൈൻ
+    // 1. സെർച്ച് ബാർ ഡിസൈൻ (Sticky)
     container.innerHTML = `
-    <div id="search-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
-        <input type="text" id="live-search-box" placeholder="തിരയുക..." 
-            style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
-        
-        <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
-            വിവരങ്ങൾ ലഭ്യമല്ല!
+        <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
+            <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
+                style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
+            
+            <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
+                വിവരങ്ങൾ ലഭ്യമല്ല!
+            </div>
         </div>
-    </div>
-    <div id="cards-inner-container" style="padding: 10px;">
-        <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
-    </div>`;
+        <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
+            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+        </div>`;
 
     const cardsInner = document.getElementById('cards-inner-container');
     const searchInput = document.getElementById('live-search-box');
+    const noMsg = document.getElementById('no-results-msg');
 
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? 
@@ -189,13 +191,11 @@ window.openCategory = async (catId, catName) => {
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
-                // പേര് സെക്ഷൻ
                 extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
                 const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // വിവരങ്ങൾ ലൂപ്പ് ചെയ്യുന്നു (Compact Design)
                 for (let key in d) {
                     if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
                         const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
@@ -214,7 +214,6 @@ window.openCategory = async (catId, catName) => {
                     }
                 }
 
-                // ബട്ടണുകൾ
                 let buttonsHTML = "";
                 if (currentUser) {
                     buttonsHTML = `
@@ -238,64 +237,49 @@ window.openCategory = async (catId, catName) => {
                     }
                 }
 
-               // 1. സെർച്ച് ബാർ & മെസ്സേജ് ബോക്സ് (Sticky)
-    container.innerHTML = `
-        <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
-            <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
-                style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
-            
-            <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
-                വിവരങ്ങൾ ലഭ്യമല്ല!
-            </div>
-        </div>
-        <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
-            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
-        </div>`;
-
-    // ഈ വരികൾ മറക്കാതെ ചേർക്കുക
-    const cardsInner = document.getElementById('cards-inner-container');
-    const searchInput = document.getElementById('live-search-box');
-    const noMsg = document.getElementById('no-results-msg');
-if (searchInput) {
-    searchInput.oninput = () => {
-        const filter = searchInput.value.toLowerCase().trim();
-        const currentCards = cardsInner.getElementsByClassName('person-card');
-        const noMsg = document.getElementById('no-results-msg');
-        let found = false;
-
-        // ഓരോ തവണ ടൈപ്പ് ചെയ്യുമ്പോഴും സ്ക്രീൻ തനിയെ മുകളിലേക്ക് പോകുന്നത് 
-        // ഒഴിവാക്കാൻ റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം സ്ക്രോൾ ചെയ്യിച്ചാൽ മതി.
-        
-        Array.from(currentCards).forEach(card => {
-            const content = card.innerText.toLowerCase();
-            
-            if (content.includes(filter)) {
-                // കാർഡ് കാണിക്കാൻ കൃത്യമായി 'block' നൽകുക
-                card.style.display = "block"; 
-                found = true;
-            } else {
-                // കാർഡ് മറയ്ക്കാൻ 'none'
-                card.style.display = "none"; 
-            }
-        });
-
-        // അറിയിപ്പ് കാണിക്കേണ്ട ലോജിക്
-        if (filter !== "" && !found) {
-            noMsg.style.display = "block";
-            // റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം മുകളിലേക്ക് സ്ക്രോൾ ചെയ്യുക
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            noMsg.style.display = "none";
+                // കാർഡ് ഡിസൈനിൽ display:block ഒഴിവാക്കി
+                const displayHTML = `
+                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor};">
+                        <div class="person-info">${extraFieldsHTML}</div>
+                        ${buttonsHTML}
+                    </div>`;         
+                cardsInner.innerHTML += displayHTML;
+            });
         }
-    };
-}
+
+        // 2. സെർച്ച് ലിസണർ ലോജിക്
+        if (searchInput) {
+            searchInput.oninput = () => {
+                const filter = searchInput.value.toLowerCase().trim();
+                const currentCards = cardsInner.getElementsByClassName('person-card');
+                let found = false;
+
+                Array.from(currentCards).forEach(card => {
+                    const content = card.innerText.toLowerCase();
+                    if (content.includes(filter)) {
+                        card.style.display = "block"; 
+                        found = true;
+                    } else {
+                        card.style.display = "none"; 
+                    }
+                });
+
+                if (filter !== "" && !found) {
+                    noMsg.style.display = "block";
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    noMsg.style.display = "none";
+                }
+            };
+        }
 
     } catch (e) { 
         console.error("Error:", e); 
         cardsInner.innerHTML = "<p style='text-align:center;'>പിശക് സംഭവിച്ചു!</p>";
     }
 };
-      
+
+ 
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
