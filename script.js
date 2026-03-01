@@ -238,51 +238,57 @@ window.openCategory = async (catId, catName) => {
                     }
                 }
 
-                // ഫൈനൽ കാർഡ് നിർമ്മാണം
-                const displayHTML = `
-                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 6px 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor}; display: block;">
-                        <div class="person-info" style="margin-bottom: 2px;">${extraFieldsHTML}</div>
-                        ${buttonsHTML}
-                    </div>`;         
-                cardsInner.innerHTML += displayHTML;
-            });
-        }
-// കാർഡുകൾ എല്ലാം റെൻഡർ ചെയ്തുകഴിഞ്ഞു എന്ന് ഉറപ്പുവരുത്തിയ ശേഷം ഇത് നൽകുക
-const searchInput = document.getElementById('live-search-box');
-const noMsg = document.getElementById('no-results-msg');
+               // 1. സെർച്ച് ബാർ & മെസ്സേജ് ബോക്സ് (Sticky)
+    container.innerHTML = `
+        <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
+            <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
+                style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
+            
+            <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
+                വിവരങ്ങൾ ലഭ്യമല്ല!
+            </div>
+        </div>
+        <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
+            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+        </div>`;
 
+    // ഈ വരികൾ മറക്കാതെ ചേർക്കുക
+    const cardsInner = document.getElementById('cards-inner-container');
+    const searchInput = document.getElementById('live-search-box');
+    const noMsg = document.getElementById('no-results-msg');
 if (searchInput) {
     searchInput.oninput = () => {
         const filter = searchInput.value.toLowerCase().trim();
-        // നേരിട്ട് കണ്ടെയ്നറിനുള്ളിലെ കാർഡുകൾ എടുക്കുന്നു
         const currentCards = cardsInner.getElementsByClassName('person-card');
+        const noMsg = document.getElementById('no-results-msg');
         let found = false;
 
-        // സെർച്ച് ചെയ്യുമ്പോൾ സ്ക്രീൻ മുകളിലേക്ക് പോകാൻ
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        // ഓരോ തവണ ടൈപ്പ് ചെയ്യുമ്പോഴും സ്ക്രീൻ തനിയെ മുകളിലേക്ക് പോകുന്നത് 
+        // ഒഴിവാക്കാൻ റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം സ്ക്രോൾ ചെയ്യിച്ചാൽ മതി.
+        
         Array.from(currentCards).forEach(card => {
-            // ഐക്കണുകൾ നഷ്ടപ്പെടാതെ ടെക്സ്റ്റ്‌ മാത്രം എടുക്കുന്നു
             const content = card.innerText.toLowerCase();
             
             if (content.includes(filter)) {
-                card.style.display = ""; // കാണിക്കുന്നു
+                // കാർഡ് കാണിക്കാൻ കൃത്യമായി 'block' നൽകുക
+                card.style.display = "block"; 
                 found = true;
             } else {
-                card.style.display = "none"; // മറയ്ക്കുന്നു
+                // കാർഡ് മറയ്ക്കാൻ 'none'
+                card.style.display = "none"; 
             }
         });
 
         // അറിയിപ്പ് കാണിക്കേണ്ട ലോജിക്
         if (filter !== "" && !found) {
-            noMsg.style.display = "block"; // മുകളിൽ സെർച്ച് ബാറിന് താഴെ കാണിക്കും
+            noMsg.style.display = "block";
+            // റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം മുകളിലേക്ക് സ്ക്രോൾ ചെയ്യുക
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
             noMsg.style.display = "none";
         }
     };
 }
-
-
 
     } catch (e) { 
         console.error("Error:", e); 
