@@ -137,7 +137,6 @@ window.openCategory = async (catId, catName) => {
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 
-    // സ്ക്രീൻ മാറ്റങ്ങൾ
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
     document.getElementById('main-menu-icon').classList.add('hidden');
@@ -145,18 +144,16 @@ window.openCategory = async (catId, catName) => {
 
     const container = document.getElementById('list-container');
     
-    // 1. കണ്ടെയ്നർ ക്ലിയർ ചെയ്ത് പുതിയ സെർച്ച് ബാറും കാർഡ് ഹോൾഡറും ഉണ്ടാക്കുന്നു
+    // 1. സെർച്ച് ബാർ ഒതുക്കമുള്ളതാക്കി (width: 80%) ഇവിടെ ചേർക്കുന്നു
     container.innerHTML = `
-        <div style="padding: 10px 15px;">
-            <input type="text" id="dynamic-search-input" placeholder="തിരയുക..." 
-                style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box;">
+        <div style="padding: 10px 15px; position: sticky; top: 0; background: #fff; z-index: 100;">
+            <input type="text" id="live-search-box" placeholder="തിരയുക..." 
+                style="width: 80%; display: block; margin: 0 auto; padding: 10px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box;">
         </div>
-        <div id="cards-inner-container">
-            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
-        </div>`;
+        <div id="cards-inner-container"><p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p></div>`;
 
     const cardsInner = document.getElementById('cards-inner-container');
-    const searchInput = document.getElementById('dynamic-search-input');
+    const searchInput = document.getElementById('live-search-box');
 
     try {
         let q = (catId === 'announcements' || catId === 'admins') ? 
@@ -164,7 +161,7 @@ window.openCategory = async (catId, catName) => {
                 query(collection(db, catId));
         
         const querySnapshot = await getDocs(q);
-        cardsInner.innerHTML = ""; // ലോഡിംഗ് ടെക്സ്റ്റ് മാറ്റുന്നു
+        cardsInner.innerHTML = ""; 
 
         if (catId === 'admins') {
             cardsInner.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
@@ -186,7 +183,8 @@ window.openCategory = async (catId, catName) => {
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
-                extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+                // പേര് നൽകുന്ന ഭാഗം (Font size 20px ആക്കി കുറച്ചു)
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
                 const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
@@ -197,12 +195,13 @@ window.openCategory = async (catId, catName) => {
                         const iconClass = icons[key] || 'fas fa-chevron-right';
                         let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
 
+                        // വരികൾക്കിടയിലുള്ള അകലം കുറച്ചു (margin-bottom: 4px)
                         extraFieldsHTML += `
-                            <div class="info-inline-row" style="display:block; margin-bottom:12px;">
-                                <div style="font-weight:900; font-size:17px; color:${labelColor}; margin-bottom:4px; display:flex; align-items:center; gap:8px;">
-                                    <i class="${iconClass}" style="width:20px;"></i> ${label}:
+                            <div class="info-inline-row" style="display:block; margin-bottom:4px;">
+                                <div style="font-weight:900; font-size:16px; color:${labelColor}; margin-bottom:2px; display:flex; align-items:center; gap:8px;">
+                                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
                                 </div>
-                                <div style="font-weight:800; font-size:19px; color:#000; padding-left:28px;">
+                                <div style="font-weight:800; font-size:17px; color:#000; padding-left:26px;">
                                     ${d[key]}
                                 </div>
                             </div>`;
@@ -212,28 +211,29 @@ window.openCategory = async (catId, catName) => {
                 let buttonsHTML = "";
                 if (currentUser) {
                     buttonsHTML = `
-                        <div class="admin-btns" style="display:flex; gap:10px; margin-top:15px;">
-                            <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Edit</button>
-                            <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:12px; border-radius:30px; border:none; font-weight:900; font-size:16px;">Delete</button>
+                        <div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
+                            <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Edit</button>
+                            <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Delete</button>
                         </div>`;
                 } else if (!isAnnouncement) {
                     const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
                     if (whatsappCategories.includes(catId)) {
                         buttonsHTML = `
-                            <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> കോൾ</a>
-                                <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fab fa-whatsapp"></i> Chat</a>
+                            <div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
+                                <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
                             </div>`;
                     } else {
                         buttonsHTML = `
-                            <div class="call-section" style="display:flex; gap:10px; margin-top:15px;">
-                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:12px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900; font-size:16px;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                            <div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
                             </div>`;
                     }
                 }
 
+                // കാർഡിന്റെ padding ഉം margin ഉം കുറച്ചു
                 const displayHTML = `
-                    <div class="person-card" style="background:#fff; border-radius:15px; padding:18px; margin-bottom:18px; box-shadow:0 6px 15px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
+                    <div class="person-card" style="background:#fff; border-radius:12px; padding:12px; margin-bottom:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-left:10px solid ${cardBorderColor}; display:block;">
                         <div class="person-info">${extraFieldsHTML}</div>
                         ${buttonsHTML}
                     </div>`;
@@ -242,47 +242,25 @@ window.openCategory = async (catId, catName) => {
             });
         }
 
-        // 2. സെർച്ച് വർക്ക് ചെയ്യിക്കാൻ Event Listener നൽകുന്നു
+        // 2. സെർച്ച് കൃത്യമായി പ്രവർത്തിപ്പിക്കാനുള്ള Event Listener
         if (searchInput) {
             searchInput.addEventListener('input', () => {
                 const filter = searchInput.value.toLowerCase().trim();
                 const cards = cardsInner.getElementsByClassName('person-card');
-                let found = false;
-
-                for (let i = 0; i < cards.length; i++) {
-                    const content = cards[i].innerText.toLowerCase();
-                    if (content.includes(filter)) {
-                        cards[i].style.display = "";
-                        found = true;
-                    } else {
-                        cards[i].style.display = "none";
-                    }
-                }
-
-                // ഫലം ഇല്ലെങ്കിൽ സന്ദേശം കാണിക്കാൻ
-                let noMsg = document.getElementById('no-results-msg');
-                if (!found) {
-                    if (!noMsg) {
-                        const msg = document.createElement('p');
-                        msg.id = 'no-results-msg';
-                        msg.style.textAlign = 'center';
-                        msg.style.padding = '20px';
-                        msg.style.fontWeight = 'bold';
-                        msg.style.color = 'red';
-                        msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
-                        cardsInner.appendChild(msg);
-                    }
-                } else if (noMsg) {
-                    noMsg.remove();
-                }
+                
+                Array.from(cards).forEach(card => {
+                    const content = card.innerText.toLowerCase();
+                    card.style.display = content.includes(filter) ? "block" : "none";
+                });
             });
         }
 
     } catch (e) { 
-        console.error("Open Category Error:", e); 
-        cardsInner.innerHTML = "<p style='text-align:center;'>ഒരു പിശക് സംഭവിച്ചു!</p>";
+        console.error("Error:", e); 
+        cardsInner.innerHTML = "<p style='text-align:center;'>പിശക് സംഭവിച്ചു!</p>";
     }
 };
+
 
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
