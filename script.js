@@ -230,6 +230,11 @@ window.openCategory = async (catId, catName) => {
                 }
             }
 
+// openCategory ഫംഗ്‌ഷന്റെ അവസാനം ഇത് ചേർക്കുക
+const searchBox = document.getElementById('search-input');
+if (searchBox) {
+    searchBox.addEventListener('input', window.filterResults);
+}
 
             // --- 4. കാർഡ് ഡിസൈൻ ---
             const displayHTML = `
