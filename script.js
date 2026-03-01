@@ -146,11 +146,17 @@ window.openCategory = async (catId, catName) => {
     
     // 1. സെർച്ച് ബാർ ഡിസൈൻ
     container.innerHTML = `
-        <div style="padding: 10px 15px; position: sticky; top: 0; background: #fff; z-index: 100;">
-            <input type="text" id="live-search-box" placeholder="തിരയുക..." 
-                style="width: 80%; display: block; margin: 0 auto; padding: 10px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box;">
+    <div id="search-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
+        <input type="text" id="live-search-box" placeholder="തിരയുക..." 
+            style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
+        
+        <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
+            വിവരങ്ങൾ ലഭ്യമല്ല!
         </div>
-        <div id="cards-inner-container"><p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p></div>`;
+    </div>
+    <div id="cards-inner-container" style="padding: 10px;">
+        <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+    </div>`;
 
     const cardsInner = document.getElementById('cards-inner-container');
     const searchInput = document.getElementById('live-search-box');
@@ -241,41 +247,41 @@ window.openCategory = async (catId, catName) => {
                 cardsInner.innerHTML += displayHTML;
             });
         }
-// 2. സെർച്ച് ലിസണർ (Updated with Scroll)
+// കാർഡുകൾ എല്ലാം റെൻഡർ ചെയ്തുകഴിഞ്ഞു എന്ന് ഉറപ്പുവരുത്തിയ ശേഷം ഇത് നൽകുക
+const searchInput = document.getElementById('live-search-box');
+const noMsg = document.getElementById('no-results-msg');
+
 if (searchInput) {
     searchInput.oninput = () => {
-        // --- ഈ വരി ഇവിടെയാണ് ചേർക്കേണ്ടത് ---
-        window.scrollTo({ top: 0, behavior: 'smooth' }); 
-        
         const filter = searchInput.value.toLowerCase().trim();
-        const currentCards = document.querySelectorAll('#cards-inner-container .person-card');
+        // നേരിട്ട് കണ്ടെയ്നറിനുള്ളിലെ കാർഡുകൾ എടുക്കുന്നു
+        const currentCards = cardsInner.getElementsByClassName('person-card');
         let found = false;
 
-        currentCards.forEach(card => {
-            const content = card.textContent || card.innerText;
-            if (content.toLowerCase().indexOf(filter) > -1) {
-                card.style.display = ""; 
+        // സെർച്ച് ചെയ്യുമ്പോൾ സ്ക്രീൻ മുകളിലേക്ക് പോകാൻ
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        Array.from(currentCards).forEach(card => {
+            // ഐക്കണുകൾ നഷ്ടപ്പെടാതെ ടെക്സ്റ്റ്‌ മാത്രം എടുക്കുന്നു
+            const content = card.innerText.toLowerCase();
+            
+            if (content.includes(filter)) {
+                card.style.display = ""; // കാണിക്കുന്നു
                 found = true;
             } else {
-                card.style.display = "none";
+                card.style.display = "none"; // മറയ്ക്കുന്നു
             }
         });
 
-        // 'വിവരങ്ങൾ ലഭ്യമല്ല' മെസ്സേജ് ലോജിക് താഴെ തുടരും...
-        let noMsg = document.getElementById('no-results-msg');
-        if (!found && filter !== "") {
-            if (!noMsg) {
-                const msg = document.createElement('p');
-                msg.id = 'no-results-msg';
-                msg.style.cssText = "text-align:center; padding:20px; font-weight:bold; color:red; width:100%;";
-                msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
-                cardsInner.appendChild(msg);
-            }
-        } else if (noMsg) {
-            noMsg.remove();
+        // അറിയിപ്പ് കാണിക്കേണ്ട ലോജിക്
+        if (filter !== "" && !found) {
+            noMsg.style.display = "block"; // മുകളിൽ സെർച്ച് ബാറിന് താഴെ കാണിക്കും
+        } else {
+            noMsg.style.display = "none";
         }
     };
 }
+
 
 
     } catch (e) { 
