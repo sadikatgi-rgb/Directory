@@ -131,42 +131,50 @@ window.toggleMenu = () => {
 };
 
 
-    Window.openCategory = async (catId, catName) => {
-    hideAll();
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    if(sidebar) sidebar.classList.remove('active');
-    if(overlay) overlay.style.display = 'none';
-
-    document.getElementById('list-screen').classList.remove('hidden');
-    document.getElementById('main-header-title').innerText = catName;
-    document.getElementById('main-menu-icon').classList.add('hidden');
-    document.getElementById('header-back-btn').classList.remove('hidden');
-
-    const container = document.getElementById('list-container');
-    
-    // 1. സെർച്ച് ബാർ ഡിസൈൻ (Sticky)
-    container.innerHTML = `
-        <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
-            <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
-                style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
-            
-            <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
-                വിവരങ്ങൾ ലഭ്യമല്ല!
-            </div>
-        </div>
-        <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
-            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
-        </div>`;
-
-    const cardsInner = document.getElementById('cards-inner-container');
-    const searchInput = document.getElementById('live-search-box');
-    const noMsg = document.getElementById('no-results-msg');
-
+    window.openCategory = async (catId, catName) => {
     try {
-        let q = (catId === 'announcements' || catId === 'admins') ? 
-                query(collection(db, catId), orderBy('timestamp', 'desc')) : 
-                query(collection(db, catId));
+        hideAll();
+        // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        if(sidebar) sidebar.classList.remove('active');
+        if(overlay) overlay.style.display = 'none';
+
+        // ലിസ്റ്റ് സ്ക്രീൻ കാണിക്കുന്നു
+        const listScreen = document.getElementById('list-screen');
+        if(listScreen) listScreen.classList.remove('hidden');
+        
+        document.getElementById('main-header-title').innerText = catName;
+        document.getElementById('main-menu-icon').classList.add('hidden');
+        document.getElementById('header-back-btn').classList.remove('hidden');
+
+        const container = document.getElementById('list-container');
+        
+        // 1. സെർച്ച് ബാർ ഡിസൈൻ സെറ്റ് ചെയ്യുന്നു
+        container.innerHTML = `
+            <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
+                <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
+                    style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
+                <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
+                    വിവരങ്ങൾ ലഭ്യമല്ല!
+                </div>
+            </div>
+            <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
+                <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+            </div>`;
+
+        const cardsInner = document.getElementById('cards-inner-container');
+        const searchInput = document.getElementById('live-search-box');
+        const noMsg = document.getElementById('no-results-msg');
+
+        // Firestore ഡാറ്റ എടുക്കുന്നു
+        // ശ്രദ്ധിക്കുക: db, query, collection, getDocs എന്നിവ നിങ്ങളുടെ സ്ക്രിപ്റ്റിൽ നേരത്തെ ഡിഫൈൻ ചെയ്തതാണെന്ന് ഉറപ്പാക്കുക
+        let q;
+        if (catId === 'announcements' || catId === 'admins') {
+            q = query(collection(db, catId), orderBy('timestamp', 'desc'));
+        } else {
+            q = query(collection(db, catId));
+        }
         
         const querySnapshot = await getDocs(q);
         cardsInner.innerHTML = ""; 
@@ -185,9 +193,7 @@ window.toggleMenu = () => {
                 let extraFieldsHTML = "";
 
                 const isAnnouncement = (catId === 'announcements');
-                const cardBorderColor = isAnnouncement ? "#c62828" : "#1b5e20";
                 const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
-
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
@@ -198,16 +204,16 @@ window.toggleMenu = () => {
 
                 for (let key in d) {
                     if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                        const label = categoryConfig[catId] && categoryConfig[catId][key] ? categoryConfig[catId][key] : key;
+                        const label = (typeof categoryConfig !== 'undefined' && categoryConfig[catId] && categoryConfig[catId][key]) ? categoryConfig[catId][key] : key;
                         const iconClass = icons[key] || 'fas fa-chevron-right';
                         let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
 
                         extraFieldsHTML += `
-                            <div class="info-inline-row" style="display:block; margin-bottom: 2px; line-height: 1.1;">
-                                <div style="font-weight:900; font-size:17px; color:${labelColor}; margin-bottom: 0px; display:flex; align-items:center; gap:8px;">
+                            <div class="info-inline-row" style="margin-bottom: 5px;">
+                                <div style="font-weight:900; font-size:16px; color:${labelColor}; display:flex; align-items:center; gap:8px;">
                                     <i class="${iconClass}" style="width:18px;"></i> ${label}:
                                 </div>
-                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: -2px;">
+                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px;">
                                     ${d[key]}
                                 </div>
                             </div>`;
@@ -215,31 +221,30 @@ window.toggleMenu = () => {
                 }
 
                 let buttonsHTML = "";
-                if (currentUser) {
-                    buttonsHTML = `
-                        <div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
-                            <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Edit</button>
-                            <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Delete</button>
-                        </div>`;
+                // ലോഗിൻ ചെയ്ത അഡ്മിൻ ആണോ എന്ന് പരിശോധിക്കുന്നു
+                const isUser = (typeof currentUser !== 'undefined' && currentUser);
+                
+                if (isUser) {
+                    buttonsHTML = `<div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
+                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Edit</button>
+                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Delete</button>
+                    </div>`;
                 } else if (!isAnnouncement) {
                     const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
                     if (whatsappCategories.includes(catId)) {
-                        buttonsHTML = `
-                            <div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
-                                <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
-                            </div>`;
+                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
+                        </div>`;
                     } else {
-                        buttonsHTML = `
-                            <div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                                <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
-                            </div>`;
+                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                        </div>`;
                     }
                 }
 
-                // കാർഡ് ഡിസൈനിൽ display:block ഒഴിവാക്കി
                 const displayHTML = `
-                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${cardBorderColor};">
+                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${themeColor};">
                         <div class="person-info">${extraFieldsHTML}</div>
                         ${buttonsHTML}
                     </div>`;         
@@ -247,39 +252,34 @@ window.toggleMenu = () => {
             });
         }
 
-        // 2. സെർച്ച് ലിസണർ ലോജിക്
+        // 2. സെർച്ച് ലിസണർ അറ്റാച്ച് ചെയ്യുന്നു
         if (searchInput) {
             searchInput.oninput = () => {
                 const filter = searchInput.value.toLowerCase().trim();
-                const currentCards = cardsInner.getElementsByClassName('person-card');
+                const cards = cardsInner.getElementsByClassName('person-card');
                 let found = false;
 
-                Array.from(currentCards).forEach(card => {
+                Array.from(cards).forEach(card => {
                     const content = card.innerText.toLowerCase();
                     if (content.includes(filter)) {
-                        card.style.display = "block"; 
+                        card.style.display = "block";
                         found = true;
                     } else {
-                        card.style.display = "none"; 
+                        card.style.display = "none";
                     }
                 });
 
-                if (filter !== "" && !found) {
-                    noMsg.style.display = "block";
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    noMsg.style.display = "none";
-                }
+                if (noMsg) noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
             };
         }
 
     } catch (e) { 
-        console.error("Error:", e); 
-        cardsInner.innerHTML = "<p style='text-align:center;'>പിശക് സംഭവിച്ചു!</p>";
+        console.error("Error in openCategory:", e); 
+        const ci = document.getElementById('cards-inner-container');
+        if(ci) ci.innerHTML = "<p style='text-align:center; padding:20px; color:red;'>ഡാറ്റ ലോഡ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു!</p>";
     }
 };
 
- 
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
