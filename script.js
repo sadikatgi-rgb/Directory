@@ -130,7 +130,7 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-Window.openCategory = async (catId, catName) => {
+window.openCategory = async (catId, catName) => {
     hideAll();
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -240,11 +240,11 @@ Window.openCategory = async (catId, catName) => {
         if (searchBox) {
             searchBox.addEventListener('input', window.filterResults);
         }
-
-    } catch (e) { console.error("Open Category Error:", e); }
+        } catch (e) { 
+        console.error("Open Category Error:", e); 
+        cardsInner.innerHTML = "<p style='text-align:center;'>ഒരു പിശക് സംഭവിച്ചു!</p>";
+    }
 };
-
-
 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
