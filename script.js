@@ -137,34 +137,41 @@ window.openCategory = async (catId, catName) => {
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 
+    // സ്ക്രീൻ മാറ്റങ്ങൾ
     document.getElementById('list-screen').classList.remove('hidden');
     document.getElementById('main-header-title').innerText = catName;
     document.getElementById('main-menu-icon').classList.add('hidden');
     document.getElementById('header-back-btn').classList.remove('hidden');
 
     const container = document.getElementById('list-container');
-    container.innerHTML = "<p style='text-align:center;'>ശേഖരിക്കുന്നു...</p>";
     
-    try {
-        let q = (catId === 'announcements' || catId === 'admins') ? query(collection(db, catId), orderBy('timestamp', 'desc')) : query(collection(db, catId));
-        const querySnapshot = await getDocs(q);
-        
-        // 1. കണ്ടെയ്നർ ക്ലിയർ ചെയ്ത് ആദ്യം സെർച്ച് ബാർ ആഡ് ചെയ്യുന്നു
-        container.innerHTML = `
-            <div style="padding: 10px 15px;">
-                <input type="text" id="search-input" placeholder="തിരയുക..." 
-                    style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none;">
-            </div>
-            <div id="cards-inner-container"></div>`;
+    // 1. കണ്ടെയ്നർ ക്ലിയർ ചെയ്ത് പുതിയ സെർച്ച് ബാറും കാർഡ് ഹോൾഡറും ഉണ്ടാക്കുന്നു
+    container.innerHTML = `
+        <div style="padding: 10px 15px;">
+            <input type="text" id="dynamic-search-input" placeholder="തിരയുക..." 
+                style="width: 100%; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box;">
+        </div>
+        <div id="cards-inner-container">
+            <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+        </div>`;
 
-        const cardsInner = document.getElementById('cards-inner-container');
+    const cardsInner = document.getElementById('cards-inner-container');
+    const searchInput = document.getElementById('dynamic-search-input');
+
+    try {
+        let q = (catId === 'announcements' || catId === 'admins') ? 
+                query(collection(db, catId), orderBy('timestamp', 'desc')) : 
+                query(collection(db, catId));
+        
+        const querySnapshot = await getDocs(q);
+        cardsInner.innerHTML = ""; // ലോഡിംഗ് ടെക്സ്റ്റ് മാറ്റുന്നു
 
         if (catId === 'admins') {
             cardsInner.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
         }
         
         if (querySnapshot.empty) {
-            cardsInner.innerHTML += "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+            cardsInner.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
         } else {
             querySnapshot.forEach(docSnap => {
                 const d = docSnap.data();
@@ -235,17 +242,49 @@ window.openCategory = async (catId, catName) => {
             });
         }
 
-        // 2. ലൂപ്പിന് ശേഷം മാത്രം Event Listener കൊടുക്കുന്നു
-        const searchBox = document.getElementById('search-input');
-        if (searchBox) {
-            searchBox.addEventListener('input', window.filterResults);
+        // 2. സെർച്ച് വർക്ക് ചെയ്യിക്കാൻ Event Listener നൽകുന്നു
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                const filter = searchInput.value.toLowerCase().trim();
+                const cards = cardsInner.getElementsByClassName('person-card');
+                let found = false;
+
+                for (let i = 0; i < cards.length; i++) {
+                    const content = cards[i].innerText.toLowerCase();
+                    if (content.includes(filter)) {
+                        cards[i].style.display = "";
+                        found = true;
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+
+                // ഫലം ഇല്ലെങ്കിൽ സന്ദേശം കാണിക്കാൻ
+                let noMsg = document.getElementById('no-results-msg');
+                if (!found) {
+                    if (!noMsg) {
+                        const msg = document.createElement('p');
+                        msg.id = 'no-results-msg';
+                        msg.style.textAlign = 'center';
+                        msg.style.padding = '20px';
+                        msg.style.fontWeight = 'bold';
+                        msg.style.color = 'red';
+                        msg.innerText = "വിവരങ്ങൾ ലഭ്യമല്ല!";
+                        cardsInner.appendChild(msg);
+                    }
+                } else if (noMsg) {
+                    noMsg.remove();
+                }
+            });
         }
-        } catch (e) { 
+
+    } catch (e) { 
         console.error("Open Category Error:", e); 
         cardsInner.innerHTML = "<p style='text-align:center;'>ഒരു പിശക് സംഭവിച്ചു!</p>";
     }
 };
 
+                
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
