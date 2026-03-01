@@ -241,27 +241,27 @@ window.openCategory = async (catId, catName) => {
                 cardsInner.innerHTML += displayHTML;
             });
         }
-
-        // 2. സെർച്ച് ലിസണർ (Updated)
+// 2. സെർച്ച് ലിസണർ (Updated with Scroll)
 if (searchInput) {
-    searchInput.addEventListener('input', () => {
+    searchInput.oninput = () => {
+        // --- ഈ വരി ഇവിടെയാണ് ചേർക്കേണ്ടത് ---
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        
         const filter = searchInput.value.toLowerCase().trim();
-        const cards = cardsInner.getElementsByClassName('person-card');
+        const currentCards = document.querySelectorAll('#cards-inner-container .person-card');
         let found = false;
 
-        Array.from(cards).forEach(card => {
-            // കാർഡിനുള്ളിലെ എല്ലാ ടെക്സ്റ്റും (പേര്, സ്ഥലം, ഫോൺ ഉൾപ്പെടെ) എടുക്കുന്നു
+        currentCards.forEach(card => {
             const content = card.textContent || card.innerText;
-            
             if (content.toLowerCase().indexOf(filter) > -1) {
-                card.style.display = ""; // കാണിക്കുന്നു (block എന്നതിന് പകരം "" നൽകുന്നത് ലേഔട്ട് കൃത്യമാക്കും)
+                card.style.display = ""; 
                 found = true;
             } else {
-                card.style.display = "none"; // മറയ്ക്കുന്നു
+                card.style.display = "none";
             }
         });
 
-        // 'വിവരങ്ങൾ ലഭ്യമല്ല' എന്ന സന്ദേശം കൈകാര്യം ചെയ്യുന്നു
+        // 'വിവരങ്ങൾ ലഭ്യമല്ല' മെസ്സേജ് ലോജിക് താഴെ തുടരും...
         let noMsg = document.getElementById('no-results-msg');
         if (!found && filter !== "") {
             if (!noMsg) {
@@ -274,8 +274,9 @@ if (searchInput) {
         } else if (noMsg) {
             noMsg.remove();
         }
-    });
+    };
 }
+
 
     } catch (e) { 
         console.error("Error:", e); 
