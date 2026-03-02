@@ -130,8 +130,7 @@ window.toggleMenu = () => {
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
 
-
-    window.openCategory = async (catId, catName) => {
+window.openCategory = async (catId, catName) => {
     try {
         hideAll();
         // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
@@ -150,7 +149,7 @@ window.toggleMenu = () => {
 
         const container = document.getElementById('list-container');
         
-        // 1. സെർച്ച് ബാർ ഡിസൈൻ സെറ്റ് ചെയ്യുന്നു
+        // 1. സെർച്ച് ബാർ ഡിസൈൻ
         container.innerHTML = `
             <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
                 <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
@@ -167,8 +166,7 @@ window.toggleMenu = () => {
         const searchInput = document.getElementById('live-search-box');
         const noMsg = document.getElementById('no-results-msg');
 
-        // Firestore ഡാറ്റ എടുക്കുന്നു
-        // ശ്രദ്ധിക്കുക: db, query, collection, getDocs എന്നിവ നിങ്ങളുടെ സ്ക്രിപ്റ്റിൽ നേരത്തെ ഡിഫൈൻ ചെയ്തതാണെന്ന് ഉറപ്പാക്കുക
+        // Firestore ക്വറി
         let q;
         if (catId === 'announcements' || catId === 'admins') {
             q = query(collection(db, catId), orderBy('timestamp', 'desc'));
@@ -196,76 +194,86 @@ window.toggleMenu = () => {
                 const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
-                                // പേര് കാണിക്കുന്ന ഭാഗം
-                extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+                
+                // പേര് ഭാഗം
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // 1. പഴയ അതേ ഐക്കണുകളും ലേബലുകളും നിറങ്ങളും
-                const fieldConfig = {
-                    'place': { label: 'സ്ഥലം', icon: 'fas fa-map-marker-alt', color: '#c62828' },   // ചുവപ്പ്
-                    'time': { label: 'സമയം', icon: 'fas fa-clock', color: '#1565c0' },            // നീല
-                    'leave': { label: 'അവധി', icon: 'fas fa-calendar-check', color: '#c62828' }, // ചുവപ്പ്
-                    'off': { label: 'അവധി', icon: 'fas fa-calendar-check', color: '#c62828' },
-                    'v_type': { label: 'വാഹന ഇനം', icon: 'fas fa-chevron-right', color: '#2e7d32' }, // പച്ച
-                    'v_category': { label: 'വാഹന വിഭാഗം', icon: 'fas fa-chevron-right', color: '#2e7d32' },
-                    'oname': { label: 'ഓണർ പേര്', icon: 'fas fa-chevron-right', color: '#2e7d32' }
+                // മലയാളം ലേബൽ മാപ്പിംഗ്
+                const malayalamLabels = {
+                    'v_type': 'വാഹന ഇനം', 'ty': 'വാഹന ഇനം', 'type': 'ഇനം',
+                    'v_category': 'വാഹന വിഭാഗം', 'category': 'വാഹന വിഭാഗം',
+                    'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
+                    'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
+                    'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
+                    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്'
                 };
 
-                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'v_category', 'oname'];
+                // കളർ കോൺഫിഗറേഷൻ
+                const fieldConfig = {
+                    'place': { icon: 'fas fa-map-marker-alt', color: '#c62828' },
+                    'time': { icon: 'fas fa-clock', color: '#1565c0' },
+                    'leave': { icon: 'fas fa-calendar-check', color: '#c62828' },
+                    'off': { icon: 'fas fa-calendar-check', color: '#c62828' }
+                };
 
-                // 2. പഴയ ഡിസൈൻ രീതി (Labels first, then Values)
+                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type'];
+
+                // ഫീൽഡുകൾ അടുക്കുന്നു (കൂടുതൽ ഒതുക്കത്തിൽ)
                 priorityOrder.forEach(key => {
                     const val = d[key];
                     if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-                        const config = fieldConfig[key] || { label: key, icon: 'fas fa-chevron-right', color: '#444' };
-                        
+                        const label = malayalamLabels[key] || key;
+                        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
+
                         extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 12px; display: block;">
-                                <div style="font-weight:900; font-size:16px; color:${config.color}; display:flex; align-items:center; gap:10px; margin-bottom: 5px;">
-                                    <i class="${config.icon}" style="width:20px; font-size: 18px;"></i> ${config.label}:
+                            <div class="info-row" style="margin-bottom: 4px; display: block; line-height: 1.1;">
+                                <div style="font-weight:900; font-size:14px; color:${config.color}; display:flex; align-items:center; gap:8px;">
+                                    <i class="${config.icon}" style="width:18px; font-size: 14px;"></i> <span>${label}:</span>
                                 </div>
-                                <div style="font-weight:800; font-size:20px; color:#000; padding-left:30px; line-height: 1.3;">
+                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: 1px;">
                                     ${val}
                                 </div>
                             </div>`;
                     }
                 });
 
-                // 3. മറ്റ് വിവരങ്ങൾ ഉണ്ടെങ്കിൽ
+                // ലിസ്റ്റിൽ ഇല്ലാത്ത ബാക്കി വിവരങ്ങൾ (പച്ച നിറത്തിൽ)
                 for (let key in d) {
                     if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+                        const label = malayalamLabels[key] || key;
                         extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 12px; display: block;">
-                                <div style="font-weight:900; font-size:16px; color:#444; display:flex; align-items:center; gap:10px; margin-bottom: 5px;">
-                                    <i class="fas fa-chevron-right" style="width:20px; font-size: 18px;"></i> ${key}:
+                            <div class="info-row" style="margin-bottom: 4px; display: block; line-height: 1.1;">
+                                <div style="font-weight:900; font-size:14px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
+                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 14px;"></i> <span>${label}:</span>
                                 </div>
-                                <div style="font-weight:800; font-size:20px; color:#000; padding-left:30px;">
+                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: 1px;">
                                     ${d[key]}
                                 </div>
                             </div>`;
                     }
                 }
 
+                // ബട്ടണുകൾ
                 let buttonsHTML = "";
-                // ലോഗിൻ ചെയ്ത അഡ്മിൻ ആണോ എന്ന് പരിശോധിക്കുന്നു
                 const isUser = (typeof currentUser !== 'undefined' && currentUser);
                 
                 if (isUser) {
                     buttonsHTML = `<div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
-                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Edit</button>
-                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:10px; border-radius:30px; border:none; font-weight:900;">Delete</button>
+                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Edit</button>
+                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Delete</button>
                     </div>`;
                 } else if (!isAnnouncement) {
                     const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
                     if (whatsappCategories.includes(catId)) {
                         buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
-                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
                         </div>`;
                     } else {
                         buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:10px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
                         </div>`;
                     }
                 }
@@ -279,43 +287,35 @@ window.toggleMenu = () => {
             });
         }
 
-       // 2. സെർച്ച് ലിസണർ (Normalize ചെയ്ത പതിപ്പ്)
-if (searchInput) {
-    searchInput.oninput = () => {
-        // ടൈപ്പ് ചെയ്യുന്ന വാക്കിനെ ക്ലീൻ ചെയ്യുകയും നോർമലൈസ് ചെയ്യുകയും ചെയ്യുന്നു
-        const filter = searchInput.value.toLowerCase().trim().normalize('NFC');
-        const currentCards = cardsInner.getElementsByClassName('person-card');
-        let found = false;
+        // സെർച്ച് ഫംഗ്‌ഷൻ
+        if (searchInput) {
+            searchInput.oninput = () => {
+                const filter = searchInput.value.toLowerCase().trim().normalize('NFC');
+                const currentCards = cardsInner.getElementsByClassName('person-card');
+                let found = false;
 
-        Array.from(currentCards).forEach(card => {
-            // കാർഡിനുള്ളിലെ എല്ലാ ടെക്സ്റ്റും എടുത്ത് നോർമലൈസ് ചെയ്യുന്നു
-            const content = card.innerText.toLowerCase().normalize('NFC');
-            
-            // ലോജിക്: സെർച്ച് വേർഡ് കാർഡിലുണ്ടോ എന്ന് നോക്കുന്നു
-            if (content.includes(filter)) {
-                // കാർഡ് കാണിക്കാൻ കൃത്യമായി 'block' നൽകുക
-                card.style.setProperty('display', 'block', 'important');
-                found = true;
-            } else {
-                // കാർഡ് മറയ്ക്കാൻ 'none'
-                card.style.setProperty('display', 'none', 'important');
-            }
-        });
-
-        // റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം അറിയിപ്പ് നൽകുന്നു
-        if (noMsg) {
-            noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
+                Array.from(currentCards).forEach(card => {
+                    const content = card.innerText.toLowerCase().normalize('NFC');
+                    if (content.includes(filter)) {
+                        card.style.setProperty('display', 'block', 'important');
+                        found = true;
+                    } else {
+                        card.style.setProperty('display', 'none', 'important');
+                    }
+                });
+                if (noMsg) {
+                    noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
+                }
+            };
         }
-    };
-}
 
     } catch (e) { 
         console.error("Error in openCategory:", e); 
-        const ci = document.getElementById('cards-inner-container');
-        if(ci) ci.innerHTML = "<p style='text-align:center; padding:20px; color:red;'>ഡാറ്റ ലോഡ് ചെയ്യുന്നതിൽ പിശക് സംഭവിച്ചു!</p>";
     }
 };
 
+    
+                
                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
