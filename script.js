@@ -202,36 +202,46 @@ window.toggleMenu = () => {
                 const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // 1. വിവരങ്ങൾ കാണിക്കേണ്ട ക്രമം നിശ്ചയിക്കുന്നു
-const displayOrder = [
-    { key: 'v_type', label: 'വാഹന ഇനം', icon: 'fas fa-car' },
-    { key: 'place', label: 'സ്ഥലം', icon: 'fas fa-map-marker-alt' },
-    { key: 'time', label: 'സമയം', icon: 'fas fa-clock' },
-    { key: 'v_category', label: 'വാഹന വിഭാഗം', icon: 'fas fa-chevron-right' },
-    { key: 'leave', label: 'അവധി', icon: 'fas fa-calendar-times' }
-];
+                // 1. നിങ്ങൾ ആഗ്രഹിക്കുന്ന ക്രമത്തിലുള്ള കീകൾ (Keys)
+const priorityOrder = ['v_type', 'place', 'time', 'v_category', 'leave'];
 
-// 2. ക്രമപ്രകാരം ലൂപ്പ് ചെയ്യുന്നു
-displayOrder.forEach(item => {
-    const val = d[item.key];
-    
-    // വിവരങ്ങൾ ഉണ്ടോ എന്ന് പരിശോധിക്കുന്നു (Nil ആണെങ്കിൽ ഒഴിവാക്കും)
-    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-        
-        // ഓരോ ഫീൽഡിനും പ്രത്യേക നിറം നൽകുന്നു
-        let labelColor = (item.key === 'place' || item.key === 'leave') ? "#c62828" : "#2e7d32";
+// 2. ആദ്യം ഈ ക്രമത്തിലുള്ള വിവരങ്ങൾ ഉണ്ടോ എന്ന് നോക്കി കാണിക്കുന്നു
+priorityOrder.forEach(key => {
+    if (d[key] && d[key].toString().trim() !== "" && d[key].toString().toLowerCase() !== "nil") {
+        const label = (typeof categoryConfig !== 'undefined' && categoryConfig[catId] && categoryConfig[catId][key]) ? categoryConfig[catId][key] : key;
+        const iconClass = icons[key] || 'fas fa-chevron-right';
+        let labelColor = (key === 'place' || key === 'leave') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
 
         extraFieldsHTML += `
             <div class="info-inline-row" style="margin-bottom: 5px; display: block;">
                 <div style="font-weight:900; font-size:16px; color:${labelColor}; display:flex; align-items:center; gap:8px;">
-                    <i class="${item.icon}" style="width:18px;"></i> ${item.label}:
+                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
                 </div>
-                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: 2px;">
-                    ${val}
+                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px;">
+                    ${d[key]}
                 </div>
             </div>`;
     }
 });
+
+// 3. സുപ്രധാന ഘട്ടം: മുകളിലെ ലിസ്റ്റിൽ ഇല്ലാത്ത മറ്റെല്ലാ വിവരങ്ങളും (Old Data) ഇവിടെ കാണിക്കും
+for (let key in d) {
+    // പേര്, ഫോൺ, ടൈംസ്റ്റാമ്പ് എന്നിവയും മുകളിൽ കാണിച്ച മുൻഗണനാ ലിസ്റ്റിലും ഇല്ലാത്തവ മാത്രം
+    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+        const label = (typeof categoryConfig !== 'undefined' && categoryConfig[catId] && categoryConfig[catId][key]) ? categoryConfig[catId][key] : key;
+        const iconClass = icons[key] || 'fas fa-info-circle';
+        
+        extraFieldsHTML += `
+            <div class="info-inline-row" style="margin-bottom: 5px; display: block;">
+                <div style="font-weight:900; font-size:16px; color:#444; display:flex; align-items:center; gap:8px;">
+                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
+                </div>
+                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px;">
+                    ${d[key]}
+                </div>
+            </div>`;
+    }
+}
 
                 let buttonsHTML = "";
                 // ലോഗിൻ ചെയ്ത അഡ്മിൻ ആണോ എന്ന് പരിശോധിക്കുന്നു
