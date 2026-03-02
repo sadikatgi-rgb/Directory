@@ -265,26 +265,35 @@ displayOrder.forEach(item => {
             });
         }
 
-        // 2. സെർച്ച് ലിസണർ അറ്റാച്ച് ചെയ്യുന്നു
-        if (searchInput) {
-            searchInput.oninput = () => {
-                const filter = searchInput.value.toLowerCase().trim();
-                const cards = cardsInner.getElementsByClassName('person-card');
-                let found = false;
+       // 2. സെർച്ച് ലിസണർ (Normalize ചെയ്ത പതിപ്പ്)
+if (searchInput) {
+    searchInput.oninput = () => {
+        // ടൈപ്പ് ചെയ്യുന്ന വാക്കിനെ ക്ലീൻ ചെയ്യുകയും നോർമലൈസ് ചെയ്യുകയും ചെയ്യുന്നു
+        const filter = searchInput.value.toLowerCase().trim().normalize('NFC');
+        const currentCards = cardsInner.getElementsByClassName('person-card');
+        let found = false;
 
-                Array.from(cards).forEach(card => {
-                    const content = card.innerText.toLowerCase();
-                    if (content.includes(filter)) {
-                        card.style.display = "block";
-                        found = true;
-                    } else {
-                        card.style.display = "none";
-                    }
-                });
+        Array.from(currentCards).forEach(card => {
+            // കാർഡിനുള്ളിലെ എല്ലാ ടെക്സ്റ്റും എടുത്ത് നോർമലൈസ് ചെയ്യുന്നു
+            const content = card.innerText.toLowerCase().normalize('NFC');
+            
+            // ലോജിക്: സെർച്ച് വേർഡ് കാർഡിലുണ്ടോ എന്ന് നോക്കുന്നു
+            if (content.includes(filter)) {
+                // കാർഡ് കാണിക്കാൻ കൃത്യമായി 'block' നൽകുക
+                card.style.setProperty('display', 'block', 'important');
+                found = true;
+            } else {
+                // കാർഡ് മറയ്ക്കാൻ 'none'
+                card.style.setProperty('display', 'none', 'important');
+            }
+        });
 
-                if (noMsg) noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
-            };
+        // റിസൾട്ട് ഇല്ലെങ്കിൽ മാത്രം അറിയിപ്പ് നൽകുന്നു
+        if (noMsg) {
+            noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
         }
+    };
+}
 
     } catch (e) { 
         console.error("Error in openCategory:", e); 
