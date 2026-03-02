@@ -202,23 +202,36 @@ window.toggleMenu = () => {
                 const icons = { 'place': 'fas fa-map-marker-alt', 'time': 'fas fa-clock', 'leave': 'fas fa-calendar-times', 'off': 'fas fa-calendar-times' };
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                for (let key in d) {
-                    if (!reserved.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                        const label = (typeof categoryConfig !== 'undefined' && categoryConfig[catId] && categoryConfig[catId][key]) ? categoryConfig[catId][key] : key;
-                        const iconClass = icons[key] || 'fas fa-chevron-right';
-                        let labelColor = (key === 'place' || key === 'leave' || key === 'off') ? "#c62828" : (key === 'time' ? "#1565c0" : "#2e7d32");
+                // 1. വിവരങ്ങൾ കാണിക്കേണ്ട ക്രമം നിശ്ചയിക്കുന്നു
+const displayOrder = [
+    { key: 'v_type', label: 'വാഹന ഇനം', icon: 'fas fa-car' },
+    { key: 'place', label: 'സ്ഥലം', icon: 'fas fa-map-marker-alt' },
+    { key: 'time', label: 'സമയം', icon: 'fas fa-clock' },
+    { key: 'v_category', label: 'വാഹന വിഭാഗം', icon: 'fas fa-chevron-right' },
+    { key: 'leave', label: 'അവധി', icon: 'fas fa-calendar-times' }
+];
 
-                        extraFieldsHTML += `
-                            <div class="info-inline-row" style="margin-bottom: 5px;">
-                                <div style="font-weight:900; font-size:16px; color:${labelColor}; display:flex; align-items:center; gap:8px;">
-                                    <i class="${iconClass}" style="width:18px;"></i> ${label}:
-                                </div>
-                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px;">
-                                    ${d[key]}
-                                </div>
-                            </div>`;
-                    }
-                }
+// 2. ക്രമപ്രകാരം ലൂപ്പ് ചെയ്യുന്നു
+displayOrder.forEach(item => {
+    const val = d[item.key];
+    
+    // വിവരങ്ങൾ ഉണ്ടോ എന്ന് പരിശോധിക്കുന്നു (Nil ആണെങ്കിൽ ഒഴിവാക്കും)
+    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+        
+        // ഓരോ ഫീൽഡിനും പ്രത്യേക നിറം നൽകുന്നു
+        let labelColor = (item.key === 'place' || item.key === 'leave') ? "#c62828" : "#2e7d32";
+
+        extraFieldsHTML += `
+            <div class="info-inline-row" style="margin-bottom: 5px; display: block;">
+                <div style="font-weight:900; font-size:16px; color:${labelColor}; display:flex; align-items:center; gap:8px;">
+                    <i class="${item.icon}" style="width:18px;"></i> ${item.label}:
+                </div>
+                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: 2px;">
+                    ${val}
+                </div>
+            </div>`;
+    }
+});
 
                 let buttonsHTML = "";
                 // ലോഗിൻ ചെയ്ത അഡ്മിൻ ആണോ എന്ന് പരിശോധിക്കുന്നു
