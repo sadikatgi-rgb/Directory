@@ -196,61 +196,56 @@ window.toggleMenu = () => {
                 const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
-                
-                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+                                // പേര് കാണിക്കുന്ന ഭാഗം
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:22px; font-weight:950; color:${themeColor}; margin-bottom:12px; border-bottom:1.5px solid #eee; padding-bottom:6px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+
                 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                // 1. ഓരോ ഫീൽഡിനും വേണ്ട ഐക്കണും കളറും കൃത്യമായി നിശ്ചയിക്കുന്നു
-const fieldConfig = {
-    'v_type': { label: 'വാഹന ഇനം', icon: 'fas fa-car-side', color: '#2e7d32' },   // പച്ച
-    'place': { label: 'സ്ഥലം', icon: 'fas fa-map-marker-alt', color: '#c62828' },   // ചുവപ്പ്
-    'time': { label: 'സമയം', icon: 'fas fa-clock', color: '#1565c0' },            // നീല
-    'v_category': { label: 'വാഹന വിഭാഗം', icon: '', color: '#2e7d32' },           // ഐക്കൺ ഇല്ലാത്തവയ്ക്ക് > വരും
-    'leave': { label: 'അവധി', icon: 'fas fa-calendar-times', color: '#c62828' },   // ചുവപ്പ്
-    'off': { label: 'അവധി', icon: 'fas fa-calendar-times', color: '#c62828' }
-};
+                // 1. പഴയ അതേ ഐക്കണുകളും ലേബലുകളും നിറങ്ങളും
+                const fieldConfig = {
+                    'place': { label: 'സ്ഥലം', icon: 'fas fa-map-marker-alt', color: '#c62828' },   // ചുവപ്പ്
+                    'time': { label: 'സമയം', icon: 'fas fa-clock', color: '#1565c0' },            // നീല
+                    'leave': { label: 'അവധി', icon: 'fas fa-calendar-check', color: '#c62828' }, // ചുവപ്പ്
+                    'off': { label: 'അവധി', icon: 'fas fa-calendar-check', color: '#c62828' },
+                    'v_type': { label: 'വാഹന ഇനം', icon: 'fas fa-chevron-right', color: '#2e7d32' }, // പച്ച
+                    'v_category': { label: 'വാഹന വിഭാഗം', icon: 'fas fa-chevron-right', color: '#2e7d32' },
+                    'oname': { label: 'ഓണർ പേര്', icon: 'fas fa-chevron-right', color: '#2e7d32' }
+                };
 
-const priorityOrder = ['v_type', 'place', 'time', 'v_category', 'leave', 'off'];
+                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'v_category', 'oname'];
 
-// 2. വിവരങ്ങൾ കാർഡിൽ അടുക്കുന്നു
-priorityOrder.forEach(key => {
-    const val = d[key];
-    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-        const config = fieldConfig[key] || { label: key, icon: '', color: '#444' };
-        
-        // ഐക്കൺ ഉണ്ടെങ്കിൽ അത് ഉപയോഗിക്കുന്നു, ഇല്ലെങ്കിൽ പച്ച ">" ചിഹ്നം നൽകുന്നു
-        const iconHTML = config.icon 
-            ? `<i class="${config.icon}" style="width:20px; font-size: 16px;"></i>` 
-            : `<i class="fas fa-chevron-right" style="width:20px; font-size: 15px; color: #1b5e20;"></i>`;
+                // 2. പഴയ ഡിസൈൻ രീതി (Labels first, then Values)
+                priorityOrder.forEach(key => {
+                    const val = d[key];
+                    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+                        const config = fieldConfig[key] || { label: key, icon: 'fas fa-chevron-right', color: '#444' };
+                        
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 12px; display: block;">
+                                <div style="font-weight:900; font-size:16px; color:${config.color}; display:flex; align-items:center; gap:10px; margin-bottom: 5px;">
+                                    <i class="${config.icon}" style="width:20px; font-size: 18px;"></i> ${config.label}:
+                                </div>
+                                <div style="font-weight:800; font-size:20px; color:#000; padding-left:30px; line-height: 1.3;">
+                                    ${val}
+                                </div>
+                            </div>`;
+                    }
+                });
 
-        extraFieldsHTML += `
-            <div class="info-row" style="margin-bottom: 8px; display: block; line-height: 1.1;">
-                <div style="font-weight:900; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
-                    ${iconHTML} <span>${config.label}:</span>
-                </div>
-                <div style="font-weight:800; font-size:18px; color:#000; padding-left:28px; margin-top: 2px;">
-                    ${val}
-                </div>
-            </div>`;
-    }
-});
-
-// 3. മറ്റ് വിവരങ്ങൾ (ലിസ്റ്റിൽ ഇല്ലാത്തവ) ഉണ്ടെങ്കിൽ അവയും കാണിക്കുന്നു
-for (let key in d) {
-    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
-        extraFieldsHTML += `
-            <div class="info-row" style="margin-bottom: 8px; display: block; line-height: 1.1;">
-                <div style="font-weight:900; font-size:15px; color:#444; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-chevron-right" style="width:20px; font-size: 15px; color: #1b5e20;"></i>
-                    <span>${key}:</span>
-                </div>
-                <div style="font-weight:800; font-size:18px; color:#000; padding-left:28px; margin-top: 2px;">
-                    ${d[key]}
-                </div>
-            </div>`;
-    }
-}
-
+                // 3. മറ്റ് വിവരങ്ങൾ ഉണ്ടെങ്കിൽ
+                for (let key in d) {
+                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 12px; display: block;">
+                                <div style="font-weight:900; font-size:16px; color:#444; display:flex; align-items:center; gap:10px; margin-bottom: 5px;">
+                                    <i class="fas fa-chevron-right" style="width:20px; font-size: 18px;"></i> ${key}:
+                                </div>
+                                <div style="font-weight:800; font-size:20px; color:#000; padding-left:30px;">
+                                    ${d[key]}
+                                </div>
+                            </div>`;
+                    }
+                }
 
                 let buttonsHTML = "";
                 // ലോഗിൻ ചെയ്ത അഡ്മിൻ ആണോ എന്ന് പരിശോധിക്കുന്നു
