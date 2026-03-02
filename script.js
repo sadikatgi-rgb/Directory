@@ -219,8 +219,11 @@ window.openCategory = async (catId, catName) => {
                 };
 
                 const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type'];
+// --- priorityOrder മുതൽ ബട്ടണുകൾക്ക് തൊട്ടു മുൻപ് വരെ ഈ ഭാഗം മാത്രം മാറ്റി പേസ്റ്റ് ചെയ്യുക ---
 
-            // 1. പ്രധാന വിവരങ്ങൾ (Priority Order പ്രകാരം)
+const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
+
+// 1. പ്രധാന വിവരങ്ങൾ (Priority Order പ്രകാരം)
 priorityOrder.forEach(key => {
     const val = d[key];
     if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
@@ -235,54 +238,37 @@ priorityOrder.forEach(key => {
 
         extraFieldsHTML += `
             <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                <div style="font-weight:900; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
-                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 900;">${label}:</span>
+                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
+                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
                 </div>
-                <div style="font-weight:950; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
                     ${val}
                 </div>
             </div>`;
     }
 });
 
-// 2. ബാക്കി വിവരങ്ങൾ ഉണ്ടെങ്കിൽ (Extra fields) - ഇതിലും മാറ്റം വരുത്തണം
+// 2. ബാക്കി വിവരങ്ങൾ (ആവർത്തനം ഒഴിവാക്കാൻ priorityOrder-ൽ ഇല്ലാത്തവ മാത്രം)
 for (let key in d) {
     if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
         let label = malayalamLabels[key] || key;
         
-        // ഇവിടെയും വിഭാഗം ചെക്ക് ചെയ്യുന്നു
         if (key === 'category' || key === 'v_category') {
             label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
         }
 
         extraFieldsHTML += `
             <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                <div style="font-weight:900; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 900;">${label}:</span>
+                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
                 </div>
-                <div style="font-weight:950; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
                     ${d[key]}
                 </div>
             </div>`;
     }
 }
-
-
-                // ലിസ്റ്റിൽ ഇല്ലാത്ത ബാക്കി വിവരങ്ങൾ (പച്ച നിറത്തിൽ)
-                for (let key in d) {
-                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                        const label = malayalamLabels[key] || key;
-                        extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 4px; display: block; line-height: 1.1;">
-                                <div style="font-weight:900; font-size:14px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
-                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 14px;"></i> <span>${label}:</span>
-                                </div>
-                                <div style="font-weight:800; font-size:18px; color:#000; padding-left:26px; margin-top: 1px;">
-                                    ${d[key]}
-                                </div>
-                            </div>`;
-                    }
-                }
+// --- ഈ ഭാഗം കഴിഞ്ഞാൽ ഉടൻ ബട്ടണുകളുടെ (Buttons HTML) കോഡ് തുടങ്ങാം ---
 
                 // ബട്ടണുകൾ
                 let buttonsHTML = "";
