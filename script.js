@@ -326,7 +326,6 @@ window.openCategory = async (catId, catName) => {
         console.error("Error in openCategory:", e); 
     }
 };
-
                                 
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
