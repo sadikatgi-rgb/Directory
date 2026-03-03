@@ -207,7 +207,8 @@ window.openCategory = async (catId, catName) => {
                     'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
                     'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
                     'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
-                    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്'
+                    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
+                    'home': 'നാട്', 'work': 'ജോലിസ്ഥലം'
                 };
 
                 // കളർ കോൺഫിഗറേഷൻ
@@ -218,57 +219,54 @@ window.openCategory = async (catId, catName) => {
                     'off': { icon: 'fas fa-calendar-check', color: '#c62828' }
                 };
 
-                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type'];
-// --- priorityOrder മുതൽ ബട്ടണുകൾക്ക് തൊട്ടു മുൻപ് വരെ ഈ ഭാഗം മാത്രം മാറ്റി പേസ്റ്റ് ചെയ്യുക ---
+                // പ്രയോറിറ്റി ഓർഡർ
+                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
 
-const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
+                // 1. പ്രധാന വിവരങ്ങൾ (Priority Order പ്രകാരം)
+                priorityOrder.forEach(key => {
+                    const val = d[key];
+                    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+                        let label = malayalamLabels[key] || key;
+                        
+                        // വിഭാഗം Logic: ഓട്ടോയിൽ മാത്രം 'വാഹന വിഭാഗം', മറ്റുള്ളവയിൽ 'വിഭാഗം'
+                        if (key === 'category' || key === 'v_category') {
+                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+                        }
 
-// 1. പ്രധാന വിവരങ്ങൾ (Priority Order പ്രകാരം)
-priorityOrder.forEach(key => {
-    const val = d[key];
-    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-        let label = malayalamLabels[key] || key;
-        
-        // വിഭാഗം Logic: ഓട്ടോയിൽ മാത്രം 'വാഹന വിഭാഗം', മറ്റുള്ളവയിൽ 'വിഭാഗം'
-        if (key === 'category' || key === 'v_category') {
-            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-        }
+                        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
 
-        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
+                                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                                </div>
+                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                                    ${val}
+                                </div>
+                            </div>`;
+                    }
+                });
 
-        extraFieldsHTML += `
-            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
-                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                </div>
-                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                    ${val}
-                </div>
-            </div>`;
-    }
-});
+                // 2. ബാക്കി വിവരങ്ങൾ (ആവർത്തനം ഒഴിവാക്കി)
+                for (let key in d) {
+                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+                        let label = malayalamLabels[key] || key;
+                        
+                        if (key === 'category' || key === 'v_category') {
+                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+                        }
 
-// 2. ബാക്കി വിവരങ്ങൾ (ആവർത്തനം ഒഴിവാക്കാൻ priorityOrder-ൽ ഇല്ലാത്തവ മാത്രം)
-for (let key in d) {
-    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
-        let label = malayalamLabels[key] || key;
-        
-        if (key === 'category' || key === 'v_category') {
-            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-        }
-
-        extraFieldsHTML += `
-            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                </div>
-                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                    ${d[key]}
-                </div>
-            </div>`;
-    }
-}
-// --- ഈ ഭാഗം കഴിഞ്ഞാൽ ഉടൻ ബട്ടണുകളുടെ (Buttons HTML) കോഡ് തുടങ്ങാം ---
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
+                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                                </div>
+                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                                    ${d[key]}
+                                </div>
+                            </div>`;
+                    }
+                }
 
                 // ബട്ടണുകൾ
                 let buttonsHTML = "";
@@ -328,8 +326,8 @@ for (let key in d) {
         console.error("Error in openCategory:", e); 
     }
 };
-                
-                
+
+                                
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
