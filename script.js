@@ -325,8 +325,7 @@ window.openCategory = async (catId, catName) => {
     } catch (e) { 
         console.error("Error in openCategory:", e); 
     }
-};
-                                
+};                              
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
     const cat = document.getElementById('new-cat').value;
