@@ -129,6 +129,203 @@ window.toggleMenu = () => {
     sidebar.classList.toggle('active');
     overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
 };
+window.openCategory = async (catId, catName) => {
+    try {
+        hideAll();
+        // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        if(sidebar) sidebar.classList.remove('active');
+        if(overlay) overlay.style.display = 'none';
+
+        // ലിസ്റ്റ് സ്ക്രീൻ കാണിക്കുന്നു
+        const listScreen = document.getElementById('list-screen');
+        if(listScreen) listScreen.classList.remove('hidden');
+        
+        document.getElementById('main-header-title').innerText = catName;
+        document.getElementById('main-menu-icon').classList.add('hidden');
+        document.getElementById('header-back-btn').classList.remove('hidden');
+
+        const container = document.getElementById('list-container');
+        
+        // 1. സെർച്ച് ബാർ ഡിസൈൻ
+        container.innerHTML = `
+            <div id="search-area-wrapper" style="position: sticky; top: 0; background: #fff; z-index: 1000; padding: 10px 15px; border-bottom: 1px solid #eee;">
+                <input type="text" id="live-search-box" autocomplete="off" placeholder="തിരയുക..." 
+                    style="width: 100%; display: block; padding: 12px 20px; border: 2px solid #1b5e20; border-radius: 30px; font-size: 16px; outline: none; box-sizing: border-box; font-weight: bold;">
+                <div id="no-results-msg" style="display:none; text-align:center; padding:15px; font-weight:bold; color:red; font-size:16px;">
+                    വിവരങ്ങൾ ലഭ്യമല്ല!
+                </div>
+            </div>
+            <div id="cards-inner-container" style="padding: 10px; min-height: 200px;">
+                <p style='text-align:center; padding:20px;'>ശേഖരിക്കുന്നു...</p>
+            </div>`;
+
+        const cardsInner = document.getElementById('cards-inner-container');
+        const searchInput = document.getElementById('live-search-box');
+        const noMsg = document.getElementById('no-results-msg');
+
+        // Firestore ക്വറി
+        let q;
+        if (catId === 'announcements' || catId === 'admins') {
+            q = query(collection(db, catId), orderBy('timestamp', 'desc'));
+        } else {
+            q = query(collection(db, catId));
+        }
+        
+        const querySnapshot = await getDocs(q);
+        cardsInner.innerHTML = ""; 
+
+        if (catId === 'admins') {
+            cardsInner.innerHTML += `<div class="blink-text">" പ്രധാന അറിയിപ്പുകൾ അറിയിക്കാൻ, വിവരങ്ങൾ ആഡ് ചെയ്യാൻ, മാറ്റങ്ങൾ വരുത്താൻ, അഡ്മിന്മാരുമായി ബന്ധപ്പെടുക "</div>`;
+        }
+        
+        if (querySnapshot.empty) {
+            cardsInner.innerHTML = "<p style='text-align:center; padding:20px;'>വിവരങ്ങൾ ലഭ്യമല്ല</p>";
+        } else {
+            querySnapshot.forEach(docSnap => {
+                const d = docSnap.data();
+                const id = docSnap.id;
+                const dataStr = encodeURIComponent(JSON.stringify(d));
+                let extraFieldsHTML = "";
+
+                const isAnnouncement = (catId === 'announcements');
+                const themeColor = isAnnouncement ? "#c62828" : "#1b5e20";
+                const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
+                const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
+                
+                // പേര് ഭാഗം
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+
+                const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
+
+                // മലയാളം ലേബൽ മാപ്പിംഗ്
+                const malayalamLabels = {
+                    'v_type': 'വാഹന ഇനം', 'ty': 'വാഹന ഇനം', 'type': 'ഇനം',
+                    'v_category': 'വാഹന വിഭാഗം', 'category': 'വാഹന വിഭാഗം',
+                    'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
+                    'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
+                    'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
+                    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
+                    'home': 'നാട്', 'work': 'ജോലിസ്ഥലം'
+                };
+
+                // കളർ കോൺഫിഗറേഷൻ
+                const fieldConfig = {
+                    'place': { icon: 'fas fa-map-marker-alt', color: '#c62828' },
+                    'time': { icon: 'fas fa-clock', color: '#1565c0' },
+                    'leave': { icon: 'fas fa-calendar-check', color: '#c62828' },
+                    'off': { icon: 'fas fa-calendar-check', color: '#c62828' }
+                };
+
+                // പ്രയോറിറ്റി ഓർഡർ
+                const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
+
+                // 1. പ്രധാന വിവരങ്ങൾ (Priority Order പ്രകാരം)
+                priorityOrder.forEach(key => {
+                    const val = d[key];
+                    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+                        let label = malayalamLabels[key] || key;
+                        
+                        // വിഭാഗം Logic: ഓട്ടോയിൽ മാത്രം 'വാഹന വിഭാഗം', മറ്റുള്ളവയിൽ 'വിഭാഗം'
+                        if (key === 'category' || key === 'v_category') {
+                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+                        }
+
+                        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
+
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
+                                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                                </div>
+                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                                    ${val}
+                                </div>
+                            </div>`;
+                    }
+                });
+
+                // 2. ബാക്കി വിവരങ്ങൾ (ആവർത്തനം ഒഴിവാക്കി)
+                for (let key in d) {
+                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+                        let label = malayalamLabels[key] || key;
+                        
+                        if (key === 'category' || key === 'v_category') {
+                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+                        }
+
+                        extraFieldsHTML += `
+                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
+                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                                </div>
+                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
+                                    ${d[key]}
+                                </div>
+                            </div>`;
+                    }
+                }
+
+                // ബട്ടണുകൾ
+                let buttonsHTML = "";
+                const isUser = (typeof currentUser !== 'undefined' && currentUser);
+                
+                if (isUser) {
+                    buttonsHTML = `<div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
+                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Edit</button>
+                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Delete</button>
+                    </div>`;
+                } else if (!isAnnouncement) {
+                    const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
+                    if (whatsappCategories.includes(catId)) {
+                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
+                        </div>`;
+                    } else {
+                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
+                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                        </div>`;
+                    }
+                }
+
+                const displayHTML = `
+                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${themeColor};">
+                        <div class="person-info">${extraFieldsHTML}</div>
+                        ${buttonsHTML}
+                    </div>`;         
+                cardsInner.innerHTML += displayHTML;
+            });
+        }
+
+        // സെർച്ച് ഫംഗ്‌ഷൻ
+        if (searchInput) {
+            searchInput.oninput = () => {
+                const filter = searchInput.value.toLowerCase().trim().normalize('NFC');
+                const currentCards = cardsInner.getElementsByClassName('person-card');
+                let found = false;
+
+                Array.from(currentCards).forEach(card => {
+                    const content = card.innerText.toLowerCase().normalize('NFC');
+                    if (content.includes(filter)) {
+                        card.style.setProperty('display', 'block', 'important');
+                        found = true;
+                    } else {
+                        card.style.setProperty('display', 'none', 'important');
+                    }
+                });
+                if (noMsg) {
+                    noMsg.style.display = (filter !== "" && !found) ? "block" : "none";
+                }
+            };
+        }
+
+    } catch (e) { 
+        console.error("Error in openCategory:", e); 
+    }
+};
+
                                               
 // --- അഡ്മിൻ പാനൽ ഫീൽഡുകൾ ---
 window.renderAdminFields = () => {
