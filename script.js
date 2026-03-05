@@ -446,16 +446,52 @@ window.goToWhatsApp = function(phoneNumber) {
 
 async function setupNotifications() {
     try {
+        // 1. നോട്ടിഫിക്കേഷൻ പെർമിഷൻ ചോദിക്കുന്നു
         const permission = await Notification.requestPermission();
-        if (permission !== 'granted') return;
+        if (permission !== 'granted') {
+            console.log("Permission not granted");
+            return;
+        }
+
+        // 2. സർവീസ് വർക്കർ റെഡിയാണോ എന്ന് നോക്കുന്നു
         const registration = await navigator.serviceWorker.ready;
+
+        // 3. FCM ടോക്കൺ എടുക്കുന്നു
         const token = await getToken(messaging, { 
             vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
             serviceWorkerRegistration: registration 
         });
-        if (token) localStorage.setItem('fcm_token', token);
-    } catch (e) { console.error(e); }
+
+        if (token) {
+            // --- ഓരോ ഫോണിനെയും തിരിച്ചറിയാനുള്ള ലോജിക് ---
+            
+            // ഫോണിൽ നേരത്തെ സേവ് ചെയ്ത ഒരു Unique ID ഉണ്ടോ എന്ന് നോക്കുന്നു
+            let deviceId = localStorage.getItem('app_device_id');
+
+            // ഐഡി ഇല്ലെങ്കിൽ പുതിയൊരെണ്ണം ഉണ്ടാക്കി ഫോണിൽ സേവ് ചെയ്യുന്നു (ആദ്യ തവണ മാത്രം)
+            if (!deviceId) {
+                deviceId = 'dev_' + Math.random().toString(36).substring(2, 15) + Date.now();
+                localStorage.setItem('app_device_id', deviceId);
+            }
+
+            // 4. Firestore-ലേക്ക് ഈ deviceId ഉപയോഗിച്ച് ഡാറ്റ അയക്കുന്നു
+            // setDoc ഉപയോഗിക്കുന്നത് കൊണ്ട് ഒരേ deviceId ഉള്ള ഡാറ്റ വന്നാൽ അത് അപ്ഡേറ്റ് മാത്രമേ ആകൂ, പുതിയത് ഉണ്ടാവില്ല.
+            const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+            
+            await setDoc(doc(db, "fcm_tokens", deviceId), {
+                token: token,
+                lastSeen: new Date().toLocaleString(),
+                timestamp: serverTimestamp()
+            }, { merge: true });
+
+            localStorage.setItem('fcm_token', token);
+            console.log("Token synced for device:", deviceId);
+        }
+    } catch (e) { 
+        console.error("Notification Setup Error:", e); 
+    }
 }
+
 
       
 // --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
