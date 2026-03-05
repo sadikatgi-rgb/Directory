@@ -444,56 +444,44 @@ window.goToWhatsApp = function(phoneNumber) {
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
 };
 
-async function setupNotifications() {
+  async function setupNotifications() {
     try {
-        // 1. നോട്ടിഫിക്കേഷൻ പെർമിഷൻ ചോദിക്കുന്നു
         const permission = await Notification.requestPermission();
-        if (permission !== 'granted') {
-            console.log("Permission not granted");
-            return;
-        }
+        if (permission !== 'granted') return;
 
-        // 2. സർവീസ് വർക്കർ റെഡിയാണോ എന്ന് നോക്കുന്നു
         const registration = await navigator.serviceWorker.ready;
-
-        // 3. FCM ടോക്കൺ എടുക്കുന്നു
         const token = await getToken(messaging, { 
             vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
             serviceWorkerRegistration: registration 
         });
 
         if (token) {
-            // --- ഓരോ ഫോണിനെയും തിരിച്ചറിയാനുള്ള ലോജിക് ---
-            
-            // ഫോണിൽ നേരത്തെ സേവ് ചെയ്ത ഒരു Unique ID ഉണ്ടോ എന്ന് നോക്കുന്നു
-            let deviceId = localStorage.getItem('app_device_id');
+            // ബ്രൗസറിൽ നേരത്തെ ഐഡി ഉണ്ടോ എന്ന് നോക്കുന്നു
+            let deviceId = localStorage.getItem('app_stable_device_id');
 
-            // ഐഡി ഇല്ലെങ്കിൽ പുതിയൊരെണ്ണം ഉണ്ടാക്കി ഫോണിൽ സേവ് ചെയ്യുന്നു (ആദ്യ തവണ മാത്രം)
+            // ഐഡി ഇല്ലെങ്കിൽ മാത്രം പുതിയൊരെണ്ണം ഉണ്ടാക്കുന്നു
             if (!deviceId) {
-                deviceId = 'dev_' + Math.random().toString(36).substring(2, 15) + Date.now();
-                localStorage.setItem('app_device_id', deviceId);
+                // കൂടുതൽ കൃത്യതയ്ക്കായി ഒരു സ്ഥിരമായ ഐഡി ഉണ്ടാക്കുന്നു
+                deviceId = 'device_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                localStorage.setItem('app_stable_device_id', deviceId);
             }
 
-            // 4. Firestore-ലേക്ക് ഈ deviceId ഉപയോഗിച്ച് ഡാറ്റ അയക്കുന്നു
-            // setDoc ഉപയോഗിക്കുന്നത് കൊണ്ട് ഒരേ deviceId ഉള്ള ഡാറ്റ വന്നാൽ അത് അപ്ഡേറ്റ് മാത്രമേ ആകൂ, പുതിയത് ഉണ്ടാവില്ല.
+            // Firestore-ലേക്ക് അയക്കുന്നു
             const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
             
+            // ഇവിടെയാണ് മാറ്റം: deviceId ഡോക്യുമെന്റ് ഐഡി ആയി നൽകുന്നു
+            // ഇത് വഴി ഒരേ deviceId ഉള്ള ഡാറ്റ വരുമ്പോൾ പഴയത് അപ്ഡേറ്റ് ആകുകയേ ഉള്ളൂ
             await setDoc(doc(db, "fcm_tokens", deviceId), {
                 token: token,
                 lastSeen: new Date().toLocaleString(),
                 timestamp: serverTimestamp()
             }, { merge: true });
 
-            localStorage.setItem('fcm_token', token);
-            console.log("Token synced for device:", deviceId);
+            console.log("Synced for Device ID:", deviceId);
         }
-    } catch (e) { 
-        console.error("Notification Setup Error:", e); 
-    }
+    } catch (e) { console.error(e); }
 }
-
-
-      
+   
 // --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
 function updateOnlineStatus() {
     const offlineScreen = document.getElementById('offline-screen');
