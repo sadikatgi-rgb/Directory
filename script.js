@@ -468,13 +468,17 @@ async function setupNotifications() {
             // Firestore-ലേക്ക് അയക്കുന്നു
             const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
             
-            // ഇവിടെയാണ് മാറ്റം: deviceId ഡോക്യുമെന്റ് ഐഡി ആയി നൽകുന്നു
-            // ഇത് വഴി ഒരേ deviceId ഉള്ള ഡാറ്റ വരുമ്പോൾ പഴയത് അപ്ഡേറ്റ് ആകുകയേ ഉള്ളൂ
-            await setDoc(doc(db, "fcm_tokens", deviceId), {
-                token: token,
-                lastSeen: new Date().toLocaleString(),
-                timestamp: serverTimestamp()
-            }, { merge: true });
+// പുതിയ രീതി:
+// ടോക്കണിന്റെ ഒരു ഭാഗം ഐഡി ആയി ഉപയോഗിച്ചാൽ അത് കൂടുതൽ കൃത്യത നൽകും
+const shortToken = token.substring(0, 25); 
+
+await setDoc(doc(db, "fcm_tokens", shortToken), {
+    token: token,
+    deviceId: deviceId, // തിരിച്ചറിയാനായി deviceId ഉള്ളിൽ സൂക്ഷിക്കാം
+    lastSeen: new Date().toLocaleString(),
+    timestamp: serverTimestamp()
+}, { merge: true });
+
 
             console.log("Synced for Device ID:", deviceId);
         }
