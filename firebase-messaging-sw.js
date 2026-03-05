@@ -13,19 +13,6 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// ബാക്ക്ഗ്രൗണ്ടിൽ മെസ്സേജ് വരുമ്പോൾ
-messaging.onBackgroundMessage((payload) => {
-  console.log('Background Message received: ', payload);
-  const notificationTitle = payload.notification.title || "പുതിയ അറിയിപ്പ്";
-  const notificationOptions = {
-    body: payload.notification.body || "വിശദാംശങ്ങൾക്കായി ആപ്പ് തുറക്കുക",
-    icon: 'log.png', // ഇവിടെ log.png എന്ന് മാറ്റിയിട്ടുണ്ട്
-    badge: 'log.png'
-  };
-
-  return self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
 // നോട്ടിഫിക്കേഷനിൽ ക്ലിക്ക് ചെയ്താൽ ആപ്പ് തുറക്കാൻ
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
