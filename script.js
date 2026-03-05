@@ -443,44 +443,7 @@ window.goToWhatsApp = function(phoneNumber) {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
 };
-async function setupNotifications() {
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission !== 'granted') return;
 
-        const registration = await navigator.serviceWorker.ready;
-        const token = await getToken(messaging, { 
-            vapidKey: "BCp8wEaJUWt0OnoLetXsGnRxmjd8RRE3_hT0B9p0l_0TUCmhnsj0fYA8YBRXE_GOjG-oxNOCetPvL9ittyALAls",
-            serviceWorkerRegistration: registration 
-        });
-
-        if (token) {
-            // ബ്രൗസറിൽ നേരത്തെ ഐഡി ഉണ്ടോ എന്ന് നോക്കുന്നു
-            let deviceId = localStorage.getItem('app_stable_device_id');
-
-            // ഐഡി ഇല്ലെങ്കിൽ മാത്രം പുതിയൊരെണ്ണം ഉണ്ടാക്കുന്നു
-            if (!deviceId) {
-                // കൂടുതൽ കൃത്യതയ്ക്കായി ഒരു സ്ഥിരമായ ഐഡി ഉണ്ടാക്കുന്നു
-                deviceId = 'device_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-                localStorage.setItem('app_stable_device_id', deviceId);
-            }
-
-            // Firestore-ലേക്ക് അയക്കുന്നു
-            const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-            
-            // ഇവിടെയാണ് മാറ്റം: deviceId ഡോക്യുമെന്റ് ഐഡി ആയി നൽകുന്നു
-            // ഇത് വഴി ഒരേ deviceId ഉള്ള ഡാറ്റ വരുമ്പോൾ പഴയത് അപ്ഡേറ്റ് ആകുകയേ ഉള്ളൂ
-            await setDoc(doc(db, "fcm_tokens", deviceId), {
-                token: token,
-                lastSeen: new Date().toLocaleString(),
-                timestamp: serverTimestamp()
-            }, { merge: true });
-
-            console.log("Synced for Device ID:", deviceId);
-        }
-    } catch (e) { console.error(e); }
-}
-  
 // --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
 function updateOnlineStatus() {
     const offlineScreen = document.getElementById('offline-screen');
