@@ -455,35 +455,24 @@ async function setupNotifications() {
         });
 
         if (token) {
-            // ബ്രൗസറിൽ നേരത്തെ ഐഡി ഉണ്ടോ എന്ന് നോക്കുന്നു
-            let deviceId = localStorage.getItem('app_stable_device_id');
-
-            // ഐഡി ഇല്ലെങ്കിൽ മാത്രം പുതിയൊരെണ്ണം ഉണ്ടാക്കുന്നു
-            if (!deviceId) {
-                // കൂടുതൽ കൃത്യതയ്ക്കായി ഒരു സ്ഥിരമായ ഐഡി ഉണ്ടാക്കുന്നു
-                deviceId = 'device_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-                localStorage.setItem('app_stable_device_id', deviceId);
-            }
-
-            // Firestore-ലേക്ക് അയക്കുന്നു
+            // Firestore ഇമ്പോർട്ട് ചെയ്യുന്നു
             const { doc, setDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
             
-// പുതിയ രീതി:
-// ടോക്കണിന്റെ ഒരു ഭാഗം ഐഡി ആയി ഉപയോഗിച്ചാൽ അത് കൂടുതൽ കൃത്യത നൽകും
-const shortToken = token.substring(0, 25); 
+            // 💡 ഇവിടെയാണ് മാറ്റം: ടോക്കണിന്റെ ആദ്യ 25 അക്ഷരം ഐഡി ആയി ഉപയോഗിക്കുന്നു.
+            // ഇത് ഓരോ ഫോണിനും വ്യത്യസ്തമായിരിക്കും, എന്നാൽ ഒരേ ഫോണിൽ മാറുകയുമില്ല.
+            const shortTokenId = token.substring(0, 25).replace(/\//g, "_"); 
 
-await setDoc(doc(db, "fcm_tokens", shortToken), {
-    token: token,
-    deviceId: deviceId, // തിരിച്ചറിയാനായി deviceId ഉള്ളിൽ സൂക്ഷിക്കാം
-    lastSeen: new Date().toLocaleString(),
-    timestamp: serverTimestamp()
-}, { merge: true });
+            await setDoc(doc(db, "fcm_tokens", shortTokenId), {
+                token: token,
+                lastSeen: new Date().toLocaleString(),
+                timestamp: serverTimestamp()
+            }, { merge: true });
 
-
-            console.log("Synced for Device ID:", deviceId);
+            console.log("Token synced with ID:", shortTokenId);
         }
-    } catch (e) { console.error(e); }
+    } catch (e) { console.error("Notification Error:", e); }
 }
+
 
 // --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
 function updateOnlineStatus() {
