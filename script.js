@@ -444,7 +444,6 @@ window.goToWhatsApp = function(phoneNumber) {
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
 };
 
-  async function setupNotifications() 
    
 // --- ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കാനുള്ള ഫംഗ്‌ഷൻ ---
 function updateOnlineStatus() {
