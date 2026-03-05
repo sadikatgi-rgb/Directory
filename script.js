@@ -443,6 +443,7 @@ window.goToWhatsApp = function(phoneNumber) {
     const cleanNumber = phoneNumber.replace(/\D/g, '');
     window.location.assign(`whatsapp://send?phone=91${cleanNumber}`);
 };
+
 async function setupNotifications() {
     try {
         const permission = await Notification.requestPermission();
