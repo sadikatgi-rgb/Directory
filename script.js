@@ -92,7 +92,25 @@ const categoryConfig = {
     'help_centers': { 'type': 'ഇനം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'time': 'സമയം', 'off': 'അവധി' },
     'announcements': { 'name': 'വിഷയം', 'description': 'വിവരണം' },
     'admins': { 'name': 'പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം' },
-    'default': { 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ' }
+        'emergency': { 
+        'type': 'ഇനം (പോലീസ്/ആംബുലൻസ്)', 
+        'name': 'പേര്/സ്ഥാപനം', 
+        'place': 'സ്ഥലം', 
+        'phone': 'മൊബൈൽ/നമ്പർ' 
+    },
+    'hospitals': { 
+        'name': 'ഹോസ്പിറ്റൽ പേര്', 
+        'type': 'വിഭാഗം (അലോപ്പതി/ഹോമിയോ..)', 
+        'place': 'സ്ഥലം', 
+        'phone': 'ഫോൺ നമ്പർ', 
+        'time': 'സമയം', 
+        'off': 'അവധി' 
+    },
+    'default': { 
+        'name': 'പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'ഫോൺ' 
+    }
 };
 
 // --- നാവിഗേഷൻ ---
@@ -191,19 +209,22 @@ window.openCategory = async (catId, catName) => {
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
-                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+                ExtraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
-                const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
+const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
-                const malayalamLabels = {
-                    'v_type': 'വാഹന ഇനം', 'ty': 'വാഹന ഇനം', 'type': 'ഇനം',
-                    'v_category': 'വാഹന വിഭാഗം', 'category': 'വാഹന വിഭാഗം',
-                    'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
-                    'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
-                    'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
-                    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
-                    'home': 'നാട്', 'work': 'ജോലിസ്ഥലം'
-                };
+const malayalamLabels = {
+    'v_type': 'വാഹന ഇനം', 'ty': 'വാഹന ഇനം', 'type': 'ഇനം',
+    'v_category': 'വാഹന വിഭാഗം', 'category': 'വാഹന വിഭാഗം',
+    'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
+    'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
+    'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
+    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
+    'home': 'നാട്', 'work': 'ജോലിസ്ഥലം',
+    
+    // പുതുതായി ചേർത്തവ (New labels)
+    'description': 'വിവരണം'
+};
 
                 const fieldConfig = {
                     'place': { icon: 'fas fa-map-marker-alt', color: '#c62828' },
