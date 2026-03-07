@@ -247,78 +247,83 @@ const malayalamLabels = {
 
                 const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
 
-                // 1. പ്രധാന വിവരങ്ങൾ
-                priorityOrder.forEach(key => {
-                    const val = d[key];
-                    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-                        let label = malayalamLabels[key] || key;
-                        if (key === 'category' || key === 'v_category') {
-                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-                        }
-                        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
+                // 1. പ്രധാന വിവരങ്ങൾ (Priority Order)
+priorityOrder.forEach(key => {
+    const val = d[key];
+    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+        let label = malayalamLabels[key] || key;
+        if (key === 'category' || key === 'v_category') {
+            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+        }
+        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
 
-                        extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
-                                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                                </div>
-                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                                    ${val}
-                                </div>
-                            </div>`;
-                    }
-                });
+        // ഇൻലൈൻ സ്റ്റൈലുകൾ ഒഴിവാക്കി സി.എസ്.എസ് ക്ലാസ്സുകൾ നൽകുന്നു
+        extraFieldsHTML += `
+            <div class="info-row">
+                <div class="info-label" style="color:${config.color}">
+                    <i class="${config.icon}"></i> <span>${label}:</span>
+                </div>
+                <div class="info-value">
+                    ${val}
+                </div>
+            </div>`;
+    }
+});
 
-                // 2. ബാക്കി വിവരങ്ങൾ
-                for (let key in d) {
-                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                        let label = malayalamLabels[key] || key;
-                        if (key === 'category' || key === 'v_category') {
-                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-                        }
-                        extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
-                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                                </div>
-                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                                    ${d[key]}
-                                </div>
-                            </div>`;
-                    }
-                }
-
-                let buttonsHTML = "";
+// 2. ബാക്കി വിവരങ്ങൾ (Rest of the data)
+for (let key in d) {
+    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+        let label = malayalamLabels[key] || key;
+        if (key === 'category' || key === 'v_category') {
+            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+        }
+        
+        extraFieldsHTML += `
+            <div class="info-row">
+                <div class="info-label">
+                    <i class="fas fa-chevron-right"></i> <span>${label}:</span>
+                </div>
+                <div class="info-value">
+                    ${d[key]}
+                </div>
+            </div>`;
+    }
+}
+                               let buttonsHTML = "";
                 const isUser = (typeof currentUser !== 'undefined' && currentUser);
                 
                 if (isUser) {
-                    buttonsHTML = `<div class="admin-btns" style="display:flex; gap:10px; margin-top:10px;">
-                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" style="flex:1; background:#2196F3; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Edit</button>
-                        <button onclick="deleteEntry('${catId}', '${id}')" style="flex:1; background:#f44336; color:#fff; padding:8px; border-radius:30px; border:none; font-weight:900;">Delete</button>
+                    // Admin ബട്ടണുകൾ - Inline Style ഒഴിവാക്കി CSS Class നൽകി
+                    buttonsHTML = `<div class="admin-btns">
+                        <button onclick="editEntry('${catId}', '${id}', '${dataStr}')" class="edit-btn">Edit</button>
+                        <button onclick="deleteEntry('${catId}', '${id}')" class="delete-btn">Delete</button>
                     </div>`;
                 } else if (!isAnnouncement) {
                     const whatsappCategories = ['shops', 'help_centers', 'catering', 'admins'];
                     if (whatsappCategories.includes(catId)) {
-                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> കോൾ</a>
-                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new" style="flex:1; background:#25D366; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fab fa-whatsapp"></i> Chat</a>
+                        // കോൾ & വാട്സാപ്പ് ബട്ടണുകൾ
+                        buttonsHTML = `<div class="call-section">
+                            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> കോൾ</a>
+                            <a href="javascript:void(0)" onclick="goToWhatsApp('${d.phone}')" class="whatsapp-btn-new"><i class="fab fa-whatsapp"></i> Chat</a>
                         </div>`;
                     } else {
-                        buttonsHTML = `<div class="call-section" style="display:flex; gap:10px; margin-top:10px;">
-                            <a href="tel:${d.phone}" class="call-btn-new" style="flex:1; background:#1b5e20; color:#fff; padding:8px; border-radius:30px; text-align:center; text-decoration:none; font-weight:900;"><i class="fas fa-phone"></i> വിളിക്കുക</a>
+                        // കോൾ ബട്ടൺ മാത്രം
+                        buttonsHTML = `<div class="call-section">
+                            <a href="tel:${d.phone}" class="call-btn-new"><i class="fas fa-phone"></i> വിളിക്കുക</a>
                         </div>`;
                     }
                 }
 
+                // കാർഡ് ഡിസ്‌പ്ലേ - Inline Style ഒഴിവാക്കി
                 const displayHTML = `
-                    <div class="person-card" style="background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid ${themeColor};">
+                    <div class="person-card">
                         <div class="person-info">${extraFieldsHTML}</div>
                         ${buttonsHTML}
                     </div>`;         
                 cardsInner.innerHTML += displayHTML;
             });
         }
-
+ 
         if (searchInput) {
             searchInput.oninput = () => {
                 const filter = searchInput.value.toLowerCase().trim().normalize('NFC');
