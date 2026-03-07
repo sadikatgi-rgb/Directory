@@ -87,12 +87,21 @@ const categoryConfig = {
     'catering': { 'name': 'പണ്ടാരിയുടെ പേര്', 'place': 'സ്ഥലം', 'phone': 'ഫോൺ നമ്പർ', 'catering': 'കാറ്ററിങ്', 'party_order': 'പാർട്ടി ഓർഡർ' },
     'travels': { 'vname': 'വാഹനത്തിന്റെ പേര്', 'oname': 'ഓണറുടെ പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം', 'vtype': 'വാഹന ഇനം', 'seat': 'സീറ്റ് നില' },
     'institutions': { 'name': 'സ്ഥാപനത്തിന്റെ പേര്', 'place': 'സ്ഥലം', 'type': 'ഇനം', 'manager': 'മേധാവി', 'phone': 'മൊബൈൽ' },
-    'professionals': { 'category': 'വിഭാഗം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'home': 'നാട്', 'work': 'ജോലിസ്ഥലം' },
+    
+    'professionals': { 
+        'category': 'വിഭാഗം', 
+        'name': 'പേര്', 
+        'place': 'സ്ഥലം', 
+        'phone': 'മൊബൈൽ നമ്പർ', 
+        'home': 'ജോലിസ്ഥലം', 
+        'work': 'സ്ഥാപനം' 
+    },
+    
     'representatives': { 'name': 'പേര്', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ', 'position': 'സ്ഥാനം', 'phone': 'മൊബൈൽ' },
     'help_centers': { 'type': 'ഇനം', 'name': 'പേര്', 'place': 'സ്ഥലം', 'phone': 'മൊബൈൽ നമ്പർ', 'time': 'സമയം', 'off': 'അവധി' },
     'announcements': { 'name': 'വിഷയം', 'description': 'വിവരണം' },
     'admins': { 'name': 'പേര്', 'phone': 'മൊബൈൽ', 'place': 'സ്ഥലം' },
-        'emergency': { 
+    'emergency': { 
         'type': 'ഇനം (പോലീസ്/ആംബുലൻസ്)', 
         'name': 'പേര്/സ്ഥാപനം', 
         'place': 'സ്ഥലം', 
@@ -112,6 +121,7 @@ const categoryConfig = {
         'phone': 'ഫോൺ' 
     }
 };
+
 
 // --- നാവിഗേഷൻ ---
 function hideAll() {
@@ -209,7 +219,7 @@ window.openCategory = async (catId, catName) => {
                 const nameValue = (catId === 'travels' ? d.oname : (d.name || d.vname)) || "ലഭ്യമല്ല";
                 const titleIcon = isAnnouncement ? "fas fa-bullhorn" : "fas fa-user-circle";
                 
-                ExtraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
+                extraFieldsHTML += `<div class="main-card-name" style="font-size:20px; font-weight:950; color:${themeColor}; margin-bottom:8px; border-bottom:1.5px solid #eee; padding-bottom:4px;"><i class="${titleIcon}"></i> ${nameValue}</div>`;
 
 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
