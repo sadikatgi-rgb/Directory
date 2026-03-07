@@ -267,31 +267,6 @@ header h3 {
     flex-direction: column !important;
 }
 
-/* ഓരോ വരിയും (ഉദാ: സ്ഥലം: കൊച്ചി) നേരെ വരാൻ */
-.info-row {
-    display: flex !important;
-    align-items: flex-start !important;
-    margin-bottom: 10px !important;
-}
-
-.info-label {
-    min-width: 100px !important; /* ലേബലുകൾക്ക് ഒരേ വീതി നൽകുന്നു */
-    font-size: 15px !important;
-    font-weight: 900 !important;
-    color: #2e7d32 !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.info-value {
-    flex: 1 !important;
-    font-size: 18px !important;
-    font-weight: 800 !important;
-    color: #000 !important;
-    padding-left: 8px !important;
-    word-break: break-word !important;
-}
-
 /* 3. കാർഡിലെ കോൾ, ചാറ്റ് ബട്ടണുകൾ ഒരേ നിരയിൽ വരാൻ */
 .call-section {
     display: flex !important;
