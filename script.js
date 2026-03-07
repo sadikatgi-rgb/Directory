@@ -136,15 +136,27 @@ function hideAll() {
 
 window.showHome = () => {
     hideAll(); 
+    
+    // 1. പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ഹോം പേജിൽ നിന്ന് ഒഴിവാക്കാൻ ഇത് ചേർക്കുക
+    const listContainer = document.getElementById('list-container');
+    if(listContainer) {
+        listContainer.innerHTML = ""; 
+    }
+
     const homeView = document.getElementById('home-screen-view');
     const homeLogic = document.getElementById('home-screen');
     if(homeView) homeView.classList.remove('hidden');
     if(homeLogic) homeLogic.classList.remove('hidden');
+    
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
+    
     const menuIcon = document.getElementById('main-menu-icon');
     const backBtn = document.getElementById('header-back-btn');
+    
+    // ഐക്കണുകൾ കാണിക്കാനും മറയ്ക്കാനും
     if(menuIcon) menuIcon.classList.remove('hidden');
     if(backBtn) backBtn.classList.add('hidden');
+    
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
@@ -230,7 +242,7 @@ const malayalamLabels = {
     'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
     'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
     'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
-    'home': 'നാട്', 'work': 'ജോലിസ്ഥലം',
+    'home': 'ജോലിസ്ഥലം', 'work': 'സ്ഥാപനം',
     
     // പുതുതായി ചേർത്തവ (New labels)
     'description': 'വിവരണം'
