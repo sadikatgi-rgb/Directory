@@ -104,42 +104,26 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-
-
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) പുതുക്കിയത് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ചുവപ്പ് ബോർഡർ നൽകിയത് --- */
 #news-ticker {
     margin-top: 65px !important;
-    height: 52px !important;
+    height: 58px !important; /* അല്പം കൂടി ഉയരം നൽകി */
     background: #ffff00 !important; /* ബ്രൈറ്റ് മഞ്ഞ */
     z-index: 8000 !important;
-    border-top: 4px solid #b71c1c !important; 
-    border-bottom: 4px solid #000000 !important; 
+    border-top: 5px solid #b71c1c !important; /* മുകളിൽ കട്ടിയുള്ള ചുവപ്പ് ബോർഡർ */
+    border-bottom: 5px solid #000000 !important; /* താഴെ കറുത്ത ബോർഡർ (വ്യക്തതയ്ക്ക്) */
     display: flex !important;
     align-items: center !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
 .news-ticker-scroll span {
-    font-weight: 950 !important;
-    font-size: 20px !important; /* അല്പം കൂടി വലിപ്പം കൂട്ടി */
+    font-weight: 1000 !important; /* പരമാവധി കട്ടി */
+    font-size: 23px !important; /* നല്ല വലിപ്പമുള്ള അക്ഷരങ്ങൾ */
     color: #b71c1c !important; /* കടും ചുവപ്പ് */
-    text-shadow: none !important; /* മങ്ങൽ ഒഴിവാക്കാൻ ഇത് മാറ്റി */
-    opacity: 1 !important;
-    padding-right: 60px !important;
+    text-shadow: none !important; /* മങ്ങൽ ഒഴിവാക്കാൻ ഷാഡോ മാറ്റി */
+    padding-right: 90px !important;
 }
-
-.news-ticker-container {
-    display: flex !important;
-    white-space: nowrap !important;
-    width: 100% !important;
-}
-
-.news-ticker-scroll {
-    display: flex !important;
-    animation: news-marquee 50s linear infinite !important; 
-}
-
-
 /* അനിമേഷൻ കൃത്യമാക്കാൻ */
 @keyframes news-marquee {
     0% { transform: translateX(0); }
@@ -336,6 +320,19 @@ header h3 {
     font-size: 20px !important;
     width: 25px !important;
     text-align: center !important;
+}
+/* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് താഴെ ചേർക്കുക */
+#list-screen {
+    background-color: #f4f7f6 !important; 
+    min-height: 100vh !important; 
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+#list-container {
+    background-color: #f4f7f6 !important;
+    flex: 1 !important; 
+    padding-bottom: 80px !important; 
 }
 
 
