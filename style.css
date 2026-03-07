@@ -209,12 +209,16 @@ header h3 {
 
 /* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
 .container { 
-    padding: 20px 15px 150px 15px !important; 
-    height: calc(100vh - 117px) !important; 
+    /* 150px എന്നത് 20px ആയി കുറച്ചു */
+    padding: 20px 15px 20px 15px !important; 
+    /* ഉയരം കൃത്യമായി ക്രമീകരിച്ചു */
+    height: calc(100vh - 123px) !important; 
     margin-top: 0 !important;
     overflow-y: auto !important; 
     -webkit-overflow-scrolling: touch; 
+    background-color: #f4f7f6 !important;
 }
+
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
@@ -673,13 +677,18 @@ header button[onclick*="back"]::before,
 /* വാഹനഇനം/മറ്റ് വിവരങ്ങൾ - കടും പച്ച */
 .row-extra .info-label, .row-extra .info-label i { color: #2e7d32 !important; }
 .row-extra .info-value { color: #000 !important; font-size: 20px !important; }
-
-/* കണ്ടെയ്നർ സ്ക്രോൾ ബാർ */
+/* സ്ക്രോൾ ബാറിന്റെ മൊത്തം വീതി */
 .container::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
 }
+/* സ്ക്രോൾ ബാർ മൂവ് ചെയ്യുന്ന വഴി (Track) */
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+/* മൂവ് ചെയ്യുന്ന ഭാഗം (Thumb) */
 .container::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #006400; /* യൂണിറ്റ് കളറായ പച്ച നൽകാം */
     border-radius: 10px;
 }
+
 
