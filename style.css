@@ -235,31 +235,7 @@ header h3 {
 .card img { width: 45px; height: 45px; }
 /* സെർച്ച് ബാർ മാത്രം സ്പെഷ്യൽ ആയി കാണാൻ */
 
-/* പഴയ .person-card ലും .person-info ലും ഉള്ള flex ഒഴിവാക്കി ഇത് നൽകുക */
-.person-card {
-    background: #ffffff !important;
-    border-radius: 20px !important;
-    margin: 20px auto !important;
-    padding: 20px !important;
-    width: 90% !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 10px solid #006400 !important;
-    display: block !important; /* flex മാറ്റി block ആക്കി */
-    text-align: left !important;
-}
 
-.person-info {
-    display: block !important;
-    width: 100% !important;
-}
-
-.person-info strong, 
-.person-info p, 
-.person-info div {
-    display: block !important; /* ഓരോ വരിയും താഴെ വരാൻ */
-    margin: 10px 0 !important;
-    width: 100% !important;
-}
 
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
 .call-section {
@@ -278,8 +254,43 @@ header h3 {
     text-decoration: none !important;
     font-weight: bold !important;
 }
+/* വിവരങ്ങൾ കാണിക്കുന്ന ഓരോ കാർഡിന്റെയും ഡിസൈൻ */
+.person-card {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    margin: 15px auto !important;
+    padding: 18px !important;
+    width: 94% !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border-left: 8px solid #006400 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
 
+/* ഓരോ വരിയും (ഉദാ: സ്ഥലം: കൊച്ചി) നേരെ വരാൻ */
+.info-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin-bottom: 10px !important;
+}
 
+.info-label {
+    min-width: 100px !important; /* ലേബലുകൾക്ക് ഒരേ വീതി നൽകുന്നു */
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    color: #2e7d32 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.info-value {
+    flex: 1 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+    padding-left: 8px !important;
+    word-break: break-word !important;
+}
 
 /* 3. കാർഡിലെ കോൾ, ചാറ്റ് ബട്ടണുകൾ ഒരേ നിരയിൽ വരാൻ */
 .call-section {
