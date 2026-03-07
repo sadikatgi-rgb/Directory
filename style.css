@@ -205,17 +205,36 @@ header h3 {
     align-items: center !important;
     padding: 10px 15px !important;
     min-height: 60px !important;
-}
-/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
+}/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
 .container { 
-    /* താഴെയുള്ള വിടവ് ഒഴിവാക്കാൻ 150px മാറ്റി 40px ആക്കി */
-    padding: 20px 15px 40px 15px !important; 
-    height: calc(100vh - 123px) !important; 
-    margin-top: 0 !important;
+    /* താഴെയുള്ള ഗ്യാപ്പ് ഒഴിവാക്കാൻ padding 20px ആയി കുറച്ചു */
+    padding: 10px 15px 20px 15px !important; 
+    
+    /* സ്ക്രീനിന്റെ ബാക്കി ഭാഗം മാത്രം എടുക്കാൻ height ക്രമീകരിച്ചു */
+    height: calc(100vh - 125px) !important; 
+    
+    /* അനാവശ്യ മാർജിനുകൾ ഒഴിവാക്കി */
+    margin: 0 !important;
+    
     overflow-y: auto !important; 
-    -webkit-overflow-scrolling: touch; 
+    display: block !important;
+    position: relative;
     background-color: #f4f7f6 !important;
+    -webkit-overflow-scrolling: touch; 
 }
+
+/* ഹോം പേജ് വ്യൂവിന് പ്രത്യേകമായി അടിയിൽ ഗ്യാപ്പ് വരുന്നത് തടയാൻ */
+#home-screen-view {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* കാറ്റഗറി ലിസ്റ്റ് വരുമ്പോഴും ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
+#list-container {
+    margin-bottom: 0 !important;
+    padding-bottom: 20px !important;
+}
+
 
 /* കണ്ടെയ്നർ സ്ക്രോൾ ബാർ ഡിസൈൻ */
 .container::-webkit-scrollbar {
