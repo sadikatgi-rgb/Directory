@@ -574,56 +574,56 @@ header button[onclick*="back"]::before,
     line-height: 1.7 !important;
     color: #000000 !important;
 }
-/* --- 1. അനാവശ്യ സ്പേസ് ഒഴിവാക്കാനും വരികൾ ശരിയാക്കാനും (Replace this) --- */
+/* --- 1. വരികൾക്കിടയിലെ സ്പേസ് ശരിയാക്കാൻ --- */
 .info-row {
     display: block !important;
     width: 100% !important;
-    margin-bottom: 10px !important;
-    padding-bottom: 5px !important;
-    border-bottom: 1px solid #eee;
-    height: auto !important; /* ഹൈറ്റ് ഓട്ടോമാറ്റിക് ആക്കി */
-    overflow: hidden;
+    margin-bottom: 8px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid #f0f0f0;
+    height: auto !important;
+    overflow: visible !important; /* വിവരങ്ങൾ മുറിഞ്ഞു പോകാതിരിക്കാൻ */
 }
 
 .info-label {
     display: flex !important;
     align-items: center !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 700 !important;
     color: #2e7d32 !important;
     margin: 0 !important;
-    padding: 0 !important;
 }
 
 .info-value {
     display: block !important;
-    font-size: 18px !important;
-    font-weight: 900 !important;
+    font-size: 19px !important;
+    font-weight: 950 !important; /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടി നൽകി */
     color: #000 !important;
-    padding-left: 28px !important; /* ഐക്കണിന് താഴെ വരാതെ സൈഡിൽ നിൽക്കാൻ */
-    margin: 0 !important;
+    padding-left: 26px !important;
+    margin-top: 1px !important;
     line-height: 1.2 !important;
+    white-space: normal !important;
 }
 
-/* --- 2. സ്ക്രീനുകൾ കലരുന്നത് ഒഴിവാക്കാൻ ഇത് കൂടി ചേർക്കുക --- */
-#home-screen, #list-screen, #admin-panel, #about-app-screen, #content-info-screen, #leaders-screen {
-    position: fixed !important; /* ഓരോ പേജും കൃത്യമായ സ്ഥാനത്ത് ലോക്ക് ചെയ്യാൻ */
-    top: 123px; /* ഹെഡറിനും വാർത്താ ബാറിനും താഴെ */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #f4f7f6;
-    overflow-y: auto !important; /* ഓരോ പേജും തനിയെ സ്ക്രോൾ ചെയ്യാൻ */
-    -webkit-overflow-scrolling: touch;
-    z-index: 1;
+/* --- 2. സ്ക്രീനുകൾ കലരുന്നത് ഒഴിവാക്കാനുള്ള ശരിയായ രീതി --- */
+#home-screen, #list-screen, #admin-panel, #about-app-screen, #content-info-screen, #leaders-screen, #admin-login-screen {
+    width: 100% !important;
+    min-height: calc(100vh - 123px) !important;
+    background: #f4f7f6 !important;
+    position: relative !important; /* fixed മാറ്റി relative ആക്കി */
+    display: block;
 }
 
-/* ഹോം സ്ക്രീൻ മാത്രം എപ്പോഴും ബാക്ക്ഗ്രൗണ്ടിൽ ഉണ്ടാകാൻ സാധ്യതയുള്ളതിനാൽ */
+/* മറയ്ക്കേണ്ട സ്ക്രീനുകൾ പൂർണ്ണമായും മറയ്ക്കാൻ */
 .hidden {
     display: none !important;
 }
 
-
+/* കണ്ടെയ്നറിന് ഹെഡറിന്റെ അത്രയും മുകളിൽ വിടവ് നൽകാൻ */
+#main-container {
+    padding-top: 123px !important; 
+    min-height: 100vh;
+}
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
