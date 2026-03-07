@@ -205,17 +205,17 @@ header h3 {
     align-items: center !important;
     padding: 10px 15px !important;
     min-height: 60px !important;
-}/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
+}
+/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
 .container { 
-    /* താഴെയുള്ള ഗ്യാപ്പ് ഒഴിവാക്കാൻ padding 20px ആയി കുറച്ചു */
+    /* താഴെയുള്ള വലിയ ഗ്യാപ്പ് ഒഴിവാക്കാൻ padding 20px ആക്കി */
     padding: 10px 15px 20px 15px !important; 
     
-    /* സ്ക്രീനിന്റെ ബാക്കി ഭാഗം മാത്രം എടുക്കാൻ height ക്രമീകരിച്ചു */
-    height: calc(100vh - 125px) !important; 
+    /* ഹെഡർ (65px) + ന്യൂസ് ടിക്കർ (58px) = 123px. 
+       അതുകൊണ്ട് ബാക്കി ഭാഗം മാത്രം കണ്ടെയ്നറിന് നൽകുന്നു */
+    height: calc(100vh - 123px) !important; 
     
-    /* അനാവശ്യ മാർജിനുകൾ ഒഴിവാക്കി */
-    margin: 0 !important;
-    
+    margin-top: 0 !important;
     overflow-y: auto !important; 
     display: block !important;
     position: relative;
