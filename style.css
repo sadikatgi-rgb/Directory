@@ -123,7 +123,7 @@ header h3 {
     display: flex !important;
     white-space: nowrap !important;
     padding-left: 100% !important; /* വാർത്ത സ്ക്രീനിന്റെ വലതുവശത്ത് നിന്ന് തുടങ്ങാൻ */
-    animation: news-marquee 30s linear infinite !important; /* വേഗത 30s ആക്കി കുറച്ചു */
+    animation: news-marquee 60s linear infinite !important; /* വേഗത 30s ആക്കി കുറച്ചു */
 }
 
 .news-ticker-scroll span {
@@ -206,12 +206,10 @@ header h3 {
     padding: 10px 15px !important;
     min-height: 60px !important;
 }
-
 /* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
 .container { 
-    /* 150px എന്നത് 20px ആയി കുറച്ചു */
-    padding: 20px 15px 20px 15px !important; 
-    /* ഉയരം കൃത്യമായി ക്രമീകരിച്ചു */
+    /* താഴെയുള്ള വിടവ് ഒഴിവാക്കാൻ 150px മാറ്റി 40px ആക്കി */
+    padding: 20px 15px 40px 15px !important; 
     height: calc(100vh - 123px) !important; 
     margin-top: 0 !important;
     overflow-y: auto !important; 
@@ -219,6 +217,19 @@ header h3 {
     background-color: #f4f7f6 !important;
 }
 
+/* കണ്ടെയ്നർ സ്ക്രോൾ ബാർ ഡിസൈൻ */
+.container::-webkit-scrollbar {
+    width: 5px; /* അല്പം കൂടി വണ്ണം കൂട്ടി */
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #006400; /* യൂണിറ്റിന്റെ പച്ച നിറം നൽകാം */
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* സ്ക്രോൾ ബാർ പാതയുടെ നിറം */
+}
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
@@ -681,14 +692,4 @@ header button[onclick*="back"]::before,
 .container::-webkit-scrollbar {
     width: 5px;
 }
-/* സ്ക്രോൾ ബാർ മൂവ് ചെയ്യുന്ന വഴി (Track) */
-.container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-}
-/* മൂവ് ചെയ്യുന്ന ഭാഗം (Thumb) */
-.container::-webkit-scrollbar-thumb {
-    background: #006400; /* യൂണിറ്റ് കളറായ പച്ച നൽകാം */
-    border-radius: 10px;
-}
-
 
