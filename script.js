@@ -63,15 +63,17 @@ function loadScrollingNews() {
                     }
                 });
                 newsItems.reverse();
-                const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                const fullNewsText = newsItems.join(separator);
-                tickerContainer.innerHTML = `
-                    <div class="news-ticker-scroll" style="display: inline-block; white-space: nowrap;">
-                        <span>${fullNewsText}</span>
-                        ${separator}
-                        <span>${fullNewsText}</span>
-                    </div>
-                `;
+// വാർത്തകൾക്കിടയിൽ വരാൻ ഐക്കണോട് കൂടിയ പുതിയ സെപ്പറേറ്റർ
+const separator = '&nbsp;&nbsp;&nbsp;&nbsp; ✦ &nbsp;&nbsp;&nbsp;&nbsp;'; 
+const fullNewsText = newsItems.join(separator);
+
+tickerContainer.innerHTML = `
+    <div class="news-ticker-scroll">
+        <span>${fullNewsText}</span>
+        <span>${separator}</span>
+        <span>${fullNewsText}</span>
+    </div>
+`;
             } else {
                 tickerContainer.innerHTML = "അറിയിപ്പുകൾ ലഭ്യമല്ല";
             }
