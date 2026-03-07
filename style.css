@@ -365,10 +365,11 @@ header h3 {
     width: 25px !important;
     text-align: center !important;
 }
-/* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് താഴെ ചേർക്കുക */
+/* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് മാറ്റുക */
 #list-screen {
     background-color: #f4f7f6 !important; 
-    min-height: 100vh !important; 
+    height: 100vh !important; /* min-height മാറ്റി height ആക്കി */
+    overflow: hidden !important; 
     display: flex !important;
     flex-direction: column !important;
 }
@@ -376,9 +377,9 @@ header h3 {
 #list-container {
     background-color: #f4f7f6 !important;
     flex: 1 !important; 
-    padding-bottom: 80px !important; 
+    padding-bottom: 20px !important; /* 80px എന്നത് 20px ആക്കി കുറച്ചു */
+    overflow-y: auto !important;
 }
-
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
 .blink-text {
@@ -671,8 +672,6 @@ header button[onclick*="back"]::before,
     background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 95% center;
     background-size: 20px;
 }
-
-
 
 #search-input::placeholder {
     color: #888 !important;
