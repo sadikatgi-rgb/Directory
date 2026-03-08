@@ -212,19 +212,21 @@ header h3 {
 }
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* സെർച്ച് ബാർ മാത്രം സ്പെഷ്യൽ ആയി കാണാൻ */
-
-/* പഴയ .person-card ലും .person-info ലും ഉള്ള flex ഒഴിവാക്കി ഇത് നൽകുക */
-.person-card {
+/* കാർഡുകളുടെ ഡിസൈനും വീതിയും ഒന്നിച്ച് - ഈ ഒറ്റ ബ്ലോക്ക് മതി */
+.person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    margin: 20px auto !important;
     padding: 20px !important;
-    width: 90% !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 10px solid #006400 !important;
-    display: block !important; /* flex മാറ്റി block ആക്കി */
+    border-left: 10px solid #006400 !important; /* പച്ച ബോർഡർ */
+    display: block !important;
     text-align: left !important;
+    
+    /* വീതിയും മാർജിനും കൃത്യമാക്കാൻ */
+    width: calc(100% - 30px) !important; 
+    max-width: 600px;
+    margin: 20px auto !important;
+    box-sizing: border-box !important;
 }
 
 .person-info {
@@ -257,9 +259,6 @@ header h3 {
     text-decoration: none !important;
     font-weight: bold !important;
 }
-
-
-
 /* 3. കാർഡിലെ കോൾ, ചാറ്റ് ബട്ടണുകൾ ഒരേ നിരയിൽ വരാൻ */
 .call-section {
     display: flex !important;
@@ -313,44 +312,23 @@ header h3 {
     width: 25px !important;
     text-align: center !important;
 }
-/* പഴയ .container, #list-screen, #list-container എന്നിവ മാറ്റി ഇത് നൽകുക */
-
-.container { 
+.container, #list-screen { 
     width: 100% !important;
     box-sizing: border-box !important;
     display: block !important;
-    /* ഹെഡറിനും ടിക്കറിനും അടിയിലേക്ക് കയറാതിരിക്കാൻ കൃത്യമായ മാർജിൻ */
-    margin-top: 0 !important; 
-    padding: 10px 15px 30px 15px !important;
     background-color: #f4f7f6 !important;
     overflow-y: auto !important;
-    /* താഴെ വിടവ് വരാതിരിക്കാൻ */
+    /* വെള്ളപ്പാളി ഒഴിവാക്കാൻ താഴെ വരികൾ */
     min-height: calc(100vh - 123px) !important;
     height: auto !important;
-}
-
-#list-screen {
-    width: 100% !important;
-    height: auto !important;
-    min-height: calc(100vh - 123px) !important;
-    background-color: #f4f7f6 !important;
-    display: block !important; /* flex മാറ്റി block ആക്കുന്നു (വീതി പ്രശ്നം മാറാൻ) */
+    padding: 10px 15px 30px 15px !important;
 }
 
 #list-container {
     width: 100% !important;
-    box-sizing: border-box !important;
     height: auto !important;
     padding: 0 !important;
     margin: 0 !important;
-}
-
-/* കാർഡുകൾ വീതി കുറയാതിരിക്കാൻ */
-.person-card, .info-card {
-    width: calc(100% - 30px) !important; 
-    max-width: 100% !important;
-    margin: 15px auto !important;
-    display: block !important;
 }
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
