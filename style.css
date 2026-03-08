@@ -572,87 +572,58 @@ header button[onclick*="back"]::before,
     flex: 1 !important; /* തുല്യ വലിപ്പം */
     text-align: center !important;
 }
-/* --- 1. അറിയിപ്പുകൾ (Announcements) - ചുവപ്പ് ബോർഡർ & ഫുൾ സ്റ്റൈൽ --- */
-.announcement-card {
-    margin-bottom: 25px !important;
-    border-left: 15px solid #ff4444 !important; /* കടും ചുവപ്പ് ബോർഡർ ഉറപ്പാക്കി */
-    border-radius: 20px !important;
-    padding: 22px 12px !important;
-    background: #ffffff !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    display: block !important;
-    width: 94% !important; /* അരികിൽ തട്ടാതിരിക്കാൻ 94% ആക്കി */
-    max-width: 96% !important;
-    margin: 15px auto !important;
+/* --- 1. അറിയിപ്പുകൾ & പേഴ്സണൽ കാർഡുകൾ - വീതിയും ബോർഡറും --- */
+.announcement-card, .person-card, .info-card, .card {
+    width: 96% !important; /* വശങ്ങളിലെ വിടവ് കുറച്ച് വീതി കൂട്ടി */
+    max-width: 98% !important;
+    margin: 10px auto !important;
+    padding: 15px 10px !important;
     box-sizing: border-box !important;
+    border-radius: 15px !important;
+    display: block !important;
     overflow: hidden !important;
 }
 
-.announcement-title {
-    font-size: 22px !important;
-    font-weight: 950 !important;
-    color: #b71c1c !important;
-    margin-bottom: 10px !important;
-    display: block !important;
+/* പേഴ്സണൽ കാർഡിനും മറ്റ് കാർഡുകൾക്കും പച്ച ബോർഡർ */
+.person-card, .info-card, .card { 
+    border-left: 12px solid #006400 !important; 
 }
 
-.announcement-desc {
-    font-size: 19px !important;
-    font-weight: 800 !important;
-    line-height: 1.7 !important;
-    color: #000000 !important;
-    display: block !important;
-    word-wrap: break-word !important; 
-    overflow-wrap: break-word !important;
-    white-space: normal !important;
+/* അറിയിപ്പുകൾക്ക് മാത്രം ചുവപ്പ് ബോർഡർ */
+.announcement-card { 
+    border-left: 12px solid #ff4444 !important; 
 }
 
-/* --- 2. മറ്റ് കാർഡുകളുടെയും (Auto, Taxi, etc.) പൊതുവായ വീതി ക്രമീകരണം --- */
-.person-card, .info-card, .card {
-    width: 94% !important; 
-    max-width: 96% !important;
-    margin: 15px auto !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-    border-left: 15px solid #006400 !important; /* പച്ച ബോർഡർ */
-}
-
-/* --- 3. വിവരങ്ങൾ (Info Rows) ഒരേ നിരയിൽ വരാൻ --- */
+/* --- 2. വിവരങ്ങൾ (Info) താഴെ താഴെയായി വരാൻ --- */
 .info-row {
-    display: flex !important;
-    align-items: flex-start !important; 
-    margin-bottom: 10px !important;
+    display: block !important; /* വശങ്ങളിലേക്ക് വെട്ടിപ്പോകാതിരിക്കാൻ */
     width: 100% !important;
+    margin-bottom: 10px !important;
 }
 
 .info-label {
-    min-width: 100px !important; 
-    max-width: 110px !important;
-    font-size: 16px !important;
+    display: block !important;
+    font-size: 15px !important;
     font-weight: 950 !important;
-    color: #2e7d32 !important; 
-    display: flex !important;
-    align-items: center !important;
-    flex-shrink: 0 !important;
+    color: #2e7d32 !important;
+    margin-bottom: 2px !important;
 }
 
 .info-value {
-    flex: 1 !important;
+    display: block !important;
+    width: 100% !important;
     font-size: 18px !important;
     font-weight: 800 !important;
     color: #000 !important;
-    word-break: break-word !important;
+    word-wrap: break-word !important;
     overflow-wrap: break-word !important;
-    line-height: 1.4 !important;
-    padding-left: 8px !important;
+    line-height: 1.3 !important;
 }
 
-/* ഐക്കണുകൾക്ക് പഴയ കോഡിലുണ്ടായിരുന്ന അതേ സ്റ്റൈൽ */
+/* ഐക്കണുകൾ */
 .info-label i {
-    width: 20px !important;
-    margin-right: 8px !important;
-    text-align: center !important;
-    color: #006400 !important;
+    width: 18px !important;
+    margin-right: 5px !important;
 }
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
