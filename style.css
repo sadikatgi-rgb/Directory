@@ -360,33 +360,44 @@ header h3 {
     width: 25px !important;
     text-align: center !important;
 }
-/* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് മാറ്റുക */
-#list-screen {
-    background-color: #f4f7f6 !important; 
-    /* height ഒഴിവാക്കി min-height ആക്കി മാറ്റി */
-    min-height: calc(100vh - 123px) !important; 
-    height: auto !important; 
-    
-    overflow-y: auto !important; /* കണ്ടന്റ് കൂടുമ്പോൾ സ്ക്രോൾ ചെയ്യാൻ */
-    display: flex !important;
-    flex-direction: column !important;
-    margin-top: 0 !important;
-}
+/* പഴയ .container, #list-screen, #list-container എന്നിവ മാറ്റി ഇത് നൽകുക */
 
-/* ഒപ്പം ഇതിന് താഴെയുള്ള list-container കൂടി ഇതുപോലെ മാറ്റുക */
-#list-container {
-    background-color: #f4f7f6 !important;
-    flex: 1 !important; 
-    padding: 10px 15px 30px 15px !important; 
-    height: auto !important; /* height ക്രമീകരിച്ചു */
-}
-
-/* ഹോം പേജിലെ കണ്ടെയ്നറും ഇതുപോലെ മാറ്റുക */
 .container { 
-    height: calc(100vh - 123px) !important; 
-    padding: 10px 15px 20px 15px !important; 
-    margin: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    /* ഹെഡറിനും ടിക്കറിനും അടിയിലേക്ക് കയറാതിരിക്കാൻ കൃത്യമായ മാർജിൻ */
+    margin-top: 0 !important; 
+    padding: 10px 15px 30px 15px !important;
+    background-color: #f4f7f6 !important;
     overflow-y: auto !important;
+    /* താഴെ വിടവ് വരാതിരിക്കാൻ */
+    min-height: calc(100vh - 123px) !important;
+    height: auto !important;
+}
+
+#list-screen {
+    width: 100% !important;
+    height: auto !important;
+    min-height: calc(100vh - 123px) !important;
+    background-color: #f4f7f6 !important;
+    display: block !important; /* flex മാറ്റി block ആക്കുന്നു (വീതി പ്രശ്നം മാറാൻ) */
+}
+
+#list-container {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* കാർഡുകൾ വീതി കുറയാതിരിക്കാൻ */
+.person-card, .info-card {
+    width: calc(100% - 30px) !important; 
+    max-width: 100% !important;
+    margin: 15px auto !important;
+    display: block !important;
 }
 
 /* --- 7. അഡ്മിൻ ബോക്സ് & ബട്ടണുകൾ --- */
@@ -709,39 +720,3 @@ header button[onclick*="back"]::before,
 .container::-webkit-scrollbar {
     width: 5px;
 }
-/* 1. മെയിൻ കണ്ടെയ്നർ ലോജിക് */
-#main-container, .container {
-    height: calc(100vh - 123px) !important; /* ഹെഡർ + ടിക്കർ കുറച്ചു */
-    padding: 10px 15px 20px 15px !important;
-    overflow-y: auto !important;
-    margin: 0 !important;
-    display: block !important;
-}
-
-/* 2. ഇൻഫോ കാർഡുകൾ (About, Leaders, Content) */
-.info-card {
-    width: 96% !important;
-    max-width: 500px;
-    margin: 10px auto !important;
-    padding: 15px !important;
-    border-radius: 15px;
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    /* ഉയരം കണ്ടന്റിന് അനുസരിച്ച് മാറാൻ */
-    height: auto !important; 
-    max-height: calc(100vh - 160px) !important; 
-    display: flex;
-    flex-direction: column;
-}
-
-/* 3. ലിസ്റ്റ് സ്ക്രീൻ (വിവരങ്ങൾ കാണിക്കുന്ന ഇടം) */
-#list-screen {
-    height: calc(100vh - 123px) !important;
-    background-color: #f4f7f6 !important;
-    overflow: hidden !important;
-}
-
-#list-container {
-    padding-bottom: 20px !important; /* ആ പഴയ 80px ഇവിടെ ഒഴിവാക്കി */
-}
-
