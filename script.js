@@ -142,9 +142,12 @@ window.showHome = () => {
     if(homeView) homeView.classList.remove('hidden');
     if(homeLogic) homeLogic.classList.remove('hidden');
     
-    // പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ക്ലിയർ ചെയ്യുക
+    // പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ക്ലിയർ ചെയ്യുകയും ഹൈറ്റ് റീസെറ്റ് ചെയ്യുകയും ചെയ്യുന്നു
     const listContainer = document.getElementById('list-container');
-    if(listContainer) listContainer.innerHTML = ""; 
+    if(listContainer) {
+        listContainer.innerHTML = ""; 
+        listContainer.style.height = "auto"; // വിടവ് ഒഴിവാക്കാൻ ഇത് സഹായിക്കും
+    }
 
     // ടൈറ്റിലും ഐക്കണുകളും ശരിയാക്കുക
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
@@ -157,9 +160,12 @@ window.showHome = () => {
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
 
-    // സ്ക്രോൾ മുകളിലേക്ക് എത്തിക്കുക (സ്പേസ് പ്രശ്നം ഒഴിവാക്കാൻ ഇത് സഹായിക്കും)
+    // സ്ക്രോൾ മുകളിലേക്ക് എത്തിക്കുക
     const mainContainer = document.getElementById('main-container');
-    if(mainContainer) mainContainer.scrollTop = 0;
+    if(mainContainer) {
+        mainContainer.scrollTop = 0;
+        mainContainer.style.height = "auto"; // ഇവിടെയും ഹൈറ്റ് ശരിയാക്കുന്നു
+    }
 };
 
 window.toggleMenu = () => {
