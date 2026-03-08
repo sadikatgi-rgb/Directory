@@ -17,8 +17,8 @@ body, html {
     
     /* ഈ വരിയാണ് മാറ്റേണ്ടത് */
     height: auto !important; 
-    min-height: 100vh; 
-    
+    min-height: 0 !important;
+    background: #f4f7f6;
     width: 100%;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
@@ -322,13 +322,15 @@ header h3 {
     box-sizing: border-box !important;
     display: block !important;
     background-color: #f4f7f6 !important;
-    overflow-y: auto !important;
-    /* വെള്ളപ്പാളി ഒഴിവാക്കാൻ താഴെ വരികൾ */
-    min-height: calc(100vh - 123px) !important;
-    height: auto !important;
-    padding: 10px 15px 30px 15px !important;
+    
+    /* സ്പേസ് പ്രശ്നം പരിഹരിക്കാൻ ഈ രണ്ട് വരികൾ ശ്രദ്ധിക്കുക */
+    min-height: 0 !important; 
+    height: auto !important; 
+    
+    /* ഹെഡർ + ടിക്കർ (65+58=123px) താഴെ വരാൻ */
+    margin-top: 0 !important; 
+    padding: 10px 15px 40px 15px !important; /* അടിയിൽ ചെറിയൊരു ഗ്യാപ്പ് മാത്രം */
 }
-
 #list-container {
     width: 100% !important;
     height: auto !important;
