@@ -109,10 +109,10 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ചിഹ്നങ്ങളും വേഗതയും ക്രമീകരിച്ചത് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - കട്ടി കൂട്ടി കൂടുതൽ വ്യക്തമാക്കിയത് --- */
 #news-ticker {
     margin-top: 65px !important;
-    height: 60px !important; 
+    height: 65px !important; /* ഉയരം അല്പം കൂടി വർദ്ധിപ്പിച്ചു */
     background: #ffff00 !important;
     z-index: 8000 !important;
     border-top: 5px solid #b71c1c !important;
@@ -120,39 +120,48 @@ header h3 {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    position: relative !important;
 }
 
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
     padding-left: 10px !important; 
-    /* വായനക്കാർക്ക് വ്യക്തമാകാൻ 70s വേഗത നിലനിർത്തി */
-    animation: news-marquee 70s linear infinite !important; 
+    animation: news-marquee 75s linear infinite !important; 
 }
 
 .news-ticker-scroll span {
-    font-weight: 1000 !important;
-    font-size: 24px !important; /* വലിപ്പം അല്പം കൂട്ടി */
+    /* അക്ഷരങ്ങളുടെ കട്ടി പരമാവധി കൂട്ടി */
+    font-weight: 900 !important; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    font-size: 26px !important; /* വലിപ്പം അല്പം കൂടി കൂട്ടി */
     color: #b71c1c !important;
-    /* വാർത്തയും ചിഹ്നവും തമ്മിലുള്ള വിടവ് */
-    padding-right: 40px !important; 
-    display: inline-block !important;
+    letter-spacing: 0.5px !important; /* അക്ഷരങ്ങൾ തമ്മിൽ അല്പം അകലം */
+    
+    /* അക്ഷരങ്ങൾ തെളിഞ്ഞു കാണാൻ നേരിയ ഷാഡോ */
+    text-shadow: 0.5px 0.5px 0px rgba(0,0,0,0.2) !important;
+    
+    display: inline-flex !important;
+    align-items: center !important;
+    padding-right: 0 !important;
 }
 
-/* വാർത്തകൾക്കിടയിൽ നക്ഷത്ര ചിഹ്നം ചേർക്കാൻ */
+/* വാർത്തയ്ക്ക് ശേഷം മാത്രം വരുന്ന നക്ഷത്ര ചിഹ്നം */
 .news-ticker-scroll span::after {
     content: " ★ "; 
-    color: #000000; /* ചിഹ്നത്തിന് കറുപ്പ് നിറം */
-    font-size: 22px;
-    /* ചിഹ്നത്തിന് ശേഷമുള്ള വിടവ് */
-    padding-left: 40px; 
+    color: #000000;
+    font-size: 24px;
+    font-weight: 900 !important;
+    padding-left: 60px !important; 
+    padding-right: 60px !important;
 }
 
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
+
  
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
