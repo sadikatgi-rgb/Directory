@@ -109,8 +109,7 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ചുവപ്പ് ബോർഡർ നൽകിയത് --- */
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - തിരുത്തിയത് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ആപ്പ് തുറക്കുമ്പോൾ തന്നെ കാണാൻ --- */
 #news-ticker {
     margin-top: 65px !important;
     height: 58px !important;
@@ -120,30 +119,32 @@ header h3 {
     border-bottom: 5px solid #000000 !important;
     display: flex !important;
     align-items: center !important;
-    overflow: hidden !important; /* വാർത്തകൾ പുറത്തേക്ക് പോകുന്നത് തടയാൻ ഇത് നിർബന്ധമാണ് */
+    overflow: hidden !important;
     position: relative !important;
 }
 
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    padding-left: 100% !important; /* വാർത്ത സ്ക്രീനിന്റെ വലതുവശത്ത് നിന്ന് തുടങ്ങാൻ */
-    animation: news-marquee 60s linear infinite !important; /* വേഗത 30s ആക്കി കുറച്ചു */
+    /* മാറ്റം ഇവിടെയാണ്: സ്ക്രീനിന്റെ ഉള്ളിൽ നിന്ന് തന്നെ തുടങ്ങുന്നു */
+    padding-left: 10px !important; 
+    animation: news-marquee 45s linear infinite !important; /* വേഗത കൃത്യമാക്കി */
 }
 
 .news-ticker-scroll span {
     font-weight: 1000 !important;
     font-size: 23px !important;
     color: #b71c1c !important;
-    padding-right: 100px !important;
+    padding-right: 80px !important; /* വാർത്തകൾ തമ്മിലുള്ള വിടവ് */
     display: inline-block !important;
 }
 
-/* അനിമേഷൻ ലളിതമാക്കി */
 @keyframes news-marquee {
-    0% { transform: translateX(0); }
+    /* 0% ൽ ട്രാാൻസ്ലേഷൻ ഒഴിവാക്കി, വാർത്ത ഉടൻ കാണാൻ സഹായിക്കുന്നു */
+    0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
+ 
 
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
