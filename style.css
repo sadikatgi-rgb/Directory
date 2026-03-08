@@ -109,10 +109,10 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ആപ്പ് തുറക്കുമ്പോൾ തന്നെ കാണാൻ --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ചിഹ്നങ്ങളും വേഗതയും ക്രമീകരിച്ചത് --- */
 #news-ticker {
     margin-top: 65px !important;
-    height: 58px !important;
+    height: 60px !important; 
     background: #ffff00 !important;
     z-index: 8000 !important;
     border-top: 5px solid #b71c1c !important;
@@ -126,26 +126,34 @@ header h3 {
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    /* മാറ്റം ഇവിടെയാണ്: സ്ക്രീനിന്റെ ഉള്ളിൽ നിന്ന് തന്നെ തുടങ്ങുന്നു */
     padding-left: 10px !important; 
-    animation: news-marquee 70s linear infinite !important; /* വേഗത കൃത്യമാക്കി */
+    /* വായനക്കാർക്ക് വ്യക്തമാകാൻ 70s വേഗത നിലനിർത്തി */
+    animation: news-marquee 70s linear infinite !important; 
 }
 
 .news-ticker-scroll span {
     font-weight: 1000 !important;
-    font-size: 23px !important;
+    font-size: 24px !important; /* വലിപ്പം അല്പം കൂട്ടി */
     color: #b71c1c !important;
-    padding-right: 80px !important; /* വാർത്തകൾ തമ്മിലുള്ള വിടവ് */
+    /* വാർത്തയും ചിഹ്നവും തമ്മിലുള്ള വിടവ് */
+    padding-right: 40px !important; 
     display: inline-block !important;
 }
 
+/* വാർത്തകൾക്കിടയിൽ നക്ഷത്ര ചിഹ്നം ചേർക്കാൻ */
+.news-ticker-scroll span::after {
+    content: " ★ "; 
+    color: #000000; /* ചിഹ്നത്തിന് കറുപ്പ് നിറം */
+    font-size: 22px;
+    /* ചിഹ്നത്തിന് ശേഷമുള്ള വിടവ് */
+    padding-left: 40px; 
+}
+
 @keyframes news-marquee {
-    /* 0% ൽ ട്രാാൻസ്ലേഷൻ ഒഴിവാക്കി, വാർത്ത ഉടൻ കാണാൻ സഹായിക്കുന്നു */
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
  
-
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
     position: fixed !important; 
@@ -560,17 +568,16 @@ header button[onclick*="back"]::before,
     text-align: center !important;
 }
 
-/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ */
-/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ - കൂടുതൽ വീതിയോടെ */
+/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ - ചുവപ്പ് ബോർഡർ & കൂടുതൽ വീതി */
 .announcement-card {
     margin-bottom: 25px !important;
-    border-left: 12px solid #ff4444 !important; /* ചുവന്ന വര */
+    border-left: 12px solid #ff4444 !important; /* ചുവന്ന വര മാത്രം ഇവിടെ */
     border-radius: 20px !important;
-    padding: 22px !important;
+    padding: 22px 12px !important; /* വശങ്ങളിലെ വിടവ് കുറച്ചു */
     background: #ffffff !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
     
-    /* വീതി വർദ്ധിപ്പിക്കാൻ താഴെ കാണുന്നവ ചേർത്തു */
+    /* വീതി സ്ക്രീനിന്റെ അരികുവരെ എത്തിക്കാൻ */
     display: block !important;
     width: 97% !important; 
     max-width: 98% !important;
@@ -593,6 +600,8 @@ header button[onclick*="back"]::before,
     line-height: 1.7 !important;
     color: #000000 !important;
     display: block !important;
+    word-wrap: break-word !important; /* വരികൾ മുറിഞ്ഞു പോകാതിരിക്കാൻ */
+    white-space: normal !important;
 }
 
 /* --- ഏകീകൃതമായ ഇൻഫോ റോ സ്റ്റൈൽ --- */
