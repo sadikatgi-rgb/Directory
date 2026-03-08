@@ -128,7 +128,7 @@ header h3 {
     white-space: nowrap !important;
     /* മാറ്റം ഇവിടെയാണ്: സ്ക്രീനിന്റെ ഉള്ളിൽ നിന്ന് തന്നെ തുടങ്ങുന്നു */
     padding-left: 10px !important; 
-    animation: news-marquee 45s linear infinite !important; /* വേഗത കൃത്യമാക്കി */
+    animation: news-marquee 70s linear infinite !important; /* വേഗത കൃത്യമാക്കി */
 }
 
 .news-ticker-scroll span {
@@ -218,20 +218,20 @@ header h3 {
 }
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* കാർഡുകളുടെ വീതി വർദ്ധിപ്പിച്ച് ഡിസൈൻ ലെവൽ ചെയ്യാൻ */
+/* കാർഡുകളുടെ വീതി പരമാവധി കൂട്ടി വശങ്ങളിലെ ഗ്യാപ്പ് കുറയ്ക്കാൻ */
 .person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    padding: 22px !important; /* ഉള്ളിൽ അല്പം കൂടി ഗ്യാപ്പ് നൽകി */
+    padding: 22px 12px !important; /* വശങ്ങളിലെ ഉള്ളിലെ വിടവ് കുറച്ചു */
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 10px solid #006400 !important; /* ആ കടും പച്ച ബോർഡർ */
+    border-left: 12px solid #006400 !important; /* ബോർഡർ അല്പം കൂടി കട്ടിയാക്കി */
     display: block !important;
     text-align: left !important;
     
-    /* വീതി സ്ക്രീനിന്റെ 95% ആക്കുന്നു (വശങ്ങളിലെ ഗ്യാപ്പ് കുറയാൻ) */
-    width: 95% !important; 
-    max-width: 750px; /* വലിയ ഫോണുകളിലും ടാബുകളിലും വീതി കുറയാതിരിക്കാൻ */
-    margin: 15px auto !important;
+    /* വശങ്ങളിലെ ഒഴിഞ്ഞ സ്ഥലം ഒഴിവാക്കാൻ താഴെ പറയുന്നവ സഹായിക്കും */
+    width: 97% !important;  /* 95%-ൽ നിന്ന് 97% ആക്കി കൂട്ടി */
+    max-width: 98% !important; 
+    margin: 12px auto !important; /* മാർജിൻ കുറച്ച് കാർഡ് വികസിപ്പിച്ചു */
     box-sizing: border-box !important;
 }
 
@@ -241,13 +241,16 @@ header h3 {
     padding: 2px !important;
 }
 
+/* വിവരങ്ങൾ സ്ക്രീനിന്റെ പരമാവധി വീതി ഉപയോഗിക്കാൻ */
 .person-info strong, 
 .person-info p, 
 .person-info div {
-    display: block !important; /* ഓരോ വരിയും താഴെ താഴെ വരാൻ */
-    margin: 12px 0 !important;
+    display: block !important;
+    margin: 10px 0 !important;
     width: 100% !important;
+    word-wrap: break-word !important; /* വരികൾ മുറിഞ്ഞു പോകാതിരിക്കാൻ */
 }
+
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
 .call-section {
     margin-top: 15px !important;
