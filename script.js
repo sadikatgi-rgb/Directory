@@ -136,36 +136,32 @@ function hideAll() {
 window.showHome = () => {
     hideAll(); 
     
-    // ഹോം സ്ക്രീൻ കാണിക്കുക
+    // ഹോം സ്ക്രീൻ എലമെന്റുകൾ കാണിക്കുന്നു
     const homeView = document.getElementById('home-screen-view');
     const homeLogic = document.getElementById('home-screen');
     if(homeView) homeView.classList.remove('hidden');
     if(homeLogic) homeLogic.classList.remove('hidden');
     
-    // പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ക്ലിയർ ചെയ്യുകയും ഹൈറ്റ് റീസെറ്റ് ചെയ്യുകയും ചെയ്യുന്നു
+    // കണ്ടെയ്നറിലെ പഴയ ഡാറ്റ ക്ലിയർ ചെയ്യുന്നു
     const listContainer = document.getElementById('list-container');
-    if(listContainer) {
-        listContainer.innerHTML = ""; 
-        listContainer.style.height = "auto"; // വിടവ് ഒഴിവാക്കാൻ ഇത് സഹായിക്കും
-    }
+    if(listContainer) listContainer.innerHTML = ""; 
 
-    // ടൈറ്റിലും ഐക്കണുകളും ശരിയാക്കുക
+    // ഹെഡർ മാറ്റങ്ങൾ
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
     document.getElementById('main-menu-icon').classList.remove('hidden');
     document.getElementById('header-back-btn').classList.add('hidden');
     
-    // സൈഡ്ബാർ അടയ്ക്കുക
+    // സൈഡ്ബാർ ക്ലോസ് ചെയ്യുന്നു
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
-    if(sidebar) sidebar.classList.remove('active');
-    if(overlay) overlay.style.display = 'none';
-
-    // സ്ക്രോൾ മുകളിലേക്ക് എത്തിക്കുക
-    const mainContainer = document.getElementById('main-container');
-    if(mainContainer) {
-        mainContainer.scrollTop = 0;
-        mainContainer.style.height = "auto"; // ഇവിടെയും ഹൈറ്റ് ശരിയാക്കുന്നു
+    if(sidebar) {
+        sidebar.classList.remove('active');
+        if(overlay) overlay.style.display = 'none';
     }
+
+    // സ്ക്രോൾ മുകളിലേക്ക് എത്തിക്കുന്നു
+    const mainContainer = document.getElementById('main-container');
+    if(mainContainer) mainContainer.scrollTop = 0;
 };
 
 window.toggleMenu = () => {
