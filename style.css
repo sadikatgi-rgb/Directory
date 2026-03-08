@@ -368,16 +368,27 @@ header h3 {
 /* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് മാറ്റുക */
 #list-screen {
     background-color: #f4f7f6 !important; 
-    height: 100vh !important; /* min-height മാറ്റി height ആക്കി */
+    /* 100vh മാറ്റി ഹെഡറിന്റേയും ടിക്കറിന്റേയും ഉയരം കുറച്ചു */
+    height: calc(100vh - 123px) !important; 
     overflow: hidden !important; 
     display: flex !important;
     flex-direction: column !important;
+    margin-top: 0 !important;
 }
 
 #list-container {
     background-color: #f4f7f6 !important;
     flex: 1 !important; 
-    padding-bottom: 20px !important; /* 80px എന്നത് 20px ആക്കി കുറച്ചു */
+    padding: 10px 15px 20px 15px !important; /* അനാവശ്യ പാഡിംഗ് ഒഴിവാക്കി */
+    overflow-y: auto !important;
+    margin-bottom: 0 !important;
+}
+
+/* ഹോം പേജിലെ കണ്ടെയ്നറും ഇതുപോലെ മാറ്റുക */
+.container { 
+    height: calc(100vh - 123px) !important; 
+    padding: 10px 15px 20px 15px !important; 
+    margin: 0 !important;
     overflow-y: auto !important;
 }
 
