@@ -557,19 +557,30 @@ header button[onclick*="back"]::before,
 }
 
 /* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ */
+/* അറിയിപ്പുകൾക്ക് മാത്രമായുള്ള സ്റ്റൈൽ - കൂടുതൽ വീതിയോടെ */
 .announcement-card {
     margin-bottom: 25px !important;
-    border-left: 12px solid #ff4444 !important; /* ചുവന്ന വര കട്ടിയാക്കി */
+    border-left: 12px solid #ff4444 !important; /* ചുവന്ന വര */
     border-radius: 20px !important;
     padding: 22px !important;
     background: #ffffff !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    
+    /* വീതി വർദ്ധിപ്പിക്കാൻ താഴെ കാണുന്നവ ചേർത്തു */
+    display: block !important;
+    width: 97% !important; 
+    max-width: 98% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
 }
 
 .announcement-title {
     font-size: 22px !important;
     font-weight: 950 !important;
     color: #b71c1c !important;
+    margin-bottom: 10px !important;
+    display: block !important;
 }
 
 .announcement-desc {
@@ -577,6 +588,7 @@ header button[onclick*="back"]::before,
     font-weight: 800 !important;
     line-height: 1.7 !important;
     color: #000000 !important;
+    display: block !important;
 }
 
 /* --- ഏകീകൃതമായ ഇൻഫോ റോ സ്റ്റൈൽ --- */
