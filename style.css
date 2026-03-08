@@ -206,21 +206,16 @@ header h3 {
     padding: 10px 15px !important;
     min-height: 60px !important;
 }
-/* --- 6. കണ്ടെയ്നർ & കാർഡുകൾ --- */
 .container { 
-    /* താഴെയുള്ള വലിയ ഗ്യാപ്പ് ഒഴിവാക്കാൻ padding 20px ആക്കി */
     padding: 10px 15px 20px 15px !important; 
-    
-    /* ഹെഡർ (65px) + ന്യൂസ് ടിക്കർ (58px) = 123px. 
-       അതുകൊണ്ട് ബാക്കി ഭാഗം മാത്രം കണ്ടെയ്നറിന് നൽകുന്നു */
-    height: calc(100vh - 123px) !important; 
+    /* height ഒഴിവാക്കി താഴെ കാണുന്നത് പോലെ നൽകുക */
+    min-height: calc(100vh - 123px) !important; 
+    height: auto !important; 
     
     margin-top: 0 !important;
     overflow-y: auto !important; 
     display: block !important;
-    position: relative;
     background-color: #f4f7f6 !important;
-    -webkit-overflow-scrolling: touch; 
 }
 
 /* ഹോം പേജ് വ്യൂവിന് പ്രത്യേകമായി അടിയിൽ ഗ്യാപ്പ് വരുന്നത് തടയാൻ */
@@ -368,20 +363,22 @@ header h3 {
 /* അടിയിലെ വെള്ള പാളി ഒഴിവാക്കാൻ ഇത് മാറ്റുക */
 #list-screen {
     background-color: #f4f7f6 !important; 
-    /* 100vh മാറ്റി ഹെഡറിന്റേയും ടിക്കറിന്റേയും ഉയരം കുറച്ചു */
-    height: calc(100vh - 123px) !important; 
-    overflow: hidden !important; 
+    /* height ഒഴിവാക്കി min-height ആക്കി മാറ്റി */
+    min-height: calc(100vh - 123px) !important; 
+    height: auto !important; 
+    
+    overflow-y: auto !important; /* കണ്ടന്റ് കൂടുമ്പോൾ സ്ക്രോൾ ചെയ്യാൻ */
     display: flex !important;
     flex-direction: column !important;
     margin-top: 0 !important;
 }
 
+/* ഒപ്പം ഇതിന് താഴെയുള്ള list-container കൂടി ഇതുപോലെ മാറ്റുക */
 #list-container {
     background-color: #f4f7f6 !important;
     flex: 1 !important; 
-    padding: 10px 15px 20px 15px !important; /* അനാവശ്യ പാഡിംഗ് ഒഴിവാക്കി */
-    overflow-y: auto !important;
-    margin-bottom: 0 !important;
+    padding: 10px 15px 30px 15px !important; 
+    height: auto !important; /* height ക്രമീകരിച്ചു */
 }
 
 /* ഹോം പേജിലെ കണ്ടെയ്നറും ഇതുപോലെ മാറ്റുക */
