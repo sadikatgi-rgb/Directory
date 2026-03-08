@@ -217,36 +217,36 @@ header h3 {
 }
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* കാർഡുകളുടെ ഡിസൈനും വീതിയും ഒന്നിച്ച് - ഈ ഒറ്റ ബ്ലോക്ക് മതി */
+/* കാർഡുകളുടെ വീതി വർദ്ധിപ്പിച്ച് ഡിസൈൻ ലെവൽ ചെയ്യാൻ */
 .person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    padding: 20px !important;
+    padding: 22px !important; /* ഉള്ളിൽ അല്പം കൂടി ഗ്യാപ്പ് നൽകി */
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 10px solid #006400 !important; /* പച്ച ബോർഡർ */
+    border-left: 10px solid #006400 !important; /* ആ കടും പച്ച ബോർഡർ */
     display: block !important;
     text-align: left !important;
     
-    /* വീതിയും മാർജിനും കൃത്യമാക്കാൻ */
-    width: calc(100% - 30px) !important; 
-    max-width: 600px;
-    margin: 20px auto !important;
+    /* വീതി സ്ക്രീനിന്റെ 95% ആക്കുന്നു (വശങ്ങളിലെ ഗ്യാപ്പ് കുറയാൻ) */
+    width: 95% !important; 
+    max-width: 750px; /* വലിയ ഫോണുകളിലും ടാബുകളിലും വീതി കുറയാതിരിക്കാൻ */
+    margin: 15px auto !important;
     box-sizing: border-box !important;
 }
 
 .person-info {
     display: block !important;
     width: 100% !important;
+    padding: 2px !important;
 }
 
 .person-info strong, 
 .person-info p, 
 .person-info div {
-    display: block !important; /* ഓരോ വരിയും താഴെ വരാൻ */
-    margin: 10px 0 !important;
+    display: block !important; /* ഓരോ വരിയും താഴെ താഴെ വരാൻ */
+    margin: 12px 0 !important;
     width: 100% !important;
 }
-
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
 .call-section {
     margin-top: 15px !important;
