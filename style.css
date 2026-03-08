@@ -6,15 +6,20 @@
     --text: #333;
     --danger: #ff4444;
 }
-* { box-sizing: border-box; }
 body, html { 
     font-family: 'Manjari', sans-serif;
     letter-spacing: 0.2px;
     line-height: 1.6;
-    margin: 0 !important; padding: 0 !important;
+    margin: 0 !important; 
+    padding: 0 !important;
     background: var(--bg); 
     color: var(--text);
-    height: 100%; width: 100%;
+    
+    /* ഈ വരിയാണ് മാറ്റേണ്ടത് */
+    height: auto !important; 
+    min-height: 100vh; 
+    
+    width: 100%;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
