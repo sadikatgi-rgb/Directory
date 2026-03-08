@@ -133,34 +133,33 @@ function hideAll() {
     const searchInput = document.getElementById('search-input');
     if(searchInput) searchInput.value = ""; 
 }
-
 window.showHome = () => {
     hideAll(); 
     
-    // 1. പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ഹോം പേജിൽ നിന്ന് ഒഴിവാക്കാൻ ഇത് ചേർക്കുക
-    const listContainer = document.getElementById('list-container');
-    if(listContainer) {
-        listContainer.innerHTML = ""; 
-    }
-
+    // ഹോം സ്ക്രീൻ കാണിക്കുക
     const homeView = document.getElementById('home-screen-view');
     const homeLogic = document.getElementById('home-screen');
     if(homeView) homeView.classList.remove('hidden');
     if(homeLogic) homeLogic.classList.remove('hidden');
     
+    // പഴയ ലിസ്റ്റ് വിവരങ്ങൾ ക്ലിയർ ചെയ്യുക
+    const listContainer = document.getElementById('list-container');
+    if(listContainer) listContainer.innerHTML = ""; 
+
+    // ടൈറ്റിലും ഐക്കണുകളും ശരിയാക്കുക
     document.getElementById('main-header-title').innerText = "വിഭവ ഡയറക്ടറി";
+    document.getElementById('main-menu-icon').classList.remove('hidden');
+    document.getElementById('header-back-btn').classList.add('hidden');
     
-    const menuIcon = document.getElementById('main-menu-icon');
-    const backBtn = document.getElementById('header-back-btn');
-    
-    // ഐക്കണുകൾ കാണിക്കാനും മറയ്ക്കാനും
-    if(menuIcon) menuIcon.classList.remove('hidden');
-    if(backBtn) backBtn.classList.add('hidden');
-    
+    // സൈഡ്ബാർ അടയ്ക്കുക
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     if(sidebar) sidebar.classList.remove('active');
     if(overlay) overlay.style.display = 'none';
+
+    // സ്ക്രോൾ മുകളിലേക്ക് എത്തിക്കുക (സ്പേസ് പ്രശ്നം ഒഴിവാക്കാൻ ഇത് സഹായിക്കും)
+    const mainContainer = document.getElementById('main-container');
+    if(mainContainer) mainContainer.scrollTop = 0;
 };
 
 window.toggleMenu = () => {
