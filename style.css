@@ -670,9 +670,6 @@ header button[onclick*="back"]::before,
     margin-right: 8px !important;
     text-align: center !important;
 }
-
-
-
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
     width: 92% !important;
@@ -683,17 +680,11 @@ header button[onclick*="back"]::before,
     background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 95% center;
     background-size: 20px;
 }
-
 #search-input::placeholder {
     color: #888 !important;
     font-weight: 500 !important;
 }
-
-
-/* --- നിറങ്ങൾ (Colors) --- */
-
 /* --- പുതുക്കിയ നിറങ്ങളും ഫോണ്ട് വലിപ്പവും --- */
-
 /* പേര് (Name) - പച്ച */
 .row-name .info-label, .row-name .info-label i { color: #006400 !important; }
 .row-name .info-value { 
@@ -720,5 +711,40 @@ header button[onclick*="back"]::before,
 /* സ്ക്രോൾ ബാറിന്റെ മൊത്തം വീതി */
 .container::-webkit-scrollbar {
     width: 5px;
+}
+/* 1. മെയിൻ കണ്ടെയ്നർ ലോജിക് */
+#main-container, .container {
+    height: calc(100vh - 123px) !important; /* ഹെഡർ + ടിക്കർ കുറച്ചു */
+    padding: 10px 15px 20px 15px !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+/* 2. ഇൻഫോ കാർഡുകൾ (About, Leaders, Content) */
+.info-card {
+    width: 96% !important;
+    max-width: 500px;
+    margin: 10px auto !important;
+    padding: 15px !important;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* ഉയരം കണ്ടന്റിന് അനുസരിച്ച് മാറാൻ */
+    height: auto !important; 
+    max-height: calc(100vh - 160px) !important; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. ലിസ്റ്റ് സ്ക്രീൻ (വിവരങ്ങൾ കാണിക്കുന്ന ഇടം) */
+#list-screen {
+    height: calc(100vh - 123px) !important;
+    background-color: #f4f7f6 !important;
+    overflow: hidden !important;
+}
+
+#list-container {
+    padding-bottom: 20px !important; /* ആ പഴയ 80px ഇവിടെ ഒഴിവാക്കി */
 }
 
