@@ -198,53 +198,6 @@ header h3 {
     color: var(--primary) !important;
 }
 
-/* --- 5. ലിസ്റ്റ് പേജുകളും ബാക്ക് ബട്ടണും --- */
-.list-screen-header {
-    background-color: var(--primary) !important;
-    display: flex !important;
-    align-items: center !important;
-    padding: 10px 15px !important;
-    min-height: 60px !important;
-}
-.container { 
-    padding: 10px 15px 20px 15px !important; 
-    /* height ഒഴിവാക്കി താഴെ കാണുന്നത് പോലെ നൽകുക */
-    min-height: calc(100vh - 123px) !important; 
-    height: auto !important; 
-    
-    margin-top: 0 !important;
-    overflow-y: auto !important; 
-    display: block !important;
-    background-color: #f4f7f6 !important;
-}
-
-/* ഹോം പേജ് വ്യൂവിന് പ്രത്യേകമായി അടിയിൽ ഗ്യാപ്പ് വരുന്നത് തടയാൻ */
-#home-screen-view {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-/* കാറ്റഗറി ലിസ്റ്റ് വരുമ്പോഴും ഗ്യാപ്പ് ഒഴിവാക്കാൻ */
-#list-container {
-    margin-bottom: 0 !important;
-    padding-bottom: 20px !important;
-}
-
-
-/* കണ്ടെയ്നർ സ്ക്രോൾ ബാർ ഡിസൈൻ */
-.container::-webkit-scrollbar {
-    width: 5px; /* അല്പം കൂടി വണ്ണം കൂട്ടി */
-}
-
-.container::-webkit-scrollbar-thumb {
-    background: #006400; /* യൂണിറ്റിന്റെ പച്ച നിറം നൽകാം */
-    border-radius: 10px;
-}
-
-.container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* സ്ക്രോൾ ബാർ പാതയുടെ നിറം */
-}
-
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
 .card { 
