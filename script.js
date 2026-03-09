@@ -55,13 +55,14 @@ function loadScrollingNews() {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if (data.name && data.name.trim() !== "") {
-                        newsItems.push(`
-                            📢 <span style="color: #b71c1c; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
-                            &nbsp;&nbsp;
-                            <span style="color: #000; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
-                        `);
-                    }
-                });
+                        // അറിയിപ്പുകളിലെ നിറം കടും നീലയാക്കി (#00008B)
+newsItems.push(`
+    📢 <span style="color: #00008B; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
+    &nbsp;&nbsp;
+    <span style="color: #00008B; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+`);
+     }
+     });
                 newsItems.reverse();
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
@@ -237,15 +238,29 @@ window.openCategory = async (catId, catName) => {
 const reserved = ['name', 'oname', 'vname', 'timestamp', 'phone'];
 
 const malayalamLabels = {
-    'v_type': 'വാഹന ഇനം', 'ty': 'വാഹന ഇനം', 'type': 'ഇനം',
-    'v_category': 'വാഹന വിഭാഗം', 'category': 'വാഹന വിഭാഗം',
-    'place': 'സ്ഥലം', 'time': 'സമയം', 'leave': 'അവധി', 'off': 'അവധി',
-    'oname': 'ഓണർ പേര്', 'manager': 'മേധാവി', 'catering': 'കാറ്ററിംഗ്',
-    'party_order': 'പാർട്ടി ഓർഡർ', 'ward': 'വാർഡ്', 'ward_no': 'വാർഡ് നമ്പർ',
-    'position': 'സ്ഥാനം', 'seat': 'സീറ്റ് നില', 'item': 'ഇനം', 'owner': 'ഓണർ പേര്',
-    'home': 'ജോലിസ്ഥലം', 'work': 'സ്ഥാപനം',
-    
-    // പുതുതായി ചേർത്തവ (New labels)
+    'vname': 'വാഹനത്തിന്റെ പേര്', // ഇത് പുതിയതാണ്
+    'vtype': 'വാഹന ഇനം',      // ഇത് പുതിയതാണ്
+    'v_type': 'വാഹന ഇനം', 
+    'ty': 'വാഹന ഇനം', 
+    'type': 'ഇനം',
+    'v_category': 'വാഹന വിഭാഗം', 
+    'category': 'വിഭാഗം', // വിഭാഗം എന്ന് മാത്രമാക്കി
+    'place': 'സ്ഥലം', 
+    'time': 'സമയം', 
+    'leave': 'അവധി', 
+    'off': 'അവധി',
+    'oname': 'ഓണർ പേര്', 
+    'manager': 'മേധാവി', 
+    'catering': 'കാറ്ററിംഗ്',
+    'party_order': 'പാർട്ടി ഓർഡർ', 
+    'ward': 'വാർഡ്', 
+    'ward_no': 'വാർഡ് നമ്പർ',
+    'position': 'സ്ഥാനം', 
+    'seat': 'സീറ്റ് നില', 
+    'item': 'ഇനം', 
+    'owner': 'ഓണർ പേര്',
+    'home': 'ജോലിസ്ഥലം', 
+    'work': 'സ്ഥാപനം',
     'description': 'വിവരണം'
 };
 
@@ -268,13 +283,17 @@ priorityOrder.forEach(key => {
         }
         
         // --- നിറം മാറ്റാനുള്ള പുതിയ ലോജിക് ഇവിടെ തുടങ്ങുന്നു ---
-        let valueColor = "#000000"; // ഡിഫോൾട്ട് കറുപ്പ് നിറം
-        
-        if (key === 'item' || key === 'v_type' || key === 'ty') {
-            valueColor = "#0000FF"; // ഇനം / വാഹന ഇനം എന്നിവയ്ക്ക് നീല നിറം
-        } else if (key === 'leave' || key === 'off') {
-            valueColor = "#FF0000"; // അവധിക്ക് ചുവപ്പ് നിറം
-        }
+        // --- കടും നീല (Dark Blue) നിറത്തിനായുള്ള പുതിയ ലോജിക് ---
+let valueColor = "#000000"; // മറ്റുള്ളവ കറുപ്പ് നിറത്തിൽ തന്നെ തുടരും
+
+// ഇനം, വാഹന ഇനം, വിഭാഗം എന്നിവയ്ക്ക് കടും നീല നിറം (#00008B)
+if (key === 'item' || key === 'vtype' || key === 'v_type' || key === 'ty' || key === 'category') {
+    valueColor = "#00008B"; 
+} 
+// അവധിക്ക് ചുവപ്പ് നിറം
+else if (key === 'leave' || key === 'off') {
+    valueColor = "#FF0000"; 
+}
         // --- ലോജിക് അവസാനിച്ചു ---
 
         const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
