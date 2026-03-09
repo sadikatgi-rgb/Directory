@@ -143,6 +143,10 @@ header h3 {
     align-items: center !important;
     padding-right: 0 !important;
 }
+.news-ticker-scroll span::after {
+    content: ""; 
+    padding-left: 50px !important; 
+}
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
