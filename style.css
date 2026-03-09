@@ -224,13 +224,16 @@ header h3 {
 }
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* --- പേഴ്സണൽ കാർഡ് & ഇൻഫോ കാർഡ് - വീതിയും ബോർഡറും --- */
+/* --- 1. പേഴ്സണൽ കാർഡ് & ഇൻഫോ കാർഡ് (വീതിയും പാഡിംഗും പരിഷ്കരിച്ചത്) --- */
 .person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    padding: 15px 12px !important; /* അല്പം കുറച്ചു, വിവരങ്ങൾക്ക് കൂടുതൽ സ്ഥലം ലഭിക്കാൻ */
+    
+    /* വലതുവശത്തെ ഗ്യാപ്പ് 8px ആക്കി കുറച്ചു, വിവരങ്ങൾ മറയാതിരിക്കാൻ */
+    padding: 15px 8px 15px 12px !important; 
+    
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 15px solid #006400 !important; /* പച്ച ബോർഡർ കട്ടി കൂട്ടി */
+    border-left: 15px solid #006400 !important;
     display: block !important;
     text-align: left !important;
     
@@ -244,17 +247,16 @@ header h3 {
 .person-info {
     display: block !important;
     width: 100% !important;
-    padding: 0 !important; /* എക്സ്ട്രാ ഗ്യാപ്പ് ഒഴിവാക്കി */
+    padding: 0 !important;
 }
 
-/* വിവരങ്ങൾ സ്ക്രീനിന്റെ പരമാവധി വീതി ഉപയോഗിക്കാൻ */
+/* കാർഡിനുള്ളിലെ കണ്ടന്റ് ബ്ലോക്കുകൾ പരമാവധി വീതി എടുക്കാൻ */
 .person-info strong, 
 .person-info p, 
 .person-info div {
     display: block !important;
-    margin: 10px 0 !important;
     width: 100% !important;
-    word-wrap: break-word !important; /* വരികൾ മുറിഞ്ഞു പോകാതിരിക്കാൻ */
+    margin: 8px 0 !important;
 }
 
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
@@ -583,46 +585,47 @@ header button[onclick*="back"]::before,
 .announcement-card { 
     border-left: 15px solid #ff4444 !important; 
 }
-
-/* മറ്റ് ഹോം പേജ് കാർഡുകൾക്ക് ചെറിയ പച്ച ബോർഡർ */
-.card { 
-    border-left: 6px solid #006400 !important; 
-}
-
-/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (വിവരങ്ങൾ വെട്ടിപ്പോകാതിരിക്കാൻ) --- */
-/* ഇത് പേഴ്സണൽ കാർഡ് ഉൾപ്പെടെ എല്ലാ കാർഡുകൾക്കും അത്യാവശ്യമാണ് */
+/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (വശങ്ങളിലേക്ക് പരമാവധി വികസിപ്പിക്കാൻ) --- */
 .info-row {
-    display: block !important; 
+    display: flex !important; /* Block മാറ്റി Flex ആക്കി */
+    align-items: flex-start !important;
     width: 100% !important;
-    margin-bottom: 12px !important;
-    clear: both !important;
+    margin-bottom: 8px !important;
+    gap: 8px !important; /* ലേബലും വിവരങ്ങളും തമ്മിലുള്ള അകലം */
 }
 
 .info-label {
-    display: block !important;
+    display: inline-flex !important;
+    align-items: center !important;
     font-size: 15px !important;
     font-weight: 950 !important;
     color: #2e7d32 !important;
-    margin-bottom: 2px !important;
+    white-space: nowrap !important; /* ലേബൽ താഴേക്ക് മറിയാതിരിക്കാൻ */
+    min-width: fit-content !important;
 }
 
 .info-value {
-    display: block !important;
-    width: 100% !important;
-    font-size: 19px !important; /* വായിക്കാൻ എളുപ്പത്തിന് വലിപ്പം കൂട്ടി */
+    display: inline-block !important;
+    flex: 1 !important; /* ബാക്കിയുള്ള മുഴുവൻ വീതിയും വിവരങ്ങൾക്കായി നൽകുന്നു */
+    font-size: 19px !important;
     font-weight: 850 !important;
     color: #000 !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    line-height: 1.4 !important;
+    line-height: 1.3 !important;
+    text-align: left !important;
+    
+    /* വശങ്ങളിലേക്ക് പരമാവധി നീളത്തിൽ വരാൻ സഹായിക്കുന്നു */
+    word-break: normal !important; 
+    overflow-wrap: anywhere !important;
+    padding-right: 5px !important;
 }
 
 /* ഐക്കണുകൾ */
 .info-label i {
     width: 20px !important;
-    margin-right: 8px !important;
+    margin-right: 5px !important;
     text-align: center !important;
 }
+
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
