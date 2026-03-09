@@ -224,27 +224,27 @@ header h3 {
 }
 .card p { font-weight: 800 !important; font-size: 16px; color: #004d00; margin-top: 10px; }
 .card img { width: 45px; height: 45px; }
-/* കാർഡുകളുടെ വീതി പരമാവധി കൂട്ടി വശങ്ങളിലെ ഗ്യാപ്പ് കുറയ്ക്കാൻ */
+/* --- പേഴ്സണൽ കാർഡ് & ഇൻഫോ കാർഡ് - വീതിയും ബോർഡറും --- */
 .person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    padding: 22px 12px !important; /* വശങ്ങളിലെ ഉള്ളിലെ വിടവ് കുറച്ചു */
+    padding: 15px 12px !important; /* അല്പം കുറച്ചു, വിവരങ്ങൾക്ക് കൂടുതൽ സ്ഥലം ലഭിക്കാൻ */
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    border-left: 12px solid #006400 !important; /* ബോർഡർ അല്പം കൂടി കട്ടിയാക്കി */
+    border-left: 15px solid #006400 !important; /* പച്ച ബോർഡർ കട്ടി കൂട്ടി */
     display: block !important;
     text-align: left !important;
     
-    /* വശങ്ങളിലെ ഒഴിഞ്ഞ സ്ഥലം ഒഴിവാക്കാൻ താഴെ പറയുന്നവ സഹായിക്കും */
-    width: 97% !important;  /* 95%-ൽ നിന്ന് 97% ആക്കി കൂട്ടി */
+    width: 96% !important;  
     max-width: 98% !important; 
-    margin: 12px auto !important; /* മാർജിൻ കുറച്ച് കാർഡ് വികസിപ്പിച്ചു */
+    margin: 15px auto !important; 
     box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 .person-info {
     display: block !important;
     width: 100% !important;
-    padding: 2px !important;
+    padding: 0 !important; /* എക്സ്ട്രാ ഗ്യാപ്പ് ഒഴിവാക്കി */
 }
 
 /* വിവരങ്ങൾ സ്ക്രീനിന്റെ പരമാവധി വീതി ഉപയോഗിക്കാൻ */
@@ -565,9 +565,10 @@ header button[onclick*="back"]::before,
     flex: 1 !important; /* തുല്യ വലിപ്പം */
     text-align: center !important;
 }
-/* --- 1. അറിയിപ്പുകൾ & പേഴ്സണൽ കാർഡുകൾ - വീതിയും ബോർഡറും --- */
-.announcement-card, .person-card, .info-card, .card {
-    width: 96% !important; /* വശങ്ങളിലെ വിടവ് കുറച്ച് വീതി കൂട്ടി */
+/* --- 1. അറിയിപ്പുകൾ & മറ്റ് പൊതുവായ കാർഡുകൾ --- */
+/* പേഴ്സണൽ കാർഡ് മുകളിൽ പ്രത്യേകമായി ഉള്ളതിനാൽ ഇവിടെ നിന്ന് ഒഴിവാക്കി */
+.announcement-card, .info-card, .card {
+    width: 96% !important; 
     max-width: 98% !important;
     margin: 10px auto !important;
     padding: 15px 10px !important;
@@ -577,19 +578,20 @@ header button[onclick*="back"]::before,
     overflow: hidden !important;
 }
 
-/* പേഴ്സണൽ കാർഡിനും മറ്റ് കാർഡുകൾക്കും പച്ച ബോർഡർ */
-.person-card, .info-card, .card { 
-    border-left: 6px solid #006400 !important; 
-}
-
 /* അറിയിപ്പുകൾക്ക് മാത്രം ചുവപ്പ് ബോർഡർ */
 .announcement-card { 
     border-left: 12px solid #ff4444 !important; 
 }
 
-/* --- 2. വിവരങ്ങൾ (Info) താഴെ താഴെയായി വരാൻ --- */
+/* മറ്റ് പൊതുവായ കാർഡുകൾക്ക് പച്ച ബോർഡർ (പേഴ്സണൽ കാർഡ് ഇതിൽ പെടില്ല) */
+.info-card, .card { 
+    border-left: 6px solid #006400 !important; 
+}
+
+/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (വിവരങ്ങൾ വെട്ടിപ്പോകാതിരിക്കാൻ) --- */
+/* ഇത് എല്ലാ കാർഡുകൾക്കും (പേഴ്സണൽ കാർഡ് ഉൾപ്പെടെ) ബാധകമായതിനാൽ നിലനിർത്താം */
 .info-row {
-    display: block !important; /* വശങ്ങളിലേക്ക് വെട്ടിപ്പോകാതിരിക്കാൻ */
+    display: block !important; 
     width: 100% !important;
     margin-bottom: 10px !important;
 }
@@ -618,7 +620,6 @@ header button[onclick*="back"]::before,
     width: 18px !important;
     margin-right: 5px !important;
 }
-
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
