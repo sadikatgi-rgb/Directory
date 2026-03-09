@@ -248,44 +248,58 @@ header h3 {
     height: 45px !important; 
 }
 
-/* --- 2. പേഴ്സണൽ കാർഡ് & ഇൻഫോ കാർഡ് (ബോർഡർ കട്ടി കുറച്ചത്) --- */
-.person-card, .info-card {
+/* --- 1. കാർഡുകളുടെ പൊതുവായ ഡിസൈൻ --- */
+/* എല്ലാ കാർഡുകൾക്കും ഒരേ വീതിയും പാഡിംഗും ഇവിടെ ഒരുമിച്ച് നൽകി */
+.person-card, .info-card, .announcement-card, .card {
     background: #ffffff !important;
     border-radius: 20px !important;
-    
-    /* വലതുവശത്തെ ഗ്യാപ്പ് കുറച്ചു, വിവരങ്ങൾ മറയാതിരിക്കാൻ */
-    padding: 15px 8px 15px 12px !important; 
-    
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-    
-    /* സൈഡ് ബോർഡർ കട്ടി 15px-ൽ നിന്ന് 6px ആക്കി കുറച്ചു */
-    border-left: 8px solid #006400 !important; 
-    
     display: block !important;
-    text-align: left !important;
     width: 96% !important;  
     max-width: 98% !important; 
     margin: 15px auto !important; 
     box-sizing: border-box !important;
     overflow: hidden !important;
+    /* വശങ്ങളിലെ ഗ്യാപ്പ് കുറച്ച് അക്ഷരങ്ങൾ പരമാവധി വികസിപ്പിച്ചു */
+    padding: 15px 5px 15px 12px !important; 
 }
 
-.person-info {
-    display: block !important;
+/* ഓരോ കാർഡിനും പ്രത്യേക ബോർഡർ കട്ടി ഇവിടെ മാത്രം */
+.person-card, .info-card { border-left: 8px solid #006400 !important; }
+.announcement-card { border-left: 15px solid #ff4444 !important; } /* ബോർഡർ 15px ആയി തന്നെ നിർത്തി */
+.card { border-left: 4px solid #006400 !important; }
+
+/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (Grid രീതി) --- */
+.info-row {
+    display: grid !important; 
+    grid-template-columns: auto 1fr !important; 
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+    align-items: start !important;
     width: 100% !important;
-    padding: 0 !important;
 }
 
-/* കാർഡിനുള്ളിലെ വിവരങ്ങൾ സ്ക്രീനിന്റെ അറ്റം വരെ വികസിപ്പിക്കാൻ */
-.person-info strong, 
-.person-info p, 
-.person-info div {
-    display: block !important;
+.info-label {
+    display: flex !important;
+    align-items: center !important;
+    font-size: 15px !important;
+    font-weight: 950 !important;
+    color: #2e7d32 !important;
+    white-space: nowrap !important;
+    min-width: fit-content !important;
+}
+
+.info-value {
+    font-size: 19px !important;
+    font-weight: 850 !important;
+    color: #000 !important;
+    line-height: 1.4 !important;
+    text-align: left !important;
     width: 100% !important;
-    margin: 8px 0 !important;
-    /* വരികൾ അറ്റത്ത് മുറിഞ്ഞു പോകാതെ പരമാവധി സ്ഥലം ഉപയോഗിക്കാൻ */
-    word-wrap: break-word !important;
+    display: inline-block !important;
+    word-break: normal !important; 
     overflow-wrap: anywhere !important;
+    padding-right: 5px !important; /* വശങ്ങളിൽ അക്ഷരങ്ങൾ മറയാതിരിക്കാൻ */
 }
 
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
@@ -594,65 +608,6 @@ header button[onclick*="back"]::before,
     font-size: 16px !important;
     cursor: pointer !important;
     flex: 1 !important; /* തുല്യ വലിപ്പം */
-    text-align: center !important;
-}
-/* --- 1. അറിയിപ്പുകൾ & മറ്റ് പൊതുവായ കാർഡുകൾ --- */
-/* പേഴ്സണൽ കാർഡ്, ഇൻഫോ കാർഡ് എന്നിവ മുകളിൽ നൽകിയതിനാൽ ഇവിടെ .card, .announcement-card മാത്രം */
-.announcement-card, .card {
-    width: 96% !important; 
-    max-width: 98% !important;
-    margin: 15px auto !important;
-    padding: 15px 12px !important;
-    box-sizing: border-box !important;
-    border-radius: 20px !important; /* എല്ലാ കാർഡിനും ഒരേ റൗണ്ട് ഷേപ്പ് */
-    display: block !important;
-    overflow: hidden !important;
-    background: #ffffff !important;
-}
-
-/* അറിയിപ്പുകൾക്ക് മാത്രം ചുവപ്പ് ബോർഡർ (കട്ടി 15px ആക്കി) */
-.announcement-card { 
-    border-left: 15px solid #ff4444 !important; 
-}
-/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (Grid രീതിയിലേക്ക് മാറ്റിയത്) --- */
-.info-row {
-    display: grid !important; 
-    /* ലേബലിന് ആവശ്യമായ സ്ഥലം മാത്രം, ബാക്കി മുഴുവൻ വാല്യൂവിന് */
-    grid-template-columns: auto 1fr !important; 
-    gap: 10px !important;
-    margin-bottom: 12px !important;
-    align-items: start !important;
-    width: 100% !important;
-}
-
-.info-label {
-    display: flex !important;
-    align-items: center !important;
-    font-size: 15px !important;
-    font-weight: 950 !important;
-    color: #2e7d32 !important;
-    white-space: nowrap !important; /* ലേബൽ താഴേക്ക് മറിയില്ല */
-    min-width: fit-content !important;
-}
-
-.info-value {
-    font-size: 19px !important;
-    font-weight: 850 !important;
-    color: #000 !important;
-    line-height: 1.4 !important;
-    text-align: left !important;
-    width: 100% !important;
-    
-    /* വശങ്ങളിലേക്ക് പരമാവധി നീളത്തിൽ വരാൻ സഹായിക്കുന്നു */
-    word-break: normal !important; 
-    overflow-wrap: anywhere !important;
-    padding-right: 5px !important;
-}
-
-/* ഐക്കണുകൾ */
-.info-label i {
-    width: 20px !important;
-    margin-right: 8px !important;
     text-align: center !important;
 }
 
