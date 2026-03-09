@@ -132,17 +132,20 @@ header h3 {
 .news-ticker-scroll span {
     /* അക്ഷരങ്ങളുടെ കട്ടി പരമാവധി കൂട്ടി */
     font-weight: 1000 !important; 
-    font-size: 22px !important; /* ഉയരം കുറച്ചതുകൊണ്ട് വലിപ്പവും അല്പം കുറച്ചു */
-    color: #b71c1c !important;
-    letter-spacing: 0.8px !important; /* അക്ഷരങ്ങൾ തമ്മിൽ നല്ല അകലം നൽകി */
+    font-size: 24px !important; /* വലിപ്പം അല്പം കൂട്ടി */
+    color: #b71c1c !important; /* കടും ചുവപ്പ് */
+    letter-spacing: 0.5px !important;
     
-    /* അക്ഷരങ്ങൾക്ക് നല്ല തെളിമ കിട്ടാൻ കറുത്ത ഔട്ട്‌ലൈൻ (Stroke) */
-    -webkit-text-stroke: 0.5px rgba(0,0,0,0.2);
+    /* എല്ലാവിധ ഷാഡോകളും ഔട്ട്‌ലൈനുകളും ഒഴിവാക്കി വ്യക്തത വരുത്തുന്നു */
+    text-shadow: none !important; 
+    -webkit-text-stroke: 0 !important;
+    filter: none !important; 
     
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 0 !important;
+    padding-right: 50px !important; /* ഓരോ വാർത്തകൾക്കും ഇടയിൽ ഗ്യാപ്പ് നൽകാൻ */
 }
+
 .news-ticker-scroll span::after {
     content: ""; 
     padding-left: 50px !important; 
@@ -213,9 +216,18 @@ header h3 {
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
 .card { 
-    background: white; padding: 20px 10px; border-radius: 20px; 
-    text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-    border: 1px solid #eee; display: flex; flex-direction: column; align-items: center;
+    background: white; 
+    padding: 20px 10px; 
+    border-radius: 20px; 
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+    
+    /* ബോർഡർ ചുവപ്പാക്കി, കട്ടി 4px ആയി കുറച്ചു */
+    border-left: 4px solid #ff4444 !important; 
+    
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
 }
 .card:active {
     transform: scale(0.95); /* ക്ലിക്ക് ചെയ്യുമ്പോൾ അല്പം ചെറുതാകും */
