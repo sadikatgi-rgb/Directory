@@ -28,20 +28,24 @@ body, html {
 .hidden {
     display: none !important;
 }
-/* --- 2. ഹെഡർ ഡിസൈൻ --- */
+/* --- 2. ഹെഡർ ഡിസൈൻ (പരിഷ്കരിച്ചത്) --- */
 header {
     background-color: #006400 !important;
     height: 65px !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important; /* ടൈറ്റിൽ സെന്റർ ചെയ്യാൻ */
+    justify-content: center !important; 
     z-index: 10000 !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     padding: 0 10px !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+    
+    /* ഈ വരിയാണ് മാറ്റിയത്: മങ്ങൽ ഒഴിവാക്കാൻ shadow പൂജ്യമാക്കി */
+    box-shadow: none !important; 
+    /* പകരം വേണമെങ്കിൽ താഴെ ഒരു നേർത്ത ബോർഡർ നൽകാം */
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
 }
 
 header h3 {
@@ -49,7 +53,7 @@ header h3 {
     font-size: 20px !important;
     text-align: center !important;
     font-weight: 950 !important;
-   margin: 0 auto !important;
+    margin: 0 auto !important;
     width: 100% !important;
     padding: 0 65px !important;
     pointer-events: none !important;
@@ -57,8 +61,8 @@ header h3 {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
+
 /* --- പുതുക്കിയ ഹെഡർ ഐക്കൺ ലോജിക് --- */
-/* 1. ഐക്കണുകൾ ഒളിപ്പിക്കാനുള്ള ക്ലാസ്സ് */
 .hidden-icon {
     display: none !important;
 }
@@ -112,10 +116,11 @@ header h3 {
 /* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ഉയരം കുറച്ച് അക്ഷരങ്ങൾ കട്ടിയാക്കിയത് --- */
 #news-ticker {
     margin-top: 65px !important;
-    height: 48px !important; /* ഉയരം 65-ൽ നിന്ന് 48-ലേക്ക് കുറച്ചു */
+    height: 48px !important; 
     background: #FFD700 !important;
     z-index: 8000 !important;
-    border-top: 4px solid #b71c1c !important; /* ബോർഡർ കട്ടി അല്പം കുറച്ചു */
+    box-shadow: none !important; /* ഇവിടെയും ഷാഡോ ഇല്ലെന്ന് ഉറപ്പാക്കി */
+    border-top: 4px solid #b71c1c !important; 
     border-bottom: 4px solid #000000 !important;
     display: flex !important;
     align-items: center !important;
@@ -273,48 +278,46 @@ header h3 {
     padding-right: 5px !important; 
     box-sizing: border-box !important;
 }
-
-/* ഓരോ വരിയും (ലേബൽ + വാല്യൂ) */
+/* ഓരോ വരിയും (ലേബൽ + വാല്യൂ) - പഴയ രൂപത്തിലേക്ക് */
 .info-row {
-    display: flex !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
+    display: block !important; /* flex മാറ്റി block ആക്കി */
     margin-bottom: 12px !important;
     width: 100% !important;
 }
 
-/* ലേബൽ (സ്ഥലം ക്രമീകരിച്ചത്) */
+/* ലേബൽ (വിവരണം:, സ്ഥലം: തുടങ്ങിയവ) */
 .info-label {
-    display: flex !important;
-    align-items: center !important;
+    display: block !important; /* ലേബൽ ഒരു വരിയായി നിൽക്കും */
     font-size: 15px !important;
     font-weight: 950 !important;
     color: #2e7d32 !important;
-    white-space: nowrap !important;
-    min-width: fit-content !important;
+    margin-bottom: 4px !important; /* വാല്യൂവിനു മുകളിൽ ചെറിയ വിടവ് */
 }
 
-/* വാല്യൂ - അക്ഷരങ്ങൾ വെട്ടിപ്പോകാതെ താഴേക്ക് മറിയാൻ */
+/* വാല്യൂ - വിവരങ്ങൾ താഴത്തെ വരിയിലേക്ക് വരും */
 .info-value {
+    display: block !important;
+    width: 100% !important;
     font-size: 19px !important;
     font-weight: 850 !important;
     color: #000 !important;
     line-height: 1.4 !important;
-    text-align: left !important;
-    width: 100% !important;
-    display: inline-block !important;
-    overflow-wrap: break-word !important; 
-    word-wrap: break-word !important;
+    padding-left: 28px !important; /* ഐക്കണിന് താഴെ വരാതെ അല്പം ഉള്ളിലേക്ക് */
+    
+    /* അക്ഷരങ്ങൾ വെട്ടിപ്പോകാതിരിക്കാൻ */
+    word-break: break-word !important; 
+    overflow-wrap: break-word !important;
     white-space: normal !important;
-    padding-right: 10px !important;
 }
 
-/* ഐക്കണുകൾ */
+/* ഐക്കണുകൾ മാത്രം ലേബലിന്റെ കൂടെ നിൽക്കാൻ */
 .info-label i {
     width: 20px !important;
     margin-right: 8px !important;
     text-align: center !important;
+    display: inline-block !important;
 }
+
 
 /* --- 2. അറിയിപ്പുകൾ & മറ്റ് പൊതുവായ കാർഡുകൾ (സെപ്പറേറ്റ്) --- */
 
