@@ -113,7 +113,7 @@ header h3 {
 #news-ticker {
     margin-top: 65px !important;
     height: 48px !important; /* ഉയരം 65-ൽ നിന്ന് 48-ലേക്ക് കുറച്ചു */
-    background: #ffff00 !important;
+    background: #FFD700 !important;
     z-index: 8000 !important;
     border-top: 4px solid #b71c1c !important; /* ബോർഡർ കട്ടി അല്പം കുറച്ചു */
     border-bottom: 4px solid #000000 !important;
