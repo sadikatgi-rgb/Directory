@@ -248,9 +248,10 @@ header h3 {
     height: 45px !important; 
 }
 
-/* --- 1. കാർഡുകളുടെ പൊതുവായ ഡിസൈൻ --- */
-/* എല്ലാ കാർഡുകൾക്കും ഒരേ വീതിയും പാഡിംഗും ഇവിടെ ഒരുമിച്ച് നൽകി */
-.person-card, .info-card, .announcement-card, .card {
+/* --- 1. പേഴ്സണൽ & ഇൻഫോ കാർഡുകൾ (ഡിസൈൻ & വീതി) --- */
+
+/* കാർഡിന്റെ പുറംഭാഗത്തെ സ്റ്റൈൽ */
+.person-card, .info-card {
     background: #ffffff !important;
     border-radius: 20px !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
@@ -260,25 +261,29 @@ header h3 {
     margin: 15px auto !important; 
     box-sizing: border-box !important;
     overflow: hidden !important;
-    /* വശങ്ങളിലെ ഗ്യാപ്പ് കുറച്ച് അക്ഷരങ്ങൾ പരമാവധി വികസിപ്പിച്ചു */
+    /* വലതുവശത്തെ ഗ്യാപ്പ് കുറച്ചു */
     padding: 15px 5px 15px 12px !important; 
+    /* പഴയ 8px പച്ച ബോർഡർ */
+    border-left: 8px solid #006400 !important; 
 }
 
-/* ഓരോ കാർഡിനും പ്രത്യേക ബോർഡർ കട്ടി ഇവിടെ മാത്രം */
-.person-card, .info-card { border-left: 8px solid #006400 !important; }
-.announcement-card { border-left: 15px solid #ff4444 !important; } /* ബോർഡർ 15px ആയി തന്നെ നിർത്തി */
-.card { border-left: 4px solid #006400 !important; }
+/* ഉള്ളിലെ കണ്ടന്റ് വികസിപ്പിക്കാൻ */
+.person-info, .info-container {
+    width: 100% !important;
+    padding-right: 5px !important; 
+    box-sizing: border-box !important;
+}
 
-/* --- 2. കാർഡിനുള്ളിലെ വിവരങ്ങൾ (Grid രീതി) --- */
+/* ഓരോ വരിയും (ലേബൽ + വാല്യൂ) */
 .info-row {
-    display: grid !important; 
-    grid-template-columns: auto 1fr !important; 
-    gap: 10px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
     margin-bottom: 12px !important;
-    align-items: start !important;
     width: 100% !important;
 }
 
+/* ലേബൽ (സ്ഥലം ക്രമീകരിച്ചത്) */
 .info-label {
     display: flex !important;
     align-items: center !important;
@@ -289,6 +294,7 @@ header h3 {
     min-width: fit-content !important;
 }
 
+/* വാല്യൂ - അക്ഷരങ്ങൾ വെട്ടിപ്പോകാതെ താഴേക്ക് മറിയാൻ */
 .info-value {
     font-size: 19px !important;
     font-weight: 850 !important;
@@ -297,9 +303,44 @@ header h3 {
     text-align: left !important;
     width: 100% !important;
     display: inline-block !important;
-    word-break: normal !important; 
+    overflow-wrap: break-word !important; 
+    word-wrap: break-word !important;
+    white-space: normal !important;
+    padding-right: 10px !important;
+}
+
+/* ഐക്കണുകൾ */
+.info-label i {
+    width: 20px !important;
+    margin-right: 8px !important;
+    text-align: center !important;
+}
+
+/* --- 2. അറിയിപ്പുകൾ & മറ്റ് പൊതുവായ കാർഡുകൾ (സെപ്പറേറ്റ്) --- */
+
+.announcement-card, .card {
+    width: 96% !important; 
+    max-width: 98% !important;
+    margin: 15px auto !important;
+    padding: 15px 5px 15px 12px !important; 
+    box-sizing: border-box !important;
+    border-radius: 20px !important; 
+    display: block !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+}
+
+/* അറിയിപ്പുകൾക്ക് പഴയ 15px ചുവപ്പ് ബോർഡർ */
+.announcement-card { 
+    border-left: 15px solid #ff4444 !important; 
+}
+
+/* അറിയിപ്പിലെ എഴുത്തുകൾ വെട്ടിപ്പോകാതിരിക്കാൻ */
+.announcement-card p {
+    word-wrap: break-word !important;
     overflow-wrap: anywhere !important;
-    padding-right: 5px !important; /* വശങ്ങളിൽ അക്ഷരങ്ങൾ മറയാതിരിക്കാൻ */
+    padding-right: 5px !important;
+    white-space: normal !important;
 }
 
 /* കോൾ ബട്ടൺ സെക്ഷൻ */
