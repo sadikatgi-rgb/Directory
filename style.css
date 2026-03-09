@@ -429,20 +429,20 @@ header h3 {
 }
 
 .hidden { display: none !important; }
-/* --- 7. അഡ്മിൻ ലോഗിൻ & ഫോം സെറ്റിംഗ്സ് (സെന്റർ ചെയ്തത്) --- */
 
-/* ലോഗിൻ സ്ക്രീനിനെ മൊത്തമായി സെന്റർ ചെയ്യാൻ */
+/* --- 7. അഡ്മിൻ ലോഗിൻ & ഫോം സെറ്റിംഗ്സ് --- */
+
+/* ലോഗിൻ സ്ക്രീൻ സാധാരണ നിലയിൽ മറഞ്ഞിരിക്കും */
 #admin-login-screen {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display: none !important; 
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: rgba(0,0,0,0.6) !important; /* ബാക്ക്ഗ്രൗണ്ട് മങ്ങൽ */
+    background: rgba(0,0,0,0.5) !important;
     z-index: 12000 !important;
+    overflow-y: auto !important;
 }
 
 /* ലോഗിൻ ബോക്സ് ഡിസൈൻ */
@@ -451,10 +451,9 @@ header h3 {
     max-width: 350px !important;
     background: white !important;
     padding: 25px !important;
-    border-radius: 25px !important;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
-    margin: auto !important;
-    text-align: center !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    margin: 100px auto !important; /* മുകളിൽ നിന്ന് അകലം പാലിക്കാൻ */
 }
 
 /* ഇൻപുട്ട് ഫീൽഡുകൾ */
@@ -462,25 +461,21 @@ header h3 {
 #admin-fields select, 
 #admin-fields textarea, 
 .form-box input, 
-.form-box select, 
-input[type="text"] {
+.form-box select {
     width: 90% !important;
     padding: 12px !important;
     margin: 15px auto !important; 
     border: 1.5px solid var(--primary) !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     display: block !important;
     font-size: 16px !important;
-    background: #ffffff !important;
-    height: auto !important;
     font-weight: 800 !important; 
-    color: #000000 !important;
+    color: #000 !important;
 }
 
 ::placeholder {
     font-weight: 800 !important;
-    color: #555555 !important;
-    opacity: 1; 
+    color: #555 !important;
 }
 
 /* ലോഗിൻ ബട്ടൺ */
@@ -494,21 +489,19 @@ input[type="text"] {
     display: block !important;
     width: 80% !important;
     margin: 15px auto !important;
-    cursor: pointer !important;
 }
 
 /* ക്യാൻസൽ ബട്ടൺ */
 button[onclick*="hide"], .cancel-btn {
     background-color: #f44336 !important;
     color: white !important;
-    padding: 12px 30px !important;
+    padding: 10px 25px !important;
     border-radius: 30px !important;
     font-weight: 900 !important;
     width: 60% !important;
-    margin: 15px auto !important;
+    margin: 10px auto !important;
     display: block !important;
     border: none !important;
-    cursor: pointer !important;
 }
 
 /* ഹെഡറിന് ഉള്ളിലെ ബാക്ക് ബട്ടൺ (Arrow + Text) */
