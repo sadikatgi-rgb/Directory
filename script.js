@@ -259,45 +259,64 @@ const malayalamLabels = {
                 const priorityOrder = ['place', 'time', 'leave', 'off', 'v_type', 'ty', 'v_category', 'category', 'type', 'vname', 'home', 'work', 'manager', 'catering', 'party_order'];
 
                 // 1. പ്രധാന വിവരങ്ങൾ
-                priorityOrder.forEach(key => {
-                    const val = d[key];
-                    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
-                        let label = malayalamLabels[key] || key;
-                        if (key === 'category' || key === 'v_category') {
-                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-                        }
-                        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
+priorityOrder.forEach(key => {
+    const val = d[key];
+    if (val && val.toString().trim() !== "" && val.toString().toLowerCase() !== "nil") {
+        let label = malayalamLabels[key] || key;
+        if (key === 'category' || key === 'v_category') {
+            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+        }
+        
+        // --- നിറം മാറ്റാനുള്ള പുതിയ ലോജിക് ഇവിടെ തുടങ്ങുന്നു ---
+        let valueColor = "#000000"; // ഡിഫോൾട്ട് കറുപ്പ് നിറം
+        
+        if (key === 'item' || key === 'v_type' || key === 'ty') {
+            valueColor = "#0000FF"; // ഇനം / വാഹന ഇനം എന്നിവയ്ക്ക് നീല നിറം
+        } else if (key === 'leave' || key === 'off') {
+            valueColor = "#FF0000"; // അവധിക്ക് ചുവപ്പ് നിറം
+        }
+        // --- ലോജിക് അവസാനിച്ചു ---
 
-                        extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
-                                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                                </div>
-                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                                    ${val}
-                                </div>
-                            </div>`;
-                    }
-                });
+        const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
 
-                // 2. ബാക്കി വിവരങ്ങൾ
-                for (let key in d) {
-                    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
-                        let label = malayalamLabels[key] || key;
-                        if (key === 'category' || key === 'v_category') {
-                            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
-                        }
-                        extraFieldsHTML += `
-                            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
-                                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
-                                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
-                                </div>
-                                <div style="font-weight:900; font-size:20px; color:#000; padding-left:26px; margin-top: 1px;">
-                                    ${d[key]}
-                                </div>
-                            </div>`;
-                    }
-                }
+        extraFieldsHTML += `
+            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                <div style="font-weight:600; font-size:15px; color:${config.color}; display:flex; align-items:center; gap:8px;">
+                    <i class="${config.icon}" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                </div>
+                <div style="font-weight:900; font-size:20px; color:${valueColor} !important; padding-left:26px; margin-top: 1px;">
+                    ${val}
+                </div>
+            </div>`;
+    }
+});
+       // 2. ബാക്കി വിവരങ്ങൾ
+for (let key in d) {
+    if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
+        let label = malayalamLabels[key] || key;
+        if (key === 'category' || key === 'v_category') {
+            label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
+        }
+
+        // --- നിറം മാറ്റാനുള്ള ലോജിക് ഇവിടെയും ചേർക്കുന്നു ---
+        let valueColor = "#000000"; 
+        if (key === 'item' || key === 'v_type' || key === 'ty') {
+            valueColor = "#0000FF"; // ഇനത്തിന് നീല
+        } else if (key === 'leave' || key === 'off') {
+            valueColor = "#FF0000"; // അവധിക്ക് ചുവപ്പ്
+        }
+
+        extraFieldsHTML += `
+            <div class="info-row" style="margin-bottom: 5px; display: block; line-height: 1.1;">
+                <div style="font-weight:600; font-size:15px; color:#2e7d32; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-chevron-right" style="width:18px; font-size: 15px;"></i> <span style="font-weight: 600;">${label}:</span>
+                </div>
+                <div style="font-weight:900; font-size:20px; color:${valueColor} !important; padding-left:26px; margin-top: 1px;">
+                    ${d[key]}
+                </div>
+            </div>`;
+    }
+}
 
                 let buttonsHTML = "";
                 const isUser = (typeof currentUser !== 'undefined' && currentUser);
