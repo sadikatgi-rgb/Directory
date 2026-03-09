@@ -126,7 +126,7 @@ header h3 {
     display: flex !important;
     white-space: nowrap !important;
     padding-left: 10px !important; 
-    animation: news-marquee 60s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
+    animation: news-marquee 80s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
 }
 
 .news-ticker-scroll span {
@@ -143,17 +143,6 @@ header h3 {
     align-items: center !important;
     padding-right: 0 !important;
 }
-
-/* വാർത്തയ്ക്ക് ശേഷം മാത്രം വരുന്ന നക്ഷത്ര ചിഹ്നം */
-.news-ticker-scroll span::after {
-    content: " ★ "; 
-    color: #000000;
-    font-size: 20px;
-    font-weight: 900 !important;
-    padding-left: 50px !important; 
-    padding-right: 50px !important;
-}
-
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
@@ -365,7 +354,7 @@ header h3 {
     margin: 15px !important;
     font-weight: 900 !important;
     text-align: center !important;
-    animation: slowBlink 3s ease-in-out infinite !important;
+    animation: slowBlink 8s ease-in-out infinite !important;
 }
 
 @keyframes slowBlink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
@@ -586,7 +575,7 @@ header button[onclick*="back"]::before,
 
 /* പേഴ്സണൽ കാർഡിനും മറ്റ് കാർഡുകൾക്കും പച്ച ബോർഡർ */
 .person-card, .info-card, .card { 
-    border-left: 12px solid #006400 !important; 
+    border-left: 6px solid #006400 !important; 
 }
 
 /* അറിയിപ്പുകൾക്ക് മാത്രം ചുവപ്പ് ബോർഡർ */
@@ -625,6 +614,7 @@ header button[onclick*="back"]::before,
     width: 18px !important;
     margin-right: 5px !important;
 }
+
 
 /* --- സെർച്ച് ബാർ ഡിസൈൻ മെച്ചപ്പെടുത്തി --- */
 #search-input {
