@@ -56,12 +56,13 @@ function loadScrollingNews() {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if (data.name && data.name.trim() !== "") {
-                        newsItems.push(`
-                            <span class="news-ticker-item">
-                                📢 അറിയിപ്പ്: ${data.name} 
-                                <span class="news-ticker-desc">${data.description || ""}</span>
-                            </span>
-                        `);
+                        NewsItems.push(`
+    <span>
+        <span class="news-ticker-item">📢 അറിയിപ്പ്:</span>
+        <span class="news-ticker-heading">${data.name}</span> 
+        <span class="news-ticker-desc">${data.description || ""}</span>
+    </span>
+`);
                     }
                 }); // <--- ഇവിടെയാണ് ബ്രാക്കറ്റ് വിട്ടുപോയത്
 
