@@ -137,29 +137,29 @@ header h3 {
     animation: news-marquee 80s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
 }
 .news-ticker-scroll span {
-    /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടിയും വ്യക്തതയും നൽകുന്ന ഫോണ്ട് */
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    font-weight: 900 !important; 
-    font-size: 21px !important; 
+    /* കട്ടി അല്പം കുറച്ചു (800), ഇത് ഒട്ടിപ്പിടിക്കുന്നത് ഒഴിവാക്കും */
+    font-weight: 800 !important; 
+    /* വലിപ്പം 19px ആക്കി കുറച്ചു, ഇത് കൂടുതൽ വൃത്തി നൽകും */
+    font-size: 19px !important; 
     
-    /* തിളക്കം ഒഴിവാക്കാൻ കറുപ്പ് നിറം നൽകുന്നു */
-    color: #000000 !important; 
+    /* തിളക്കം കുറയ്ക്കാൻ പൂർണ്ണ കറുപ്പിന് പകരം കടും ഗ്രേ (#1a1a1a) */
+    color: #1a1a1a !important; 
     
-    /* അക്ഷരങ്ങൾക്കിടയിലെ അകലം വ്യക്തത കൂട്ടുന്നു */
-    letter-spacing: 0.5px !important;
+    /* അക്ഷരങ്ങൾ തമ്മിലുള്ള അകലം കൂട്ടി (ഇതാണ് പ്രധാനം) */
+    letter-spacing: 0.8px !important;
     
-    /* എല്ലാവിധ ഗ്ലോ ഇഫക്റ്റുകളും പൂർണ്ണമായും ഒഴിവാക്കി */
     text-shadow: none !important; 
     -webkit-text-stroke: 0 !important;
     filter: none !important; 
-    outline: none !important;
     
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 50px !important; 
+    /* വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് അല്പം കൂട്ടി */
+    padding-right: 60px !important; 
 }
 
-/* ആഫ്റ്റർ കണ്ടന്റ് പൂർണ്ണമായും ഒഴിവാക്കി */
+/* പഴയതുപോലെ തന്നെ തുടരുക */
 .news-ticker-scroll span::after {
     display: none !important;
 }
