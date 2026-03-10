@@ -116,7 +116,38 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - പരിഷ്കരിച്ചത് --- */
+
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ഗ്യാപ്പ് ശരിയാക്കിയത് --- */
+
+/* അറിയിപ്പ് എന്ന ടൈറ്റിലിന് ശേഷം വിവരണത്തിലേക്ക് ഗ്യാപ്പ് നൽകാൻ */
+.news-ticker-item {
+    font-family: 'Noto Sans Malayalam', sans-serif !important;
+    color: #000080 !important; /* Navy Blue */
+    font-weight: 950 !important; 
+    font-size: 19px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    /* മാറ്റം ഇവിടെ: ടൈറ്റിലിനും വിവരണത്തിനും ഇടയിലുള്ള ഗ്യാപ്പ് */
+    margin-right: 15px !important; 
+    -webkit-font-smoothing: antialiased;
+}
+
+/* വിവരണത്തിന്റെ സ്റ്റൈൽ */
+.news-ticker-desc {
+    font-family: 'Noto Sans Malayalam', sans-serif !important;
+    color: #000000 !important; 
+    font-weight: 700 !important;
+    font-size: 18px !important;
+}
+
+/* ഓരോ വാർത്താ ഗ്രൂപ്പുകൾക്കും ഇടയിലുള്ള വിടവ് (ഇവിടെ വിടവ് കുറച്ചു) */
+.news-ticker-scroll > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    /* ഒരു വാർത്ത കഴിഞ്ഞ് അടുത്തത് തുടങ്ങാനുള്ള വിടവ് 40px ആയി കുറച്ചു */
+    padding-right: 40px !important; 
+}
+
 #news-ticker {
     margin-top: 65px !important;
     height: 48px !important; 
@@ -130,46 +161,11 @@ header h3 {
     box-shadow: none !important;
 }
 
-.news-ticker-scroll {
-    display: flex !important;
-    white-space: nowrap !important;
-    /* വേഗത അല്പം കൂടി കുറച്ചു - വായന സുഖകരമാക്കാൻ */
-    animation: news-marquee 85s linear infinite !important; 
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-}
-
-.news-ticker-item {
-    font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000080 !important; /* Navy Blue */
-    font-weight: 900 !important; 
-    font-size: 20px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    /* മാറ്റം ഇവിടെ: അറിയിപ്പിനും വിവരണത്തിനും ഇടയിലുള്ള അകലം */
-    margin-right: 15px !important; 
-    -webkit-font-smoothing: antialiased;
-}
-
-.news-ticker-desc {
-    font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000000 !important; 
-    font-weight: 700 !important;
-    font-size: 18px !important;
-}
-
-/* മാറ്റം ഇവിടെ: ഓരോ വാർത്താ ഗ്രൂപ്പുകൾക്കും ഇടയിലുള്ള 50% വിടവ് */
-.news-ticker-scroll span {
-    display: inline-flex !important;
-    align-items: center !important;
-    padding-right: 50px !important; 
-}
-
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
+
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
     position: fixed !important; 
