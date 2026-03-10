@@ -57,13 +57,13 @@ function loadScrollingNews() {
                     if (data.name && data.name.trim() !== "") {
                         // അറിയിപ്പുകളിലെ നിറം കടും നീലയാക്കി (#00008B)
 newsItems.push(`
-    📢 <span style="color: #00008B; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
+    📢 <span style="color: #00008B !important; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
     &nbsp;&nbsp;
-    <span style="color: #00008B; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+    <span style="color: #00008B !important; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
 `);
-     }
-     });
-                newsItems.reverse();
+    }
+});
+            newsItems.reverse();
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
                 tickerContainer.innerHTML = `
@@ -282,19 +282,21 @@ priorityOrder.forEach(key => {
             label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
         }
         
-        // --- നിറം മാറ്റാനുള്ള പുതിയ ലോജിക് ഇവിടെ തുടങ്ങുന്നു ---
-        // --- കടും നീല (Dark Blue) നിറത്തിനായുള്ള പുതിയ ലോജിക് ---
-let valueColor = "#000000"; // മറ്റുള്ളവ കറുപ്പ് നിറത്തിൽ തന്നെ തുടരും
+        // --- നിറം നിശ്ചയിക്കുന്ന പുതിയ ലോജിക് ---
+        let valueColor = "#000000"; // ഡിഫോൾട്ട് കറുപ്പ്
 
-// ഇനം, വാഹന ഇനം, വിഭാഗം എന്നിവയ്ക്ക് കടും നീല നിറം (#00008B)
-if (key === 'item' || key === 'vtype' || key === 'v_type' || key === 'ty' || key === 'category') {
-    valueColor = "#00008B"; 
-} 
-// അവധിക്ക് ചുവപ്പ് നിറം
-else if (key === 'leave' || key === 'off') {
-    valueColor = "#FF0000"; 
-}
-        // --- ലോജിക് അവസാനിച്ചു ---
+        // എടുത്തു കാണിക്കാൻ വാഹന വിഭാഗത്തിന് മെറൂൺ (#800000)
+        if (key === 'v_category' || key === 'category') {
+            valueColor = "#800000"; 
+        } 
+        // ഇനം, വാഹന ഇനം എന്നിവയ്ക്ക് നീല (#0000FF)
+        else if (key === 'item' || key === 'vtype' || key === 'v_type' || key === 'ty' || key === 'type') {
+            valueColor = "#0000FF"; 
+        } 
+        // അവധിക്ക് ചുവപ്പ് (#FF0000)
+        else if (key === 'leave' || key === 'off') {
+            valueColor = "#FF0000"; 
+        }
 
         const config = fieldConfig[key] || { icon: 'fas fa-chevron-right', color: '#2e7d32' };
 
@@ -309,7 +311,8 @@ else if (key === 'leave' || key === 'off') {
             </div>`;
     }
 });
-       // 2. ബാക്കി വിവരങ്ങൾ
+
+// 2. ബാക്കി വിവരങ്ങൾ
 for (let key in d) {
     if (!reserved.includes(key) && !priorityOrder.includes(key) && d[key] && d[key].toString().trim() !== "") {
         let label = malayalamLabels[key] || key;
@@ -317,12 +320,13 @@ for (let key in d) {
             label = (catId === 'auto') ? 'വാഹന വിഭാഗം' : 'വിഭാഗം';
         }
 
-        // --- നിറം മാറ്റാനുള്ള ലോജിക് ഇവിടെയും ചേർക്കുന്നു ---
-        let valueColor = "#000000"; 
-        if (key === 'item' || key === 'v_type' || key === 'ty') {
-            valueColor = "#0000FF"; // ഇനത്തിന് നീല
+        let valueColor = "#000000";
+        if (key === 'v_category' || key === 'category') {
+            valueColor = "#800000"; 
+        } else if (key === 'item' || key === 'vtype' || key === 'v_type' || key === 'ty' || key === 'type') {
+            valueColor = "#0000FF";
         } else if (key === 'leave' || key === 'off') {
-            valueColor = "#FF0000"; // അവധിക്ക് ചുവപ്പ്
+            valueColor = "#FF0000";
         }
 
         extraFieldsHTML += `
