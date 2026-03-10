@@ -116,72 +116,62 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - മൾട്ടി-ഗ്യാപ്പ് & കളർ അപ്ഡേറ്റ് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ഫൈനൽ അപ്ഡേറ്റ് --- */
 
-/* 1. 'അറിയിപ്പ്:' എന്ന ടൈറ്റിൽ */
+/* 'അറിയിപ്പ്:' ടൈറ്റിൽ */
 .news-ticker-item {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000080 !important; /* Navy Blue */
-    font-weight: 950 !important; 
+    color: #000080 !important;
+    font-weight: 950 !important;
     font-size: 19px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    /* ആദ്യത്തെ വിടവ്: അറിയിപ്പ് കഴിഞ്ഞ് ഹെഡിംഗിലേക്ക് */
-    margin-right: 20px !important; 
-    -webkit-font-smoothing: antialiased;
+    margin-right: 20px !important; /* ഒന്നാമത്തെ വിടവ് */
 }
 
-/* 2. പ്രധാന അറിയിപ്പ് (ഉദാ: ഹിക്മ:) - ഇതിന് ചുവപ്പ് നിറം */
+/* പ്രധാന തലക്കെട്ട് - ചുവപ്പ് നിറം */
 .news-ticker-heading {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #FF0000 !important; /* Red Color */
+    color: #FF0000 !important; /* ചുവപ്പ് */
     font-weight: 900 !important;
     font-size: 19px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    /* രണ്ടാമത്തെ വിടവ്: ഹെഡിംഗ് കഴിഞ്ഞ് വിവരണത്തിലേക്ക് */
-    margin-right: 20px !important; 
+    margin-right: 20px !important; /* രണ്ടാമത്തെ വിടവ് */
 }
 
-/* 3. വിവരണത്തിന്റെ ശൈലി (കറുപ്പ് നിറം) */
+/* വിവരണം - കറുപ്പ് നിറം */
 .news-ticker-desc {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000000 !important; 
+    color: #000000 !important;
     font-weight: 700 !important;
     font-size: 18px !important;
-    display: inline-flex !important;
-    align-items: center !important;
 }
 
-/* ആനിമേഷൻ വേഗതയും തുടക്കവും */
+/* ആനിമേഷൻ സെറ്റിംഗ്സ് */
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    animation: news-marquee 85s linear infinite !important; 
+    animation: news-marquee 85s linear infinite !important;
     will-change: transform;
-}
-
-#news-ticker {
-    margin-top: 65px !important;
-    height: 48px !important; 
-    background: #FFF200 !important; 
-    z-index: 8000 !important;
-    border-top: 4px solid #000000 !important; 
-    border-bottom: 4px solid #000000 !important;
-    display: flex !important;
-    align-items: center !important;
-    overflow: hidden !important;
 }
 
 .news-ticker-scroll > span {
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 60px !important; /* വാർത്തകൾക്കിടയിലെ അകലം */
+    padding-right: 60px !important;
 }
 
 @keyframes news-marquee {
-    0% { transform: translateX(0); } /* ആപ്പ് തുറക്കുമ്പോൾ ഉടൻ കാണാൻ */
+    0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
+}
+
+#news-ticker {
+    margin-top: 65px !important;
+    height: 48px !important;
+    background: #FFF200 !important;
+    border-top: 4px solid #000000 !important;
+    border-bottom: 4px solid #000000 !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
 }
 
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
