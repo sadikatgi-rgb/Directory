@@ -62,7 +62,6 @@ newsItems.push(`
         <span class="news-ticker-desc">${data.description || ""}</span>
     </span>
 `);
-
             newsItems.reverse();
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
