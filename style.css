@@ -116,9 +116,8 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - CSS വഴി മാത്രമുള്ള മാറ്റങ്ങൾ --- */
-
-/* ടൈറ്റിലിനും വിവരണത്തിനും ഇടയിലുള്ള ഗ്യാപ്പ് ശരിയാക്കാൻ */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - നിറവും വിടവും ശരിയാക്കിയത് --- */
+/* 'അറിയിപ്പ്:' എന്ന തലക്കെട്ട് */
 .news-ticker-item {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
     color: #000080 !important; /* Navy Blue */
@@ -126,31 +125,41 @@ header h3 {
     font-size: 19px !important;
     display: inline-flex !important;
     align-items: center !important;
-    /* അറിയിപ്പ് എന്ന ടൈറ്റിലിന് ശേഷം വിവരണത്തിലേക്ക് ഗ്യാപ്പ് നൽകുന്നു */
-    margin-right: 18px !important; 
+    /* 'അറിയിപ്പ്:' കഴിഞ്ഞുള്ള വിടവ് */
+    margin-right: 20px !important; 
     -webkit-font-smoothing: antialiased;
 }
 
-/* വിവരണത്തിന്റെ ശൈലി */
-.news-ticker-desc {
-    font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000000 !important; 
-    font-weight: 700 !important;
-    font-size: 18px !important;
+/* പ്രധാന അറിയിപ്പ് (ഉദാ: ഹിക്മ:) - ഇതിന് ചുവപ്പ് നിറം */
+.news-ticker-heading {
+    color: #FF0000 !important; /* Red Color */
+    font-weight: 900 !important;
+    font-size: 19px !important;
+    /* പ്രധാന അറിയിപ്പ് കഴിഞ്ഞുള്ള വിടവ് */
+    margin-right: 20px !important; 
+    display: inline-flex !important;
 }
 
-/* ഓരോ വാർത്താ ഗ്രൂപ്പുകൾക്കും ഇടയിലുള്ള അകലം */
+/* വിവരണത്തിനുള്ള സ്റ്റൈൽ */
+.news-ticker-desc {
+    font-family: 'Noto Sans Malayalam', sans-serif !important;
+    color: #000000 !important; /* Black Color */
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    display: inline-flex !important;
+}
+
+/* വാർത്തകൾക്കിടയിലെ അകലം */
 .news-ticker-scroll > span {
     display: inline-flex !important;
     align-items: center !important;
     padding-right: 60px !important; 
 }
 
-/* ആനിമേഷൻ വേഗത 85s ആയി ക്രമീകരിച്ചു */
+/* ആനിമേഷൻ സെറ്റിംഗ്സ് - 85s വേഗത */
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    /* വളരെ സാവധാനം നീങ്ങാൻ 85s സമയം നൽകി */
     animation: news-marquee 85s linear infinite !important; 
     will-change: transform;
 }
@@ -165,12 +174,10 @@ header h3 {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
-    box-shadow: none !important;
 }
 
-/* ആപ്പ് തുറക്കുമ്പോൾ തന്നെ വാർത്തകൾ കാണാൻ ഈ ഭാഗം ശ്രദ്ധിക്കുക */
+/* ആപ്പ് തുറക്കുമ്പോൾ തന്നെ വാർത്തകൾ കാണാൻ */
 @keyframes news-marquee {
-    /* translateX(0) നൽകുന്നതിലൂടെ ആദ്യത്തെ വാർത്ത ആപ്പ് തുറക്കുമ്പോൾ തന്നെ സ്ക്രീനിൽ ഉണ്ടാകും */
     0% { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
