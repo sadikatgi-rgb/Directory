@@ -133,12 +133,14 @@ header h3 {
     padding-left: 10px !important; 
     animation: news-marquee 80s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
 }
-
 .news-ticker-scroll span {
     /* അക്ഷരങ്ങളുടെ കട്ടി പരമാവധി കൂട്ടി */
     font-weight: 1000 !important; 
     font-size: 22px !important; /* വലിപ്പം അല്പം കൂട്ടി */
-    color: #b71c1c !important; /* കടും ചുവപ്പ് */
+    
+    /* പഴയ ചുവപ്പ് മാറ്റി കടും നീല നൽകി */
+    color: #00008B !important; 
+    
     letter-spacing: 0.5px !important;
     
     /* എല്ലാവിധ ഷാഡോകളും ഔട്ട്‌ലൈനുകളും ഒഴിവാക്കി വ്യക്തത വരുത്തുന്നു */
