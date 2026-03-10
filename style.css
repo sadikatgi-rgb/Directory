@@ -1,24 +1,27 @@
-/* --- 1. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
+/* --- 1. ഗൂഗിൾ ഫോണ്ട് ഇമ്പോർട്ട് (ഏറ്റവും മുകളിൽ) --- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700;900&family=Manjari:wght@400;700&display=swap');
+
+/* --- 2. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
 :root { 
     --primary: #006400; 
     --bg: #f4f7f6; 
     --white: #ffffff; 
-    --text: #333;
+    --text: #1a1a1a; /* അല്പം കൂടി കടും ഗ്രേ ആക്കി (തിളക്കം കുറയ്ക്കാൻ) */
     --danger: #ff4444;
 }
+
+/* --- 3. ബോഡി സെറ്റിംഗ്സ് --- */
 body, html { 
-    font-family: 'Manjari', sans-serif;
-    letter-spacing: 0.2px;
+    /* ആപ്പിലെ അക്ഷരങ്ങൾക്ക് മൊത്തത്തിൽ നല്ല വ്യക്തതയുള്ള Noto Sans നൽകുന്നു */
+    font-family: 'Noto Sans Malayalam', 'Manjari', sans-serif;
+    letter-spacing: 0.3px;
     line-height: 1.6;
     margin: 0 !important; 
     padding: 0 !important;
     background: var(--bg); 
     color: var(--text);
-    
-    /* ഈ വരിയാണ് മാറ്റേണ്ടത് */
     height: auto !important; 
-    min-height: 0 !important;
-    background: #f4f7f6;
+    min-height: 100vh; /* 0-ന് പകരം 100vh നൽകുന്നത് ബാക്ക്ഗ്രൗണ്ട് കൃത്യമായി വരാൻ സഹായിക്കും */
     width: 100%;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
@@ -134,17 +137,18 @@ header h3 {
     animation: news-marquee 80s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
 }
 .news-ticker-scroll span {
-    /* അക്ഷരങ്ങളുടെ കട്ടി അല്പം കുറച്ചു (900), ഇത് ആ തിളക്കം മാറാൻ സഹായിക്കും */
+    /* അക്ഷരങ്ങൾക്ക് നല്ല കട്ടിയും വ്യക്തതയും നൽകുന്ന ഫോണ്ട് */
+    font-family: 'Noto Sans Malayalam', sans-serif !important;
     font-weight: 900 !important; 
     font-size: 21px !important; 
     
-    /* കടും നീല നിറം */
-    color: #00008B !important; 
+    /* തിളക്കം ഒഴിവാക്കാൻ കറുപ്പ് നിറം നൽകുന്നു */
+    color: #000000 !important; 
     
-    /* അക്ഷരങ്ങൾക്കിടയിൽ ചെറിയ അകലം നൽകുന്നത് വ്യക്തത കൂട്ടും */
-    letter-spacing: 0.3px !important;
+    /* അക്ഷരങ്ങൾക്കിടയിലെ അകലം വ്യക്തത കൂട്ടുന്നു */
+    letter-spacing: 0.5px !important;
     
-    /* തിളക്കം ഉണ്ടാക്കുന്ന എല്ലാ ഇഫക്റ്റുകളും ഇവിടെ ഒഴിവാക്കുന്നു */
+    /* എല്ലാവിധ ഗ്ലോ ഇഫക്റ്റുകളും പൂർണ്ണമായും ഒഴിവാക്കി */
     text-shadow: none !important; 
     -webkit-text-stroke: 0 !important;
     filter: none !important; 
@@ -152,11 +156,10 @@ header h3 {
     
     display: inline-flex !important;
     align-items: center !important;
-    /* വാർത്തകൾക്കിടയിലെ അകലം പഴയതുപോലെ (50px) തന്നെ നിലനിർത്തി */
     padding-right: 50px !important; 
 }
 
-/* നിങ്ങൾ ആവശ്യപ്പെട്ടതുപോലെ ഈ ഭാഗം ഒഴിവാക്കി */
+/* ആഫ്റ്റർ കണ്ടന്റ് പൂർണ്ണമായും ഒഴിവാക്കി */
 .news-ticker-scroll span::after {
     display: none !important;
 }
