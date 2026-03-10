@@ -1,27 +1,27 @@
-/* --- 1. ഗൂഗിൾ ഫോണ്ട് ഇമ്പോർട്ട് (ഏറ്റവും മുകളിൽ) --- */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;700;900&family=Manjari:wght@400;700&display=swap');
+/* 1. ഫോണ്ട് ഇമ്പോർട്ട് ഏറ്റവും മുകളിൽ തന്നെ നിലനിർത്തുക (വാർത്തകൾക്ക് ഇത് ആവശ്യമാണ്) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@900&family=Manjari:wght@400;700&display=swap');
 
-/* --- 2. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ --- */
+/* --- 1. പ്രധാന സെറ്റിംഗ്സ് & നിറങ്ങൾ (പഴയത് പോലെ) --- */
 :root { 
     --primary: #006400; 
     --bg: #f4f7f6; 
     --white: #ffffff; 
-    --text: #1a1a1a; /* അല്പം കൂടി കടും ഗ്രേ ആക്കി (തിളക്കം കുറയ്ക്കാൻ) */
+    --text: #333;
     --danger: #ff4444;
 }
 
-/* --- 3. ബോഡി സെറ്റിംഗ്സ് --- */
+/* --- 2. ബോഡി സെറ്റിംഗ്സ് (നിങ്ങൾ ആവശ്യപ്പെട്ട പഴയ രീതി) --- */
 body, html { 
-    /* ആപ്പിലെ അക്ഷരങ്ങൾക്ക് മൊത്തത്തിൽ നല്ല വ്യക്തതയുള്ള Noto Sans നൽകുന്നു */
-    font-family: 'Noto Sans Malayalam', 'Manjari', sans-serif;
-    letter-spacing: 0.3px;
+    font-family: 'Manjari', sans-serif;
+    letter-spacing: 0.2px;
     line-height: 1.6;
     margin: 0 !important; 
     padding: 0 !important;
     background: var(--bg); 
     color: var(--text);
     height: auto !important; 
-    min-height: 100vh; /* 0-ന് പകരം 100vh നൽകുന്നത് ബാക്ക്ഗ്രൗണ്ട് കൃത്യമായി വരാൻ സഹായിക്കും */
+    min-height: 0 !important;
+    background: #f4f7f6;
     width: 100%;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
