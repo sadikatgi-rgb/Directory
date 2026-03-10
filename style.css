@@ -116,48 +116,53 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - പരിഷ്കരിച്ചത് --- */
 #news-ticker {
     margin-top: 65px !important;
     height: 48px !important; 
-    background: #FFF200 !important; /* നല്ല തെളിഞ്ഞ മഞ്ഞ */
+    background: #FFF200 !important; 
     z-index: 8000 !important;
-    border-top: 4px solid #b71c1c !important; 
+    /* ചുവപ്പ് മാറ്റി കറുപ്പ് ബോർഡർ നൽകി - മങ്ങൽ ഒഴിവാക്കാൻ */
+    border-top: 4px solid #000000 !important; 
     border-bottom: 4px solid #000000 !important;
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
+    box-shadow: none !important;
 }
 
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
     animation: news-marquee 70s linear infinite !important; 
-    will-change: transform; /* സ്ക്രോളിംഗ് സ്മൂത്ത് ആക്കാൻ */
+    /* അക്ഷരങ്ങൾ പടരുന്നത് തടയാൻ താഴെ പറയുന്നവ സഹായിക്കും */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
-/* JavaScript-ലെ ക്ലാസുമായി യോജിപ്പിച്ചത് */
 .news-ticker-item {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000080 !important; /* Navy Blue (അറിയിപ്പ് എന്ന ഭാഗത്തിന്) */
-    font-weight: 900 !important; /* നല്ല കട്ടി */
+    color: #000080 !important; /* Navy Blue */
+    font-weight: 900 !important; 
     font-size: 20px !important;
     display: inline-flex !important;
     align-items: center !important;
     padding-right: 10px;
+    -webkit-font-smoothing: antialiased;
 }
 
 .news-ticker-desc {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
-    color: #000000 !important; /* കറുപ്പ് (വിവരണത്തിന്) */
+    color: #000000 !important; 
     font-weight: 700 !important;
     font-size: 18px !important;
     margin-left: 8px;
 }
 
-/* വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് */
+/* വാർത്തകൾക്കിടയിലെ വിടവ് */
 .news-ticker-scroll span {
-    padding-right: 60px !important;
+    padding-right: 80px !important;
 }
 
 @keyframes news-marquee {
