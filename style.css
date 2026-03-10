@@ -134,7 +134,7 @@ header h3 {
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    animation: news-marquee 70s linear infinite !important; 
+    animation: news-marquee 83s linear infinite !important; 
     /* അക്ഷരങ്ങൾ പടരുന്നത് തടയാൻ താഴെ പറയുന്നവ സഹായിക്കും */
     will-change: transform;
     backface-visibility: hidden;
