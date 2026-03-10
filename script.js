@@ -57,12 +57,12 @@ function loadScrollingNews() {
                     if (data.name && data.name.trim() !== "") {
                         // അറിയിപ്പുകളിലെ നിറം കടും നീലയാക്കി (#00008B)
 newsItems.push(`
-    📢 <span style="color: #00008B !important; font-weight: 950; font-size: 18px;">അറിയിപ്പ്: ${data.name}</span> 
-    &nbsp;&nbsp;
-    <span style="color: #00008B !important; font-weight: 700; font-size: 16px;">${data.description || ""}</span>
+    <span class="news-ticker-item">
+        📢 അറിയിപ്പ്: ${data.name} 
+        <span class="news-ticker-desc">${data.description || ""}</span>
+    </span>
 `);
-    }
-});
+
             newsItems.reverse();
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
