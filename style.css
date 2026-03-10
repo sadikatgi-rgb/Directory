@@ -116,56 +116,40 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ഷാഡോ ഇഫക്റ്റ് ഒഴിവാക്കിയത് --- */
 #news-ticker {
     margin-top: 65px !important;
     height: 48px !important; 
-    /* മഞ്ഞയുടെ തീവ്രത കുറച്ചു - ഇത് ആ നിഴൽ ഒഴിവാക്കാൻ സഹായിക്കും */
-    background: #FFF9C4 !important; 
+    background: #FFF200 !important; /* നല്ല വ്യക്തതയുള്ള മഞ്ഞ */
     z-index: 8000 !important;
-    box-shadow: none !important;
     border-top: 4px solid #b71c1c !important; 
     border-bottom: 4px solid #000000 !important;
     display: flex !important;
     align-items: center !important;
-    overflow: hidden !important;
 }
 
-.news-ticker-scroll {
-    display: flex !important;
-    white-space: nowrap !important;
-    padding-left: 10px !important; 
-    /* വേഗത 60s ആക്കി - സ്ക്രോളിംഗ് കൂടുതൽ സ്മൂത്ത് ആകാൻ */
-    animation: news-marquee 70s linear infinite !important; 
+.ticker-title {
+    color: #000080 !important; /* Navy Blue */
+    font-weight: 900 !important;
+    font-size: 20px !important;
 }
 
-.news-ticker-scroll span {
-    font-family: 'Noto Sans Malayalam', sans-serif !important;
-    font-weight: 800 !important; 
-    font-size: 19px !important; 
-    /* കടും കറുപ്പിന് പകരം കടും ഗ്രേ നൽകുന്നത് പടരൽ കുറയ്ക്കും */
-    color: #212121 !important; 
-    letter-spacing: 0.8px !important;
-
-    /* അക്ഷരങ്ങൾ പടരുന്നത് ഒഴിവാക്കാനുള്ള സാങ്കേതിക വിദ്യകൾ */
-    will-change: transform;
-    transform: translateZ(0);
-    -webkit-font-smoothing: antialiased;
-    text-shadow: none !important;
-    
-    display: inline-flex !important;
-    align-items: center !important;
-    padding-right: 60px !important; 
+.ticker-desc {
+    color: #000000 !important; /* കറുപ്പ് */
+    font-weight: 700 !important;
+    font-size: 18px !important;
 }
 
+/* ആഫ്റ്റർ കണ്ടന്റ് ഒഴിവാക്കുന്നു */
 .news-ticker-scroll span::after {
     display: none !important;
 }
 
+/* സ്ക്രോളിംഗ് ആനിമേഷൻ */
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
+
 
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
