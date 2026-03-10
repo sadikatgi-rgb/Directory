@@ -134,29 +134,33 @@ header h3 {
     animation: news-marquee 80s linear infinite !important; /* വേഗത അല്പം കൂട്ടി */
 }
 .news-ticker-scroll span {
-    /* അക്ഷരങ്ങളുടെ കട്ടി പരമാവധി കൂട്ടി */
-    font-weight: 1000 !important; 
-    font-size: 22px !important; /* വലിപ്പം അല്പം കൂട്ടി */
+    /* അക്ഷരങ്ങളുടെ കട്ടി അല്പം കുറച്ചു (900), ഇത് ആ തിളക്കം മാറാൻ സഹായിക്കും */
+    font-weight: 900 !important; 
+    font-size: 21px !important; 
     
-    /* പഴയ ചുവപ്പ് മാറ്റി കടും നീല നൽകി */
+    /* കടും നീല നിറം */
     color: #00008B !important; 
     
-    letter-spacing: 0.5px !important;
+    /* അക്ഷരങ്ങൾക്കിടയിൽ ചെറിയ അകലം നൽകുന്നത് വ്യക്തത കൂട്ടും */
+    letter-spacing: 0.3px !important;
     
-    /* എല്ലാവിധ ഷാഡോകളും ഔട്ട്‌ലൈനുകളും ഒഴിവാക്കി വ്യക്തത വരുത്തുന്നു */
+    /* തിളക്കം ഉണ്ടാക്കുന്ന എല്ലാ ഇഫക്റ്റുകളും ഇവിടെ ഒഴിവാക്കുന്നു */
     text-shadow: none !important; 
     -webkit-text-stroke: 0 !important;
     filter: none !important; 
+    outline: none !important;
     
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 50px !important; /* ഓരോ വാർത്തകൾക്കും ഇടയിൽ ഗ്യാപ്പ് നൽകാൻ */
+    /* വാർത്തകൾക്കിടയിലെ അകലം പഴയതുപോലെ (50px) തന്നെ നിലനിർത്തി */
+    padding-right: 50px !important; 
 }
 
+/* നിങ്ങൾ ആവശ്യപ്പെട്ടതുപോലെ ഈ ഭാഗം ഒഴിവാക്കി */
 .news-ticker-scroll span::after {
-    content: ""; 
-    padding-left: 50px !important; 
+    display: none !important;
 }
+
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
