@@ -48,6 +48,7 @@ function loadScrollingNews() {
     try {
         const tickerContainer = document.getElementById('latest-news');
         if (!tickerContainer) return;
+
         const newsRef = collection(db, 'announcements');
         onSnapshot(newsRef, (querySnapshot) => {
             if (!querySnapshot.empty) {
@@ -55,16 +56,19 @@ function loadScrollingNews() {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     if (data.name && data.name.trim() !== "") {
-                        // അറിയിപ്പുകളിലെ നിറം കടും നീലയാക്കി (#00008B)
-newsItems.push(`
-    <span class="news-ticker-item">
-        📢 അറിയിപ്പ്: ${data.name} 
-        <span class="news-ticker-desc">${data.description || ""}</span>
-    </span>
-`);
-            newsItems.reverse();
+                        newsItems.push(`
+                            <span class="news-ticker-item">
+                                📢 അറിയിപ്പ്: ${data.name} 
+                                <span class="news-ticker-desc">${data.description || ""}</span>
+                            </span>
+                        `);
+                    }
+                }); // <--- ഇവിടെയാണ് ബ്രാക്കറ്റ് വിട്ടുപോയത്
+
+                newsItems.reverse();
                 const separator = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 const fullNewsText = newsItems.join(separator);
+                
                 tickerContainer.innerHTML = `
                     <div class="news-ticker-scroll" style="display: inline-block; white-space: nowrap;">
                         <span>${fullNewsText}</span>
@@ -76,7 +80,9 @@ newsItems.push(`
                 tickerContainer.innerHTML = "അറിയിപ്പുകൾ ലഭ്യമല്ല";
             }
         });
-    } catch (e) { console.error("News Load Error:", e); }
+    } catch (e) { 
+        console.error("News Load Error:", e); 
+    }
 }
 
 // --- കാറ്റഗറി കോൺഫിഗറേഷൻ ---
