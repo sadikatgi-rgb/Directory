@@ -116,8 +116,9 @@ header h3 {
 #home-screen.hidden ~ header #main-menu-icon {
     display: none !important;
 }
-/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - ആനിമേഷൻ ശരിയാക്കിയത് --- */
+/* --- 3. വാർത്താ ബാർ (ടിക്കർ) - CSS വഴി മാത്രമുള്ള മാറ്റങ്ങൾ --- */
 
+/* ടൈറ്റിലിനും വിവരണത്തിനും ഇടയിലുള്ള ഗ്യാപ്പ് ശരിയാക്കാൻ */
 .news-ticker-item {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
     color: #000080 !important; /* Navy Blue */
@@ -125,11 +126,12 @@ header h3 {
     font-size: 19px !important;
     display: inline-flex !important;
     align-items: center !important;
-    /* ഹെഡിംഗിനും വിവരണത്തിനും ഇടയിലുള്ള ഗ്യാപ്പ് */
-    margin-right: 15px !important; 
+    /* അറിയിപ്പ് എന്ന ടൈറ്റിലിന് ശേഷം വിവരണത്തിലേക്ക് ഗ്യാപ്പ് നൽകുന്നു */
+    margin-right: 18px !important; 
     -webkit-font-smoothing: antialiased;
 }
 
+/* വിവരണത്തിന്റെ ശൈലി */
 .news-ticker-desc {
     font-family: 'Noto Sans Malayalam', sans-serif !important;
     color: #000000 !important; 
@@ -137,10 +139,20 @@ header h3 {
     font-size: 18px !important;
 }
 
+/* ഓരോ വാർത്താ ഗ്രൂപ്പുകൾക്കും ഇടയിലുള്ള അകലം */
 .news-ticker-scroll > span {
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 60px !important; /* വാർത്തകൾക്കിടയിലെ ഗ്യാപ്പ് */
+    padding-right: 60px !important; 
+}
+
+/* ആനിമേഷൻ വേഗത 85s ആയി ക്രമീകരിച്ചു */
+.news-ticker-scroll {
+    display: flex !important;
+    white-space: nowrap !important;
+    /* വളരെ സാവധാനം നീങ്ങാൻ 85s സമയം നൽകി */
+    animation: news-marquee 85s linear infinite !important; 
+    will-change: transform;
 }
 
 #news-ticker {
@@ -153,18 +165,14 @@ header h3 {
     display: flex !important;
     align-items: center !important;
     overflow: hidden !important;
+    box-shadow: none !important;
 }
 
-/* ആനിമേഷൻ ശരിയാക്കാൻ ഈ ഭാഗം ശ്രദ്ധിക്കുക */
-.news-ticker-scroll {
-    display: flex !important;
-    white-space: nowrap !important;
-    animation: news-marquee 30s linear infinite !important; /* 30s എന്നത് വേഗതയാണ് */
-}
-
+/* ആപ്പ് തുറക്കുമ്പോൾ തന്നെ വാർത്തകൾ കാണാൻ ഈ ഭാഗം ശ്രദ്ധിക്കുക */
 @keyframes news-marquee {
-    0% { transform: translateX(100%); } /* വലതുവശത്ത് നിന്ന് തുടങ്ങുന്നു */
-    100% { transform: translateX(-100%); } /* ഇടതുവശത്തേക്ക് പൂർണ്ണമായി നീങ്ങുന്നു */
+    /* translateX(0) നൽകുന്നതിലൂടെ ആദ്യത്തെ വാർത്ത ആപ്പ് തുറക്കുമ്പോൾ തന്നെ സ്ക്രീനിൽ ഉണ്ടാകും */
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
