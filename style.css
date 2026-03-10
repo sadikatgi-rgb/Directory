@@ -122,7 +122,6 @@ header h3 {
     height: 48px !important; 
     background: #FFF200 !important; 
     z-index: 8000 !important;
-    /* ചുവപ്പ് മാറ്റി കറുപ്പ് ബോർഡർ നൽകി - മങ്ങൽ ഒഴിവാക്കാൻ */
     border-top: 4px solid #000000 !important; 
     border-bottom: 4px solid #000000 !important;
     display: flex !important;
@@ -134,8 +133,8 @@ header h3 {
 .news-ticker-scroll {
     display: flex !important;
     white-space: nowrap !important;
-    animation: news-marquee 83s linear infinite !important; 
-    /* അക്ഷരങ്ങൾ പടരുന്നത് തടയാൻ താഴെ പറയുന്നവ സഹായിക്കും */
+    /* വേഗത അല്പം കൂടി കുറച്ചു - വായന സുഖകരമാക്കാൻ */
+    animation: news-marquee 85s linear infinite !important; 
     will-change: transform;
     backface-visibility: hidden;
     transform: translateZ(0);
@@ -148,7 +147,8 @@ header h3 {
     font-size: 20px !important;
     display: inline-flex !important;
     align-items: center !important;
-    padding-right: 10px;
+    /* മാറ്റം ഇവിടെ: അറിയിപ്പിനും വിവരണത്തിനും ഇടയിലുള്ള അകലം */
+    margin-right: 15px !important; 
     -webkit-font-smoothing: antialiased;
 }
 
@@ -157,19 +157,19 @@ header h3 {
     color: #000000 !important; 
     font-weight: 700 !important;
     font-size: 18px !important;
-    margin-left: 8px;
 }
 
-/* വാർത്തകൾക്കിടയിലെ വിടവ് */
+/* മാറ്റം ഇവിടെ: ഓരോ വാർത്താ ഗ്രൂപ്പുകൾക്കും ഇടയിലുള്ള 50% വിടവ് */
 .news-ticker-scroll span {
-    padding-right: 80px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    padding-right: 50px !important; 
 }
 
 @keyframes news-marquee {
     0% { transform: translateX(0); } 
     100% { transform: translateX(-100%); }
 }
-
 /* --- 4. സൈഡ്ബാർ (പൂർണ്ണമായി പരിഹരിച്ചത്) --- */
 .sidebar { 
     position: fixed !important; 
